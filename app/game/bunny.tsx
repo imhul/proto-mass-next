@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState, } from 'react';
+import { useEffect, useRef, useState, } from 'react'
 // components
 import {
     Assets,
     Texture,
-} from 'pixi.js';
+} from 'pixi.js'
 // types
-import { Position } from '@/lib/types';
+import { Position } from '@/lib/types'
 
 const Bunny = ({ position }: { position: Position }) => {
     // The Pixi.js `Sprite`
@@ -25,6 +25,7 @@ const Bunny = ({ position }: { position: Position }) => {
                 });
         }
     }, [texture])
+    // console.info(position)
 
     return (
         <pixiSprite

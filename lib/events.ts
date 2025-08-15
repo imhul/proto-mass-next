@@ -1,3 +1,6 @@
+// types
+import { MovementDirection } from '@/lib/types'
+
 export const keyBindings = {
     moveup: {
         keys: ['ArrowUp', 'w'],
@@ -21,8 +24,17 @@ export const keyBindings = {
     },
 }
 
-export const eventConductor = (e: KeyboardEvent) => {
+type EventConductorReturn = MovementDirection | null;
+
+export const eventConductor = (
+    e: KeyboardEvent,
+    isGameInit: boolean = true
+): EventConductorReturn => {
     const eventType = e.type;
+
+    console.info(isGameInit)
+
+    if (!isGameInit && eventType === 'keydown') return "stepdown"
 
     if (eventType === 'keyup') {
         if (keyBindings.moveup.keys.includes(e.key) || keyBindings.moveup.codes.includes(e.code) || keyBindings.moveup.keyCodes.includes(e.keyCode)) return "stepup"

@@ -1,43 +1,56 @@
+"use client"
+
 import { useState, useEffect, useRef } from 'react'
 import { Application, extend } from '@pixi/react'
 // components
 import Bunny from './bunny'
+// import { Loading } from 'pixi.js'
+import InitialScene from '@/components/initial-scene'
 import {
     Container,
     Graphics,
     Sprite,
 } from 'pixi.js'
 // types
-import type { MovementDirection, Breakpoint, Position } from '@/lib/types'
+import type { MovementDirection, Position } from '@/lib/types'
 // utils
 import { eventConductor } from '@/lib/events'
+import {
+    saveToLocalStorage,
+    readFromLocalStorage,
+} from '@/lib/utils'
 
-// extend tells @pixi/react what Pixi.js components are available
 extend({
     Container,
     Graphics,
     Sprite,
 })
 
+const speed = 10
+
 const Game = () => {
     const parentRef = useRef<HTMLDivElement>(null)
     const moveIntervalRef = useRef<NodeJS.Timeout | null>(null)
-    const [position, setPosition] = useState<Position>({ x: 100, y: 100 })
+    const [position, setPosition] = useState<Position>()
+    const keyPressTimers = useRef<{ [key: string]: NodeJS.Timeout | null }>({})
+
 
     const checkContainerCollision = (position: Position) => {
+        if (!parentRef.current) return false
         const width = parentRef.current?.clientWidth ?? 0
         const height = parentRef.current?.clientHeight ?? 0
 
         return (
-            position.x >= 0 &&
-            position.y >= 0 &&
-            position.x <= width &&
-            position.y <= height
+            position?.x >= 0 &&
+            position?.y >= 0 &&
+            position?.x <= width &&
+            position?.y <= height
         )
     }
 
     const applyMove = (dx: number, dy: number) => {
         setPosition((pos) => {
+            if (!pos) return { x: 0, y: 0 }
             const newPos = { x: pos.x + dx, y: pos.y + dy }
             if (!checkContainerCollision(newPos)) return pos
             return newPos
@@ -45,105 +58,116 @@ const Game = () => {
     }
 
     const startRun = (dx: number, dy: number) => {
-        // очищаємо попередній інтервал
-        if (moveIntervalRef.current) clearInterval(moveIntervalRef.current);
+        if (moveIntervalRef.current) clearInterval(moveIntervalRef.current)
 
         moveIntervalRef.current = setInterval(() => {
-            applyMove(dx, dy);
-        }, 100);
+            applyMove(dx, dy)
+        }, 100)
     }
 
     const stopRun = () => {
         if (moveIntervalRef.current) {
-            clearInterval(moveIntervalRef.current);
-            moveIntervalRef.current = null;
+            clearInterval(moveIntervalRef.current)
+            moveIntervalRef.current = null
         }
     }
 
     const move = (direction: MovementDirection, isKeyDown: boolean = true) => {
         switch (direction) {
             case "stepup":
-                applyMove(0, -5);
-                break;
+                applyMove(0, -speed)
+                break
             case "stepdown":
-                applyMove(0, 5);
-                break;
+                applyMove(0, speed)
+                break
             case "stepleft":
-                applyMove(-5, 0);
-                break;
+                applyMove(-speed, 0)
+                break
             case "stepright":
-                applyMove(5, 0);
-                break;
+                applyMove(speed, 0)
+                break
             case "runup":
-                if (isKeyDown) startRun(0, -5);
-                else stopRun();
-                break;
+                if (isKeyDown) startRun(0, -speed)
+                else stopRun()
+                break
             case "rundown":
-                if (isKeyDown) startRun(0, 5);
-                else stopRun();
-                break;
+                if (isKeyDown) startRun(0, speed)
+                else stopRun()
+                break
             case "runleft":
-                if (isKeyDown) startRun(-5, 0);
-                else stopRun();
-                break;
+                if (isKeyDown) startRun(-speed, 0)
+                else stopRun()
+                break
             case "runright":
-                if (isKeyDown) startRun(5, 0);
-                else stopRun();
-                break;
+                if (isKeyDown) startRun(speed, 0)
+                else stopRun()
+                break
         }
     }
 
-    const keyPressTimers = useRef<{ [key: string]: NodeJS.Timeout | null }>({});
-
     const onKeyDown = (event: KeyboardEvent) => {
-        const direction = eventConductor(event);
-        if (!direction) return;
+        const local = readFromLocalStorage("init")
+        const direction = eventConductor(event, local)
+        if (!local) {
+            saveToLocalStorage("init", true)
+            direction && move(direction, true)
+            return
+        }
 
         // If already running, do nothing
-        if (keyPressTimers.current[event.code]) return;
+        if (keyPressTimers.current[event.code] || !direction) return
 
         // Start a timer to detect long press
         keyPressTimers.current[event.code] = setTimeout(() => {
-            // Trigger run movement after 1 second
-            move(`run${direction.replace('step', '')}` as MovementDirection, true);
-        }, 1000);
+            move(`run${direction.replace('step', '')}` as MovementDirection, true)
+        }, 1000)
 
-        // Trigger step movement immediately
-        move(direction, true);
-    };
+        move(direction, true)
+    }
 
     const onKeyUp = (event: KeyboardEvent) => {
-        const direction = eventConductor(event);
-        if (!direction) return;
+        const direction = eventConductor(event)
+        if (!direction) return
 
         // Clear the timer if it exists
         if (keyPressTimers.current[event.code]) {
-            clearTimeout(keyPressTimers.current[event.code]!);
-            keyPressTimers.current[event.code] = null;
+            clearTimeout(keyPressTimers.current[event.code]!)
+            keyPressTimers.current[event.code] = null
         }
 
         // Stop run movement if it was started
         if (direction.startsWith('step')) {
-            move(`run${direction.replace('step', '')}` as MovementDirection, false);
+            move(`run${direction.replace('step', '')}` as MovementDirection, false)
         }
-    };
+    }
 
     useEffect(() => {
-        window.addEventListener("keydown", onKeyDown);
-        window.addEventListener("keyup", onKeyUp);
+        window.addEventListener("keydown", onKeyDown)
+        window.addEventListener("keyup", onKeyUp)
 
         return () => {
-            window.removeEventListener("keydown", onKeyDown);
-            window.removeEventListener("keyup", onKeyUp);
-        };
-    }, []);
+            window.removeEventListener("keydown", onKeyDown)
+            window.removeEventListener("keyup", onKeyUp)
+        }
+    }, [])
+
+    useEffect(() => {
+        const ref = parentRef?.current
+        if (!ref) return
+        setPosition({ x: ref.clientWidth / 2, y: ref.clientHeight / 2 })
+    }, [])
+
+    useEffect(() => {
+        const local = readFromLocalStorage("init")
+        if (local) saveToLocalStorage("init", false)
+    }, [])
 
     return (
         <div ref={parentRef} className="game-container">
             <Application resizeTo={parentRef}>
-                <pixiContainer >
-                    <Bunny position={position} />
-                </pixiContainer>
+                {(parentRef && position)
+                    ? (<Bunny position={position} />)
+                    : (<InitialScene />)}
             </Application>
         </div>
     )
