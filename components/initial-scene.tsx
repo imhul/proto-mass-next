@@ -1,5 +1,4 @@
-import { useRef } from 'react'
-import { Filter, Text } from 'pixi.js'
+import { Text } from 'pixi.js'
 import { extend } from '@pixi/react'
 
 extend({ Text })

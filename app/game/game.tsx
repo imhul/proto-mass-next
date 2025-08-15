@@ -4,15 +4,18 @@ import { useState, useEffect, useRef } from 'react'
 import { Application, extend } from '@pixi/react'
 // components
 import Bunny from './bunny'
-// import { Loading } from 'pixi.js'
 import InitialScene from '@/components/initial-scene'
+import CustomTilingSprite from '@/components/pixi/custom-tiling-sprite'
 import {
+    TilingSprite,
     Container,
     Graphics,
+    Assets,
     Sprite,
 } from 'pixi.js'
 // types
 import type { MovementDirection, Position } from '@/lib/types'
+import type { Texture } from 'pixi.js'
 // utils
 import { eventConductor } from '@/lib/events'
 import {
@@ -21,6 +24,7 @@ import {
 } from '@/lib/utils'
 
 extend({
+    TilingSprite,
     Container,
     Graphics,
     Sprite,
@@ -33,18 +37,22 @@ const Game = () => {
     const moveIntervalRef = useRef<NodeJS.Timeout | null>(null)
     const [position, setPosition] = useState<Position>()
     const keyPressTimers = useRef<{ [key: string]: NodeJS.Timeout | null }>({})
+    const [texture, setTexture] = useState<Texture | null>(null)
+    const [gameSize, setGameSize] = useState<{ width: number; height: number }>({
+        width: 0,
+        height: 0,
+    })
 
 
     const checkContainerCollision = (position: Position) => {
         if (!parentRef.current) return false
-        const width = parentRef.current?.clientWidth ?? 0
-        const height = parentRef.current?.clientHeight ?? 0
+        if (gameSize.width === 0 || gameSize.height === 0) return true
 
         return (
             position?.x >= 0 &&
             position?.y >= 0 &&
-            position?.x <= width &&
-            position?.y <= height
+            position?.x <= gameSize.width &&
+            position?.y <= gameSize.height
         )
     }
 
@@ -155,6 +163,7 @@ const Game = () => {
         const ref = parentRef?.current
         if (!ref) return
         setPosition({ x: ref.clientWidth / 2, y: ref.clientHeight / 2 })
+        setGameSize({ width: ref.clientWidth, height: ref.clientHeight })
     }, [])
 
     useEffect(() => {
@@ -162,9 +171,23 @@ const Game = () => {
         if (local) saveToLocalStorage("init", false)
     }, [])
 
+    useEffect(() => {
+        Assets.load("/assets/tile_0209.png").then((tex) => {
+            setTexture(tex as Texture)
+        })
+    }, [])
+
     return (
         <div ref={parentRef} className="game-container">
             <Application resizeTo={parentRef}>
+                {texture && (
+                    <CustomTilingSprite
+                        // ref={parentRef}
+                        texture={texture}
+                        width={parentRef?.current?.clientWidth ?? 800}
+                        height={parentRef?.current?.clientHeight ?? 600}
+                    />
+                )}
                 {(parentRef && position)
                     ? (<Bunny position={position} />)
                     : (<InitialScene />)}

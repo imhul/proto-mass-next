@@ -32,8 +32,6 @@ export const eventConductor = (
 ): EventConductorReturn => {
     const eventType = e.type;
 
-    console.info(isGameInit)
-
     if (!isGameInit && eventType === 'keydown') return "stepdown"
 
     if (eventType === 'keyup') {
