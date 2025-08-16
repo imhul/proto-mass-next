@@ -1,12 +1,13 @@
 "use client"
 
 import { useState, useEffect, useRef } from 'react'
-import { Application, extend } from '@pixi/react'
+import { Application, useApplication, extend } from '@pixi/react'
 // components
-import Bunny from './bunny'
+import Hero from './hero'
 import InitialScene from '@/components/initial-scene'
 import CustomTilingSprite from '@/components/pixi/custom-tiling-sprite'
 import {
+    AnimatedSprite,
     TilingSprite,
     Container,
     Graphics,
@@ -14,7 +15,7 @@ import {
     Sprite,
 } from 'pixi.js'
 // types
-import type { MovementDirection, Position } from '@/lib/types'
+import type { MovementDirection, HeroState, Position } from '@/lib/types'
 import type { Texture } from 'pixi.js'
 // utils
 import { eventConductor } from '@/lib/events'
@@ -24,6 +25,7 @@ import {
 } from '@/lib/utils'
 
 extend({
+    AnimatedSprite,
     TilingSprite,
     Container,
     Graphics,
@@ -33,16 +35,17 @@ extend({
 const speed = 10
 
 const Game = () => {
-    const parentRef = useRef<HTMLDivElement>(null)
+    const parentRef = useRef<HTMLDivElement | null>(null)
+    const [heroState, setHeroState] = useState<HeroState>("stand")
     const moveIntervalRef = useRef<NodeJS.Timeout | null>(null)
-    const [position, setPosition] = useState<Position>()
+    const [position, setPosition] = useState<Position | null>(null)
     const keyPressTimers = useRef<{ [key: string]: NodeJS.Timeout | null }>({})
     const [texture, setTexture] = useState<Texture | null>(null)
+    const [isGameInit, setIsGameInit] = useState<boolean>(readFromLocalStorage("init") || false)
     const [gameSize, setGameSize] = useState<{ width: number; height: number }>({
         width: 0,
         height: 0,
     })
-
 
     const checkContainerCollision = (position: Position) => {
         if (!parentRef.current) return false
@@ -77,10 +80,12 @@ const Game = () => {
         if (moveIntervalRef.current) {
             clearInterval(moveIntervalRef.current)
             moveIntervalRef.current = null
+            setHeroState("stand")
         }
     }
 
     const move = (direction: MovementDirection, isKeyDown: boolean = true) => {
+        setHeroState("run")
         switch (direction) {
             case "stepup":
                 applyMove(0, -speed)
@@ -118,7 +123,8 @@ const Game = () => {
         const direction = eventConductor(event, local)
         if (!local) {
             saveToLocalStorage("init", true)
-            direction && move(direction, true)
+            setIsGameInit(true)
+            // direction && move(direction, true)
             return
         }
 
@@ -177,20 +183,23 @@ const Game = () => {
         })
     }, [])
 
+    const Layout = () => {
+        const { app } = useApplication()
+
+        return (parentRef && isGameInit && position && texture) ? (<>
+            <CustomTilingSprite
+                texture={texture}
+                width={parentRef.current?.clientWidth ?? 800}
+                height={parentRef.current?.clientHeight ?? 600}
+            />
+            <Hero app={app} position={position} state={heroState} />
+        </>) : (<InitialScene />)
+    }
+
     return (
         <div ref={parentRef} className="game-container">
             <Application resizeTo={parentRef}>
-                {texture && (
-                    <CustomTilingSprite
-                        // ref={parentRef}
-                        texture={texture}
-                        width={parentRef?.current?.clientWidth ?? 800}
-                        height={parentRef?.current?.clientHeight ?? 600}
-                    />
-                )}
-                {(parentRef && position)
-                    ? (<Bunny position={position} />)
-                    : (<InitialScene />)}
+                <Layout />
             </Application>
         </div>
     )
