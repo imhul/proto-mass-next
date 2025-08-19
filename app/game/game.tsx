@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from 'react'
-import { Application, useApplication, extend } from '@pixi/react'
+import { Application, useApplication, useExtend } from '@pixi/react'
 // components
 import Hero from './hero'
 import InitialScene from '@/components/initial-scene'
@@ -24,14 +24,6 @@ import {
     readFromLocalStorage,
 } from '@/lib/utils'
 
-extend({
-    AnimatedSprite,
-    TilingSprite,
-    Container,
-    Graphics,
-    Sprite,
-})
-
 const speed = 10
 
 const Game = () => {
@@ -45,6 +37,14 @@ const Game = () => {
     const [gameSize, setGameSize] = useState<{ width: number; height: number }>({
         width: 0,
         height: 0,
+    })
+
+    useExtend({
+        AnimatedSprite,
+        TilingSprite,
+        Container,
+        Graphics,
+        Sprite,
     })
 
     const checkContainerCollision = (position: Position) => {
