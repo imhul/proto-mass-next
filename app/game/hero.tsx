@@ -27,7 +27,7 @@ const getTextures = (atlasJson: AtlasJSON | null): HeroTextures => {
     return obj
 }
 
-const Hero = ({ app, position, state }: HeroClientProps) => {
+const Hero = ({ state }: HeroClientProps) => {
     const spriteRef = useRef<AnimatedSprite | null>(null) // The Pixi.js `Sprite`
     const [atlasJson, setAtlasJson] = useState<AtlasJSON | null>(null)
     const [isHovered, setIsHover] = useState(false)
@@ -61,8 +61,8 @@ const Hero = ({ app, position, state }: HeroClientProps) => {
             onPointerOut={() => setIsHover(false)}
             scale={isHovered ? 5.5 : 5}
             animationSpeed={isActive ? 0.2 : 0.1}
-            x={position.x}
-            y={position.y}
+            // x={position.x}
+            // y={position.y}
             autoPlay
             loop
         />

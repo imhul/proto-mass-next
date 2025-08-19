@@ -18,9 +18,16 @@ export interface Breakpoint {
 }
 
 export interface HeroClientProps {
-  app: Application;
-  position: Position;
+  app?: Application;
+  position?: Position;
   state: HeroState;
+}
+
+export interface OutputProps {
+  parentRef: React.RefObject<HTMLDivElement | null>;
+  heroState: HeroState;
+  texture: Texture;
+  position: Position;
 }
 
 export interface AtlasJSON {

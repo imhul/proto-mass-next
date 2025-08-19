@@ -1,11 +1,10 @@
 "use client"
 
 import { useState, useEffect, useRef } from 'react'
-import { Application, useApplication, useExtend } from '@pixi/react'
+import { Application, useExtend } from '@pixi/react'
 // components
-import Hero from './hero'
+import Output from './output'
 import InitialScene from '@/components/initial-scene'
-import CustomTilingSprite from '@/components/pixi/custom-tiling-sprite'
 import {
     AnimatedSprite,
     TilingSprite,
@@ -46,6 +45,8 @@ const Game = () => {
         Graphics,
         Sprite,
     })
+
+
 
     const checkContainerCollision = (position: Position) => {
         if (!parentRef.current) return false
@@ -183,23 +184,17 @@ const Game = () => {
         })
     }, [])
 
-    const Layout = () => {
-        const { app } = useApplication()
-
-        return (parentRef && isGameInit && position && texture) ? (<>
-            <CustomTilingSprite
-                texture={texture}
-                width={parentRef.current?.clientWidth ?? 800}
-                height={parentRef.current?.clientHeight ?? 600}
-            />
-            <Hero app={app} position={position} state={heroState} />
-        </>) : (<InitialScene />)
-    }
-
     return (
         <div ref={parentRef} className="game-container">
             <Application resizeTo={parentRef}>
-                <Layout />
+                {(parentRef && isGameInit && position && texture) ?
+                    (<Output
+                        parentRef={parentRef!}
+                        heroState={heroState}
+                        texture={texture}
+                        position={position}
+                    />) : (<InitialScene />)
+                }
             </Application>
         </div>
     )
