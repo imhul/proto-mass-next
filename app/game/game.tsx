@@ -46,8 +46,6 @@ const Game = () => {
         Sprite,
     })
 
-
-
     const checkContainerCollision = (position: Position) => {
         if (!parentRef.current) return false
         if (gameSize.width === 0 || gameSize.height === 0) return true
@@ -189,7 +187,7 @@ const Game = () => {
             <Application resizeTo={parentRef}>
                 {(parentRef && isGameInit && position && texture) ?
                     (<Output
-                        parentRef={parentRef!}
+                        parentRef={parentRef}
                         heroState={heroState}
                         texture={texture}
                         position={position}
