@@ -1,5 +1,5 @@
 // types
-import { MovementDirection } from '@/lib/types'
+import { MovementDirection } from './types'
 
 export const keyBindings = {
     moveup: {
