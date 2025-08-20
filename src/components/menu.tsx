@@ -24,7 +24,7 @@ const Menu = () => {
         {config.menu.map((item, index) => (
           <NavigationMenuItem key={index} className={route === item.id ? "active" : ""}>
             <NavigationMenuLink asChild onClick={() => goto(item.id)}>
-              {item.label}
+              <span className="text-white">{item.label}</span>
             </NavigationMenuLink>
           </NavigationMenuItem>
         ))}

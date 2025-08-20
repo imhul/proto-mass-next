@@ -6,5 +6,5 @@ import type { NavSlice } from './nav'
 export type StoreType = NavSlice | any
 
 export const useStore = create<StoreType>((...a) => ({
-    ...createNavSlice({ ...a }),
+    ...createNavSlice(...a),
 }))

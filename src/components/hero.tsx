@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 // components
 import { Assets, Texture, AnimatedSprite } from 'pixi.js'
 // types
-import { HeroClientProps, AtlasJSON, HeroState, HeroTextures, HeroTexturesObject } from '@/lib/types'
+import { HeroClientProps, AtlasJSON, HeroState, HeroTextures, HeroTexturesObject } from '@lib/types'
 
 const heroTexturesConfig: Record<HeroState, { count: number, uid: number }> = {
     "idle": { count: 4, uid: 31 },

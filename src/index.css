@@ -65,7 +65,12 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
+  width: 100%;
   min-height: 100vh;
+}
+
+#root {
+  width: 100%;
 }
 
 h1 {
@@ -191,13 +196,6 @@ button:focus-visible {
   }
 }
 
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -227,12 +225,4 @@ button:focus-visible {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }

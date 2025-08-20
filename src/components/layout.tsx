@@ -1,28 +1,42 @@
-import type { ReactNode } from "react"
+// store
+import { useStore } from "@store"
+// types
+import type { NavSlice } from "@store"
 // components
 import { ThemeProvider } from "@components/theme-provider"
 import Header from "@components/header"
 import { Toaster } from "@components/ui/sonner"
+import Home from '@/components/home'
+import Game from '@/components/game'
 
-const Layout = ({
-  children,
-}: Readonly<{ children: ReactNode }>) => {
+const Layout = () => {
+  const route = useStore((state: NavSlice) => state.route)
+
+  const render = () => {
+    switch (route) {
+      case "home":
+        return <Home />
+      case "game":
+        return <Game />
+      default:
+        return null
+    }
+  }
+
   return (
-    <div className="antialiased">
-      <ThemeProvider
-        storageKey="vite-ui-theme"
-        defaultTheme="system"
-      >
-        <Toaster
-          closeButton
-          richColors
-          duration={4000}
-          position="top-right"
-        />
-        <Header />
-        <main>{children}</main>
-      </ThemeProvider>
-    </div>
+    <ThemeProvider
+      storageKey="vite-ui-theme"
+      defaultTheme="system"
+    >
+      <Toaster
+        closeButton
+        richColors
+        duration={4000}
+        position="top-right"
+      />
+      <Header />
+      <main>{render()}</main>
+    </ThemeProvider>
   )
 }
 

@@ -5,15 +5,15 @@ export const config = {
   menu: [
     {
       label: "Home",
-      id: "/",
+      id: "home",
     },
     {
       label: "About",
-      id: "/about",
+      id: "about",
     },
     {
       label: "Game",
-      id: "/game",
+      id: "game",
     },
   ],
 }

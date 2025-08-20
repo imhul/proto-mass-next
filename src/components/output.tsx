@@ -4,7 +4,7 @@ import { useApplication } from '@pixi/react'
 import Hero from './hero'
 import CustomTilingSprite from '@/components/pixi/custom-tiling-sprite'
 // types
-import type { OutputProps } from '@/lib/types'
+import type { OutputProps } from '@lib/types'
 
 const Output = (props: OutputProps) => {
     const { parentRef, heroState, texture, position } = props;
