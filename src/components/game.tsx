@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Application, useExtend } from '@pixi/react'
+// store
+import { useStore } from "@store"
 // components
 import Output from './output'
 import InitialScene from '@components/initial-scene'
@@ -12,7 +14,7 @@ import {
     Sprite,
 } from 'pixi.js'
 // types
-import type { MovementDirection, HeroState, Position } from '@lib/types'
+import type { MovementDirection, HeroState, Position, StoreType } from '@lib/types'
 import type { Texture } from 'pixi.js'
 // utils
 import { eventConductor } from '@lib/events'
@@ -35,6 +37,8 @@ const Game = () => {
         width: 0,
         height: 0,
     })
+
+    // const isGameInit = useStore((state: StoreType) => state.init)
 
     useExtend({
         AnimatedSprite,

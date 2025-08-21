@@ -1,7 +1,7 @@
 // store
 import { useStore } from "@store"
 // types
-import type { NavSlice } from "@store"
+import type { StoreType } from "@lib/types"
 // components
 import { ThemeProvider } from "@components/theme-provider"
 import Header from "@components/header"
@@ -10,7 +10,7 @@ import Home from '@/components/home'
 import Game from '@/components/game'
 
 const Layout = () => {
-  const route = useStore((state: NavSlice) => state.route)
+  const route = useStore((state: StoreType) => state.route)
 
   const render = () => {
     switch (route) {

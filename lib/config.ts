@@ -7,10 +7,10 @@ export const config = {
       label: "Home",
       id: "home",
     },
-    {
-      label: "About",
-      id: "about",
-    },
+    // {
+    //   label: "About",
+    //   id: "about",
+    // },
     {
       label: "Game",
       id: "game",

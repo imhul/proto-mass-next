@@ -7,24 +7,29 @@ import {
   NavigationMenuViewport,
   NavigationMenuIndicator,
 } from "@components/ui/navigation-menu"
+import Link from "@components/link"
 // config
 import { config } from "@lib/config"
 // store
 import { useStore } from "@store"
 // types
-import type { NavSlice } from "@store"
+import type { StoreType } from "@lib/types"
 
 const Menu = () => {
-  const goto = useStore((state: NavSlice) => state.to)
-  const route = useStore((state: NavSlice) => state.route)
+  const route = useStore((state: StoreType) => state.route)
 
   return (
     <NavigationMenu>
       <NavigationMenuList>
         {config.menu.map((item, index) => (
-          <NavigationMenuItem key={index} className={route === item.id ? "active" : ""}>
-            <NavigationMenuLink asChild onClick={() => goto(item.id)}>
-              <span className="text-white">{item.label}</span>
+          <NavigationMenuItem key={index}>
+            <NavigationMenuLink>
+              <Link
+                className="text-white"
+                text={item.label}
+                active={item.id === route}
+                to={item.id}
+              />
             </NavigationMenuLink>
           </NavigationMenuItem>
         ))}
