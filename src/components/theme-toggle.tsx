@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "@components/theme-provider"
-
+// components
 import { Button } from "@components/ui/button"
 import {
   DropdownMenu,
@@ -9,6 +9,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu"
+// types
+import type { Theme } from "@lib/types"
+// config
+import { themeMenu } from "@lib/config"
 
 function ThemeToggle() {
   const { setTheme } = useTheme()
@@ -23,15 +27,11 @@ function ThemeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
-        </DropdownMenuItem>
+        {themeMenu.map((theme: Theme) => (
+          <DropdownMenuItem key={theme.id} onClick={() => setTheme(theme.id)}>
+            {theme.label}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   )

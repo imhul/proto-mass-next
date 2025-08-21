@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { Application, useExtend } from '@pixi/react'
 // store
-import { useStore } from "@store"
+import { usePersistedStore } from "@store"
 // components
 import Output from './output'
 import InitialScene from '@components/initial-scene'
@@ -14,14 +14,10 @@ import {
     Sprite,
 } from 'pixi.js'
 // types
-import type { MovementDirection, HeroState, Position, StoreType } from '@lib/types'
+import type { MovementDirection, HeroState, Position, PersistedStore } from '@lib/types'
 import type { Texture } from 'pixi.js'
 // utils
 import { eventConductor } from '@lib/events'
-import {
-    saveToLocalStorage,
-    readFromLocalStorage,
-} from '@lib/utils'
 
 const speed = 10
 
@@ -32,13 +28,13 @@ const Game = () => {
     const [position, setPosition] = useState<Position | null>(null)
     const keyPressTimers = useRef<{ [key: string]: NodeJS.Timeout | null }>({})
     const [texture, setTexture] = useState<Texture | null>(null)
-    const [isGameInit, setIsGameInit] = useState<boolean>(readFromLocalStorage("init") || false)
     const [gameSize, setGameSize] = useState<{ width: number; height: number }>({
         width: 0,
         height: 0,
     })
 
-    // const isGameInit = useStore((state: StoreType) => state.init)
+    const isGameInit = usePersistedStore((state: PersistedStore) => state.init)
+    const setGameInit = usePersistedStore((state: PersistedStore) => state.setInit)
 
     useExtend({
         AnimatedSprite,
@@ -119,13 +115,10 @@ const Game = () => {
         }
     }
 
-    const onKeyDown = (event: KeyboardEvent) => {
-        const local = readFromLocalStorage("init")
-        const direction = eventConductor(event, local)
-        if (!local) {
-            saveToLocalStorage("init", true)
-            setIsGameInit(true)
-            // direction && move(direction, true)
+    const onKeyDown = useCallback((event: KeyboardEvent) => {
+        const direction = eventConductor(event, isGameInit)
+        if (!isGameInit && parentRef.current) {
+            setGameInit()
             return
         }
 
@@ -138,7 +131,7 @@ const Game = () => {
         }, 1000)
 
         move(direction, true)
-    }
+    }, [isGameInit, parentRef, position, texture])
 
     const onKeyUp = (event: KeyboardEvent) => {
         const direction = eventConductor(event)
@@ -174,11 +167,6 @@ const Game = () => {
     }, [])
 
     useEffect(() => {
-        const local = readFromLocalStorage("init")
-        if (local) saveToLocalStorage("init", false)
-    }, [])
-
-    useEffect(() => {
         Assets.load("/assets/tile_0209.png").then((tex) => {
             setTexture(tex as Texture)
         })
@@ -187,7 +175,7 @@ const Game = () => {
     return (
         <div ref={parentRef} className="game-container">
             <Application resizeTo={parentRef}>
-                {(parentRef && isGameInit && position && texture) ?
+                {(isGameInit && texture && position) ?
                     (<Output
                         parentRef={parentRef}
                         heroState={heroState}

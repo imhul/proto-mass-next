@@ -9,19 +9,19 @@ import {
 } from "@components/ui/navigation-menu"
 import Link from "@components/link"
 // config
-import { config } from "@lib/config"
+import { menu } from "@lib/config"
 // store
-import { useStore } from "@store"
+import { usePersistedStore } from "@store"
 // types
-import type { StoreType } from "@lib/types"
+import type { PersistedStore } from "@lib/types"
 
 const Menu = () => {
-  const route = useStore((state: StoreType) => state.route)
+  const route = usePersistedStore((state: PersistedStore) => state.route)
 
   return (
     <NavigationMenu>
       <NavigationMenuList>
-        {config.menu.map((item, index) => (
+        {menu.map((item, index) => (
           <NavigationMenuItem key={index}>
             <NavigationMenuLink>
               <Link

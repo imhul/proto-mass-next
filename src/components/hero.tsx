@@ -1,8 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
+// store
+import { usePersistedStore } from '@store'
 // components
 import { Assets, Texture, AnimatedSprite } from 'pixi.js'
 // types
-import { HeroClientProps, AtlasJSON, HeroState, HeroTextures, HeroTexturesObject } from '@lib/types'
+import {
+    AtlasJSON,
+    HeroState,
+    HeroTextures,
+    PersistedStore,
+    HeroClientProps,
+    HeroTexturesObject,
+} from '@lib/types'
 
 const heroTexturesConfig: Record<HeroState, { count: number, uid: number }> = {
     "idle": { count: 4, uid: 31 },
@@ -33,6 +42,7 @@ const Hero = ({ state }: HeroClientProps) => {
     const [isHovered, setIsHover] = useState(false)
     const [isActive, setIsActive] = useState(false)
     const [textures, setTextures] = useState<HeroTextures>(null)
+    const paused = usePersistedStore((state: PersistedStore) => state.paused)
 
     useEffect(() => {
         if (!atlasJson || !textures) Assets
@@ -46,9 +56,9 @@ const Hero = ({ state }: HeroClientProps) => {
     useEffect(() => {
         if (spriteRef.current && textures) {
             spriteRef.current.textures = textures[state]
-            spriteRef.current.play()
+            paused ? spriteRef.current.stop() : spriteRef.current.play()
         }
-    }, [state, textures])
+    }, [state, textures, paused])
 
     return (atlasJson && textures) ? (
         <pixiAnimatedSprite

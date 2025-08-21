@@ -1,22 +1,53 @@
 // types
-import type { Breakpoint } from './types';
+import type { Breakpoint, Theme, MenuItem, GameMenuItem } from './types';
 
-export const config = {
-  menu: [
-    {
-      label: "Home",
-      id: "home",
-    },
-    // {
-    //   label: "About",
-    //   id: "about",
-    // },
-    {
-      label: "Game",
-      id: "game",
-    },
-  ],
-}
+export const menu: MenuItem[] = [
+  {
+    label: "Home",
+    id: "home",
+  }, {
+    label: "Game",
+    id: "game",
+  },
+]
+
+export const gameMenu: GameMenuItem[] = [
+  {
+    label: "Pause",
+    id: "pause"
+  }, {
+    label: "Restart",
+    id: "restart"
+  }, {
+    label: "Save",
+    id: "save"
+  }, {
+    label: "Load",
+    id: "load"
+  }, {
+    label: "Init",
+    id: "init"
+  }, {
+    label: "Over",
+    id: "over"
+  }, {
+    label: "Play",
+    id: "play"
+  }
+]
+
+export const themeMenu: Theme[] = [
+  {
+    label: "Light",
+    id: "light"
+  }, {
+    label: "Dark",
+    id: "dark"
+  }, {
+    label: "System",
+    id: "system"
+  }
+]
 
 export const breakpoints: Record<string, Breakpoint> = {
   sm: { id: "sm", value: 430, width: 320, height: 320 },
