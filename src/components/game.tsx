@@ -1,13 +1,13 @@
 import { useEffect, useState, useRef } from 'react'
 import { useApplication } from '@pixi/react'
 // store
-import { useStore, usePersistedStore } from "@store"
+import { useStore, usePersistedStore } from "@/store"
 // components
 import { Assets } from 'pixi.js'
 import Hero from '@components/hero'
-import CustomTilingSprite from '@/components/pixi/custom-tiling-sprite'
+import CustomTilingSprite from '@components/pixi/custom-tiling-sprite'
 import InitialScene from '@components/initial-scene'
-import Camera from '@/components/camera'
+import Camera from '@components/camera'
 // types
 import type {
     Texture,
@@ -48,6 +48,7 @@ const Game = ({ parentRef }: GameProps) => {
 
 
     const createNewMapChunk = (position: Position) => {
+        const chunkSize = 1000
         // TODO: 1. write function
     }
 

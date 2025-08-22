@@ -1,13 +1,13 @@
 // store
-import { usePersistedStore } from "@store"
+import { usePersistedStore } from "@/store"
 // types
 import type { PersistedStore } from "@lib/types"
 // components
 import { ThemeProvider } from "@components/theme-provider"
 import Header from "@components/header"
 import { Toaster } from "@components/ui/sonner"
-import Home from '@/components/home'
-import { Output as GameOutput } from '@/components/output'
+import Home from '@components/home'
+import { Output as GameOutput } from '@components/output'
 
 const Layout = () => {
   const route = usePersistedStore((state: PersistedStore) => state.route)

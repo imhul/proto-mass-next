@@ -16,9 +16,11 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@hooks/*": ["./src/hooks/*"],
       "@components/*": ["./src/components/*"],
+      "@hooks/*": ["./src/hooks/*"],
       "@store/*": ["./src/store/*"],
+      "@utils/*": ["./lib/utils/*"],
+      "@types/*": ["./lib/types/*"],
       "@lib/*": ["./lib/*"],
     }
   },

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 // store
-import { usePersistedStore } from '@store'
+import { usePersistedStore } from '@/store'
 // components
 import { Assets, AnimatedSprite } from 'pixi.js'
 // types
