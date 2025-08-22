@@ -16,6 +16,7 @@ import type {
     GameProps,
     GlobalStore,
     CameraProps,
+    AnimatedSprite,
     PersistedStore,
     MovementDirection,
 } from '@lib/types'
@@ -31,32 +32,33 @@ const Game = ({ parentRef }: GameProps) => {
     const viewportRef = useRef<CameraProps>(null)
     // state
     const [texture, setTexture] = useState<Texture | null>(null)
-    const [gameSize, setGameSize] = useState<{ width: number; height: number } | null>(null)
     const [heroState, setHeroState] = useState<HeroState>("stand")
     // store
     const isGameInit = usePersistedStore((state: PersistedStore) => state.init)
-    const setGameInit = usePersistedStore((state: PersistedStore) => state.setGameAction)
+    const setGameAction = usePersistedStore((state: PersistedStore) => state.setGameAction)
     const heroSnapshot = useStore((state: GlobalStore) => state.hero)
+    const gameSize = usePersistedStore((state: PersistedStore) => state.gameSize)
 
-    const checkContainerCollision = (position: Position) => {
-        if (!parentRef.current || !gameSize) return false
-        if (gameSize.width === 0 || gameSize.height === 0) return true
-
-        return (
-            position?.x >= 0 &&
-            position?.y >= 0 &&
-            position?.x <= gameSize.width &&
-            position?.y <= gameSize.height
-        )
+    const resize = () => {
+        const width = parentRef.current?.clientWidth || window.innerWidth
+        const height = parentRef.current?.clientHeight || window.innerHeight
+        setGameAction("resize", { width: width * 2, height: height * 2 })
+        viewportRef.current?.resize(width, height)
     }
 
-    // TODO: Потрібно налаштувати все так, 
-    // щоб розмір CustomTilingSprite був вдвічі більший, 
-    // ніж parentRef.current або window.clientWidth/clientHeight
-    // а розміри камери дорівнювали parentRef.current або window.clientWidth/clientHeight
-    // Також необхідно дописати функцію applyMove, щоб вона пересувала камеру залежно від отриманих параметрів
-    const applyMove = (dx: number, dy: number) => {
-        const vp = viewportRef.current
+
+    const createNewMapChunk = (position: Position) => {
+        // TODO: 1. write function
+    }
+
+    const checkContainerCollision = (position: Position) => {
+        // TODO: 2. check collision with map boundaries and run createNewMapChunk(position)
+        // TODO: 3. check collision with map obstacles and stop movement
+        return true // Placeholder
+    }
+
+    const applyMove = (dx: number, dy: number, direction: MovementDirection) => {
+        const vp = viewportRef?.current
         if (!vp) return
         const newPosition = {
             x: vp.center.x + dx,
@@ -64,13 +66,21 @@ const Game = ({ parentRef }: GameProps) => {
         }
         if (!checkContainerCollision(newPosition)) return
         vp.moveCenter(newPosition.x, newPosition.y)
+        const hero: AnimatedSprite = vp.children.find((c: any) => c?.label === 'hero') as AnimatedSprite
+        if (!hero.position || !hero.scale) return
+        hero.position.set(newPosition.x, newPosition.y)
+        if (direction.endsWith("left")) {
+            hero.scale.x = -3
+        } else if (direction.endsWith("right")) {
+            hero.scale.x = 3
+        }
     }
 
-    const startRun = (dx: number, dy: number) => {
+    const startRun = (dx: number, dy: number, direction: MovementDirection) => {
         if (moveIntervalRef.current) clearInterval(moveIntervalRef.current)
 
         moveIntervalRef.current = setInterval(() => {
-            applyMove(dx, dy)
+            applyMove(dx, dy, direction)
         }, 100)
     }
 
@@ -82,62 +92,62 @@ const Game = ({ parentRef }: GameProps) => {
         }
     }
 
-    const move = (direction: MovementDirection, isKeyDown: boolean = true) => {
+    const move = (direction: MovementDirection | null, isKeyDown: boolean = true) => {
         setHeroState("run")
         const heroSpeed = heroSnapshot.speed
         switch (direction) {
-            case "stepup": applyMove(0, -heroSpeed); break
-            case "stepdown": applyMove(0, heroSpeed); break
-            case "stepleft": applyMove(-heroSpeed, 0); break
-            case "stepright": applyMove(heroSpeed, 0); break
-            case "runup": isKeyDown ? startRun(0, -heroSpeed) : stopRun(); break
-            case "rundown": isKeyDown ? startRun(0, heroSpeed) : stopRun(); break
-            case "runleft": isKeyDown ? startRun(-heroSpeed, 0) : stopRun(); break
-            case "runright": isKeyDown ? startRun(heroSpeed, 0) : stopRun(); break
+            case "runup":
+                if (isKeyDown) startRun(0, -heroSpeed, direction)
+                else stopRun()
+                break
+            case "rundown":
+                if (isKeyDown) startRun(0, heroSpeed, direction)
+                else stopRun()
+                break
+            case "runleft":
+                if (isKeyDown) startRun(-heroSpeed, 0, direction)
+                else stopRun()
+                break
+            case "runright":
+                if (isKeyDown) startRun(heroSpeed, 0, direction)
+                else stopRun()
+                break
+            default: stopRun(); break
         }
     }
 
     const onKeyDown = (event: KeyboardEvent) => {
         const direction = eventConductor(event)
-        if (!isGameInit) {
-            setGameInit("init")
+        if (!isGameInit) setGameAction("init")
+        // If already running, do nothing
+        if (keyPressTimers.current[event.code] || !direction) {
             return
         }
-        // If already running, do nothing
-        if (keyPressTimers.current[event.code] || !direction) return
         // Start a timer to detect long press
         keyPressTimers.current[event.code] = setTimeout(() => {
-            move(`run${direction.replace('step', '')}` as MovementDirection, true)
+            move(direction)
         }, 1000)
 
-        move(direction, true)
+        move(direction)
     }
 
     const onKeyUp = (event: KeyboardEvent) => {
-        const direction = eventConductor(event)
-        if (!direction) return
         // Clear the timer if it exists
         if (keyPressTimers.current[event.code]) {
             clearTimeout(keyPressTimers.current[event.code]!)
             keyPressTimers.current[event.code] = null
         }
         // Stop run movement if it was started
-        if (direction.startsWith('step')) {
-            move(`run${direction.replace('step', '')}` as MovementDirection, false)
-        }
-    }
-
-    const resize = () => {
-        const width = parentRef.current?.clientWidth || window.innerWidth
-        const height = parentRef.current?.clientHeight || window.innerHeight
-        setGameSize({ width: width * 2, height: height * 2 })
-        viewportRef.current?.resize(width, height)
+        move(null)
     }
 
     useEffect(() => {
         Assets.load("/assets/tile_0209.png")
             .then((tex) => {
                 setTexture(tex as Texture)
+            })
+            .finally(() => {
+                resize()
             })
     }, [])
 
@@ -146,7 +156,7 @@ const Game = ({ parentRef }: GameProps) => {
         window.addEventListener("keyup", onKeyUp)
         window.addEventListener("resize", resize)
 
-        if (!gameSize) resize()
+        resize()
 
         return () => {
             window.removeEventListener("keydown", onKeyDown)
@@ -156,18 +166,18 @@ const Game = ({ parentRef }: GameProps) => {
     }, [])
 
     return (<>
-        {(isGameInit && parentRef.current && app.renderer && gameSize)
+        {(isGameInit && parentRef.current && app.renderer && gameSize && texture)
             ? (<Camera
                 ref={viewportRef}
                 events={app.renderer.events}
                 gameSize={gameSize}
             >
-                {texture && (<CustomTilingSprite
+                <CustomTilingSprite
                     texture={texture}
                     width={gameSize.width}
                     height={gameSize.height}
-                />)}
-                <Hero state={heroState} ref={parentRef.current} />
+                />
+                {viewportRef && (<Hero state={heroState} ref={viewportRef} />)}
             </Camera>)
             : (<InitialScene />)
         }

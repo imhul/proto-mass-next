@@ -18,7 +18,7 @@ const Camera = ({ gameSize, children, ...props }: CameraProps) => {
 
     return (
         <pixiViewport {...cameraOptions}>
-            {children}
+            {children && <>{children}</>}
         </pixiViewport>
     )
 }

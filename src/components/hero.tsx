@@ -15,10 +15,12 @@ import { getTextures } from '@lib/utils'
 
 const Hero = ({ state, ref, }: HeroProps) => {
     const spriteRef = useRef<AnimatedSprite | null>(null) // The Pixi.js `Sprite`
+    // state
     const [atlasJson, setAtlasJson] = useState<AtlasJSON | null>(null)
     const [isHovered, setIsHover] = useState(false)
     const [isActive, setIsActive] = useState(false)
     const [textures, setTextures] = useState<HeroTextures>(null)
+    // store
     const paused = usePersistedStore((state: PersistedStore) => state.paused)
 
     useEffect(() => {
@@ -37,7 +39,7 @@ const Hero = ({ state, ref, }: HeroProps) => {
         }
     }, [state, textures, paused, spriteRef])
 
-    return (atlasJson && textures && ref) ? (
+    return (atlasJson && textures && ref.current) ? (
         <pixiAnimatedSprite
             textures={textures[state]}
             ref={spriteRef}
@@ -48,8 +50,9 @@ const Hero = ({ state, ref, }: HeroProps) => {
             onPointerOut={() => setIsHover(false)}
             scale={isHovered ? 3.5 : 3}
             animationSpeed={isActive ? 0.2 : 0.1}
-            x={ref.clientWidth / 2}
-            y={ref.clientHeight / 2}
+            x={ref.current.screenWidth / 2}
+            y={ref.current.screenHeight / 2}
+            label="hero"
             autoPlay
             loop
         />

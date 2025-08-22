@@ -1,5 +1,5 @@
-import type { EventSystem } from '@lib/types'
-import type { ReactNode } from 'react';
+import type { EventSystem, AnimatedSprite, } from '@lib/types'
+import type { ReactElement } from 'react';
 
 export interface GameSize {
     width: number
@@ -17,12 +17,13 @@ export interface Breakpoint {
     height: number;
 }
 
+export type PixiChildren = (ReactElement<any, any> | AnimatedSprite | null)[]
 export type CameraProps = {
-    children: ReactNode
+    children: PixiChildren
     events: EventSystem
     gameSize: GameSize
     [key: string]: any
 }
 
-export type GameAction = "pause" | "restart" | "play" | "save" | "load" | "init" | "over"
+export type GameAction = "resize" | "pause" | "restart" | "play" | "save" | "load" | "init" | "over"
 export type GameDifficulty = "easy" | "normal" | "hard"

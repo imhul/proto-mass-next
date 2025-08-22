@@ -1,4 +1,4 @@
-import type { Texture, Application, EventSystem } from 'pixi.js';
+import type { Texture, Application, EventSystem, AnimatedSprite, Sprite } from 'pixi.js';
 import type { PersistedStore, GlobalStore, } from '@store';
 import {
   LinkProps,
@@ -13,6 +13,7 @@ import type {
   Breakpoint,
   GameAction,
   CameraProps,
+  PixiChildren,
   GameDifficulty,
 } from '@lib/types/game-types';
 import type {
@@ -34,12 +35,14 @@ export type {
   PersistedStore,
 
   // common
+  Sprite,
   Texture,
   BaseItem,
   Position,
   AtlasJSON,
   Application,
   EventSystem,
+  AnimatedSprite,
 
   // UI
   LinkProps,
@@ -54,6 +57,7 @@ export type {
   GameAction,
   GameProps,
   CameraProps,
+  PixiChildren,
   GameDifficulty,
 
   // hero

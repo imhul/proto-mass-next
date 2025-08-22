@@ -1,19 +1,24 @@
 import { StateCreator } from 'zustand'
 // types
 import { NavSlice } from './nav-store'
-import type { GameAction } from '@lib/types'
+import type { GameAction, GameSize } from '@lib/types'
 
 export type GameSlice = {
   init: boolean
   paused: boolean
   gameOver: boolean
-  setGameAction: (action: GameAction) => void
+  gameSize: GameSize
+  setGameAction: (action: GameAction, payload?: any) => void
 }
 
 const initState = {
   init: false,
   paused: false,
   gameOver: false,
+  gameSize: {
+    width: 800,
+    height: 600,
+  },
 }
 
 export const createGameSlice: StateCreator<
@@ -23,7 +28,7 @@ export const createGameSlice: StateCreator<
   GameSlice
 > = (set, get) => ({
   ...initState,
-  setGameAction: (action: GameAction) => {
+  setGameAction: (action, payload) => {
     switch (action) {
       case "init":
         set({ init: true });
@@ -39,6 +44,9 @@ export const createGameSlice: StateCreator<
         break;
       case "over":
         set({ gameOver: true, paused: true });
+        break;
+      case "resize":
+        set({ gameSize: payload });
         break;
       case "save":
         // TODO: handle save
