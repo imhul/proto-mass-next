@@ -2,41 +2,18 @@ import { useEffect, useRef, useState } from 'react'
 // store
 import { usePersistedStore } from '@store'
 // components
-import { Assets, Texture, AnimatedSprite } from 'pixi.js'
+import { Assets, AnimatedSprite } from 'pixi.js'
 // types
 import {
     AtlasJSON,
-    HeroState,
     HeroTextures,
     PersistedStore,
-    HeroClientProps,
-    HeroTexturesObject,
+    HeroProps,
 } from '@lib/types'
+// utils
+import { getTextures } from '@lib/utils'
 
-const heroTexturesConfig: Record<HeroState, { count: number, uid: number }> = {
-    "idle": { count: 4, uid: 31 },
-    "run": { count: 10, uid: 41 },
-    "run-shot": { count: 10, uid: 51 },
-    "shoot-up": { count: 1, uid: 61 },
-    "stand": { count: 3, uid: 62 },
-    "hurt": { count: 2, uid: 29 }
-}
-
-const getTextures = (atlasJson: AtlasJSON | null): HeroTextures => {
-    if (!atlasJson) return null
-    const obj: HeroTexturesObject = {} as HeroTexturesObject
-    const textureKeys = Object.keys(heroTexturesConfig) as HeroState[]
-    textureKeys.forEach((item: HeroState) => {
-        const texturesLength = heroTexturesConfig[item].count || 1
-        obj[item] = Array.from({ length: texturesLength }, (_, i) => {
-            const uid = heroTexturesConfig[item].uid + i + 6
-            return new Texture(atlasJson.textures[uid])
-        })
-    })
-    return obj
-}
-
-const Hero = ({ state }: HeroClientProps) => {
+const Hero = ({ state, ref, }: HeroProps) => {
     const spriteRef = useRef<AnimatedSprite | null>(null) // The Pixi.js `Sprite`
     const [atlasJson, setAtlasJson] = useState<AtlasJSON | null>(null)
     const [isHovered, setIsHover] = useState(false)
@@ -58,9 +35,9 @@ const Hero = ({ state }: HeroClientProps) => {
             spriteRef.current.textures = textures[state]
             paused ? spriteRef.current.stop() : spriteRef.current.play()
         }
-    }, [state, textures, paused])
+    }, [state, textures, paused, spriteRef])
 
-    return (atlasJson && textures) ? (
+    return (atlasJson && textures && ref) ? (
         <pixiAnimatedSprite
             textures={textures[state]}
             ref={spriteRef}
@@ -69,10 +46,10 @@ const Hero = ({ state }: HeroClientProps) => {
             onClick={() => setIsActive(!isActive)}
             onPointerOver={() => setIsHover(true)}
             onPointerOut={() => setIsHover(false)}
-            scale={isHovered ? 5.5 : 5}
+            scale={isHovered ? 3.5 : 3}
             animationSpeed={isActive ? 0.2 : 0.1}
-            // x={position.x}
-            // y={position.y}
+            x={ref.clientWidth / 2}
+            y={ref.clientHeight / 2}
             autoPlay
             loop
         />

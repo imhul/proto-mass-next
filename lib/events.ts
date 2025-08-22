@@ -28,11 +28,11 @@ type EventConductorReturn = MovementDirection | null;
 
 export const eventConductor = (
     e: KeyboardEvent,
-    isGameInit: boolean = true
+    // isGameInit: boolean = true
 ): EventConductorReturn => {
     const eventType = e.type;
 
-    if (!isGameInit && eventType === 'keydown') return "stepdown"
+    // if (!isGameInit && eventType === 'keydown') return "stepdown"
 
     if (eventType === 'keyup') {
         if (keyBindings.moveup.keys.includes(e.key) || keyBindings.moveup.codes.includes(e.code) || keyBindings.moveup.keyCodes.includes(e.keyCode)) return "stepup"

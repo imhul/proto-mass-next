@@ -1,6 +1,6 @@
 import { StateCreator } from 'zustand'
 // types
-import { NavSlice } from './nav'
+import { NavSlice } from './nav-store'
 import type { GameAction } from '@lib/types'
 
 export type GameSlice = {

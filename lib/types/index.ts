@@ -1,4 +1,4 @@
-import type { Texture, Application, } from 'pixi.js';
+import type { Texture, Application, EventSystem } from 'pixi.js';
 import type { PersistedStore, GlobalStore, } from '@store';
 import {
   LinkProps,
@@ -9,9 +9,11 @@ import {
 } from '@lib/types/ui-types';
 import type {
   GameSize,
-  OutputProps,
+  GameProps,
   Breakpoint,
   GameAction,
+  CameraProps,
+  GameDifficulty,
 } from '@lib/types/game-types';
 import type {
   BaseItem,
@@ -21,7 +23,7 @@ import type {
 import type {
   HeroState,
   HeroTextures,
-  HeroClientProps,
+  HeroProps,
   MovementDirection,
   HeroTexturesObject,
 } from '@lib/types/hero-types'
@@ -37,6 +39,7 @@ export type {
   Position,
   AtlasJSON,
   Application,
+  EventSystem,
 
   // UI
   LinkProps,
@@ -49,12 +52,14 @@ export type {
   GameSize,
   Breakpoint,
   GameAction,
-  OutputProps,
+  GameProps,
+  CameraProps,
+  GameDifficulty,
 
   // hero
   HeroState,
   HeroTextures,
-  HeroClientProps,
+  HeroProps,
   MovementDirection,
   HeroTexturesObject,
 }

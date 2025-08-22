@@ -1,28 +1,31 @@
-import { useEffect } from 'react'
-import { useApplication } from '@pixi/react'
+import { useRef } from 'react'
 // components
-import Hero from './hero'
-import CustomTilingSprite from '@/components/pixi/custom-tiling-sprite'
-// types
-import type { OutputProps } from '@lib/types'
+import { Application, useExtend } from '@pixi/react'
+import Game from '@components/game'
+import {
+    AnimatedSprite,
+    TilingSprite,
+    Container,
+    Graphics,
+    Sprite,
+} from 'pixi.js'
 
-const Output = (props: OutputProps) => {
-    const { parentRef, heroState, texture, position } = props;
-    const { app } = useApplication()
+export const Output = () => {
+    const parentRef = useRef<HTMLDivElement>(null)
 
-    useEffect(() => {
-        if (!app || !position) return
-        app.stage.children[1]?.position.set(position.x, position.y)
-    }, [app, position])
+    useExtend({
+        AnimatedSprite,
+        TilingSprite,
+        Container,
+        Graphics,
+        Sprite,
+    })
 
-    return (<>
-        <CustomTilingSprite
-            texture={texture}
-            width={parentRef.current?.clientWidth ?? 800}
-            height={parentRef.current?.clientHeight ?? 600}
-        />
-        <Hero state={heroState} />
-    </>)
+    return (
+        <div ref={parentRef} className="game-container">
+            <Application resizeTo={parentRef}>
+                <Game parentRef={parentRef} />
+            </Application>
+        </div>
+    )
 }
-
-export default Output

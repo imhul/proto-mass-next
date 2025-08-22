@@ -7,7 +7,7 @@ import { ThemeProvider } from "@components/theme-provider"
 import Header from "@components/header"
 import { Toaster } from "@components/ui/sonner"
 import Home from '@/components/home'
-import Game from '@/components/game'
+import { Output as GameOutput } from '@/components/output'
 
 const Layout = () => {
   const route = usePersistedStore((state: PersistedStore) => state.route)
@@ -17,7 +17,7 @@ const Layout = () => {
       case "home":
         return <Home />
       case "game":
-        return <Game />
+        return <GameOutput />
       default:
         return null
     }
@@ -35,7 +35,7 @@ const Layout = () => {
         position="top-right"
       />
       <Header />
-      <main>{render()}</main>
+      <main style={{ height: `calc($100vh - 84px)` }}>{render()}</main>
     </ThemeProvider>
   )
 }

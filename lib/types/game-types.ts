@@ -1,17 +1,13 @@
-import type { Texture } from 'pixi.js';
-import { HeroState } from '@lib/types//hero-types';
-import { Position } from '@lib/types/common-types';
+import type { EventSystem } from '@lib/types'
+import type { ReactNode } from 'react';
 
 export interface GameSize {
     width: number
     height: number
 }
 
-export interface OutputProps {
-    parentRef: React.RefObject<HTMLDivElement | null>;
-    heroState: HeroState;
-    texture: Texture;
-    position: Position;
+export interface GameProps {
+    parentRef: React.RefObject<HTMLDivElement | null>
 }
 
 export interface Breakpoint {
@@ -21,4 +17,12 @@ export interface Breakpoint {
     height: number;
 }
 
+export type CameraProps = {
+    children: ReactNode
+    events: EventSystem
+    gameSize: GameSize
+    [key: string]: any
+}
+
 export type GameAction = "pause" | "restart" | "play" | "save" | "load" | "init" | "over"
+export type GameDifficulty = "easy" | "normal" | "hard"
