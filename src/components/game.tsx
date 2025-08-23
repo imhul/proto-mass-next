@@ -78,22 +78,31 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
     const applyMove = (dx: number, dy: number, direction: heroTypes.MovementDirection) => {
         const vp = viewportRef?.current
         if (!vp) return
-        const newPosition = {
-            x: vp.center.x + dx,
-            y: vp.center.y + dy,
-        }
-        if (!checkContainerCollision(newPosition)) return
-        vp.moveCenter(newPosition.x, newPosition.y)
         const hero: AnimatedSprite = vp.children.find((c: any) => c?.label === 'hero') as AnimatedSprite
         if (!hero.position || !hero.scale || !hero.zIndex) return
-        hero.position.set(newPosition.x, newPosition.y)
+        // -------------------------------------------------------
+        const newHeroPosition = {
+            x: hero.position.x + dx,
+            y: hero.position.y + dy,
+        }
+        if (!checkContainerCollision(newHeroPosition)) return
+        // -------------------------------------------------------
+        // no-easing variant: vp.moveCenter(newCameraPosition.x, newCameraPosition.y)
+        // easing variant:
+        vp.animate({
+            time: 1000,
+            position: newHeroPosition,
+            ease: "easeOutSine",
+        })
+        // -------------------------------------------------------
+        hero.position.set(newHeroPosition.x, newHeroPosition.y)
         if (["runnw", "runsw", "runw"].includes(direction)) {
             hero.scale.x = -3
         } else if (["runne", "runse", "rune"].includes(direction)) {
             hero.scale.x = 3
         }
-        const closestObject = getClosestObjectToHero(newPosition)
-        console.info("closestObject: ", closestObject)
+        // -------------------------------------------------------
+        const closestObject = getClosestObjectToHero(newHeroPosition)
         if (!closestObject?.position) return
         if (closestObject.position.y < hero.position.y) {
             hero.zIndex = closestObject.zIndex + 1

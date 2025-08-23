@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu"
 // types
-import type { Theme } from "@lib/types"
+import type { uiTypes } from "@lib/types"
 // config
 import { themeMenu } from "@lib/config"
 
@@ -27,7 +27,7 @@ function ThemeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        {themeMenu.map((theme: Theme) => (
+        {themeMenu.map((theme: uiTypes.Theme) => (
           <DropdownMenuItem key={theme.id} onClick={() => setTheme(theme.id)}>
             {theme.label}
           </DropdownMenuItem>

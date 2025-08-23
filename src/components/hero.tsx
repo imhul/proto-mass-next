@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 // store
 import { usePersistedStore } from '@/store'
 // components
-import { Assets, AnimatedSprite } from 'pixi.js'
+import { Assets, AnimatedSprite, Filter } from 'pixi.js'
 import DevHitbox from '@components/dev-hitbox'
 // types
 import {
@@ -63,6 +63,8 @@ const Hero = ({ state, ref, }: heroTypes.HeroProps) => {
             zIndex={1}
             autoPlay
             loop
+        // filters={[new OutlineFilter({ thickness: 4, color: 0xff0000 })]}
+        // filters={[new Filter({ resolution: 4, blendMode: "multiply" })]}
         />
     </>) : null
 }

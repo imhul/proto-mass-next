@@ -1,9 +1,9 @@
 import { useExtend } from '@pixi/react'
 import { Viewport } from 'pixi-viewport'
 // types
-import type { CameraProps } from '@lib/types'
+import type { gameTypes } from '@lib/types'
 
-const Camera = ({ gameSize, children, ...props }: CameraProps) => {
+const Camera = ({ gameSize, children, ...props }: gameTypes.CameraProps) => {
     useExtend({ Viewport })
 
     const cameraOptions = {
