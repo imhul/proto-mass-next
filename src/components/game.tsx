@@ -8,31 +8,32 @@ import Hero from '@components/hero'
 import CustomTilingSprite from '@components/pixi/custom-tiling-sprite'
 import InitialScene from '@components/initial-scene'
 import Camera from '@components/camera'
+import Objects from '@components/objects'
 // types
 import type {
     Texture,
-    Position,
-    HeroState,
-    GameProps,
     GlobalStore,
-    CameraProps,
     AnimatedSprite,
     PersistedStore,
-    MovementDirection,
+    gameTypes,
+    heroTypes,
+    commonTypes,
 } from '@lib/types'
 // utils
 import { eventConductor } from '@lib/events'
+// config
+import { defaultChunkSize, generatedObjects } from '@lib/config'
 
-const Game = ({ parentRef }: GameProps) => {
+const Game = ({ parentRef }: gameTypes.GameProps) => {
     // app
     const { app } = useApplication()
     // refs
-    const moveIntervalRef = useRef<NodeJS.Timeout | null>(null)
     const keyPressTimers = useRef<{ [key: string]: NodeJS.Timeout | null }>({})
-    const viewportRef = useRef<CameraProps>(null)
+    const viewportRef = useRef<gameTypes.CameraProps>(null)
+    const animationFrameRef = useRef<number | null>(null)
     // state
     const [texture, setTexture] = useState<Texture | null>(null)
-    const [heroState, setHeroState] = useState<HeroState>("stand")
+    const [heroState, setHeroState] = useState<heroTypes.HeroState>("stand")
     // store
     const isGameInit = usePersistedStore((state: PersistedStore) => state.init)
     const setGameAction = usePersistedStore((state: PersistedStore) => state.setGameAction)
@@ -46,19 +47,35 @@ const Game = ({ parentRef }: GameProps) => {
         viewportRef.current?.resize(width, height)
     }
 
-
-    const createNewMapChunk = (position: Position) => {
-        const chunkSize = 1000
+    const createNewMapChunk = (position: commonTypes.Position) => {
         // TODO: 1. write function
     }
 
-    const checkContainerCollision = (position: Position) => {
+    const checkContainerCollision = (position: commonTypes.Position) => {
         // TODO: 2. check collision with map boundaries and run createNewMapChunk(position)
         // TODO: 3. check collision with map obstacles and stop movement
         return true // Placeholder
     }
 
-    const applyMove = (dx: number, dy: number, direction: MovementDirection) => {
+    const getClosestObjectToHero = (pos: commonTypes.Position): gameTypes.ClosestObject => {
+        let closestObject: gameTypes.GameObject | null = null
+        let closestDistance = Infinity
+
+        generatedObjects.forEach((object) => {
+            const distance = Math.hypot(object.position.x - pos.x, object.position.y - pos.y)
+            if (distance < closestDistance) {
+                closestDistance = distance
+                closestObject = object
+            }
+        })
+
+        if (!closestObject) return null
+        const { position, zIndex } = closestObject
+
+        return { position, zIndex }
+    }
+
+    const applyMove = (dx: number, dy: number, direction: heroTypes.MovementDirection) => {
         const vp = viewportRef?.current
         if (!vp) return
         const newPosition = {
@@ -68,49 +85,71 @@ const Game = ({ parentRef }: GameProps) => {
         if (!checkContainerCollision(newPosition)) return
         vp.moveCenter(newPosition.x, newPosition.y)
         const hero: AnimatedSprite = vp.children.find((c: any) => c?.label === 'hero') as AnimatedSprite
-        if (!hero.position || !hero.scale) return
+        if (!hero.position || !hero.scale || !hero.zIndex) return
         hero.position.set(newPosition.x, newPosition.y)
-        if (direction.endsWith("left")) {
+        if (["runnw", "runsw", "runw"].includes(direction)) {
             hero.scale.x = -3
-        } else if (direction.endsWith("right")) {
+        } else if (["runne", "runse", "rune"].includes(direction)) {
             hero.scale.x = 3
         }
-    }
-
-    const startRun = (dx: number, dy: number, direction: MovementDirection) => {
-        if (moveIntervalRef.current) clearInterval(moveIntervalRef.current)
-
-        moveIntervalRef.current = setInterval(() => {
-            applyMove(dx, dy, direction)
-        }, 100)
-    }
-
-    const stopRun = () => {
-        if (moveIntervalRef.current) {
-            clearInterval(moveIntervalRef.current)
-            moveIntervalRef.current = null
-            setHeroState("stand")
+        const closestObject = getClosestObjectToHero(newPosition)
+        console.info("closestObject: ", closestObject)
+        if (!closestObject?.position) return
+        if (closestObject.position.y < hero.position.y) {
+            hero.zIndex = closestObject.zIndex + 1
+        } else {
+            hero.zIndex = hero.zIndex < closestObject.zIndex ? hero.zIndex : closestObject.zIndex - 1
         }
     }
 
-    const move = (direction: MovementDirection | null, isKeyDown: boolean = true) => {
+    const runAnimation = (dx: number, dy: number, direction: heroTypes.MovementDirection) => {
+        applyMove(dx, dy, direction);
+        animationFrameRef.current = requestAnimationFrame(() => runAnimation(dx, dy, direction));
+    };
+
+    const startRun = (dx: number, dy: number, direction: heroTypes.MovementDirection) => {
+        if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+        runAnimation(dx, dy, direction);
+    };
+
+    const stopRun = () => {
+        if (animationFrameRef.current) {
+            cancelAnimationFrame(animationFrameRef.current);
+            animationFrameRef.current = null;
+            setHeroState("stand");
+        }
+    };
+
+    const move = (direction: heroTypes.MovementDirection | null, isKeyDown: boolean = true) => {
         setHeroState("run")
         const heroSpeed = heroSnapshot.speed
         switch (direction) {
-            case "runup":
+            case "runn":
                 if (isKeyDown) startRun(0, -heroSpeed, direction)
                 else stopRun()
                 break
-            case "rundown":
+            case "runs":
                 if (isKeyDown) startRun(0, heroSpeed, direction)
                 else stopRun()
                 break
-            case "runleft":
+            case "runw":
                 if (isKeyDown) startRun(-heroSpeed, 0, direction)
                 else stopRun()
                 break
-            case "runright":
+            case "rune":
                 if (isKeyDown) startRun(heroSpeed, 0, direction)
+                else stopRun()
+                break
+            case "runnw":
+                if (isKeyDown) startRun(-heroSpeed, -heroSpeed, direction)
+                else stopRun()
+                break
+            case "runne":
+                if (isKeyDown) startRun(heroSpeed, -heroSpeed, direction)
+                else stopRun()
+                break
+            case "runse":
+                if (isKeyDown) startRun(heroSpeed, heroSpeed, direction)
                 else stopRun()
                 break
             default: stopRun(); break
@@ -118,12 +157,10 @@ const Game = ({ parentRef }: GameProps) => {
     }
 
     const onKeyDown = (event: KeyboardEvent) => {
-        const direction = eventConductor(event)
+        const direction = eventConductor(event, false)
         if (!isGameInit) setGameAction("init")
         // If already running, do nothing
-        if (keyPressTimers.current[event.code] || !direction) {
-            return
-        }
+        if (keyPressTimers.current[event.code] || !direction) return
         // Start a timer to detect long press
         keyPressTimers.current[event.code] = setTimeout(() => {
             move(direction)
@@ -138,7 +175,6 @@ const Game = ({ parentRef }: GameProps) => {
             clearTimeout(keyPressTimers.current[event.code]!)
             keyPressTimers.current[event.code] = null
         }
-        // Stop run movement if it was started
         move(null)
     }
 
@@ -146,8 +182,6 @@ const Game = ({ parentRef }: GameProps) => {
         Assets.load("/assets/tile_0209.png")
             .then((tex) => {
                 setTexture(tex as Texture)
-            })
-            .finally(() => {
                 resize()
             })
     }, [])
@@ -179,6 +213,7 @@ const Game = ({ parentRef }: GameProps) => {
                     height={gameSize.height}
                 />
                 {viewportRef && (<Hero state={heroState} ref={viewportRef} />)}
+                <Objects size={gameSize} />
             </Camera>)
             : (<InitialScene />)
         }

@@ -1,11 +1,15 @@
-import { type PixiReactElementProps } from '@pixi/react'
-import { type Viewport } from 'pixi-viewport'
-import type { TilingSprite } from "pixi.js"
+import type {
+    Viewport,
+    Graphics,
+    TilingSprite,
+    PixiReactElementProps,
+} from "@lib/types"
 
 declare module '@pixi/react' {
     interface PixiElements {
         pixiViewport: PixiReactElementProps<typeof Viewport>;
         tilingSprite: PixiReactElementProps<typeof TilingSprite>;
+        pixiGraphics: PixiReactElementProps<typeof Graphics>;
     }
 }
 
@@ -14,6 +18,7 @@ declare global {
         interface IntrinsicElements {
             pixiViewport: any;
             tilingSprite: any;
+            pixiGraphics: any;
         }
     }
 }

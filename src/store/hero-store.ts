@@ -2,33 +2,23 @@ import { StateCreator } from 'zustand'
 // types
 import type { KeyboardSlice } from '@store/keyboard-store'
 import type {
-    Position,
-    HeroState,
-    ThemeName,
-    GameDifficulty,
+    uiTypes,
+    gameTypes,
+    heroTypes,
+    commonTypes,
 } from '@lib/types'
 
-export type HeroEntity = {
+export interface HeroEntity extends gameTypes.BaseEntity {
     speed: number
-    position: Position
-    hp: number
-    state: HeroState
+    preferences: gameTypes.Preferences
+    state: heroTypes.HeroState & commonTypes.BaseState
+    abilities: any[]
+    skills: any[]
+    inventory: any[]
     xp: number
     buffs: any[]
     debuffs: any[]
     achievements: any[]
-    age: number
-    characterName: string
-    abilities: any[]
-    skills: any[]
-    inventory: any[]
-    preferences: {
-        difficulty: GameDifficulty
-        controls: string
-        theme: ThemeName
-        soundLevel: number
-        fullscreen: boolean
-    }
 }
 
 export type ControlsBindings = { [key: string]: (key: string) => void }
@@ -36,27 +26,31 @@ export type Controls = "default" & { controls: ControlsBindings }
 export type Hero = { hero: HeroEntity }
 export type HeroSlice = Hero & HeroActions
 export type HeroActions = {
-    setHeroAction: (action: HeroState) => void
+    setHeroAction: (action: heroTypes.HeroState) => void
 }
 
 const initHeroState: HeroEntity = {
-    speed: 10,
+    id: 0,
+    speed: 1,
     position: { x: 0, y: 0 },
     hp: 100,
-    state: "stand" as HeroState,
+    state: "stand",
     xp: 0,
     buffs: [],
     debuffs: [],
     achievements: [],
     age: 0,
-    characterName: "",
+    name: "",
     abilities: [],
     skills: [],
     inventory: [],
+    dead: false,
+    timestamp: Date.now(),
+    zIndex: 1,
     preferences: {
-        difficulty: "normal" as GameDifficulty,
+        difficulty: "normal" as gameTypes.GameDifficulty,
         controls: "default" as Controls,
-        theme: "system" as ThemeName,
+        theme: "system" as uiTypes.ThemeName,
         soundLevel: 50,
         fullscreen: false,
     },
@@ -69,7 +63,7 @@ export const createHeroSlice: StateCreator<
     HeroSlice
 > = (set, get) => ({
     hero: initHeroState,
-    setHeroAction: (action: HeroState) => {
+    setHeroAction: (action: heroTypes.HeroState) => {
         switch (action) {
             // TODO: Hero actions ...
         }

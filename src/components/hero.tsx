@@ -3,30 +3,30 @@ import { useEffect, useRef, useState } from 'react'
 import { usePersistedStore } from '@/store'
 // components
 import { Assets, AnimatedSprite } from 'pixi.js'
+import DevHitbox from '@components/dev-hitbox'
 // types
 import {
-    AtlasJSON,
-    HeroTextures,
     PersistedStore,
-    HeroProps,
+    heroTypes,
+    commonTypes,
 } from '@lib/types'
 // utils
 import { getTextures } from '@lib/utils'
 
-const Hero = ({ state, ref, }: HeroProps) => {
+const Hero = ({ state, ref, }: heroTypes.HeroProps) => {
     const spriteRef = useRef<AnimatedSprite | null>(null) // The Pixi.js `Sprite`
     // state
-    const [atlasJson, setAtlasJson] = useState<AtlasJSON | null>(null)
+    const [atlasJson, setAtlasJson] = useState<commonTypes.AtlasJSON | null>(null)
     const [isHovered, setIsHover] = useState(false)
     const [isActive, setIsActive] = useState(false)
-    const [textures, setTextures] = useState<HeroTextures>(null)
+    const [textures, setTextures] = useState<heroTypes.HeroTextures>(null)
     // store
     const paused = usePersistedStore((state: PersistedStore) => state.paused)
 
     useEffect(() => {
         if (!atlasJson || !textures) Assets
             .load('/assets/atlas.json')
-            .then((result: AtlasJSON) => {
+            .then((result: commonTypes.AtlasJSON) => {
                 setAtlasJson(result)
                 setTextures(getTextures(result))
             })
@@ -39,11 +39,18 @@ const Hero = ({ state, ref, }: HeroProps) => {
         }
     }, [state, textures, paused, spriteRef])
 
-    return (atlasJson && textures && ref.current) ? (
+    return (atlasJson && textures && ref.current) ? (<>
+        <DevHitbox
+            x={spriteRef.current?.position.x ?? ref.current.screenWidth / 2}
+            y={spriteRef.current?.position.y ?? ref.current.screenHeight / 2}
+            width={textures["run"][0].width}
+            height={textures["run"][0].height}
+            label="dev-hero-hitbox"
+        />
         <pixiAnimatedSprite
             textures={textures[state]}
             ref={spriteRef}
-            anchor={0.5}
+            anchor={{ x: 0.5, y: 0.5 }}
             eventMode={'static'}
             onClick={() => setIsActive(!isActive)}
             onPointerOver={() => setIsHover(true)}
@@ -53,10 +60,11 @@ const Hero = ({ state, ref, }: HeroProps) => {
             x={ref.current.screenWidth / 2}
             y={ref.current.screenHeight / 2}
             label="hero"
+            zIndex={1}
             autoPlay
             loop
         />
-    ) : null
+    </>) : null
 }
 
 export default Hero
