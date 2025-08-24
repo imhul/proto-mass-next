@@ -1,53 +1,32 @@
 import { useEffect, useRef, useState } from 'react'
 // store
-import { usePersistedStore } from '@store'
+import { usePersistedStore } from '@/store'
 // components
-import { Assets, Texture, AnimatedSprite } from 'pixi.js'
+import { Assets, AnimatedSprite, Filter } from 'pixi.js'
+import DevHitbox from '@components/dev-hitbox'
 // types
 import {
-    AtlasJSON,
-    HeroState,
-    HeroTextures,
     PersistedStore,
-    HeroClientProps,
-    HeroTexturesObject,
+    heroTypes,
+    commonTypes,
 } from '@lib/types'
+// utils
+import { getTextures } from '@lib/utils'
 
-const heroTexturesConfig: Record<HeroState, { count: number, uid: number }> = {
-    "idle": { count: 4, uid: 31 },
-    "run": { count: 10, uid: 41 },
-    "run-shot": { count: 10, uid: 51 },
-    "shoot-up": { count: 1, uid: 61 },
-    "stand": { count: 3, uid: 62 },
-    "hurt": { count: 2, uid: 29 }
-}
-
-const getTextures = (atlasJson: AtlasJSON | null): HeroTextures => {
-    if (!atlasJson) return null
-    const obj: HeroTexturesObject = {} as HeroTexturesObject
-    const textureKeys = Object.keys(heroTexturesConfig) as HeroState[]
-    textureKeys.forEach((item: HeroState) => {
-        const texturesLength = heroTexturesConfig[item].count || 1
-        obj[item] = Array.from({ length: texturesLength }, (_, i) => {
-            const uid = heroTexturesConfig[item].uid + i + 6
-            return new Texture(atlasJson.textures[uid])
-        })
-    })
-    return obj
-}
-
-const Hero = ({ state }: HeroClientProps) => {
+const Hero = ({ state, ref, }: heroTypes.HeroProps) => {
     const spriteRef = useRef<AnimatedSprite | null>(null) // The Pixi.js `Sprite`
-    const [atlasJson, setAtlasJson] = useState<AtlasJSON | null>(null)
+    // state
+    const [atlasJson, setAtlasJson] = useState<commonTypes.AtlasJSON | null>(null)
     const [isHovered, setIsHover] = useState(false)
     const [isActive, setIsActive] = useState(false)
-    const [textures, setTextures] = useState<HeroTextures>(null)
+    const [textures, setTextures] = useState<heroTypes.HeroTextures>(null)
+    // store
     const paused = usePersistedStore((state: PersistedStore) => state.paused)
 
     useEffect(() => {
         if (!atlasJson || !textures) Assets
             .load('/assets/atlas.json')
-            .then((result: AtlasJSON) => {
+            .then((result: commonTypes.AtlasJSON) => {
                 setAtlasJson(result)
                 setTextures(getTextures(result))
             })
@@ -58,25 +37,35 @@ const Hero = ({ state }: HeroClientProps) => {
             spriteRef.current.textures = textures[state]
             paused ? spriteRef.current.stop() : spriteRef.current.play()
         }
-    }, [state, textures, paused])
+    }, [state, textures, paused, spriteRef])
 
-    return (atlasJson && textures) ? (
+    return (atlasJson && textures && ref.current) ? (<>
+        <DevHitbox
+            x={spriteRef.current?.position.x ?? ref.current.screenWidth / 2}
+            y={spriteRef.current?.position.y ?? ref.current.screenHeight / 2}
+            width={textures["run"][0].width}
+            height={textures["run"][0].height}
+            label="dev-hero-hitbox"
+        />
         <pixiAnimatedSprite
             textures={textures[state]}
             ref={spriteRef}
-            anchor={0.5}
+            anchor={{ x: 0.5, y: 0.5 }}
             eventMode={'static'}
             onClick={() => setIsActive(!isActive)}
             onPointerOver={() => setIsHover(true)}
             onPointerOut={() => setIsHover(false)}
-            scale={isHovered ? 5.5 : 5}
+            scale={isHovered ? 3.5 : 3}
             animationSpeed={isActive ? 0.2 : 0.1}
-            // x={position.x}
-            // y={position.y}
+            x={ref.current.screenWidth / 2}
+            y={ref.current.screenHeight / 2}
+            label="hero"
+            zIndex={100}
             autoPlay
             loop
+        // filters={[new Filter({ resolution: 4, blendMode: "multiply" })]}
         />
-    ) : null
+    </>) : null
 }
 
 export default Hero

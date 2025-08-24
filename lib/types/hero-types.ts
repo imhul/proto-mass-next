@@ -1,12 +1,21 @@
-import type { Position, Texture, Application } from '@lib/types';
+import type { RefObject } from 'react'
+import type {
+    Texture,
+    Application,
+    gameTypes,
+    heroTypes,
+    commonTypes,
+} from '@lib/types'
 
-export interface HeroClientProps {
-    app?: Application;
-    position?: Position;
-    state: HeroState;
+export interface HeroProps {
+    app?: Application
+    position?: commonTypes.Position
+    state: heroTypes.HeroState
+    ref: RefObject<gameTypes.CameraProps | null>
+    onLoad?: () => void
 }
 
-export type HeroTexturesObject = { [key in HeroState]: Texture[] }
+export type HeroTexturesObject = { [key in heroTypes.HeroState]: Texture[] }
 export type HeroTextures = HeroTexturesObject | null
-export type HeroState = "idle" | "run" | "run-shot" | "shoot-up" | "stand" | "hurt";
-export type MovementDirection = "stepup" | "stepdown" | "stepleft" | "stepright" | "runup" | "rundown" | "runleft" | "runright";
+export type HeroState = "run" | "run-shot" | "shoot-up" | commonTypes.BaseState
+export type MovementDirection = "runn" | "runs" | "runw" | "rune" | "runnw" | "runne" | "runsw" | "runse"

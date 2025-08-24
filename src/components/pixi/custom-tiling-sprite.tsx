@@ -1,8 +1,6 @@
 import { forwardRef } from "react"
-import { extend } from "@pixi/react"
+import { useExtend } from "@pixi/react"
 import { TilingSprite, Texture } from "pixi.js"
-
-extend({ TilingSprite })
 
 type Props = {
     texture: Texture
@@ -14,8 +12,9 @@ type Props = {
 
 const CustomTilingSprite = forwardRef<any, Props>(
     ({ texture, tileScale, tilePosition, width, height, ...props }, ref) => {
+        useExtend({ TilingSprite })
+
         return (
-            // @ts-ignore
             <tilingSprite
                 ref={ref}
                 texture={texture}

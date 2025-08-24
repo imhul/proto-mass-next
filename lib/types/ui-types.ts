@@ -1,9 +1,9 @@
-import type { BaseItem } from '@lib/types';
+import type { commonTypes } from '@lib/types';
 
 export type ThemeName = "light" | "dark" | "system"
-export interface Theme extends BaseItem { id: ThemeName }
-export interface MenuItem extends BaseItem { }
-export interface GameMenuItem extends BaseItem { }
+export interface Theme extends commonTypes.BaseItem { id: ThemeName }
+export interface MenuItem extends commonTypes.BaseItem { }
+export interface GameMenuItem extends commonTypes.BaseItem { }
 
 export interface LinkProps {
     to: string;

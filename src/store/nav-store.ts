@@ -1,6 +1,7 @@
 import { StateCreator } from 'zustand'
 // types
-import { GameSlice } from './game'
+import type { GameSlice } from '@store/game-store'
+import type { UISlice } from '@store/ui-store'
 
 export type NavSlice = {
     route: string
@@ -8,7 +9,7 @@ export type NavSlice = {
 }
 
 export const createNavSlice: StateCreator<
-    NavSlice & GameSlice,
+    NavSlice & GameSlice & UISlice,
     [["zustand/devtools", never]],
     [],
     NavSlice

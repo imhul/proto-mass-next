@@ -1,6 +1,3 @@
-// types
-import { MovementDirection } from './types'
-
 export const keyBindings = {
     moveup: {
         keys: ['ArrowUp', 'w'],
@@ -24,26 +21,21 @@ export const keyBindings = {
     },
 }
 
-type EventConductorReturn = MovementDirection | null;
+export const eventConductor = (keys: { [key: string]: boolean }) => {
+    const pressedKeysLength = Object.keys(keys).filter(key => keys[key]).length
 
-export const eventConductor = (
-    e: KeyboardEvent,
-    isGameInit: boolean = true
-): EventConductorReturn => {
-    const eventType = e.type;
+    if (pressedKeysLength === 1) {
+        if (keyBindings.moveup.codes.some(key => keys[key])) return "runn"
+        if (keyBindings.movedown.codes.some(key => keys[key])) return "runs"
+        if (keyBindings.moveleft.codes.some(key => keys[key])) return "runw"
+        if (keyBindings.moveright.codes.some(key => keys[key])) return "rune"
+    }
 
-    if (!isGameInit && eventType === 'keydown') return "stepdown"
-
-    if (eventType === 'keyup') {
-        if (keyBindings.moveup.keys.includes(e.key) || keyBindings.moveup.codes.includes(e.code) || keyBindings.moveup.keyCodes.includes(e.keyCode)) return "stepup"
-        if (keyBindings.movedown.keys.includes(e.key) || keyBindings.movedown.codes.includes(e.code) || keyBindings.movedown.keyCodes.includes(e.keyCode)) return "stepdown"
-        if (keyBindings.moveleft.keys.includes(e.key) || keyBindings.moveleft.codes.includes(e.code) || keyBindings.moveleft.keyCodes.includes(e.keyCode)) return "stepleft"
-        if (keyBindings.moveright.keys.includes(e.key) || keyBindings.moveright.codes.includes(e.code) || keyBindings.moveright.keyCodes.includes(e.keyCode)) return "stepright"
-    } else if (eventType === 'keydown') {
-        if (keyBindings.moveup.keys.includes(e.key) || keyBindings.moveup.codes.includes(e.code) || keyBindings.moveup.keyCodes.includes(e.keyCode)) return "runup"
-        if (keyBindings.movedown.keys.includes(e.key) || keyBindings.movedown.codes.includes(e.code) || keyBindings.movedown.keyCodes.includes(e.keyCode)) return "rundown"
-        if (keyBindings.moveleft.keys.includes(e.key) || keyBindings.moveleft.codes.includes(e.code) || keyBindings.moveleft.keyCodes.includes(e.keyCode)) return "runleft"
-        if (keyBindings.moveright.keys.includes(e.key) || keyBindings.moveright.codes.includes(e.code) || keyBindings.moveright.keyCodes.includes(e.keyCode)) return "runright"
+    if (pressedKeysLength === 2) {
+        if (keyBindings.moveup.codes.some(key => keys[key]) && keyBindings.moveleft.codes.some(key => keys[key])) return "runnw"
+        if (keyBindings.moveup.codes.some(key => keys[key]) && keyBindings.moveright.codes.some(key => keys[key])) return "runne"
+        if (keyBindings.movedown.codes.some(key => keys[key]) && keyBindings.moveleft.codes.some(key => keys[key])) return "runsw"
+        if (keyBindings.movedown.codes.some(key => keys[key]) && keyBindings.moveright.codes.some(key => keys[key])) return "runse"
     }
 
     return null

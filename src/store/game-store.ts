@@ -1,29 +1,39 @@
 import { StateCreator } from 'zustand'
 // types
-import { NavSlice } from './nav'
-import type { GameAction } from '@lib/types'
+import type { NavSlice } from '@store/nav-store'
+import type { UISlice } from '@store/ui-store'
+import type { gameTypes } from '@lib/types'
 
 export type GameSlice = {
   init: boolean
   paused: boolean
   gameOver: boolean
-  setGameAction: (action: GameAction) => void
+  gameSize: gameTypes.GameSize
+  objectsMap: gameTypes.GameObject[]
+  getObjectsMap: () => gameTypes.GameObject[]
+  setGameAction: (action: gameTypes.GameAction, payload?: any) => void
 }
 
 const initState = {
   init: false,
   paused: false,
   gameOver: false,
+  objectsMap: [],
+  gameSize: {
+    width: 800,
+    height: 600,
+  },
 }
 
 export const createGameSlice: StateCreator<
-  GameSlice & NavSlice,
+  GameSlice & NavSlice & UISlice,
   [["zustand/devtools", never], ["zustand/persist", unknown]],
   [],
   GameSlice
 > = (set, get) => ({
   ...initState,
-  setGameAction: (action: GameAction) => {
+  getObjectsMap: () => get().objectsMap,
+  setGameAction: (action, payload) => {
     switch (action) {
       case "init":
         set({ init: true });
@@ -39,6 +49,12 @@ export const createGameSlice: StateCreator<
         break;
       case "over":
         set({ gameOver: true, paused: true });
+        break;
+      case "resize":
+        set({ gameSize: payload });
+        break;
+      case "saveMap":
+        set({ objectsMap: payload });
         break;
       case "save":
         // TODO: handle save

@@ -1,9 +1,8 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@components/ui/button"
 // store
-import { usePersistedStore } from "@store"
+import { usePersistedStore } from "@/store"
 // types
-import type { PersistedStore } from "@lib/types"
-import type { LinkProps } from "@lib/types"
+import type { PersistedStore, LinkProps } from "@lib/types"
 
 const Link = ({
     to,

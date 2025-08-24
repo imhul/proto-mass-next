@@ -227,3 +227,7 @@ button:focus-visible {
     animation: logo-spin infinite 20s linear;
   }
 }
+
+.game-container {
+  height: calc(100vh - 84px);
+}

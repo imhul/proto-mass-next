@@ -1,60 +1,47 @@
-import type { Texture, Application, } from 'pixi.js';
-import type { PersistedStore, GlobalStore, } from '@store';
-import {
-  LinkProps,
-  ThemeName,
-  Theme,
-  MenuItem,
-  GameMenuItem,
-} from '@lib/types/ui-types';
+import type { ReactElement, ReactNode } from 'react';
+// pixi
+import type { Viewport } from 'pixi-viewport'
+import type { PixiReactElementProps } from '@pixi/react'
 import type {
-  GameSize,
-  OutputProps,
-  Breakpoint,
-  GameAction,
-} from '@lib/types/game-types';
-import type {
-  BaseItem,
-  Position,
-  AtlasJSON,
-} from '@lib/types/common-types';
-import type {
-  HeroState,
-  HeroTextures,
-  HeroClientProps,
-  MovementDirection,
-  HeroTexturesObject,
-} from '@lib/types/hero-types'
+  Sprite,
+  Texture,
+  Graphics,
+  Application,
+  EventSystem,
+  TilingSprite,
+  AnimatedSprite,
+} from 'pixi.js';
+// store
+import type { PersistedStore, GlobalStore, } from '@/store';
+// custom game types
+import type * as uiTypes from '@lib/types/ui-types';
+import type * as gameTypes from '@lib/types/game-types';
+import type * as commonTypes from '@lib/types/common-types';
+import type * as heroTypes from '@lib/types/hero-types'
 
 export type {
+  // react
+  ReactElement,
+  ReactNode,
+
   // store
   GlobalStore,
   PersistedStore,
 
-  // common
+  // pixi
+  Sprite,
   Texture,
-  BaseItem,
-  Position,
-  AtlasJSON,
+  Graphics,
+  Viewport,
   Application,
+  EventSystem,
+  TilingSprite,
+  AnimatedSprite,
+  PixiReactElementProps,
 
-  // UI
-  LinkProps,
-  ThemeName,
-  Theme,
-  MenuItem,
-  GameMenuItem,
-
-  // game
-  GameSize,
-  Breakpoint,
-  GameAction,
-  OutputProps,
-
-  // hero
-  HeroState,
-  HeroTextures,
-  HeroClientProps,
-  MovementDirection,
-  HeroTexturesObject,
+  // inner
+  uiTypes,
+  gameTypes,
+  heroTypes,
+  commonTypes,
 }
