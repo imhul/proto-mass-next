@@ -3211,13 +3211,6 @@ picomatch@^4.0.2, picomatch@^4.0.3:
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-4.0.3.tgz#796c76136d1eead715db1e7bad785dedd695a042"
   integrity sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==
 
-pixi-tiledmap@^1.10.1:
-  version "1.10.1"
-  resolved "https://registry.yarnpkg.com/pixi-tiledmap/-/pixi-tiledmap-1.10.1.tgz#44b464e67d40bd1666508d69910ae67d53ccd393"
-  integrity sha512-2LhDlY17I3fhJGTBKg5cAKbRkmGHWiWptRHBIfXyyAk1p3RDB7r5siQkWjUfkxKXCqChjVmX54VzzJNFzKEpRA==
-  dependencies:
-    tmx-parser "^1.5.0"
-
 pixi-viewport@^6.0.3:
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/pixi-viewport/-/pixi-viewport-6.0.3.tgz#a35f3abe4d9181d81f325d3223400c6e0bf77f4b"
