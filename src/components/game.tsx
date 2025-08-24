@@ -91,7 +91,7 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
         // no-easing variant: vp.moveCenter(newCameraPosition.x, newCameraPosition.y)
         // easing variant:
         vp.animate({
-            time: 1000,
+            time: 1200,
             position: newHeroPosition,
             ease: "easeOutSine",
         })
@@ -123,10 +123,10 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
     };
 
     const stopRun = () => {
+        setHeroState("stand")
         if (animationFrameRef.current) {
-            cancelAnimationFrame(animationFrameRef.current);
-            animationFrameRef.current = null;
-            setHeroState("stand");
+            cancelAnimationFrame(animationFrameRef.current)
+            animationFrameRef.current = null
         }
     };
 
@@ -170,7 +170,8 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
                 if (isKeyDown) startRun(-heroSpeed, heroSpeed, dir)
                 else stopRun()
                 break
-            default: stopRun(); break
+            default: stopRun()
+                break
         }
     }
 
