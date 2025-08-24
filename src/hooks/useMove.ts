@@ -1,8 +1,11 @@
 import { useEffect, useState, useRef } from 'react'
+import { useApplication } from '@pixi/react'
+import type { Container } from 'pixi.js'
 // store
 import { useStore, usePersistedStore } from "@/store"
 // types
 import type {
+    Sprite,
     GlobalStore,
     AnimatedSprite,
     PersistedStore,
@@ -20,6 +23,8 @@ export type UseMoveProps = {
 }
 
 export const useMove = ({ viewportRef }: UseMoveProps) => {
+    // app
+    const { app } = useApplication()
     // refs
     const pressedKeys = useRef<{ [key: string]: boolean }>({})
     const keyPressTimers = useRef<{ [key: string]: NodeJS.Timeout | null }>({})
@@ -54,9 +59,27 @@ export const useMove = ({ viewportRef }: UseMoveProps) => {
         })
 
         if (!closestObject) return null
-        const { position, zIndex } = closestObject
+        const { position, zIndex, width, height, name } = closestObject
+        return { position, zIndex, width, height, name }
+    }
 
-        return { position, zIndex }
+    const checkObjectCollision = (newHeroPosition: commonTypes.Position, hero: AnimatedSprite) => {
+        const closest = getClosestObjectToHero(newHeroPosition)
+        if (!closest || !hero.width) return
+        const closestObject = app.stage.children[0].children.find((c: Container) => c?.children[0]?.label === closest?.name)?.children[0] as Sprite
+        if (!closestObject) return
+        const bounds1 = hero.getBounds();
+        const bounds2 = closestObject.getBounds();
+
+        return {
+            closestObject,
+            intersected: (
+                bounds1.x < bounds2.x + bounds2.width &&
+                bounds1.x + bounds1.width > bounds2.x &&
+                bounds1.y < bounds2.y + bounds2.height &&
+                bounds1.y + bounds1.height > bounds2.y
+            ),
+        }
     }
 
     const applyMove = (dx: number, dy: number, direction: heroTypes.MovementDirection) => {
@@ -71,8 +94,8 @@ export const useMove = ({ viewportRef }: UseMoveProps) => {
         }
         if (!checkContainerCollision(newHeroPosition)) return
         // -------------------------------------------------------
-        // no-easing variant: vp.moveCenter(newCameraPosition.x, newCameraPosition.y)
-        // easing variant:
+        // worked no-easing variant: vp.moveCenter(newCameraPosition.x, newCameraPosition.y)
+        // worked easing variant:
         vp.animate({
             time: 1200,
             position: newHeroPosition,
@@ -86,12 +109,19 @@ export const useMove = ({ viewportRef }: UseMoveProps) => {
             hero.scale.x = 3
         }
         // -------------------------------------------------------
-        const closestObject = getClosestObjectToHero(newHeroPosition)
-        if (!closestObject?.position) return
-        if (closestObject.position.y < hero.position.y) {
-            hero.zIndex = closestObject.zIndex + 1
-        } else {
-            hero.zIndex = hero.zIndex < closestObject.zIndex ? hero.zIndex : closestObject.zIndex - 1
+        // TODO: need to rework zIndex changing
+        const collisionResult = checkObjectCollision(newHeroPosition, hero)
+        if (collisionResult) {
+            if (collisionResult.intersected) {
+                if (hero.zIndex > collisionResult.closestObject.zIndex) {
+                    const dist = hero.zIndex - collisionResult.closestObject.zIndex
+                    hero.zIndex = hero.zIndex - dist
+                } else {
+                    hero.zIndex = 100
+                }
+            } else {
+                hero.zIndex = hero.zIndex > 100 ? hero.zIndex : 100
+            }
         }
     }
 

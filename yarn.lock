@@ -2586,11 +2586,6 @@ internal-slot@^1.1.0:
     hasown "^2.0.2"
     side-channel "^1.1.0"
 
-intersects@^2.7.2:
-  version "2.7.2"
-  resolved "https://registry.yarnpkg.com/intersects/-/intersects-2.7.2.tgz#a3147de29034a8853b0c4dfe1a14d628678828d7"
-  integrity sha512-/LtLDq40iFtvnjhouev9p2R+jP+raVONPiD1t8Mcj879pkrLiav99BTRPBkfMPwSYr5vTNws3USGoW+8usS45A==
-
 is-array-buffer@^3.0.4, is-array-buffer@^3.0.5:
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/is-array-buffer/-/is-array-buffer-3.0.5.tgz#65742e1e687bd2cc666253068fd8707fe4d44280"
@@ -4047,9 +4042,9 @@ yocto-queue@^0.1.0:
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
 zod@^4.0.17:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-4.1.0.tgz#b1d5883af7653ad48cd8ecb5a2f4012b542f632a"
-  integrity sha512-UWxluYj2IDX9MHRXTMbB/2eeWrAMmmMSESM+MfT9MQw8U1qo9q5ASW08anoJh6AJ7pkt099fLdNFmfI+4aChHg==
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-4.1.1.tgz#73451b42896deaacedfcc8297be87f66a5a2ea8f"
+  integrity sha512-SgMZK/h8Tigt9nnKkfJMvB/mKjiJXaX26xegP4sa+0wHIFVFWVlsQGdhklDmuargBD3Hsi3rsQRIzwJIhTPJHA==
 
 zustand@^5.0.7:
   version "5.0.8"

@@ -33,10 +33,10 @@ export interface GameSize {
 }
 
 export interface Breakpoint {
-    id: string;
-    value: number;
-    width: number;
-    height: number;
+    id: string
+    value: number
+    width: number
+    height: number
 }
 
 export type CameraProps = {
@@ -46,7 +46,13 @@ export type CameraProps = {
     [key: string]: any
 }
 
-export type ClosestObject = { position: commonTypes.Position; zIndex: number } | null
+export type ClosestObject = {
+    position: commonTypes.Position
+    zIndex: number
+    width: number
+    height: number
+    name: string
+} | null
 export type GameObjectState = commonTypes.BaseState
 export type PixiChildren = (ReactElement<any, any> | AnimatedSprite | null)[]
 export type GameAction = "resize" | "pause" | "restart" | "play" | "save" | "load" | "init" | "over" | "saveMap"

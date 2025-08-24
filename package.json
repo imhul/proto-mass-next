@@ -24,7 +24,6 @@
     "@tailwindcss/vite": "^4.1.12",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "intersects": "^2.7.2",
     "lucide-react": "^0.540.0",
     "pixi-tiledmap": "^1.10.1",
     "pixi-viewport": "^6.0.3",

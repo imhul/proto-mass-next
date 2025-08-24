@@ -49,7 +49,6 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
         // almost worked!
         // const objects = objectsMap()
         // if (!textures || !objects.length) return null
-        // console.info("rendering objects: ", textures)
         if (!textures) return null
 
         return generatedObjects.map((object: gameTypes.GameObject) => {
@@ -60,6 +59,7 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
                     key={object.id}
                     width={tex.width * 2}
                     height={tex.height * 2}
+                    label={object.name}
                 >
                     <DevHitbox x={object.position.x} y={object.position.y} width={tex.width * 2} height={tex.height * 2} />
                     <pixiSprite

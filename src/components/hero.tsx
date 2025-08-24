@@ -60,7 +60,7 @@ const Hero = ({ state, ref, }: heroTypes.HeroProps) => {
             x={ref.current.screenWidth / 2}
             y={ref.current.screenHeight / 2}
             label="hero"
-            zIndex={1}
+            zIndex={100}
             autoPlay
             loop
         // filters={[new Filter({ resolution: 4, blendMode: "multiply" })]}
