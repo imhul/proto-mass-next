@@ -63,7 +63,6 @@ const Hero = ({ state, ref, }: heroTypes.HeroProps) => {
             zIndex={1}
             autoPlay
             loop
-        // filters={[new OutlineFilter({ thickness: 4, color: 0xff0000 })]}
         // filters={[new Filter({ resolution: 4, blendMode: "multiply" })]}
         />
     </>) : null

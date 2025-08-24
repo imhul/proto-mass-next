@@ -1,6 +1,3 @@
-// types
-import type { heroTypes } from '@lib/types'
-
 export const keyBindings = {
     moveup: {
         keys: ['ArrowUp', 'w'],
@@ -24,23 +21,21 @@ export const keyBindings = {
     },
 }
 
-export const eventConductor = (e: KeyboardEvent, isDiagonal: boolean) => {
-    const eventType = e.type
-    console.info("Keyboard event detected:", e)
+export const eventConductor = (keys: { [key: string]: boolean }) => {
+    const pressedKeysLength = Object.keys(keys).filter(key => keys[key]).length
 
-    if (eventType === 'keydown') {
-        if (!isDiagonal) {
-            if (keyBindings.moveup.keys.includes(e.key) || keyBindings.moveup.codes.includes(e.code)) return "runn"
-            if (keyBindings.movedown.keys.includes(e.key) || keyBindings.movedown.codes.includes(e.code)) return "runs"
-            if (keyBindings.moveleft.keys.includes(e.key) || keyBindings.moveleft.codes.includes(e.code)) return "runw"
-            if (keyBindings.moveright.keys.includes(e.key) || keyBindings.moveright.codes.includes(e.code)) return "rune"
-        } else {
-            // TODO: Handle diagonal movement by 2 keys
-            if (keyBindings.moveup.keys.includes(e.key) && keyBindings.moveleft.keys.includes(e.key)) return "runnw"
-            if (keyBindings.moveup.keys.includes(e.key) && keyBindings.moveright.keys.includes(e.key)) return "runne"
-            if (keyBindings.movedown.keys.includes(e.key) && keyBindings.moveleft.keys.includes(e.key)) return "runsw"
-            if (keyBindings.movedown.keys.includes(e.key) && keyBindings.moveright.keys.includes(e.key)) return "runse"
-        }
+    if (pressedKeysLength === 1) {
+        if (keyBindings.moveup.codes.some(key => keys[key])) return "runn"
+        if (keyBindings.movedown.codes.some(key => keys[key])) return "runs"
+        if (keyBindings.moveleft.codes.some(key => keys[key])) return "runw"
+        if (keyBindings.moveright.codes.some(key => keys[key])) return "rune"
+    }
+
+    if (pressedKeysLength === 2) {
+        if (keyBindings.moveup.codes.some(key => keys[key]) && keyBindings.moveleft.codes.some(key => keys[key])) return "runnw"
+        if (keyBindings.moveup.codes.some(key => keys[key]) && keyBindings.moveright.codes.some(key => keys[key])) return "runne"
+        if (keyBindings.movedown.codes.some(key => keys[key]) && keyBindings.moveleft.codes.some(key => keys[key])) return "runsw"
+        if (keyBindings.movedown.codes.some(key => keys[key]) && keyBindings.moveright.codes.some(key => keys[key])) return "runse"
     }
 
     return null

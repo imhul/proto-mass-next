@@ -28,6 +28,7 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
     // app
     const { app } = useApplication()
     // refs
+    const pressedKeys = useRef<{ [key: string]: boolean }>({})
     const keyPressTimers = useRef<{ [key: string]: NodeJS.Timeout | null }>({})
     const viewportRef = useRef<gameTypes.CameraProps>(null)
     const animationFrameRef = useRef<number | null>(null)
@@ -131,34 +132,42 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
 
     const move = (direction: heroTypes.MovementDirection | null, isKeyDown: boolean = true) => {
         setHeroState("run")
+        let tempDirection: heroTypes.MovementDirection | "run" = "run"
         const heroSpeed = heroSnapshot.speed
-        switch (direction) {
+        if (direction !== null) tempDirection = direction
+        const dir = direction ?? tempDirection
+
+        switch (dir) {
             case "runn":
-                if (isKeyDown) startRun(0, -heroSpeed, direction)
+                if (isKeyDown) startRun(0, -heroSpeed, dir)
                 else stopRun()
                 break
             case "runs":
-                if (isKeyDown) startRun(0, heroSpeed, direction)
+                if (isKeyDown) startRun(0, heroSpeed, dir)
                 else stopRun()
                 break
             case "runw":
-                if (isKeyDown) startRun(-heroSpeed, 0, direction)
+                if (isKeyDown) startRun(-heroSpeed, 0, dir)
                 else stopRun()
                 break
             case "rune":
-                if (isKeyDown) startRun(heroSpeed, 0, direction)
+                if (isKeyDown) startRun(heroSpeed, 0, dir)
                 else stopRun()
                 break
             case "runnw":
-                if (isKeyDown) startRun(-heroSpeed, -heroSpeed, direction)
+                if (isKeyDown) startRun(-heroSpeed, -heroSpeed, dir)
                 else stopRun()
                 break
             case "runne":
-                if (isKeyDown) startRun(heroSpeed, -heroSpeed, direction)
+                if (isKeyDown) startRun(heroSpeed, -heroSpeed, dir)
                 else stopRun()
                 break
             case "runse":
-                if (isKeyDown) startRun(heroSpeed, heroSpeed, direction)
+                if (isKeyDown) startRun(heroSpeed, heroSpeed, dir)
+                else stopRun()
+                break
+            case "runsw":
+                if (isKeyDown) startRun(-heroSpeed, heroSpeed, dir)
                 else stopRun()
                 break
             default: stopRun(); break
@@ -166,8 +175,10 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
     }
 
     const onKeyDown = (event: KeyboardEvent) => {
-        const direction = eventConductor(event, false)
         if (!isGameInit) setGameAction("init")
+        pressedKeys.current[event.code] = true
+        const direction = eventConductor(pressedKeys.current)
+
         // If already running, do nothing
         if (keyPressTimers.current[event.code] || !direction) return
         // Start a timer to detect long press
@@ -184,6 +195,7 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
             clearTimeout(keyPressTimers.current[event.code]!)
             keyPressTimers.current[event.code] = null
         }
+        pressedKeys.current[event.code] = false
         move(null)
     }
 

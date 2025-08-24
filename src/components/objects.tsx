@@ -22,7 +22,6 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
         const widthFactor = Math.ceil(size.width / defaultChunkSize)
         const heightFactor = Math.ceil(size.height / defaultChunkSize)
         const objectsPerChunk = Math.ceil((numberOfObjectsPerChunk * (widthFactor * heightFactor)) / 2)
-        console.info({ objectsPerChunk, widthFactor, heightFactor, size, objectsMap: objectsMap() })
 
         for (let i = 0; i < objectsPerChunk; i++) {
             const id = i + 100
@@ -80,7 +79,6 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
         !objects.length && Assets
             .load(["/assets/tree01.png", "/assets/tree02.png", "/assets/tree03.png"])
             .then((tex) => {
-                console.info("loaded tree textures: ", tex)
                 const texArray = Object.values(tex) as Texture[]
                 setTextures(texArray)
             })
