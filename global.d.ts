@@ -5,6 +5,11 @@ import type {
     PixiReactElementProps,
 } from "@lib/types"
 
+declare global {
+    // eslint-disable-next-line no-var
+    var __PIXI_APP__: any
+}
+
 declare module '@pixi/react' {
     interface PixiElements {
         pixiViewport: PixiReactElementProps<typeof Viewport>;

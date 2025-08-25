@@ -17,7 +17,9 @@ import { Ellipsis } from "lucide-react"
 import { gameMenu } from "@lib/config"
 
 function GameMenuToggle() {
-    const setGameAction = usePersistedStore((state: PersistedStore) => state.setGameAction)
+    const setGameAction = usePersistedStore(
+        (state: PersistedStore) => state.setGameAction,
+    )
 
     return (
         <DropdownMenu>
@@ -29,7 +31,10 @@ function GameMenuToggle() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
                 {gameMenu.map((item: GameMenuItem) => (
-                    <DropdownMenuItem key={item.id} onClick={() => setGameAction(item.id)}>
+                    <DropdownMenuItem
+                        key={item.id}
+                        onClick={() => setGameAction(item.id)}
+                    >
                         {item.label}
                     </DropdownMenuItem>
                 ))}

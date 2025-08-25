@@ -1,33 +1,35 @@
-import { useEffect, useState, useRef } from 'react'
-import { useApplication } from '@pixi/react'
+import { useEffect, useState, useRef } from "react"
+import { useApplication } from "@pixi/react"
+import { Assets } from "pixi.js"
 // store
 import { usePersistedStore } from "@/store"
 // hooks
-import { useMove } from '@hooks/useMove'
+import { useMove } from "@hooks/useMove"
 // components
-import { Assets } from 'pixi.js'
-import Hero from '@components/hero'
-import CustomTilingSprite from '@components/pixi/custom-tiling-sprite'
-import InitialScene from '@components/initial-scene'
-import Camera from '@components/camera'
-import Objects from '@components/objects'
+import Hero from "@components/hero"
+import Camera from "@components/camera"
+import Maggots from "@components/maggots"
+import Objects from "@components/objects"
+import InitialScene from "@components/initial-scene"
+import CustomTilingSprite from "@components/pixi/custom-tiling-sprite"
 // types
-import type {
-    Texture,
-    PersistedStore,
-    gameTypes,
-} from '@lib/types'
+import type { Texture, PersistedStore, gameTypes } from "@lib/types"
 
 const Game = ({ parentRef }: gameTypes.GameProps) => {
     // app
     const { app } = useApplication()
+    globalThis.__PIXI_APP__ = app
     // refs
-    const viewportRef = useRef<gameTypes.CameraProps>(null) as React.RefObject<gameTypes.CameraProps>
+    const viewportRef = useRef<gameTypes.CameraProps>(
+        null,
+    ) as React.RefObject<gameTypes.CameraProps>
     // state
     const [texture, setTexture] = useState<Texture | null>(null)
     // store
     const isGameInit = usePersistedStore((state: PersistedStore) => state.init)
-    const setGameAction = usePersistedStore((state: PersistedStore) => state.setGameAction)
+    const setGameAction = usePersistedStore(
+        (state: PersistedStore) => state.setGameAction,
+    )
     const gameSize = usePersistedStore((state: PersistedStore) => state.gameSize)
     // hooks
     const { heroState } = useMove({ viewportRef })
@@ -40,11 +42,10 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
     }
 
     useEffect(() => {
-        Assets.load("/assets/tile_0209.png")
-            .then((tex) => {
-                setTexture(tex as Texture)
-                resize()
-            })
+        Assets.load("/assets/tile_0209.png").then((tex) => {
+            setTexture(tex as Texture)
+            resize()
+        })
     }, [])
 
     useEffect(() => {
@@ -56,24 +57,32 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
         }
     }, [])
 
-    return (<>
-        {(isGameInit && parentRef.current && app.renderer && gameSize && texture)
-            ? (<Camera
-                ref={viewportRef}
-                events={app.renderer.events}
-                gameSize={gameSize}
-            >
-                <CustomTilingSprite
-                    texture={texture}
-                    width={gameSize.width}
-                    height={gameSize.height}
-                />
-                {viewportRef && (<Hero state={heroState} ref={viewportRef} />)}
-                <Objects size={gameSize} />
-            </Camera>)
-            : (<InitialScene />)
-        }
-    </>)
+    return (
+        <>
+            {isGameInit &&
+                parentRef.current &&
+                app.renderer &&
+                gameSize &&
+                texture ? (
+                <Camera
+                    ref={viewportRef}
+                    events={app.renderer.events}
+                    gameSize={gameSize}
+                >
+                    <CustomTilingSprite
+                        texture={texture}
+                        width={gameSize.width}
+                        height={gameSize.height}
+                    />
+                    <Maggots width={gameSize.width} height={gameSize.height} />
+                    <Objects size={gameSize} />
+                    {viewportRef && <Hero state={heroState} ref={viewportRef} />}
+                </Camera>
+            ) : (
+                <InitialScene />
+            )}
+        </>
+    )
 }
 
 export default Game

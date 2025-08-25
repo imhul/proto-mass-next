@@ -1,7 +1,7 @@
-import { StateCreator } from 'zustand'
+import { StateCreator } from "zustand"
 // types
-import type { GameSlice } from '@store/game-store'
-import type { UISlice } from '@store/ui-store'
+import type { GameSlice } from "@store/game-store"
+import type { UISlice } from "@store/ui-store"
 
 export type NavSlice = {
     route: string

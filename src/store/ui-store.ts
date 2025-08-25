@@ -1,7 +1,7 @@
-import { StateCreator } from 'zustand'
+import { StateCreator } from "zustand"
 // types
-import type { GameSlice } from '@store/game-store'
-import type { NavSlice } from '@store/nav-store'
+import type { GameSlice } from "@store/game-store"
+import type { NavSlice } from "@store/nav-store"
 
 export type UISlice = {
     isDev: boolean

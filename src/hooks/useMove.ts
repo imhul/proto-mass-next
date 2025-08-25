@@ -1,6 +1,6 @@
-import { useEffect, useState, useRef } from 'react'
-import { useApplication } from '@pixi/react'
-import type { Container } from 'pixi.js'
+import { useEffect, useState, useRef } from "react"
+import { useApplication } from "@pixi/react"
+import type { Container } from "pixi.js"
 // store
 import { useStore, usePersistedStore } from "@/store"
 // types
@@ -12,11 +12,11 @@ import type {
     gameTypes,
     heroTypes,
     commonTypes,
-} from '@lib/types'
+} from "@lib/types"
 // utils
-import { eventConductor } from '@lib/events'
+import { eventConductor } from "@lib/events"
 // config
-import { generatedObjects } from '@lib/config'
+import { generatedObjects } from "@lib/config"
 
 export type UseMoveProps = {
     viewportRef: React.RefObject<gameTypes.CameraProps>
@@ -33,7 +33,9 @@ export const useMove = ({ viewportRef }: UseMoveProps) => {
     const [heroState, setHeroState] = useState<heroTypes.HeroState>("stand")
     // store
     const isGameInit = usePersistedStore((state: PersistedStore) => state.init)
-    const setGameAction = usePersistedStore((state: PersistedStore) => state.setGameAction)
+    const setGameAction = usePersistedStore(
+        (state: PersistedStore) => state.setGameAction,
+    )
     const heroSnapshot = useStore((state: GlobalStore) => state.hero)
 
     const createNewMapChunk = (position: commonTypes.Position) => {
@@ -46,12 +48,17 @@ export const useMove = ({ viewportRef }: UseMoveProps) => {
         return true // Placeholder
     }
 
-    const getClosestObjectToHero = (pos: commonTypes.Position): gameTypes.ClosestObject => {
+    const getClosestObjectToHero = (
+        pos: commonTypes.Position,
+    ): gameTypes.ClosestObject => {
         let closestObject: gameTypes.GameObject | null = null
         let closestDistance = Infinity
 
         generatedObjects.forEach((object) => {
-            const distance = Math.hypot(object.position.x - pos.x, object.position.y - pos.y)
+            const distance = Math.hypot(
+                object.position.x - pos.x,
+                object.position.y - pos.y,
+            )
             if (distance < closestDistance) {
                 closestDistance = distance
                 closestObject = object
@@ -63,29 +70,39 @@ export const useMove = ({ viewportRef }: UseMoveProps) => {
         return { position, zIndex, width, height, name }
     }
 
-    const checkObjectCollision = (newHeroPosition: commonTypes.Position, hero: AnimatedSprite) => {
+    const checkObjectCollision = (
+        newHeroPosition: commonTypes.Position,
+        hero: AnimatedSprite,
+    ) => {
         const closest = getClosestObjectToHero(newHeroPosition)
         if (!closest || !hero.width) return
-        const closestObject = app.stage.children[0].children.find((c: Container) => c?.children[0]?.label === closest?.name)?.children[0] as Sprite
+        const closestObject = app.stage.children[0].children.find(
+            (c: Container) => c?.children[0]?.label === closest?.name,
+        )?.children[0] as Sprite
         if (!closestObject) return
-        const bounds1 = hero.getBounds();
-        const bounds2 = closestObject.getBounds();
+        const bounds1 = hero.getBounds()
+        const bounds2 = closestObject.getBounds()
 
         return {
             closestObject,
-            intersected: (
+            intersected:
                 bounds1.x < bounds2.x + bounds2.width &&
                 bounds1.x + bounds1.width > bounds2.x &&
                 bounds1.y < bounds2.y + bounds2.height &&
-                bounds1.y + bounds1.height > bounds2.y
-            ),
+                bounds1.y + bounds1.height > bounds2.y,
         }
     }
 
-    const applyMove = (dx: number, dy: number, direction: heroTypes.MovementDirection) => {
+    const applyMove = (
+        dx: number,
+        dy: number,
+        direction: heroTypes.MovementDirection,
+    ) => {
         const vp = viewportRef?.current
         if (!vp) return
-        const hero: AnimatedSprite = vp.children.find((c: any) => c?.label === 'hero') as AnimatedSprite
+        const hero: AnimatedSprite = vp.children.find(
+            (c: any) => c?.label === "hero",
+        ) as AnimatedSprite
         if (!hero.position || !hero.scale || !hero.zIndex) return
         // -------------------------------------------------------
         const newHeroPosition = {
@@ -125,15 +142,26 @@ export const useMove = ({ viewportRef }: UseMoveProps) => {
         }
     }
 
-    const runAnimation = (dx: number, dy: number, direction: heroTypes.MovementDirection) => {
-        applyMove(dx, dy, direction);
-        animationFrameRef.current = requestAnimationFrame(() => runAnimation(dx, dy, direction));
-    };
+    const runAnimation = (
+        dx: number,
+        dy: number,
+        direction: heroTypes.MovementDirection,
+    ) => {
+        applyMove(dx, dy, direction)
+        animationFrameRef.current = requestAnimationFrame(() =>
+            runAnimation(dx, dy, direction),
+        )
+    }
 
-    const startRun = (dx: number, dy: number, direction: heroTypes.MovementDirection) => {
-        if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
-        runAnimation(dx, dy, direction);
-    };
+    const startRun = (
+        dx: number,
+        dy: number,
+        direction: heroTypes.MovementDirection,
+    ) => {
+        if (animationFrameRef.current)
+            cancelAnimationFrame(animationFrameRef.current)
+        runAnimation(dx, dy, direction)
+    }
 
     const stopRun = () => {
         setHeroState("stand")
@@ -141,9 +169,12 @@ export const useMove = ({ viewportRef }: UseMoveProps) => {
             cancelAnimationFrame(animationFrameRef.current)
             animationFrameRef.current = null
         }
-    };
+    }
 
-    const move = (direction: heroTypes.MovementDirection | null, isKeyDown: boolean = true) => {
+    const move = (
+        direction: heroTypes.MovementDirection | null,
+        isKeyDown: boolean = true,
+    ) => {
         setHeroState("run")
         let tempDirection: heroTypes.MovementDirection | "run" = "run"
         const heroSpeed = heroSnapshot.speed
@@ -183,7 +214,8 @@ export const useMove = ({ viewportRef }: UseMoveProps) => {
                 if (isKeyDown) startRun(-heroSpeed, heroSpeed, dir)
                 else stopRun()
                 break
-            default: stopRun()
+            default:
+                stopRun()
                 break
         }
     }

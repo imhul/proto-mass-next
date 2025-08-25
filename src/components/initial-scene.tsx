@@ -1,5 +1,5 @@
-import { Text } from 'pixi.js'
-import { extend } from '@pixi/react'
+import { Text } from "pixi.js"
+import { extend } from "@pixi/react"
 
 extend({ Text })
 

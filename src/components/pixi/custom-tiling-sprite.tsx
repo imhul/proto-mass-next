@@ -25,7 +25,7 @@ const CustomTilingSprite = forwardRef<any, Props>(
                 {...props}
             />
         )
-    }
+    },
 )
 
 CustomTilingSprite.displayName = "CustomTilingSprite"

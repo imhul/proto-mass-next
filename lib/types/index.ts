@@ -3,13 +3,14 @@ import type { ReactElement, ReactNode } from 'react';
 import type { Viewport } from 'pixi-viewport'
 import type { PixiReactElementProps } from '@pixi/react'
 import type {
-  Sprite,
-  Texture,
-  Graphics,
-  Application,
-  EventSystem,
-  TilingSprite,
-  AnimatedSprite,
+    Point,
+    Sprite,
+    Texture,
+    Graphics,
+    Application,
+    EventSystem,
+    TilingSprite,
+    AnimatedSprite,
 } from 'pixi.js';
 // store
 import type { PersistedStore, GlobalStore, } from '@/store';
@@ -20,28 +21,29 @@ import type * as commonTypes from '@lib/types/common-types';
 import type * as heroTypes from '@lib/types/hero-types'
 
 export type {
-  // react
-  ReactElement,
-  ReactNode,
+    // react
+    ReactElement,
+    ReactNode,
 
-  // store
-  GlobalStore,
-  PersistedStore,
+    // store
+    GlobalStore,
+    PersistedStore,
 
-  // pixi
-  Sprite,
-  Texture,
-  Graphics,
-  Viewport,
-  Application,
-  EventSystem,
-  TilingSprite,
-  AnimatedSprite,
-  PixiReactElementProps,
+    // pixi
+    Point,
+    Sprite,
+    Texture,
+    Graphics,
+    Viewport,
+    Application,
+    EventSystem,
+    TilingSprite,
+    AnimatedSprite,
+    PixiReactElementProps,
 
-  // inner
-  uiTypes,
-  gameTypes,
-  heroTypes,
-  commonTypes,
+    // inner
+    uiTypes,
+    gameTypes,
+    heroTypes,
+    commonTypes,
 }

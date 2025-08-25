@@ -1,13 +1,13 @@
-import { StateCreator } from 'zustand'
+import { StateCreator } from "zustand"
 // types
-import type { HeroSlice } from '@store/hero-store'
+import type { HeroSlice } from "@store/hero-store"
 
 export type KeyboardSlice = {
     onKeyDown: ((e: KeyboardEvent) => void) | null
     onKeyUp: ((e: KeyboardEvent) => void) | null
     setHandlers: (
         down: ((e: KeyboardEvent) => void) | null,
-        up: ((e: KeyboardEvent) => void) | null
+        up: ((e: KeyboardEvent) => void) | null,
     ) => void
 }
 

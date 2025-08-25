@@ -1,12 +1,7 @@
-import { StateCreator } from 'zustand'
+import { StateCreator } from "zustand"
 // types
-import type { KeyboardSlice } from '@store/keyboard-store'
-import type {
-    uiTypes,
-    gameTypes,
-    heroTypes,
-    commonTypes,
-} from '@lib/types'
+import type { KeyboardSlice } from "@store/keyboard-store"
+import type { uiTypes, gameTypes, heroTypes, commonTypes } from "@lib/types"
 
 export interface HeroEntity extends gameTypes.BaseEntity {
     speed: number
@@ -64,8 +59,10 @@ export const createHeroSlice: StateCreator<
 > = (set, get) => ({
     hero: initHeroState,
     setHeroAction: (action: heroTypes.HeroState) => {
-        switch (action) {
-            // TODO: Hero actions ...
+        switch (
+        action
+        // TODO: Hero actions ...
+        ) {
         }
     },
 })

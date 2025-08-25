@@ -1,10 +1,12 @@
 import type {
-    commonTypes,
-    heroTypes,
-    uiTypes,
-    ReactElement,
+    Point,
+    Texture,
     EventSystem,
+    ReactElement,
     AnimatedSprite,
+    uiTypes,
+    heroTypes,
+    commonTypes,
 } from '@lib/types'
 
 export type Preferences = {
@@ -53,6 +55,25 @@ export type ClosestObject = {
     height: number
     name: string
 } | null
+
+export interface MaggotProps {
+    texture: Texture
+    width: number
+    height: number
+    item: MaggotItem
+}
+
+export interface MaggotItem {
+    id: number
+    speed: number
+    direction: number
+    turnSpeed: number
+    x: number
+    y: number
+    scale: { x: number; y: number }
+    original: Point
+}
+
 export type GameObjectState = commonTypes.BaseState
 export type PixiChildren = (ReactElement<any, any> | AnimatedSprite | null)[]
 export type GameAction = "resize" | "pause" | "restart" | "play" | "save" | "load" | "init" | "over" | "saveMap"

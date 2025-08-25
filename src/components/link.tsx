@@ -2,7 +2,7 @@ import { Button } from "@components/ui/button"
 // store
 import { usePersistedStore } from "@/store"
 // types
-import type { PersistedStore, LinkProps } from "@lib/types"
+import type { PersistedStore, uiTypes } from "@lib/types"
 
 const Link = ({
     to,
@@ -12,19 +12,23 @@ const Link = ({
     asChild = false,
     withChildren = false,
     ...props
-}: LinkProps) => {
+}: uiTypes.LinkProps) => {
     const goto = usePersistedStore((state: PersistedStore) => state.to)
 
-    return withChildren
-        ? (<div onClick={() => goto(to)} {...props}>{children}</div>)
-        : (<Button
+    return withChildren ? (
+        <div onClick={() => goto(to)} {...props}>
+            {children}
+        </div>
+    ) : (
+        <Button
             asChild={asChild}
             onClick={() => goto(to)}
             variant={active ? "outline" : "secondary"}
             {...props}
         >
             {text ?? to}
-        </Button>)
+        </Button>
+    )
 }
 
 export default Link

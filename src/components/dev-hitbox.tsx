@@ -1,13 +1,13 @@
 // store
-import { usePersistedStore } from '@/store'
+import { usePersistedStore } from "@/store"
 // types
-import type { PersistedStore } from '@lib/types'
+import type { PersistedStore } from "@lib/types"
 
 export type DevHitboxProps = {
-    x: number,
-    y: number,
-    width: number,
-    height: number,
+    x: number
+    y: number
+    width: number
+    height: number
     [key: string]: any
 }
 
@@ -16,9 +16,9 @@ const DevHitbox = ({ x, y, width, height, ...props }: DevHitboxProps) => {
 
     return isDev ? (
         <pixiGraphics
-            draw={g => {
+            draw={(g) => {
                 g.clear()
-                g.rect(x, y, width, height)
+                g.rect(x - width / 2, y - height / 2, width, height)
                 g.setStrokeStyle({
                     width: 4,
                     color: 0xff0000,

@@ -1,14 +1,14 @@
-import { useRef } from 'react'
+import { useRef } from "react"
 // components
-import { Application, useExtend } from '@pixi/react'
-import Game from '@components/game'
+import { Application, useExtend } from "@pixi/react"
+import Game from "@components/game"
 import {
     AnimatedSprite,
     TilingSprite,
     Container,
     Graphics,
     Sprite,
-} from 'pixi.js'
+} from "pixi.js"
 
 export const Output = () => {
     const parentRef = useRef<HTMLDivElement>(null)
