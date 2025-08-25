@@ -46,11 +46,11 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
 
     const getClosestObjectToHero = (
         pos: commonTypes.Position,
-    ): gameTypes.ClosestObject => {
+    ): string | null => {
         let closestObject: gameTypes.GameObject | null = null
         let closestDistance = Infinity
 
-        generatedObjects.forEach((object) => {
+        generatedObjects.forEach((object: gameTypes.GameObject) => {
             const distance = Math.hypot(
                 object.position.x - pos.x,
                 object.position.y - pos.y,
@@ -62,31 +62,38 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
         })
 
         if (!closestObject) return null
-        const { position, zIndex, width, height, name } = closestObject
-        return { position, zIndex, width, height, name }
+        return (closestObject as gameTypes.GameObject).name
     }
 
-    const checkObjectCollision = (
-        newHeroPosition: commonTypes.Position,
-        hero: AnimatedSprite,
-    ) => {
-        const closest = getClosestObjectToHero(newHeroPosition)
-        if (!closest || !hero.width) return
-        const closestObject = app.stage.children[0].children.find(
-            (c: Container) => c?.children[0]?.label === closest?.name,
-        )?.children[0] as Sprite
-        if (!closestObject) return
-        const bounds1 = hero.getBounds()
-        const bounds2 = closestObject.getBounds()
+    const checkObjectCollision = (pos: commonTypes.Position) => {
+        const vp = viewportRef?.current
+        const closest = getClosestObjectToHero(pos)
+        if (!closest || !vp) return { collision: false }
+        const hero = vp.getChildByLabel("hero")
+        const closestEl = vp.getChildByLabel(closest)
+        if (!closestEl || !hero) return { collision: false }
+        const boundsA = hero.getBounds()
+        const boundsB = closestEl.getBounds()
+        if (!boundsA || !boundsB) return { collision: false }
 
         return {
-            closestObject,
-            intersected:
-                bounds1.x < bounds2.x + bounds2.width &&
-                bounds1.x + bounds1.width > bounds2.x &&
-                bounds1.y < bounds2.y + bounds2.height &&
-                bounds1.y + bounds1.height > bounds2.y,
+            collision: (((boundsA.x < boundsB.x) + boundsB.width) &&
+                ((boundsA.x + boundsA.width) > boundsB.x) &&
+                ((boundsA.y < boundsB.y) + boundsB.height) &&
+                ((boundsA.y + boundsA.height) > boundsB.y)),
+            obstacle: {
+                label: closestEl.label,
+                position: {
+                    x: closestEl.children[0].position.x,
+                    y: closestEl.children[0].position.y
+                }
+            },
         }
+    }
+
+    const collisionCallback = (obstacle: gameTypes.CollisionCallbackProps) => {
+        // TODO: implement collision response
+        console.info("collision with: ", obstacle)
     }
 
     const applyMove = (
@@ -96,9 +103,7 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
     ) => {
         const vp = viewportRef?.current
         if (!vp) return
-        const hero: AnimatedSprite = vp.children.find(
-            (c: any) => c?.label === "hero",
-        ) as AnimatedSprite
+        const hero: AnimatedSprite = vp.getChildByLabel("hero")
         if (!hero.position || !hero.scale || !hero.zIndex) return
         // -------------------------------------------------------
         const newHeroPosition = {
@@ -123,19 +128,8 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
         }
         // -------------------------------------------------------
         // TODO: need to rework zIndex changing
-        const collisionResult = checkObjectCollision(newHeroPosition, hero)
-        if (collisionResult) {
-            if (collisionResult.intersected) {
-                if (hero.zIndex > collisionResult.closestObject.zIndex) {
-                    const dist = hero.zIndex - collisionResult.closestObject.zIndex
-                    hero.zIndex = hero.zIndex - dist
-                } else {
-                    hero.zIndex = 100
-                }
-            } else {
-                hero.zIndex = hero.zIndex > 100 ? hero.zIndex : 100
-            }
-        }
+        const { collision, obstacle } = checkObjectCollision(newHeroPosition)
+        if (collision && obstacle) collisionCallback(obstacle)
     }
 
     const runAnimation = (

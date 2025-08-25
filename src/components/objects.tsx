@@ -44,7 +44,7 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
                 hp: 100,
                 state: "idle" as gameTypes.GameObjectState,
                 age: Math.random() * 10,
-                name: `Game Object id-${id}`,
+                name: `game-object-container-id-${id}`,
                 dead: false,
                 timestamp: Date.now(),
                 zIndex: id,
@@ -71,12 +71,14 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
                         width={tex.width * 2}
                         height={tex.height * 2}
                         label={object.name}
+                        hitArea={new Rectangle(0, 0, tex.width * 2, tex.height * 2)}
                     >
                         <DevHitbox
                             x={object.position.x}
                             y={object.position.y}
                             width={tex.width * 2}
                             height={tex.height * 2}
+                            label={`object-dev-hitbox`}
                         />
                         <pixiSprite
                             position={{ x: object.position.x, y: object.position.y }}
@@ -86,7 +88,6 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
                             label={object.name}
                             zIndex={object.zIndex}
                             anchor={0.5}
-                            hitArea={new Rectangle(0, 0, tex.width * 2, tex.height * 2)}
                         />
                     </pixiContainer>
                 )

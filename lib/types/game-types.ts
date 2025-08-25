@@ -88,3 +88,5 @@ export interface GameObject extends BaseEntity {
 export type UseMoveProps = {
     viewportRef: React.RefObject<CameraProps>
 }
+
+export type CollisionCallbackProps = { label: string; position: commonTypes.Position }
