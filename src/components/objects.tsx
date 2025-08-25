@@ -26,7 +26,7 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
     useExtend({ Sprite, Graphics })
 
     const generateObjects = () => {
-        let result = []
+        const result = []
         const widthFactor = Math.ceil(size.width / defaultChunkSize)
         const heightFactor = Math.ceil(size.height / defaultChunkSize)
         const objectsPerChunk = Math.ceil(
@@ -96,8 +96,7 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
 
     useEffect(() => {
         const objects = objectsMap()
-        !objects.length &&
-            Assets.load([
+        if (!objects.length) Assets.load([
                 "/assets/tree01.png",
                 "/assets/tree02.png",
                 "/assets/tree03.png",

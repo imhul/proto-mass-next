@@ -1,4 +1,4 @@
-import type { ReactElement, ReactNode } from 'react';
+import type { ReactElement, ReactNode, JSXElementConstructor } from 'react';
 // pixi
 import type { Viewport } from 'pixi-viewport'
 import type { PixiReactElementProps } from '@pixi/react'
@@ -22,6 +22,7 @@ import type * as heroTypes from '@lib/types/hero-types'
 
 export type {
     // react
+    JSXElementConstructor,
     ReactElement,
     ReactNode,
 
@@ -37,7 +38,7 @@ export type {
     Viewport,
     Application,
     EventSystem,
-    TilingSprite,
+    TilingSprite as PixiTilingSprite,
     AnimatedSprite,
     PixiReactElementProps,
 

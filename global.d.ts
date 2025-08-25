@@ -1,7 +1,7 @@
 import type {
     Viewport,
     Graphics,
-    TilingSprite,
+    PixiTilingSprite,
     PixiReactElementProps,
 } from "@lib/types"
 
@@ -13,7 +13,7 @@ declare global {
 declare module '@pixi/react' {
     interface PixiElements {
         pixiViewport: PixiReactElementProps<typeof Viewport>;
-        tilingSprite: PixiReactElementProps<typeof TilingSprite>;
+        tilingSprite: PixiReactElementProps<typeof PixiTilingSprite>;
         pixiGraphics: PixiReactElementProps<typeof Graphics>;
     }
 }

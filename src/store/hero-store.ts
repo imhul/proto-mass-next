@@ -56,13 +56,11 @@ export const createHeroSlice: StateCreator<
     [["zustand/devtools", never]],
     [],
     HeroSlice
-> = (set, get) => ({
+> = () => ({
     hero: initHeroState,
     setHeroAction: (action: heroTypes.HeroState) => {
-        switch (
-        action
-        // TODO: Hero actions ...
-        ) {
+        switch (action) {
+            // TODO: Hero actions ...
         }
     },
 })

@@ -32,7 +32,11 @@ const Hero = ({ state, ref }: heroTypes.HeroProps) => {
     useEffect(() => {
         if (spriteRef.current && textures) {
             spriteRef.current.textures = textures[state]
-            paused ? spriteRef.current.stop() : spriteRef.current.play()
+            if (paused) {
+                spriteRef.current.stop();
+            } else {
+                spriteRef.current.play();
+            }
         }
     }, [state, textures, paused, spriteRef])
 

@@ -1,6 +1,8 @@
-const ErrorLayout = (props: any) => {
-  console.info("ErrorLayout props:", props)
+import type { commonTypes } from "@lib/types"
+
+const ErrorLayout = (props: commonTypes.ErrorProps) => {
   const { error } = props
+  
   return (
     <div className="max-w-3xl mx-auto p-4">
       <div className="flex items-center justify-center h-screen">

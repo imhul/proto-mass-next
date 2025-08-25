@@ -13,7 +13,7 @@ export const createUISlice: StateCreator<
     [["zustand/devtools", never]],
     [],
     UISlice
-> = (set, get) => ({
+> = (set) => ({
     isDev: false,
     setIsDev: () => set((state) => ({ isDev: !state.isDev })),
 })

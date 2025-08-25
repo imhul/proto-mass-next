@@ -84,3 +84,7 @@ export interface GameObject extends BaseEntity {
     state: GameObjectState
     texture: number
 }
+
+export type UseMoveProps = {
+    viewportRef: React.RefObject<CameraProps>
+}

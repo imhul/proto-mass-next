@@ -8,7 +8,7 @@ export type DevHitboxProps = {
     y: number
     width: number
     height: number
-    [key: string]: any
+    [key: string]: unknown
 }
 
 const DevHitbox = ({ x, y, width, height, ...props }: DevHitboxProps) => {

@@ -11,7 +11,7 @@ export type GameSlice = {
     gameSize: gameTypes.GameSize
     objectsMap: gameTypes.GameObject[]
     getObjectsMap: () => gameTypes.GameObject[]
-    setGameAction: (action: gameTypes.GameAction, payload?: any) => void
+    setGameAction: (action: gameTypes.GameAction, payload?: unknown) => void
 }
 
 const initState = {

@@ -17,3 +17,19 @@ export interface AtlasJSON {
         [key: number]: Texture
     }
 }
+
+export interface ErrorProps {
+    error: {
+        environmentName: string;
+        message: string;
+        stack: string
+    }
+}
+
+export interface CustomTilingSpriteProps {
+    texture: Texture
+    tileScale?: { x: number; y: number }
+    tilePosition?: { x: number; y: number }
+    width: number
+    height: number
+}

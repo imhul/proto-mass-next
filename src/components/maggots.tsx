@@ -47,7 +47,7 @@ const Maggots = ({ width, height }: { width: number; height: number }) => {
         <>
             {texture &&
                 maggots &&
-                maggots.map((maggot, index) => (
+                maggots.map((maggot: gameTypes.MaggotItem) => (
                     <Maggot
                         key={maggot.id}
                         texture={texture}

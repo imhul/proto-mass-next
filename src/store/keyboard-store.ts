@@ -17,7 +17,7 @@ export const createKeyboardSlice: StateCreator<
     [],
     KeyboardSlice
 > = (set) => ({
-    onKeyDown: (e: KeyboardEvent) => { },
-    onKeyUp: (e: KeyboardEvent) => { },
+    onKeyDown: () => { },
+    onKeyUp: () => { },
     setHandlers: (down, up) => set({ onKeyDown: down, onKeyUp: up }),
 })

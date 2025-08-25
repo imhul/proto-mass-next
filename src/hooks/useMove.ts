@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from "react"
 import { useApplication } from "@pixi/react"
-import type { Container } from "pixi.js"
 // store
 import { useStore, usePersistedStore } from "@/store"
 // types
+import type { Container } from "pixi.js"
 import type {
     Sprite,
     GlobalStore,
@@ -18,11 +18,7 @@ import { eventConductor } from "@lib/events"
 // config
 import { generatedObjects } from "@lib/config"
 
-export type UseMoveProps = {
-    viewportRef: React.RefObject<gameTypes.CameraProps>
-}
-
-export const useMove = ({ viewportRef }: UseMoveProps) => {
+export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
     // app
     const { app } = useApplication()
     // refs
