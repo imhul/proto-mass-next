@@ -1,11 +1,8 @@
 import { useEffect, useState, useRef } from "react"
-import { useApplication } from "@pixi/react"
 // store
 import { useStore, usePersistedStore } from "@/store"
 // types
-import type { Container } from "pixi.js"
 import type {
-    Sprite,
     GlobalStore,
     AnimatedSprite,
     PersistedStore,
@@ -19,12 +16,11 @@ import { eventConductor } from "@lib/events"
 import { generatedObjects } from "@lib/config"
 
 export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
-    // app
-    const { app } = useApplication()
     // refs
     const pressedKeys = useRef<{ [key: string]: boolean }>({})
     const keyPressTimers = useRef<{ [key: string]: NodeJS.Timeout | null }>({})
     const animationFrameRef = useRef<number | null>(null)
+    const blockedDirections = useRef<Set<heroTypes.MovementDirection>>(new Set())
     // state
     const [heroState, setHeroState] = useState<heroTypes.HeroState>("stand")
     // store
@@ -46,31 +42,54 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
 
     const getClosestObjectToHero = (
         pos: commonTypes.Position,
-    ): string | null => {
+    ): gameTypes.ClosestObject | null => {
         let closestObject: gameTypes.GameObject | null = null
         let closestDistance = Infinity
 
         generatedObjects.forEach((object: gameTypes.GameObject) => {
-            const distance = Math.hypot(
-                object.position.x - pos.x,
-                object.position.y - pos.y,
-            )
+            const dx = object.position.x - pos.x
+            const dy = object.position.y - pos.y
+            const distance = Math.hypot(dx, dy)
             if (distance < closestDistance) {
                 closestDistance = distance
-                closestObject = object
+                closestObject = {
+                    dx,
+                    dy,
+                    ...object,
+                }
             }
         })
 
-        if (!closestObject) return null
-        return (closestObject as gameTypes.GameObject).name
+        if (!closestObject || closestDistance > 10) return null
+        let direction: heroTypes.MovementDirection
+        const { dx, dy, name, zIndex } = closestObject
+
+        if (Math.abs(dx) > Math.abs(dy)) {
+            direction = dx > 0 ? 'rune' : 'runw'
+        } else {
+            direction = dy > 0 ? 'runs' : 'runn'
+        }
+
+        if (Math.abs(dx) > 5 && Math.abs(dy) > 5) {
+            if (dx > 0 && dy > 0) direction = 'runse'
+            if (dx < 0 && dy > 0) direction = 'runsw'
+            if (dx > 0 && dy < 0) direction = 'runne'
+            if (dx < 0 && dy < 0) direction = 'runnw'
+        }
+
+        return {
+            name,
+            zIndex,
+            direction,
+        }
     }
 
-    const checkObjectCollision = (pos: commonTypes.Position) => {
+    const checkObjectCollision = (pos: commonTypes.Position): gameTypes.CheckObjectCollision => {
         const vp = viewportRef?.current
         const closest = getClosestObjectToHero(pos)
         if (!closest || !vp) return { collision: false }
         const hero = vp.getChildByLabel("hero")
-        const closestEl = vp.getChildByLabel(closest)
+        const closestEl = vp.getChildByLabel(closest.name)
         if (!closestEl || !hero) return { collision: false }
         const boundsA = hero.getBounds()
         const boundsB = closestEl.getBounds()
@@ -82,18 +101,15 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
                 ((boundsA.y < boundsB.y) + boundsB.height) &&
                 ((boundsA.y + boundsA.height) > boundsB.y)),
             obstacle: {
-                label: closestEl.label,
+                direction: closest.direction,
+                zIndex: closest.zIndex,
+                label: closest.name,
                 position: {
                     x: closestEl.children[0].position.x,
                     y: closestEl.children[0].position.y
                 }
             },
         }
-    }
-
-    const collisionCallback = (obstacle: gameTypes.CollisionCallbackProps) => {
-        // TODO: implement collision response
-        console.info("collision with: ", obstacle)
     }
 
     const applyMove = (
@@ -127,9 +143,17 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
             hero.scale.x = 3
         }
         // -------------------------------------------------------
-        // TODO: need to rework zIndex changing
         const { collision, obstacle } = checkObjectCollision(newHeroPosition)
-        if (collision && obstacle) collisionCallback(obstacle)
+
+        // console.info("1: ", { direction, collision, obstacle, blocked: blockedDirections.current })
+        if (collision && obstacle) {
+            if (hero.zIndex > obstacle.zIndex) hero.zIndex = obstacle.zIndex - 1
+            stopRun(obstacle.direction)
+        } else if (!collision) {
+            blockedDirections.current.forEach((dir) => {
+                if (direction !== dir) blockedDirections.current.delete(dir)
+            })
+        }
     }
 
     const runAnimation = (
@@ -153,7 +177,8 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
         runAnimation(dx, dy, direction)
     }
 
-    const stopRun = () => {
+    const stopRun = (direction: heroTypes.MovementDirection | null = null) => {
+        if (direction) blockedDirections.current.add(direction)
         setHeroState("stand")
         if (animationFrameRef.current) {
             cancelAnimationFrame(animationFrameRef.current)
@@ -165,43 +190,43 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
         direction: heroTypes.MovementDirection | null,
         isKeyDown: boolean = true,
     ) => {
-        setHeroState("run")
-        let tempDirection: heroTypes.MovementDirection | "run" = "run"
-        const heroSpeed = heroSnapshot.speed
-        if (direction !== null) tempDirection = direction
-        const dir = direction ?? tempDirection
+        if (direction && blockedDirections.current.has(direction))
+            return stopRun(direction)
 
-        switch (dir) {
+        setHeroState("run")
+        const heroSpeed = heroSnapshot.speed
+
+        switch (direction) {
             case "runn":
-                if (isKeyDown) startRun(0, -heroSpeed, dir)
+                if (isKeyDown) startRun(0, -heroSpeed, direction)
                 else stopRun()
                 break
             case "runs":
-                if (isKeyDown) startRun(0, heroSpeed, dir)
+                if (isKeyDown) startRun(0, heroSpeed, direction)
                 else stopRun()
                 break
             case "runw":
-                if (isKeyDown) startRun(-heroSpeed, 0, dir)
+                if (isKeyDown) startRun(-heroSpeed, 0, direction)
                 else stopRun()
                 break
             case "rune":
-                if (isKeyDown) startRun(heroSpeed, 0, dir)
+                if (isKeyDown) startRun(heroSpeed, 0, direction)
                 else stopRun()
                 break
             case "runnw":
-                if (isKeyDown) startRun(-heroSpeed, -heroSpeed, dir)
+                if (isKeyDown) startRun(-heroSpeed, -heroSpeed, direction)
                 else stopRun()
                 break
             case "runne":
-                if (isKeyDown) startRun(heroSpeed, -heroSpeed, dir)
+                if (isKeyDown) startRun(heroSpeed, -heroSpeed, direction)
                 else stopRun()
                 break
             case "runse":
-                if (isKeyDown) startRun(heroSpeed, heroSpeed, dir)
+                if (isKeyDown) startRun(heroSpeed, heroSpeed, direction)
                 else stopRun()
                 break
             case "runsw":
-                if (isKeyDown) startRun(-heroSpeed, heroSpeed, dir)
+                if (isKeyDown) startRun(-heroSpeed, heroSpeed, direction)
                 else stopRun()
                 break
             default:

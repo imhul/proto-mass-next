@@ -9,6 +9,15 @@ import type {
     commonTypes,
 } from '@lib/types'
 
+export type ObjectsProps = { size: GameSize }
+export type GameObjectState = commonTypes.BaseState
+export type GameDifficulty = "easy" | "normal" | "hard"
+export type GameSize = { width: number; height: number }
+export type UseMoveProps = { viewportRef: React.RefObject<CameraProps> }
+export type GameProps = { parentRef: React.RefObject<HTMLDivElement | null> }
+export type PixiChildren = (ReactElement<any, any> | AnimatedSprite | null)[]
+export type GameAction = "resize" | "pause" | "restart" | "play" | "save" | "load" | "init" | "over" | "saveMap"
+
 export type Preferences = {
     difficulty: GameDifficulty
     controls: string
@@ -29,11 +38,6 @@ export interface BaseEntity {
     zIndex: number
 }
 
-export interface GameSize {
-    width: number
-    height: number
-}
-
 export interface Breakpoint {
     id: string
     value: number
@@ -41,20 +45,21 @@ export interface Breakpoint {
     height: number
 }
 
-export type CameraProps = {
+export interface CameraProps {
     children: PixiChildren
     events: EventSystem
     gameSize: GameSize
     [key: string]: any
 }
 
-export type ClosestObject = {
-    position: commonTypes.Position
+export interface ClosestObject {
+    position?: commonTypes.Position
     zIndex: number
-    width: number
-    height: number
+    width?: number
+    height?: number
     name: string
-} | null
+    direction: heroTypes.MovementDirection
+}
 
 export interface MaggotProps {
     texture: Texture
@@ -74,19 +79,21 @@ export interface MaggotItem {
     original: Point
 }
 
-export type GameObjectState = commonTypes.BaseState
-export type PixiChildren = (ReactElement<any, any> | AnimatedSprite | null)[]
-export type GameAction = "resize" | "pause" | "restart" | "play" | "save" | "load" | "init" | "over" | "saveMap"
-export type GameDifficulty = "easy" | "normal" | "hard"
-export interface ObjectsProps { size: GameSize }
-export interface GameProps { parentRef: React.RefObject<HTMLDivElement | null> }
 export interface GameObject extends BaseEntity {
     state: GameObjectState
     texture: number
+    dx?: number
+    dy?: number
 }
 
-export type UseMoveProps = {
-    viewportRef: React.RefObject<CameraProps>
+export interface Obstacle {
+    direction: heroTypes.MovementDirection
+    zIndex: number
+    label: string
+    position: commonTypes.Position
 }
 
-export type CollisionCallbackProps = { label: string; position: commonTypes.Position }
+export interface CheckObjectCollision {
+    collision: boolean
+    obstacle?: Obstacle
+}
