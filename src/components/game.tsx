@@ -1,6 +1,5 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useRef } from "react"
 import { useApplication } from "@pixi/react"
-import { Assets } from "pixi.js"
 // store
 import { usePersistedStore } from "@/store"
 // hooks
@@ -13,7 +12,7 @@ import Objects from "@components/objects"
 import InitialScene from "@components/initial-scene"
 import CustomTilingSprite from "@components/pixi/custom-tiling-sprite"
 // types
-import type { Texture, PersistedStore, gameTypes } from "@lib/types"
+import type { PersistedStore, gameTypes } from "@lib/types"
 
 const Game = ({ parentRef }: gameTypes.GameProps) => {
     // app
@@ -23,8 +22,6 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
     const viewportRef = useRef<gameTypes.CameraProps>(
         null,
     ) as React.RefObject<gameTypes.CameraProps>
-    // state
-    const [texture, setTexture] = useState<Texture | null>(null)
     // store
     const isGameInit = usePersistedStore((state: PersistedStore) => state.init)
     const setGameAction = usePersistedStore(
@@ -42,13 +39,6 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
     }
 
     useEffect(() => {
-        Assets.load("/assets/tile_0209.png").then((tex) => {
-            setTexture(tex as Texture)
-            resize()
-        })
-    }, [])
-
-    useEffect(() => {
         window.addEventListener("resize", resize)
         resize()
 
@@ -59,28 +49,22 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
 
     return (
         <>
-            {isGameInit &&
+            {(isGameInit &&
                 parentRef.current &&
                 app.renderer &&
-                gameSize &&
-                texture ? (
+                gameSize) ? (
                 <Camera
                     ref={viewportRef}
                     events={app.renderer.events}
                     gameSize={gameSize}
                 >
-                    <CustomTilingSprite
-                        texture={texture}
-                        width={gameSize.width}
-                        height={gameSize.height}
-                    />
+                    <CustomTilingSprite />
                     <Maggots width={gameSize.width} height={gameSize.height} />
                     <Objects size={gameSize} />
                     {viewportRef && <Hero state={heroState} ref={viewportRef} />}
                 </Camera>
-            ) : (
-                <InitialScene />
-            )}
+            ) : (<InitialScene />)
+            }
         </>
     )
 }

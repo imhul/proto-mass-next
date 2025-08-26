@@ -7,6 +7,7 @@ import type {
     Sprite,
     Texture,
     Graphics,
+    Container,
     Application,
     EventSystem,
     TilingSprite,
@@ -19,6 +20,7 @@ import type * as uiTypes from '@lib/types/ui-types';
 import type * as gameTypes from '@lib/types/game-types';
 import type * as commonTypes from '@lib/types/common-types';
 import type * as heroTypes from '@lib/types/hero-types'
+import type * as storeTypes from '@lib/types/store-types'
 
 export type {
     // react
@@ -36,6 +38,7 @@ export type {
     Texture,
     Graphics,
     Viewport,
+    Container,
     Application,
     EventSystem,
     TilingSprite as PixiTilingSprite,
@@ -46,5 +49,6 @@ export type {
     uiTypes,
     gameTypes,
     heroTypes,
+    storeTypes,
     commonTypes,
 }

@@ -1,6 +1,7 @@
 import type {
     Viewport,
     Graphics,
+    Container,
     PixiTilingSprite,
     PixiReactElementProps,
 } from "@lib/types"
@@ -15,6 +16,7 @@ declare module '@pixi/react' {
         pixiViewport: PixiReactElementProps<typeof Viewport>;
         tilingSprite: PixiReactElementProps<typeof PixiTilingSprite>;
         pixiGraphics: PixiReactElementProps<typeof Graphics>;
+        primitive: PixiReactElementProps<typeof Container>;
     }
 }
 
@@ -24,6 +26,7 @@ declare global {
             pixiViewport: any;
             tilingSprite: any;
             pixiGraphics: any;
+            primitive: any;
         }
     }
 }

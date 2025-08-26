@@ -14,9 +14,12 @@ The decision to abandon [Svelte](https://svelte.dev) and [Next](https://nextjs.o
 
 ### TODO:
 
-- [x] Implement zIndex reordering for objects
-- [x] Implement object collisions
-- [ ] Implement tiled map
+- [x] Implement '@pixi/react'
+- [x] Implement Zustand sliced store to control React & Pixi state
+- [x] Added player and camera 8-direction movement
+- [x] Added object collisions and zIndex reordering
+- [x] Added map generation
+- [x] Implement JSON tilemap with '@pixi/tilemap'
 - [ ] Implement map chunk generation
 - [ ] Add enemies and fight mechanics
 

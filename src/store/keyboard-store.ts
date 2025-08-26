@@ -1,22 +1,7 @@
-import { StateCreator } from "zustand"
 // types
-import type { HeroSlice } from "@store/hero-store"
+import type { storeTypes } from "@lib/types"
 
-export type KeyboardSlice = {
-    onKeyDown: ((e: KeyboardEvent) => void) | null
-    onKeyUp: ((e: KeyboardEvent) => void) | null
-    setHandlers: (
-        down: ((e: KeyboardEvent) => void) | null,
-        up: ((e: KeyboardEvent) => void) | null,
-    ) => void
-}
-
-export const createKeyboardSlice: StateCreator<
-    KeyboardSlice & HeroSlice,
-    [["zustand/devtools", never]],
-    [],
-    KeyboardSlice
-> = (set) => ({
+export const createKeyboardSlice: storeTypes.CreateKeyboardSliceType = (set) => ({
     onKeyDown: () => { },
     onKeyUp: () => { },
     setHandlers: (down, up) => set({ onKeyDown: down, onKeyUp: up }),

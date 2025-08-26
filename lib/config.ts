@@ -61,6 +61,7 @@ export const breakpoints: Record<string, gameTypes.Breakpoint> = {
     xl: { id: "xl", value: 1280, width: 1024, height: 768 },
 }
 
+export const tileSize = 50
 export const maggotsCount = 50
 export const defaultChunkSize = 1000
 export const objectsPerChunk = { min: 80, max: 120 }

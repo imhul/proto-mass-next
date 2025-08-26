@@ -147,7 +147,6 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
         // -------------------------------------------------------
         const { collision, obstacle } = checkObjectCollision(newHeroPosition)
 
-        // console.info({ direction, collision, obstacle, blocked: blockedDirections.current })
         if (collision && obstacle) {
             if (hero.zIndex > obstacle.zIndex) hero.zIndex = obstacle.zIndex - 1
             stopRun(obstacle.direction)

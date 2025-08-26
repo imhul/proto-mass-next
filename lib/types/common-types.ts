@@ -27,9 +27,6 @@ export interface ErrorProps {
 }
 
 export interface CustomTilingSpriteProps {
-    texture: Texture
     tileScale?: { x: number; y: number }
     tilePosition?: { x: number; y: number }
-    width: number
-    height: number
 }

@@ -1,18 +1,5 @@
-import { StateCreator } from "zustand"
 // types
-import type { NavSlice } from "@store/nav-store"
-import type { UISlice } from "@store/ui-store"
-import type { gameTypes } from "@lib/types"
-
-export type GameSlice = {
-    init: boolean
-    paused: boolean
-    gameOver: boolean
-    gameSize: gameTypes.GameSize
-    objectsMap: gameTypes.GameObject[]
-    getObjectsMap: () => gameTypes.GameObject[]
-    setGameAction: (action: gameTypes.GameAction, payload?: unknown) => void
-}
+import type { storeTypes } from "@lib/types"
 
 const initState = {
     init: false,
@@ -25,12 +12,7 @@ const initState = {
     },
 }
 
-export const createGameSlice: StateCreator<
-    GameSlice & NavSlice & UISlice,
-    [["zustand/devtools", never], ["zustand/persist", unknown]],
-    [],
-    GameSlice
-> = (set, get) => ({
+export const createGameSlice: storeTypes.CreateGameSliceType = (set, get) => ({
     ...initState,
     getObjectsMap: () => get().objectsMap,
     setGameAction: (action, payload) => {

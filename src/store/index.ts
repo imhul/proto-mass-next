@@ -2,16 +2,16 @@ import { create } from "zustand"
 // middleware
 import { devtools, persist } from "zustand/middleware"
 // slices
-import { createUISlice, type UISlice } from "@store/ui-store"
-import { createNavSlice, type NavSlice } from "@store/nav-store"
-import { createGameSlice, type GameSlice } from "@store/game-store"
-import { createHeroSlice, type HeroSlice } from "@store/hero-store"
-import { createKeyboardSlice, type KeyboardSlice } from "@store/keyboard-store"
+import { createUISlice } from "@store/ui-store"
+import { createNavSlice } from "@store/nav-store"
+import { createGameSlice } from "@store/game-store"
+import { createHeroSlice } from "@store/hero-store"
+import { createKeyboardSlice } from "@store/keyboard-store"
+// types
+import type { storeTypes } from "@lib/types"
 
-// Persisted store
-export type PersistedStore = NavSlice & GameSlice & UISlice
 
-export const usePersistedStore = create<PersistedStore>()(
+export const usePersistedStore = create<storeTypes.PersistedStore>()(
     devtools(
         persist(
             (...args) => ({
@@ -26,10 +26,7 @@ export const usePersistedStore = create<PersistedStore>()(
     ),
 )
 
-// Global store
-export type GlobalStore = HeroSlice & KeyboardSlice
-
-export const useStore = create<GlobalStore>()(
+export const useStore = create<storeTypes.GlobalStore>()(
     devtools((...args) => ({
         ...createHeroSlice(...args),
         ...createKeyboardSlice(...args),
