@@ -12,9 +12,10 @@ The decision to abandon [Svelte](https://svelte.dev) and [Next](https://nextjs.o
 
 ### TODO:
 
-- [ ] Implement zIndex reordering for objects
-- [ ] Implement object collisions
+- [x] Implement zIndex reordering for objects
+- [x] Implement object collisions
 - [ ] Implement tiled map
+- [ ] Implement map chunk generation
 
 ## Motivation:
 

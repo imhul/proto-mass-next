@@ -31,13 +31,13 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
     const heroSnapshot = useStore((state: GlobalStore) => state.hero)
 
     const createNewMapChunk = (position: commonTypes.Position) => {
-        // TODO: 1. write function
+        // TODO: 2. write function
     }
 
     const checkContainerCollision = (position: commonTypes.Position) => {
-        // TODO: 2. check collision with map boundaries and run createNewMapChunk(position)
-        // TODO: 3. check collision with map obstacles and stop movement
-        return true // Placeholder
+        // TODO: 1. check collision with map boundaries and run createNewMapChunk(position)
+        let collision = true // fake
+        if (collision) createNewMapChunk(position)
     }
 
     const getClosestObjectToHero = (
@@ -117,6 +117,7 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
         dy: number,
         direction: heroTypes.MovementDirection,
     ) => {
+        // -------------------------------------------------------
         const vp = viewportRef?.current
         if (!vp) return
         const hero: AnimatedSprite = vp.getChildByLabel("hero")
@@ -126,7 +127,8 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
             x: hero.position.x + dx,
             y: hero.position.y + dy,
         }
-        if (!checkContainerCollision(newHeroPosition)) return
+        // -------------------------------------------------------
+        checkContainerCollision(newHeroPosition)
         // -------------------------------------------------------
         // worked no-easing variant: vp.moveCenter(newCameraPosition.x, newCameraPosition.y)
         // worked easing variant:
@@ -145,7 +147,7 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
         // -------------------------------------------------------
         const { collision, obstacle } = checkObjectCollision(newHeroPosition)
 
-        // console.info("1: ", { direction, collision, obstacle, blocked: blockedDirections.current })
+        // console.info({ direction, collision, obstacle, blocked: blockedDirections.current })
         if (collision && obstacle) {
             if (hero.zIndex > obstacle.zIndex) hero.zIndex = obstacle.zIndex - 1
             stopRun(obstacle.direction)
