@@ -18,6 +18,7 @@ The decision to abandon [Svelte](https://svelte.dev) and [Next](https://nextjs.o
 - [x] Implement object collisions
 - [ ] Implement tiled map
 - [ ] Implement map chunk generation
+- [ ] Add enemies and fight mechanics
 
 ## Motivation:
 
