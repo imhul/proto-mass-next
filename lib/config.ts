@@ -79,6 +79,19 @@ export const heroTexturesConfig: Record<gameTypes.HeroState, { count: number, ui
     "transform": { count: 0, uid: 0 },
 }
 
+export const enemyTexturesConfig: Record<gameTypes.EnemyState, { count: number, uid: number }> = {
+    "angry": { count: 8, uid: 13 },
+    "attack": { count: 8, uid: 13 },
+    "idle": { count: 4, uid: 9 },
+    "stand": { count: 4, uid: 9 },
+    "hurt": { count: 8, uid: 13 },
+    "die": { count: 4, uid: 9 },
+    "damage": { count: 8, uid: 13 },
+    "lvlup": { count: 8, uid: 13 },
+    "special": { count: 8, uid: 13 },
+    "transform": { count: 8, uid: 13 },
+}
+
 export const generatedObjects: gameTypes.GameObjectEntity[] = [
     {
         "id": 100,

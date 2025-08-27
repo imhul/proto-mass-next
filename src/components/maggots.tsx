@@ -9,7 +9,7 @@ import { maggotsCount } from "@lib/config"
 
 const Maggots = ({ width, height }: { width: number; height: number }) => {
     const [texture, setTexture] = useState<Texture | null>(null)
-    const [maggots, setMaggots] = useState<gameTypes.MaggotItem[]>([])
+    const [maggots, setMaggots] = useState<gameTypes.MaggotEntity[]>([])
     const bounds = new Rectangle(0, 0, width, height)
 
     useEffect(() => {
@@ -24,7 +24,7 @@ const Maggots = ({ width, height }: { width: number; height: number }) => {
     }, [texture])
 
     const generateMaggots = () => {
-        const maggotsArray: gameTypes.MaggotItem[] = []
+        const maggotsArray: gameTypes.MaggotEntity[] = []
         for (let i = 0; i < maggotsCount; i++) {
             const maggot = {
                 id: i + 1,
@@ -47,7 +47,7 @@ const Maggots = ({ width, height }: { width: number; height: number }) => {
         <>
             {texture &&
                 maggots &&
-                maggots.map((maggot: gameTypes.MaggotItem) => (
+                maggots.map((maggot: gameTypes.MaggotEntity) => (
                     <Maggot
                         key={maggot.id}
                         texture={texture}

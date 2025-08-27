@@ -3,6 +3,8 @@ import { twMerge } from "tailwind-merge"
 import { getTextures } from '@lib/utils/get-textures'
 import { generateMap } from '@lib/utils/map-generator'
 import { playSFX } from '@utils/play-sfx'
+import { getRandomInt } from "@utils/get-random-int"
+import { getTimeDifference } from '@utils/get-time-difference'
 import {
     saveToLocalStorage,
     readFromLocalStorage,
@@ -18,6 +20,8 @@ export {
     playSFX,
     generateMap,
     getTextures,
+    getRandomInt,
+    getTimeDifference,
     saveToLocalStorage,
     readFromLocalStorage,
     removeFromLocalStorage,

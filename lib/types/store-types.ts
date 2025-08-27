@@ -15,7 +15,6 @@ export type GlobalStore = HeroSlice & KeyboardSlice
 //----------------------------------------------
 // SLICE CREATORS
 //----------------------------------------------
-
 export type CreateGameSliceType = StateCreator<
     PersistedStore,
     [["zustand/devtools", never], ["zustand/persist", unknown]],
@@ -94,5 +93,5 @@ export type UISlice = {
 //----------------------------------------------
 export type ControlsBindings = { [key: string]: (key: string) => void }
 export type Controls = "default" & { controls: ControlsBindings }
-export type GameActionPayload = (gameTypes.GameObjectEntity[] & gameTypes.BaseSize) | undefined
+export type GameActionPayload = any
 export type HeroActions = { setHeroAction: (action: gameTypes.HeroState) => void }

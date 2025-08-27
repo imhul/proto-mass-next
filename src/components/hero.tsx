@@ -15,7 +15,7 @@ const Hero = ({ state, ref }: gameTypes.HeroProps) => {
     const [atlasJson, setAtlasJson] = useState<gameTypes.AtlasJSON | null>(null)
     const [isHovered, setIsHover] = useState(false)
     const [isActive, setIsActive] = useState(false)
-    const [textures, setTextures] = useState<gameTypes.HeroTextures>(null)
+    const [textures, setTextures] = useState<gameTypes.TexturesCollection>(null)
     // store
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
 
@@ -24,7 +24,7 @@ const Hero = ({ state, ref }: gameTypes.HeroProps) => {
             Assets.load("/assets/atlas.json").then(
                 (result: gameTypes.AtlasJSON) => {
                     setAtlasJson(result)
-                    setTextures(getTextures(result))
+                    setTextures(getTextures(result, "hero"))
                 },
             )
     }, [atlasJson, textures])
