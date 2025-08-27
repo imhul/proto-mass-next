@@ -1,7 +1,7 @@
 // types
-import type { uiTypes, gameTypes, gameTypes, storeTypes } from "@lib/types"
+import type { uiTypes, gameTypes, storeTypes } from "@lib/types"
 
-const initHeroState: storeTypes.HeroEntity = {
+const initHeroState: gameTypes.HeroEntity = {
     id: 0,
     speed: 1,
     position: { x: 0, y: 0 },
@@ -17,8 +17,9 @@ const initHeroState: storeTypes.HeroEntity = {
     skills: [],
     inventory: [],
     dead: false,
-    timestamp: Date.now(),
+    timestamp: performance.now(),
     zIndex: 1,
+    attackPower: 7,
     preferences: {
         difficulty: "normal" as gameTypes.GameDifficulty,
         controls: "default" as storeTypes.Controls,

@@ -83,13 +83,47 @@ export const enemyTexturesConfig: Record<gameTypes.EnemyState, { count: number, 
     "angry": { count: 8, uid: 13 },
     "attack": { count: 8, uid: 13 },
     "idle": { count: 4, uid: 9 },
-    "stand": { count: 4, uid: 9 },
-    "hurt": { count: 8, uid: 13 },
+    "run": { count: 8, uid: 13 },
     "die": { count: 4, uid: 9 },
     "damage": { count: 8, uid: 13 },
     "lvlup": { count: 8, uid: 13 },
     "special": { count: 8, uid: 13 },
     "transform": { count: 8, uid: 13 },
+}
+
+export const minute: number = 60 * 1000
+export const angryState = "angry" as gameTypes.EnemyState
+export const idleState = "idle" as gameTypes.PrideState
+export const maxDistanceFromBase = 100
+export const fakeStartPosition: gameTypes.Position = { x: 200, y: 200 }
+
+export const spawnMatrix: Record<number, number> = {
+    2: minute / 2,
+    3: minute,
+    4: minute * 2.5,
+    5: minute * 4.5,
+    6: minute * 7,
+    7: minute * 10,
+    8: minute * 13.5,
+    9: minute * 17.5,
+    10: minute * 22
+}
+
+export const initialEnemyModel: gameTypes.EnemyEntity = {
+    id: 1,
+    uid: "356039fa-815d-4239-8491-6cb91b0b6ab7",
+    state: "idle",
+    timestamp: performance.now(),
+    speed: 2.1,
+    attackSpeed: 15,
+    attackPower: 6,
+    hp: 100,
+    age: 0,
+    zIndex: 99,
+    name: "Enemy-" + 1,
+    dead: false,
+    position: fakeStartPosition,
+    base: fakeStartPosition,
 }
 
 export const generatedObjects: gameTypes.GameObjectEntity[] = [

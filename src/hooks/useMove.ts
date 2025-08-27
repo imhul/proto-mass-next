@@ -57,6 +57,12 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
             }
         })
 
+        // TODO: Якщо бігти по діагоналі,
+        // а потім відпустити одну з двох клавіш,
+        // які відповідають за вертикальний рух,
+        // то герой продовжувати рухатися по діагоналі, по якій він рухався,
+        // а повинен був би рухатися в горизонтальному напрямку.
+
         if (!closestObject || closestDistance > 10) return null
         let direction: gameTypes.MovementDirection
         const { dx, dy, name, zIndex } = closestObject
@@ -237,24 +243,26 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
         if (!isGameInit) setGameAction("init")
         pressedKeys.current[event.code] = true
         const direction = eventConductor(pressedKeys.current)
-        // If already running, do nothing
-        if (keyPressTimers.current[event.code] || !direction) return
-        // Start a timer to detect long press
+        if (!direction) return
+        if (keyPressTimers.current[event.code]) return
         keyPressTimers.current[event.code] = setTimeout(() => {
             move(direction)
         }, 1000)
-
         move(direction)
     }
 
     const onKeyUp = (event: KeyboardEvent) => {
-        // Clear the timer if it exists
         if (keyPressTimers.current[event.code]) {
-            clearTimeout(keyPressTimers.current[event.code]!)
-            keyPressTimers.current[event.code] = null
+            clearTimeout(keyPressTimers.current[event.code]!);
+            keyPressTimers.current[event.code] = null;
         }
-        pressedKeys.current[event.code] = false
-        move(null)
+        pressedKeys.current[event.code] = false;
+        const direction = eventConductor(pressedKeys.current);
+        if (direction) {
+            move(direction)
+        } else {
+            stopRun()
+        }
     }
 
     useEffect(() => {

@@ -19,7 +19,7 @@ export const createGameSlice: storeTypes.CreateGameSliceType = (set, get) => ({
     setGameAction: (action, payload) => {
         switch (action) {
             case "init":
-                set({ init: true, startTimestamp: Date.now() })
+                set({ init: true, startTimestamp: performance.now() })
                 break
             case "pause":
                 set({ paused: true })

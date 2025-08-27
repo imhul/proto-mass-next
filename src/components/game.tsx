@@ -6,7 +6,7 @@ import { usePersistedStore } from "@/store"
 import { useMove } from "@hooks/useMove"
 // components
 import Hero from "@components/hero"
-import Enemy from "@components/enemy"
+import Enemies from "@components/enemies"
 import Camera from "@components/camera"
 import Maggots from "@components/maggots"
 import Objects from "@components/objects"
@@ -62,7 +62,7 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
                     <CustomTilingSprite />
                     <Maggots width={gameSize.width} height={gameSize.height} />
                     <Objects size={gameSize} />
-                    <Enemy ref={viewportRef} />
+                    <Enemies ref={viewportRef} />
                     {viewportRef && <Hero state={heroState} ref={viewportRef} />}
                 </Camera>
             ) : (<InitialScene />)

@@ -1,5 +1,5 @@
 export const getTimeDifference = (date: number) => {
-    const diff = Date.now() - date
+    const diff = performance.now() - date
     const ms = diff % 1000
     const s = Math.floor((diff / 1000) % 60)
     const m = Math.floor((diff / 60000) % 60)

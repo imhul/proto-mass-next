@@ -12,6 +12,8 @@ import type {
 //----------------------------------------------
 // COMPONENTS PROPS
 //----------------------------------------------
+export type GameProps = { parentRef: React.RefObject<HTMLDivElement | null> }
+
 export interface CustomTilingSpriteProps {
     tileScale?: { x: number; y: number }
     tilePosition?: { x: number; y: number }
@@ -43,18 +45,24 @@ export interface EnemyProps {
     app?: Application
     position?: Position
     prideState?: PrideState
+    item: EnemyEntity | null
     ref: RefObject<CameraProps | null>
     onLoad?: () => void
+    setPrideState: (state: PrideState) => void
+}
+
+export interface EnemiesProps {
+    ref: RefObject<CameraProps | null>
 }
 
 //----------------------------------------------
 // ENTITIES
 //----------------------------------------------
 export interface BaseEntity {
-    id: number | string
+    id: number
     position: Position
     hp: number
-    state: BaseState
+    state: BaseState | SummaryState
     age: number
     name: string
     dead: boolean
@@ -63,9 +71,13 @@ export interface BaseEntity {
 }
 
 export interface EnemyEntity extends BaseEntity {
+    uid: string
     speed: number
-    direction: MovementDirection
+    attackSpeed: number
     attackPower: number
+    base: Position
+    timestamp: number
+    state: EnemyState
 }
 
 export interface GameObjectEntity extends BaseEntity {
@@ -78,7 +90,7 @@ export interface GameObjectEntity extends BaseEntity {
 export interface HeroEntity extends BaseEntity {
     speed: number
     preferences: Preferences
-    state: HeroState & BaseState
+    state: HeroState | BaseState
     abilities: any[] // temporary type
     skills: Skill[]
     inventory: any[] // temporary type
@@ -86,6 +98,7 @@ export interface HeroEntity extends BaseEntity {
     buffs: any[] // temporary type
     debuffs: any[] // temporary type
     achievements: any[] // temporary type
+    attackPower: number
 }
 
 export interface MaggotEntity {
@@ -119,23 +132,22 @@ export interface Skill {
 //----------------------------------------------
 export type AtlasJSON = { textures: { [key: number | string]: Texture } }
 export type BaseSize = { width: number; height: number }
-export type BaseState = "idle" | "stand" | "hurt" | "lvlup" | "die" | "special" | "transform" | "damage"
+export type BaseState = "idle" | "die" | "damage" | "transform" | "special"
 export type Consumer = "hero" | "enemy"
 export type GameAction = "resize" | "pause" | "restart" | "play" | "save" | "load" | "init" | "over" | "saveMap"
 export type GameDifficulty = "easy" | "normal" | "hard"
 export type GameObjectState = BaseState
-export type GameProps = { parentRef: React.RefObject<HTMLDivElement | null> }
 export type GetTexturesType = (atlasJson: AtlasJSON | null, consumer: Consumer) => TexturesCollection
-export type EnemyState = BaseState | "angry" | "attack"
+export type EnemyState = BaseState | "lvlup" | "angry" | "attack" | "run"
 export type Hero = { hero: HeroEntity }
-export type HeroState = BaseState | "run" | "run-shot" | "shoot-up"
+export type HeroState = BaseState | "lvlup" | "stand" | "hurt" | "run" | "run-shot" | "shoot-up"
 export type LevelName = "trainee" | "medium" | "master" | "prime"
 export type MovementDirection = "runn" | "runs" | "runw" | "rune" | "runnw" | "runne" | "runsw" | "runse"
 export type ObjectsProps = { size: BaseSize }
 export type PixiChildren = (ReactElement<any, any> | AnimatedSprite | null)[]
 export type Position = { x: number; y: number }
 export type PrideState = "idle" | "angry"
-export type SummaryState = BaseState | HeroState | EnemyState
+export type SummaryState = HeroState | EnemyState
 export type TexturesCollection = TexturesObject | null
 export type TexturesObject = { [key in SummaryState]: Texture[] }
 export type UseMoveProps = { viewportRef: React.RefObject<CameraProps> }

@@ -46,7 +46,7 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
                 age: Math.random() * 10,
                 name: `game-object-container-id-${id}`,
                 dead: false,
-                timestamp: Date.now(),
+                timestamp: performance.now(),
                 zIndex: id,
                 texture: Math.ceil(Math.random() * textures!.length) - 1,
             })
