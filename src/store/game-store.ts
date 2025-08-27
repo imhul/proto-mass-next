@@ -6,6 +6,7 @@ const initState = {
     paused: false,
     gameOver: false,
     objectsMap: [],
+    startTimestamp: 0,
     gameSize: {
         width: 800,
         height: 600,
@@ -18,7 +19,7 @@ export const createGameSlice: storeTypes.CreateGameSliceType = (set, get) => ({
     setGameAction: (action, payload) => {
         switch (action) {
             case "init":
-                set({ init: true })
+                set({ init: true, startTimestamp: Date.now() })
                 break
             case "pause":
                 set({ paused: true })

@@ -2,8 +2,6 @@
 import type {
     uiTypes,
     gameTypes,
-    heroTypes,
-    // commonTypes,
 } from '@lib/types'
 
 export const menu: uiTypes.MenuItem[] = [
@@ -67,7 +65,7 @@ export const defaultChunkSize = 1000
 export const objectsPerChunk = { min: 80, max: 120 }
 export const numberOfObjectsPerChunk = Math.floor(Math.random() * (objectsPerChunk.max - objectsPerChunk.min + 1)) + objectsPerChunk.min
 
-export const heroTexturesConfig: Record<heroTypes.HeroState, { count: number, uid: number }> = {
+export const heroTexturesConfig: Record<gameTypes.HeroState, { count: number, uid: number }> = {
     "idle": { count: 4, uid: 31 },
     "run": { count: 10, uid: 41 },
     "run-shot": { count: 10, uid: 51 },
@@ -81,7 +79,7 @@ export const heroTexturesConfig: Record<heroTypes.HeroState, { count: number, ui
     "transform": { count: 0, uid: 0 },
 }
 
-export const generatedObjects: gameTypes.GameObject[] = [
+export const generatedObjects: gameTypes.GameObjectEntity[] = [
     {
         "id": 100,
         "position": {

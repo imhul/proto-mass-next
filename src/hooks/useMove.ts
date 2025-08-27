@@ -3,12 +3,9 @@ import { useEffect, useState, useRef } from "react"
 import { useStore, usePersistedStore } from "@/store"
 // types
 import type {
-    GlobalStore,
     AnimatedSprite,
-    PersistedStore,
     gameTypes,
-    heroTypes,
-    commonTypes,
+    storeTypes,
 } from "@lib/types"
 // utils
 import { eventConductor } from "@lib/events"
@@ -20,33 +17,33 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
     const pressedKeys = useRef<{ [key: string]: boolean }>({})
     const keyPressTimers = useRef<{ [key: string]: NodeJS.Timeout | null }>({})
     const animationFrameRef = useRef<number | null>(null)
-    const blockedDirections = useRef<Set<heroTypes.MovementDirection>>(new Set())
+    const blockedDirections = useRef<Set<gameTypes.MovementDirection>>(new Set())
     // state
-    const [heroState, setHeroState] = useState<heroTypes.HeroState>("stand")
+    const [heroState, setHeroState] = useState<gameTypes.HeroState>("stand")
     // store
-    const isGameInit = usePersistedStore((state: PersistedStore) => state.init)
+    const isGameInit = usePersistedStore((state: storeTypes.PersistedStore) => state.init)
     const setGameAction = usePersistedStore(
-        (state: PersistedStore) => state.setGameAction,
+        (state: storeTypes.PersistedStore) => state.setGameAction,
     )
-    const heroSnapshot = useStore((state: GlobalStore) => state.hero)
+    const heroSnapshot = useStore((state: storeTypes.GlobalStore) => state.hero)
 
-    const createNewMapChunk = (position: commonTypes.Position) => {
+    const createNewMapChunk = (position: gameTypes.Position) => {
         // TODO: 2. write function
     }
 
-    const checkContainerCollision = (position: commonTypes.Position) => {
+    const checkContainerCollision = (position: gameTypes.Position) => {
         // TODO: 1. check collision with map boundaries and run createNewMapChunk(position)
         let collision = true // fake
         if (collision) createNewMapChunk(position)
     }
 
     const getClosestObjectToHero = (
-        pos: commonTypes.Position,
+        pos: gameTypes.Position,
     ): gameTypes.ClosestObject | null => {
-        let closestObject: gameTypes.GameObject | null = null
+        let closestObject: gameTypes.GameObjectEntity | null = null
         let closestDistance = Infinity
 
-        generatedObjects.forEach((object: gameTypes.GameObject) => {
+        generatedObjects.forEach((object: gameTypes.GameObjectEntity) => {
             const dx = object.position.x - pos.x
             const dy = object.position.y - pos.y
             const distance = Math.hypot(dx, dy)
@@ -61,7 +58,7 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
         })
 
         if (!closestObject || closestDistance > 10) return null
-        let direction: heroTypes.MovementDirection
+        let direction: gameTypes.MovementDirection
         const { dx, dy, name, zIndex } = closestObject
 
         if (Math.abs(dx) > Math.abs(dy)) {
@@ -84,7 +81,7 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
         }
     }
 
-    const checkObjectCollision = (pos: commonTypes.Position): gameTypes.CheckObjectCollision => {
+    const checkObjectCollision = (pos: gameTypes.Position): gameTypes.CheckObjectCollision => {
         const vp = viewportRef?.current
         const closest = getClosestObjectToHero(pos)
         if (!closest || !vp) return { collision: false }
@@ -115,7 +112,7 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
     const applyMove = (
         dx: number,
         dy: number,
-        direction: heroTypes.MovementDirection,
+        direction: gameTypes.MovementDirection,
     ) => {
         // -------------------------------------------------------
         const vp = viewportRef?.current
@@ -160,7 +157,7 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
     const runAnimation = (
         dx: number,
         dy: number,
-        direction: heroTypes.MovementDirection,
+        direction: gameTypes.MovementDirection,
     ) => {
         applyMove(dx, dy, direction)
         animationFrameRef.current = requestAnimationFrame(() =>
@@ -171,14 +168,14 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
     const startRun = (
         dx: number,
         dy: number,
-        direction: heroTypes.MovementDirection,
+        direction: gameTypes.MovementDirection,
     ) => {
         if (animationFrameRef.current)
             cancelAnimationFrame(animationFrameRef.current)
         runAnimation(dx, dy, direction)
     }
 
-    const stopRun = (direction: heroTypes.MovementDirection | null = null) => {
+    const stopRun = (direction: gameTypes.MovementDirection | null = null) => {
         if (direction) blockedDirections.current.add(direction)
         setHeroState("stand")
         if (animationFrameRef.current) {
@@ -188,7 +185,7 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
     }
 
     const move = (
-        direction: heroTypes.MovementDirection | null,
+        direction: gameTypes.MovementDirection | null,
         isKeyDown: boolean = true,
     ) => {
         if (direction && blockedDirections.current.has(direction))

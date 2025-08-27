@@ -2,6 +2,7 @@ import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { getTextures } from '@lib/utils/get-textures'
 import { generateMap } from '@lib/utils/map-generator'
+import { playSFX } from '@utils/play-sfx'
 import {
     saveToLocalStorage,
     readFromLocalStorage,
@@ -14,6 +15,7 @@ function cn(...inputs: ClassValue[]) {
 
 export {
     cn,
+    playSFX,
     generateMap,
     getTextures,
     saveToLocalStorage,

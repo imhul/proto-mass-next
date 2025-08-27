@@ -1,23 +1,21 @@
 import { StateCreator } from "zustand"
 // types
-import type {
-    gameTypes,
-    heroTypes,
-    commonTypes,
-} from "@lib/types"
+import type { gameTypes } from "@lib/types"
 
-// Persisted store
+//----------------------------------------------
+// PERSISTED STORE
+//----------------------------------------------
 export type PersistedStore = NavSlice & GameSlice & UISlice
-// Global store
+
+//----------------------------------------------
+// GLOBAL STORE
+//----------------------------------------------
 export type GlobalStore = HeroSlice & KeyboardSlice
+
 //----------------------------------------------
-export type ControlsBindings = { [key: string]: (key: string) => void }
-export type Controls = "default" & { controls: ControlsBindings }
-export type GameActionPayload = (gameTypes.GameObject[] & gameTypes.GameSize) | undefined
-export type Hero = { hero: HeroEntity }
-export type HeroSlice = Hero & HeroActions
-export type HeroActions = { setHeroAction: (action: heroTypes.HeroState) => void }
+// SLICE CREATORS
 //----------------------------------------------
+
 export type CreateGameSliceType = StateCreator<
     PersistedStore,
     [["zustand/devtools", never], ["zustand/persist", unknown]],
@@ -52,19 +50,25 @@ export type CreateNavSliceType = StateCreator<
     [],
     NavSlice
 >
+
+//----------------------------------------------
+// SLICES
 //----------------------------------------------
 export type GameSlice = {
     init: boolean
     paused: boolean
     gameOver: boolean
-    gameSize: gameTypes.GameSize
-    objectsMap: gameTypes.GameObject[]
-    getObjectsMap: () => gameTypes.GameObject[]
+    gameSize: gameTypes.BaseSize
+    objectsMap: gameTypes.GameObjectEntity[]
+    startTimestamp: number
+    getObjectsMap: () => gameTypes.GameObjectEntity[]
     setGameAction: (
         action: gameTypes.GameAction,
         payload?: GameActionPayload
     ) => void
 }
+
+export type HeroSlice = gameTypes.Hero & HeroActions
 
 export type KeyboardSlice = {
     onKeyDown: ((e: KeyboardEvent) => void) | null
@@ -73,19 +77,6 @@ export type KeyboardSlice = {
         down: ((e: KeyboardEvent) => void) | null,
         up: ((e: KeyboardEvent) => void) | null,
     ) => void
-}
-
-export interface HeroEntity extends gameTypes.BaseEntity {
-    speed: number
-    preferences: gameTypes.Preferences
-    state: heroTypes.HeroState & commonTypes.BaseState
-    abilities: any[] // temporary type
-    skills: any[] // temporary type
-    inventory: any[] // temporary type
-    xp: number
-    buffs: any[] // temporary type
-    debuffs: any[] // temporary type
-    achievements: any[] // temporary type
 }
 
 export type NavSlice = {
@@ -97,3 +88,11 @@ export type UISlice = {
     isDev: boolean
     setIsDev: () => void
 }
+
+//----------------------------------------------
+// MISCELLANEOUS
+//----------------------------------------------
+export type ControlsBindings = { [key: string]: (key: string) => void }
+export type Controls = "default" & { controls: ControlsBindings }
+export type GameActionPayload = (gameTypes.GameObjectEntity[] & gameTypes.BaseSize) | undefined
+export type HeroActions = { setHeroAction: (action: gameTypes.HeroState) => void }

@@ -5,24 +5,24 @@ import { usePersistedStore } from "@/store"
 import { Assets, AnimatedSprite, Rectangle } from "pixi.js"
 import DevHitbox from "@components/dev-hitbox"
 // types
-import { PersistedStore, heroTypes, commonTypes } from "@lib/types"
+import type { storeTypes, gameTypes } from "@lib/types"
 // utils
 import { getTextures } from "@lib/utils"
 
-const Hero = ({ state, ref }: heroTypes.HeroProps) => {
+const Hero = ({ state, ref }: gameTypes.HeroProps) => {
     const spriteRef = useRef<AnimatedSprite | null>(null) // The Pixi.js `Sprite`
     // state
-    const [atlasJson, setAtlasJson] = useState<commonTypes.AtlasJSON | null>(null)
+    const [atlasJson, setAtlasJson] = useState<gameTypes.AtlasJSON | null>(null)
     const [isHovered, setIsHover] = useState(false)
     const [isActive, setIsActive] = useState(false)
-    const [textures, setTextures] = useState<heroTypes.HeroTextures>(null)
+    const [textures, setTextures] = useState<gameTypes.HeroTextures>(null)
     // store
-    const paused = usePersistedStore((state: PersistedStore) => state.paused)
+    const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
 
     useEffect(() => {
         if (!atlasJson || !textures)
             Assets.load("/assets/atlas.json").then(
-                (result: commonTypes.AtlasJSON) => {
+                (result: gameTypes.AtlasJSON) => {
                     setAtlasJson(result)
                     setTextures(getTextures(result))
                 },

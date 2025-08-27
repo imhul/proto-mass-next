@@ -61,7 +61,7 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
         // if (!textures || !objects.length) return null
         if (!textures) return null
 
-        return generatedObjects.map((object: gameTypes.GameObject) => {
+        return generatedObjects.map((object: gameTypes.GameObjectEntity) => {
             const tex = textures[object.texture]
 
             return (
@@ -98,13 +98,13 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
     useEffect(() => {
         const objects = objectsMap()
         if (!objects.length) Assets.load([
-                "/assets/tree01.png",
-                "/assets/tree02.png",
-                "/assets/tree03.png",
-            ]).then((tex) => {
-                const texArray = Object.values(tex) as Texture[]
-                setTextures(texArray)
-            })
+            "/assets/tree01.png",
+            "/assets/tree02.png",
+            "/assets/tree03.png",
+        ]).then((tex) => {
+            const texArray = Object.values(tex) as Texture[]
+            setTextures(texArray)
+        })
     }, [])
 
     // worked!

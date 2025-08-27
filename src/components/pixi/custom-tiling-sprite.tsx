@@ -5,11 +5,11 @@ import { TilingSprite, Assets } from "pixi.js"
 import { CompositeTilemap } from '@pixi/tilemap'
 import { generateMap } from "@lib/utils"
 // types
-import type { commonTypes, PixiTilingSprite, Container } from "@lib/types"
+import type { gameTypes, PixiTilingSprite, Container } from "@lib/types"
 // config
 import { tileSize, defaultChunkSize } from "@lib/config"
 
-const CustomTilingSprite = forwardRef<PixiTilingSprite | null, commonTypes.CustomTilingSpriteProps>(
+const CustomTilingSprite = forwardRef<PixiTilingSprite | null, gameTypes.CustomTilingSpriteProps>(
     () => {
         useExtend({ TilingSprite })
         // state

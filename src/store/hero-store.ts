@@ -1,5 +1,5 @@
 // types
-import type { uiTypes, gameTypes, heroTypes, storeTypes } from "@lib/types"
+import type { uiTypes, gameTypes, gameTypes, storeTypes } from "@lib/types"
 
 const initHeroState: storeTypes.HeroEntity = {
     id: 0,
@@ -30,7 +30,7 @@ const initHeroState: storeTypes.HeroEntity = {
 
 export const createHeroSlice: storeTypes.CreateHeroSliceType = () => ({
     hero: initHeroState,
-    setHeroAction: (action: heroTypes.HeroState) => {
+    setHeroAction: (action: gameTypes.HeroState) => {
         switch (action) {
             // TODO: Hero actions ...
         }

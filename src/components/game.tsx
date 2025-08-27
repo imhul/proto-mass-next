@@ -12,7 +12,7 @@ import Objects from "@components/objects"
 import InitialScene from "@components/initial-scene"
 import CustomTilingSprite from "@components/pixi/custom-tiling-sprite"
 // types
-import type { PersistedStore, gameTypes } from "@lib/types"
+import type { storeTypes, gameTypes } from "@lib/types"
 
 const Game = ({ parentRef }: gameTypes.GameProps) => {
     // app
@@ -23,11 +23,11 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
         null,
     ) as React.RefObject<gameTypes.CameraProps>
     // store
-    const isGameInit = usePersistedStore((state: PersistedStore) => state.init)
+    const isGameInit = usePersistedStore((state: storeTypes.PersistedStore) => state.init)
     const setGameAction = usePersistedStore(
-        (state: PersistedStore) => state.setGameAction,
+        (state: storeTypes.PersistedStore) => state.setGameAction,
     )
-    const gameSize = usePersistedStore((state: PersistedStore) => state.gameSize)
+    const gameSize = usePersistedStore((state: storeTypes.PersistedStore) => state.gameSize)
     // hooks
     const { heroState } = useMove({ viewportRef })
 

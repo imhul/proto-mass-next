@@ -1,19 +1,14 @@
 import { Texture } from 'pixi.js'
 // types
-import {
-    AtlasJSON,
-    HeroState,
-    HeroTextures,
-    HeroTexturesObject,
-} from '@lib/types'
+import { gameTypes } from '@lib/types'
 // config
 import { heroTexturesConfig } from '@lib/config'
 
-export const getTextures = (atlasJson: AtlasJSON | null): HeroTextures => {
+export const getTextures = (atlasJson: gameTypes.AtlasJSON | null): gameTypes.HeroTextures => {
     if (!atlasJson) return null
-    const obj: HeroTexturesObject = {} as HeroTexturesObject
-    const textureKeys = Object.keys(heroTexturesConfig) as HeroState[]
-    textureKeys.forEach((item: HeroState) => {
+    const obj: gameTypes.HeroTexturesObject = {} as gameTypes.HeroTexturesObject
+    const textureKeys = Object.keys(heroTexturesConfig) as gameTypes.HeroState[]
+    textureKeys.forEach((item: gameTypes.HeroState) => {
         const texturesLength = heroTexturesConfig[item].count || 1
         obj[item] = Array.from({ length: texturesLength }, (_, i) => {
             const uid = heroTexturesConfig[item].uid + i + 6
