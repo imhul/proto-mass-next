@@ -4,29 +4,19 @@ import Enemy from "@components/enemy"
 import BotBase from "@components/bot-base"
 // utils
 import { getRandomInt } from "@lib/utils"
+import { toast } from "sonner"
 // types
 import type { gameTypes } from "@lib/types"
 // config
 import {
+    idleState,
     angryState,
+    spawnMatrix,
     defaultChunkSize,
     initialEnemyModel,
+    maxEnemiesPerPride,
     maxDistanceFromBase,
 } from "@lib/config"
-
-const maxEnemiesPerPride = 10
-const minute: number = 60 * 1000
-const spawnMatrix: Record<number, number> = {
-    2: minute / 2,
-    3: minute,
-    4: minute * 2.5,
-    5: minute * 4.5,
-    6: minute * 7,
-    7: minute * 10,
-    8: minute * 13.5,
-    9: minute * 17.5,
-    10: minute * 22
-}
 
 const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
     const [enemies, setEnemies] = useState<gameTypes.EnemyEntity[]>([])
@@ -69,6 +59,10 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
                 x: getRandomInt(1, defaultChunkSize * 2),
                 y: getRandomInt(1, defaultChunkSize * 2),
             }
+            toast.info("base", {
+                description: `x: ${base.x}, y: ${base.y}`,
+                duration: 9000,
+            })
             setEnemies((prevEnemies) => [...prevEnemies, {
                 ...initialEnemyModel,
                 base,
@@ -80,6 +74,7 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
         }
     }, [max])
 
+    // Spawn control
     useEffect(() => {
         if (enemies.length === 0) return
         if (enemies.length < maxEnemiesPerPride) {

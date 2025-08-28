@@ -1,6 +1,6 @@
 {
     "name": "proto-mass-next",
-    "version": "0.4.0",
+    "version": "0.5.0",
     "private": true,
     "scripts": {
         "dev": "vite",
@@ -28,6 +28,7 @@
         "lucide-react": "^0.540.0",
         "pixi-viewport": "^6.0.3",
         "pixi.js": "^8.2.6",
+        "rand-seed": "^3.0.0",
         "react": "19.1.1",
         "react-dom": "19.1.1",
         "react-hook-form": "^7.62.0",

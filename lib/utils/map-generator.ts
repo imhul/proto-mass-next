@@ -1,3 +1,4 @@
+// TODO: implement: https://www.npmjs.com/package/rand-seed
 export function generateMap(
     width: number,
     height: number,

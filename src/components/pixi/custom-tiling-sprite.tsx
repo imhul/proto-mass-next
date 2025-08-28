@@ -1,18 +1,26 @@
 import { forwardRef, useEffect, useState, useRef } from "react"
 import { useExtend } from "@pixi/react"
 import { TilingSprite, Assets } from "pixi.js"
+// store
+// import { usePersistedStore } from "@/store"
 // utils
 import { CompositeTilemap } from '@pixi/tilemap'
 import { generateMap } from "@lib/utils"
 import { toast } from "sonner"
 // types
-import type { gameTypes, PixiTilingSprite, Container } from "@lib/types"
+import type {
+    gameTypes,
+    // storeTypes,
+    Container,
+    PixiTilingSprite,
+} from "@lib/types"
 // config
 import { tileSize, defaultChunkSize } from "@lib/config"
 
 const CustomTilingSprite = forwardRef<PixiTilingSprite | null, gameTypes.CustomTilingSpriteProps>(
     () => {
         useExtend({ TilingSprite })
+        // const isDev = usePersistedStore((state: storeTypes.PersistedStore) => state.isDev)
         // state
         const [tilemap, setTilemap] = useState<CompositeTilemap | null>(null)
         const gameSize = defaultChunkSize * 2
@@ -40,6 +48,7 @@ const CustomTilingSprite = forwardRef<PixiTilingSprite | null, gameTypes.CustomT
                 })
                 // TODO: just for testing
                 tiledmap.on("click", (props) => {
+                    // if (isDev)
                     toast.info("click", {
                         description: `x: ${props.global.x}, y: ${props.global.y}`,
                     })
@@ -53,19 +62,6 @@ const CustomTilingSprite = forwardRef<PixiTilingSprite | null, gameTypes.CustomT
                 ref.current.addChild(tilemap)
             }
         }, [tilemap, ref.current])
-
-        // useEffect(() => {
-        //     if (!ref.current) return
-        //     ref.current.onclick = (props) => {
-        //         console.log("Container clicked", props)
-        //     }
-
-        //     return () => {
-        //         if (ref.current) {
-        //             ref.current.onclick = null
-        //         }
-        //     }
-        // }, [])
 
         return tilemap ? (<pixiContainer ref={ref} />) : null
     },

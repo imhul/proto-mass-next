@@ -91,10 +91,11 @@ export const enemyTexturesConfig: Record<gameTypes.EnemyState, { count: number, 
     "transform": { count: 8, uid: 13 },
 }
 
+export const maxEnemiesPerPride = 10
 export const minute: number = 60 * 1000
 export const angryState = "angry" as gameTypes.EnemyState
 export const idleState = "idle" as gameTypes.PrideState
-export const maxDistanceFromBase = 100
+export const maxDistanceFromBase = 200
 export const fakeStartPosition: gameTypes.Position = { x: 200, y: 200 }
 
 export const spawnMatrix: Record<number, number> = {
