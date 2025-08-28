@@ -1,7 +1,7 @@
 // store
 import { usePersistedStore } from "@/store"
 // types
-import type { PersistedStore } from "@lib/types"
+import type { storeTypes } from "@lib/types"
 // components
 import { ThemeProvider } from "@components/theme-provider"
 import Header from "@components/header"
@@ -10,7 +10,7 @@ import Home from "@components/home"
 import { Output as GameOutput } from "@components/output"
 
 const Layout = () => {
-    const route = usePersistedStore((state: PersistedStore) => state.route)
+    const route = usePersistedStore((state: storeTypes.PersistedStore) => state.route)
 
     const render = () => {
         switch (route) {

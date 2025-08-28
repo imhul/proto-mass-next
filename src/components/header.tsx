@@ -8,10 +8,10 @@ import { Bug } from "lucide-react"
 // store
 import { usePersistedStore } from "@/store"
 // types
-import type { PersistedStore } from "@lib/types"
+import type { storeTypes } from "@lib/types"
 
 const Header = () => {
-    const setIsDev = usePersistedStore((state: PersistedStore) => state.setIsDev)
+    const setIsDev = usePersistedStore((state: storeTypes.PersistedStore) => state.setIsDev)
 
     return (
         <header className="flex items-center justify-between p-4 bg-gray-100 dark:bg-gray-800">

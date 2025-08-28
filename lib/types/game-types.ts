@@ -2,7 +2,6 @@ import type {
     Point,
     Texture,
     RefObject,
-    Application,
     EventSystem,
     ReactElement,
     AnimatedSprite,
@@ -34,25 +33,28 @@ export interface MaggotProps {
 }
 
 export interface HeroProps {
-    app?: Application
-    position?: Position
     state: HeroState
     ref: RefObject<CameraProps | null>
-    onLoad?: () => void
 }
 
 export interface EnemyProps {
-    app?: Application
-    position?: Position
+    base: Position
     prideState?: PrideState
     item: EnemyEntity | null
     ref: RefObject<CameraProps | null>
-    onLoad?: () => void
     setPrideState: (state: PrideState) => void
 }
 
 export interface EnemiesProps {
     ref: RefObject<CameraProps | null>
+}
+
+export type DevHitboxProps = {
+    x: number
+    y: number
+    width: number
+    height: number
+    [key: string]: unknown
 }
 
 //----------------------------------------------

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 // components
 import Enemy from "@components/enemy"
+import BotBase from "@components/bot-base"
 // utils
 import { getRandomInt } from "@lib/utils"
 // types
@@ -8,11 +9,24 @@ import type { gameTypes } from "@lib/types"
 // config
 import {
     angryState,
-    spawnMatrix,
     defaultChunkSize,
     initialEnemyModel,
     maxDistanceFromBase,
 } from "@lib/config"
+
+const maxEnemiesPerPride = 10
+const minute: number = 60 * 1000
+const spawnMatrix: Record<number, number> = {
+    2: minute / 2,
+    3: minute,
+    4: minute * 2.5,
+    5: minute * 4.5,
+    6: minute * 7,
+    7: minute * 10,
+    8: minute * 13.5,
+    9: minute * 17.5,
+    10: minute * 22
+}
 
 const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
     const [enemies, setEnemies] = useState<gameTypes.EnemyEntity[]>([])
@@ -52,8 +66,8 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
         } else {
             // First enemy spawn
             const base = {
-                x: getRandomInt(1, (ref.current?.screenWidth || defaultChunkSize) * 2),
-                y: getRandomInt(1, (ref.current?.screenHeight || defaultChunkSize) * 2),
+                x: getRandomInt(1, defaultChunkSize * 2),
+                y: getRandomInt(1, defaultChunkSize * 2),
             }
             setEnemies((prevEnemies) => [...prevEnemies, {
                 ...initialEnemyModel,
@@ -67,27 +81,35 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
     }, [max])
 
     useEffect(() => {
-        const now = performance.now()
         if (enemies.length === 0) return
-        const pauseToNextBirth = spawnMatrix[enemies.length + 1]
-        // TODO: Implement enemy spawning logic
-    }, [])
-
-    useEffect(() => {
-        console.info("Enemies updated:", enemies)
+        if (enemies.length < maxEnemiesPerPride) {
+            const nextCount = enemies.length + 1
+            const pauseToNextBirth = spawnMatrix[nextCount]
+            if (pauseToNextBirth) {
+                const timer = setTimeout(() => {
+                    setMax((prev) => Math.min(prev + 1, maxEnemiesPerPride))
+                }, pauseToNextBirth)
+                return () => clearTimeout(timer)
+            }
+        }
     }, [enemies])
 
     return (
         <pixiContainer sortableChildren={true}>
-            {enemies.map((enemy) => (
-                <Enemy
-                    key={enemy.id}
-                    item={enemy}
-                    ref={ref}
-                    prideState={prideState}
-                    setPrideState={setPrideState}
-                />
-            ))}
+            {enemies.length > 0 ? (<>
+                <BotBase pos={enemies[0].base} />
+                {enemies.map((enemy) => (
+                    <Enemy
+                        key={enemy.id}
+                        item={enemy}
+                        ref={ref}
+                        base={enemies[0].base}
+                        prideState={prideState}
+                        setPrideState={setPrideState}
+                    />
+                ))}
+            </>) : null}
+
         </pixiContainer>
     )
 }

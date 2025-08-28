@@ -1,18 +1,10 @@
 // store
 import { usePersistedStore } from "@/store"
 // types
-import type { PersistedStore } from "@lib/types"
+import type { storeTypes, gameTypes } from "@lib/types"
 
-export type DevHitboxProps = {
-    x: number
-    y: number
-    width: number
-    height: number
-    [key: string]: unknown
-}
-
-const DevHitbox = ({ x, y, width, height, ...props }: DevHitboxProps) => {
-    const isDev = usePersistedStore((state: PersistedStore) => state.isDev)
+const DevHitbox = ({ x, y, width, height, ...props }: gameTypes.DevHitboxProps) => {
+    const isDev = usePersistedStore((state: storeTypes.PersistedStore) => state.isDev)
 
     return isDev ? (
         <pixiGraphics

@@ -14,7 +14,7 @@ import {
     maxDistanceFromBase,
 } from "@lib/config"
 
-const Enemy = ({ ref, item, prideState, setPrideState, }: gameTypes.EnemyProps) => {
+const Enemy = ({ ref, base, item, prideState, setPrideState, }: gameTypes.EnemyProps) => {
     const spriteRef = useRef<AnimatedSprite | null>(null) // The Pixi.js `Sprite`
     // state
     const [atlasJson, setAtlasJson] = useState<gameTypes.AtlasJSON | null>(null)
@@ -33,7 +33,6 @@ const Enemy = ({ ref, item, prideState, setPrideState, }: gameTypes.EnemyProps) 
         }
         let angle = 0
         const speed = initialEnemyModel.speed
-        const base = initialEnemyModel.base
         const pausePhase = getRandomInt(1000, 4000)
         const walkingPhase = getRandomInt(3000, 9000)
 
@@ -115,6 +114,12 @@ const Enemy = ({ ref, item, prideState, setPrideState, }: gameTypes.EnemyProps) 
             return
         }
     }, [prideState])
+
+    useEffect(() => {
+        if (state === "angry" && prideState !== "angry") {
+            setPrideState("angry")
+        }
+    }, [state])
 
     return atlasJson && textures && item && ref.current ? (
         <>

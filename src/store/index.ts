@@ -10,7 +10,6 @@ import { createKeyboardSlice } from "@store/keyboard-store"
 // types
 import type { storeTypes } from "@lib/types"
 
-
 export const usePersistedStore = create<storeTypes.PersistedStore>()(
     devtools(
         persist(

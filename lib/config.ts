@@ -109,7 +109,7 @@ export const spawnMatrix: Record<number, number> = {
     10: minute * 22
 }
 
-export const initialEnemyModel: gameTypes.EnemyEntity = {
+export const initialEnemyModel = {
     id: 1,
     uid: "356039fa-815d-4239-8491-6cb91b0b6ab7",
     state: "idle",
@@ -122,9 +122,7 @@ export const initialEnemyModel: gameTypes.EnemyEntity = {
     zIndex: 99,
     name: "Enemy-" + 1,
     dead: false,
-    position: fakeStartPosition,
-    base: fakeStartPosition,
-}
+} as gameTypes.EnemyEntity
 
 export const generatedObjects: gameTypes.GameObjectEntity[] = [
     {

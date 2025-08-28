@@ -4,6 +4,7 @@ import { TilingSprite, Assets } from "pixi.js"
 // utils
 import { CompositeTilemap } from '@pixi/tilemap'
 import { generateMap } from "@lib/utils"
+import { toast } from "sonner"
 // types
 import type { gameTypes, PixiTilingSprite, Container } from "@lib/types"
 // config
@@ -21,7 +22,8 @@ const CustomTilingSprite = forwardRef<PixiTilingSprite | null, gameTypes.CustomT
 
         useEffect(() => {
             Assets.load('/assets/map/ground.json').then(() => {
-                const tiledmap = new CompositeTilemap();
+                const tiledmap = new CompositeTilemap()
+                tiledmap.interactive = true
 
                 gmap.forEach((firstLevel, x) => {
                     firstLevel.forEach((tile, y) => {
@@ -36,6 +38,12 @@ const CustomTilingSprite = forwardRef<PixiTilingSprite | null, gameTypes.CustomT
                         )
                     })
                 })
+                // TODO: just for testing
+                tiledmap.on("click", (props) => {
+                    toast.info("click", {
+                        description: `x: ${props.global.x}, y: ${props.global.y}`,
+                    })
+                })
                 setTilemap(tiledmap)
             })
         }, [])
@@ -45,6 +53,19 @@ const CustomTilingSprite = forwardRef<PixiTilingSprite | null, gameTypes.CustomT
                 ref.current.addChild(tilemap)
             }
         }, [tilemap, ref.current])
+
+        // useEffect(() => {
+        //     if (!ref.current) return
+        //     ref.current.onclick = (props) => {
+        //         console.log("Container clicked", props)
+        //     }
+
+        //     return () => {
+        //         if (ref.current) {
+        //             ref.current.onclick = null
+        //         }
+        //     }
+        // }, [])
 
         return tilemap ? (<pixiContainer ref={ref} />) : null
     },

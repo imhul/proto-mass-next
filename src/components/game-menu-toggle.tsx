@@ -1,6 +1,6 @@
 import * as React from "react"
 // store
-import { usePersistedStore } from "@store"
+import { usePersistedStore } from "@/store"
 // components
 import { Button } from "@components/ui/button"
 import {
@@ -10,7 +10,7 @@ import {
     DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu"
 // types
-import type { GameMenuItem, PersistedStore } from "@lib/types"
+import type { uiTypes, storeTypes } from "@lib/types"
 // utils
 import { Ellipsis } from "lucide-react"
 // config
@@ -18,7 +18,7 @@ import { gameMenu } from "@lib/config"
 
 function GameMenuToggle() {
     const setGameAction = usePersistedStore(
-        (state: PersistedStore) => state.setGameAction,
+        (state: storeTypes.PersistedStore) => state.setGameAction,
     )
 
     return (
@@ -30,7 +30,7 @@ function GameMenuToggle() {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                {gameMenu.map((item: GameMenuItem) => (
+                {gameMenu.map((item: uiTypes.GameMenuItem) => (
                     <DropdownMenuItem
                         key={item.id}
                         onClick={() => setGameAction(item.id)}

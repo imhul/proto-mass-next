@@ -6,7 +6,7 @@ import { usePersistedStore } from "@/store"
 // components
 import DevHitbox from "@components/dev-hitbox"
 // types
-import type { gameTypes, Texture, PersistedStore } from "@lib/types"
+import type { gameTypes, Texture, storeTypes } from "@lib/types"
 // config
 import {
     defaultChunkSize,
@@ -17,10 +17,10 @@ import {
 const Objects = ({ size }: gameTypes.ObjectsProps) => {
     const [textures, setTextures] = useState<Texture[] | null>(null)
     const setGameAction = usePersistedStore(
-        (state: PersistedStore) => state.setGameAction,
+        (state: storeTypes.PersistedStore) => state.setGameAction,
     )
     const objectsMap = usePersistedStore(
-        (state: PersistedStore) => state.getObjectsMap,
+        (state: storeTypes.PersistedStore) => state.getObjectsMap,
     )
 
     useExtend({ Sprite, Graphics })
