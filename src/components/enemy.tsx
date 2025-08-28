@@ -131,7 +131,7 @@ const Enemy = ({ ref, base, item, prideState, setPrideState, }: gameTypes.EnemyP
                 eventMode={"static"}
                 onPointerOver={() => setIsHover(true)}
                 onPointerOut={() => setIsHover(false)}
-                scale={4}
+                scale={2.5}
                 animationSpeed={0.14}
                 x={item.position.x}
                 y={item.position.y}

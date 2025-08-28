@@ -9,7 +9,7 @@ const BotBase = ({ pos }: { pos: gameTypes.Position }) => {
     const [hp, setHp] = useState<number>(100)
 
     useEffect(() => {
-        if (!texture) Assets.load("/assets/enemy/bot-base.png")
+        if (!texture) Assets.load("/assets/ships/ship-1.png")
             .then((tex) => {
                 setTexture(tex as Texture)
             })
