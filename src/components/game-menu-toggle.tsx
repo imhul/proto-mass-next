@@ -10,7 +10,7 @@ import {
     DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu"
 // types
-import type { uiTypes, storeTypes } from "@lib/types"
+import type { uiTypes, storeTypes, gameTypes } from "@lib/types"
 // utils
 import { Ellipsis } from "lucide-react"
 // config
@@ -25,7 +25,7 @@ function GameMenuToggle() {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon">
-                    <Ellipsis className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all" />
+                    <Ellipsis className="text-white h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all" />
                     <span className="sr-only">Toggle theme</span>
                 </Button>
             </DropdownMenuTrigger>
@@ -33,7 +33,7 @@ function GameMenuToggle() {
                 {gameMenu.map((item: uiTypes.GameMenuItem) => (
                     <DropdownMenuItem
                         key={item.id}
-                        onClick={() => setGameAction(item.id)}
+                        onClick={() => setGameAction(item.id as gameTypes.GameAction)}
                     >
                         {item.label}
                     </DropdownMenuItem>

@@ -136,8 +136,9 @@ export type AtlasJSON = { textures: { [key: number | string]: Texture } }
 export type BaseSize = { width: number; height: number }
 export type BaseState = "idle" | "die" | "damage" | "transform" | "special"
 export type Consumer = "hero" | "enemy"
-export type GameAction = "setSeed" | "resize" | "pause" | "restart" | "play" | "save" | "load" | "init" | "over" | "saveMap"
-export type GameDifficulty = "easy" | "normal" | "hard"
+export type GameAction = "setPref" | "setSeed" | "resize" | "pause" | "restart" | "play" | "save" | "load" | "init" | "over" | "saveMap"
+export type GameDifficultyType = "easy" | "normal" | "hard"
+export type GameDifficulty = { id: GameDifficultyType, label: string }
 export type GameObjectState = BaseState
 export type GetTexturesType = (atlasJson: AtlasJSON | null, consumer: Consumer) => TexturesCollection
 export type EnemyState = BaseState | "lvlup" | "angry" | "attack" | "run"

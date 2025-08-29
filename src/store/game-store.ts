@@ -13,7 +13,7 @@ const initState = {
     },
     seed: undefined,
     preferences: {
-        difficulty: "normal" as gameTypes.GameDifficulty,
+        difficulty: "normal" as gameTypes.GameDifficultyType,
         controls: "default" as storeTypes.Controls,
         theme: "system" as uiTypes.ThemeName,
         soundLevel: 50,
@@ -49,6 +49,9 @@ export const createGameSlice: storeTypes.CreateGameSliceType = (set, get) => ({
                 break
             case "setSeed":
                 set({ seed: payload })
+                break
+            case "setPref":
+                set({ preferences: payload })
                 break
             case "save":
                 // TODO: handle save

@@ -1,16 +1,16 @@
 import { createContext, useContext, useEffect, useState } from "react"
-
-type Theme = "dark" | "light" | "system"
+// types
+import type { uiTypes } from "@lib/types"
 
 type ThemeProviderProps = {
     children: React.ReactNode
-    defaultTheme?: Theme
+    defaultTheme?: uiTypes.ThemeName
     storageKey?: string
 }
 
 type ThemeProviderState = {
-    theme: Theme
-    setTheme: (theme: Theme) => void
+    theme: uiTypes.ThemeName
+    setTheme: (theme: uiTypes.ThemeName) => void
 }
 
 const initialState: ThemeProviderState = {
@@ -26,8 +26,8 @@ export function ThemeProvider({
     storageKey = "vite-ui-theme",
     ...props
 }: ThemeProviderProps) {
-    const [theme, setTheme] = useState<Theme>(
-        () => (localStorage.getItem(storageKey) as Theme) || defaultTheme,
+    const [theme, setTheme] = useState<uiTypes.ThemeName>(
+        () => (localStorage.getItem(storageKey) as uiTypes.ThemeName) || defaultTheme,
     )
 
     useEffect(() => {
@@ -50,7 +50,7 @@ export function ThemeProvider({
 
     const value = {
         theme,
-        setTheme: (theme: Theme) => {
+        setTheme: (theme: uiTypes.ThemeName) => {
             localStorage.setItem(storageKey, theme)
             setTheme(theme)
         },

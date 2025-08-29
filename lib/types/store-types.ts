@@ -99,7 +99,7 @@ export type GameActionPayload = any
 export type HeroActions = { setHeroAction: (action: gameTypes.HeroState) => void }
 
 export interface Preferences {
-    difficulty: gameTypes.GameDifficulty
+    difficulty: gameTypes.GameDifficultyType
     controls: string
     theme: uiTypes.ThemeName
     soundLevel: number

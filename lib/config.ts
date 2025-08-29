@@ -28,14 +28,8 @@ export const gameMenu: uiTypes.GameMenuItem[] = [
         label: "Load",
         id: "load"
     }, {
-        label: "Init",
-        id: "init"
-    }, {
         label: "Over",
         id: "over"
-    }, {
-        label: "Play",
-        id: "play"
     }
 ]
 
@@ -100,6 +94,21 @@ export const z = {
     "enemy": 3,
     "hero": 4,
 }
+
+export const gameGameDifficulties: gameTypes.GameDifficulty[] = [
+    {
+        label: "Easy",
+        id: "easy"
+    },
+    {
+        label: "Normal",
+        id: "normal"
+    },
+    {
+        label: "Hard",
+        id: "hard"
+    }
+]
 
 export const maxEnemiesPerPride = 10
 export const minute: number = 60 * 1000

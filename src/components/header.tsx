@@ -1,5 +1,4 @@
 // components
-import ThemeToggle from "@components/theme-toggle"
 import GameMenuToggle from "@components/game-menu-toggle"
 import Menu from "@components/menu"
 import Link from "@components/link"
@@ -12,6 +11,7 @@ import type { storeTypes } from "@lib/types"
 
 const Header = () => {
     const setIsDev = usePersistedStore((state: storeTypes.PersistedStore) => state.setIsDev)
+    const route = usePersistedStore((state: storeTypes.PersistedStore) => state.route)
 
     return (
         <header className="flex items-center justify-between p-4 bg-gray-100 dark:bg-gray-800">
@@ -26,11 +26,12 @@ const Header = () => {
             </Link>
             <Menu />
             <div className="flex items-center gap-4">
-                <Button className="text-white" onClick={() => setIsDev()}>
-                    <Bug />
-                </Button>
-                <GameMenuToggle />
-                <ThemeToggle />
+                {route === "game" && (<>
+                    <Button className="text-white" onClick={() => setIsDev()}>
+                        <Bug />
+                    </Button>
+                    <GameMenuToggle />
+                </>)}
             </div>
         </header>
     )

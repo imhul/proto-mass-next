@@ -1,40 +1,51 @@
-import * as React from "react"
+import type React from "react"
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "@components/theme-provider"
 // components
-import { Button } from "@components/ui/button"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu"
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 // types
 import type { uiTypes } from "@lib/types"
 // config
 import { themeMenu } from "@lib/config"
 
-function ThemeToggle() {
-  const { setTheme } = useTheme()
+const ThemeToggle = () => {
+    const { setTheme, theme } = useTheme()
 
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
-          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        {themeMenu.map((theme: uiTypes.Theme) => (
-          <DropdownMenuItem key={theme.id} onClick={() => setTheme(theme.id)}>
-            {theme.label}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
+    return (
+        <Select onValueChange={(value) => setTheme(value as uiTypes.ThemeName)} defaultValue={"system"}>
+            <SelectTrigger className="w-[180px] text-white">
+                <SelectValue placeholder={(
+                    <div className="flex items-center justify-start">
+                        <Sun className="text-white h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+                        <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+                        <span className="sr-only">{theme ?? "system"}</span>
+                    </div>
+                )} />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectGroup>
+                    <SelectLabel>Themes</SelectLabel>
+                    {themeMenu.map((themeItem: uiTypes.Theme) => (
+                        <SelectItem
+                            className={theme === themeItem.id ? "bg-muted" : ""}
+                            key={themeItem.id}
+                            value={themeItem.id}
+                        >
+                            {themeItem.label}
+                        </SelectItem>
+                    ))}
+                </SelectGroup>
+            </SelectContent>
+        </Select>
+    )
 }
 
 export default ThemeToggle
