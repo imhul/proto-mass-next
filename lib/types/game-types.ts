@@ -1,6 +1,5 @@
 import type {
     Point,
-    uiTypes,
     Texture,
     RefObject,
     EventSystem,
@@ -93,7 +92,6 @@ export interface GameObjectEntity extends BaseEntity {
 
 export interface HeroEntity extends BaseEntity {
     speed: number
-    preferences: Preferences
     state: HeroState | BaseState
     abilities: any[] // temporary type
     skills: Skill[]
@@ -138,7 +136,7 @@ export type AtlasJSON = { textures: { [key: number | string]: Texture } }
 export type BaseSize = { width: number; height: number }
 export type BaseState = "idle" | "die" | "damage" | "transform" | "special"
 export type Consumer = "hero" | "enemy"
-export type GameAction = "resize" | "pause" | "restart" | "play" | "save" | "load" | "init" | "over" | "saveMap"
+export type GameAction = "setSeed" | "resize" | "pause" | "restart" | "play" | "save" | "load" | "init" | "over" | "saveMap"
 export type GameDifficulty = "easy" | "normal" | "hard"
 export type GameObjectState = BaseState
 export type GetTexturesType = (atlasJson: AtlasJSON | null, consumer: Consumer) => TexturesCollection
@@ -155,14 +153,6 @@ export type SummaryState = HeroState | EnemyState
 export type TexturesCollection = TexturesObject | null
 export type TexturesObject = { [key in SummaryState]: Texture[] }
 export type UseMoveProps = { viewportRef: React.RefObject<CameraProps> }
-
-export interface Preferences {
-    difficulty: GameDifficulty
-    controls: string
-    theme: uiTypes.ThemeName
-    soundLevel: number
-    fullscreen: boolean
-}
 
 export interface Breakpoint {
     id: string
@@ -189,3 +179,12 @@ export interface CheckObjectCollision {
     collision: boolean
     obstacle?: Obstacle
 }
+
+export type GenerateMap = (params: {
+    seed?: string,
+    width: number,
+    height: number,
+    bigClusterPercent: number,
+    smallClusterPercent: number,
+    materials: number[]
+}) => number[][]

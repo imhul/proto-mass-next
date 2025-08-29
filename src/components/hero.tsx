@@ -51,16 +51,6 @@ const Hero = ({ state, ref }: gameTypes.HeroProps) => {
                 height={textures["run"][0].height}
                 label="dev-hero-hitbox"
             />
-            <pixiText
-                text={`z: ${Math.floor(Number(spriteRef.current?.zIndex ?? 0))}`}
-                style={{
-                    fill: 0xff1010,
-                }}
-                position={{
-                    x: spriteRef.current?.position.x ?? 0,
-                    y: spriteRef.current?.position.y ?? 0,
-                }}
-            />
             <pixiAnimatedSprite
                 textures={textures[state]}
                 ref={spriteRef}

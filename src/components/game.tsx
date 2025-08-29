@@ -10,7 +10,6 @@ import Enemies from "@components/enemies"
 import Camera from "@components/camera"
 import Maggots from "@components/maggots"
 import Objects from "@components/objects"
-import InitialScene from "@components/initial-scene"
 import Ground from "@components/ground"
 // types
 import type { storeTypes, gameTypes } from "@lib/types"
@@ -24,7 +23,6 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
         null,
     ) as React.RefObject<gameTypes.CameraProps>
     // store
-    const isGameInit = usePersistedStore((state: storeTypes.PersistedStore) => state.init)
     const setGameAction = usePersistedStore(
         (state: storeTypes.PersistedStore) => state.setGameAction,
     )
@@ -50,8 +48,7 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
 
     return (
         <>
-            {(isGameInit &&
-                parentRef.current &&
+            {(parentRef.current &&
                 app.renderer &&
                 gameSize) ? (
                 <Camera
@@ -65,7 +62,7 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
                     <Enemies ref={viewportRef} />
                     {viewportRef && <Hero state={heroState} ref={viewportRef} />}
                 </Camera>
-            ) : (<InitialScene />)
+            ) : null
             }
         </>
     )

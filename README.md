@@ -21,9 +21,9 @@ The decision to abandon [Svelte](https://svelte.dev) and [Next](https://nextjs.o
 - [x] Add map generation
 - [x] Add enemies spawn and enemies base
 - [x] Implement **JSON tilemap** with ['@pixi/tilemap'](https://www.npmjs.com/package/@pixi/tilemap)
+- [x] Implement seed based map generation by [rand-seed](https://www.npmjs.com/package/rand-seed)
 - [ ] Implement object collisions
 - [ ] Add fight/die mechanics
-- [ ] Implement map generation by [rand-seed](https://www.npmjs.com/package/rand-seed)
 - [ ] Implement map chunk generation
 - [ ] Implement [Tauri](https://tauri.app)
 - [ ] Implement save/load functionality

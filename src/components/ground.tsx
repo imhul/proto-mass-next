@@ -1,13 +1,13 @@
 import { useEffect, useState, } from "react"
 import { Assets } from "pixi.js"
 // store
-// import { usePersistedStore } from "@/store"
+import { usePersistedStore } from "@/store"
 // utils
 import { CompositeTilemap } from '@pixi/tilemap'
 import { generateMap } from "@lib/utils"
 import { toast } from "sonner"
 // types
-// import type { } from "@lib/types"
+import type { storeTypes } from "@lib/types"
 // config
 import { z, tileSize, defaultChunkSize } from "@lib/config"
 
@@ -15,11 +15,13 @@ import CustomTilingSprite from "@components/pixi/custom-tiling-sprite"
 
 const Ground = () => {
     // const isDev = usePersistedStore((state: storeTypes.PersistedStore) => state.isDev)
+    const seed = usePersistedStore((state: storeTypes.PersistedStore) => state.seed)
     // state
     const [tilemap, setTilemap] = useState<CompositeTilemap | null>(null)
     const gameSize = defaultChunkSize * 2
     const side = Math.floor(gameSize / tileSize)
     const gmap = generateMap({
+        seed,
         width: side,
         height: side,
         bigClusterPercent: 5,

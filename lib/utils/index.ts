@@ -5,6 +5,7 @@ import { generateMap } from '@lib/utils/map-generator'
 import { playSFX } from '@utils/play-sfx'
 import { getRandomInt } from "@utils/get-random-int"
 import { getTimeDifference } from '@utils/get-time-difference'
+import { generateSeed } from '@utils/seed-generator'
 import {
     saveToLocalStorage,
     readFromLocalStorage,
@@ -21,6 +22,7 @@ export {
     generateMap,
     getTextures,
     getRandomInt,
+    generateSeed,
     getTimeDifference,
     saveToLocalStorage,
     readFromLocalStorage,

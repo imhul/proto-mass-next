@@ -1,6 +1,6 @@
 import { StateCreator } from "zustand"
 // types
-import type { gameTypes } from "@lib/types"
+import type { uiTypes, gameTypes } from "@lib/types"
 
 //----------------------------------------------
 // PERSISTED STORE
@@ -55,11 +55,13 @@ export type CreateNavSliceType = StateCreator<
 //----------------------------------------------
 export type GameSlice = {
     init: boolean
+    seed: string | undefined
     paused: boolean
     gameOver: boolean
     gameSize: gameTypes.BaseSize
     objectsMap: gameTypes.GameObjectEntity[]
     startTimestamp: number
+    preferences: Preferences
     getObjectsMap: () => gameTypes.GameObjectEntity[]
     setGameAction: (
         action: gameTypes.GameAction,
@@ -95,3 +97,11 @@ export type ControlsBindings = { [key: string]: (key: string) => void }
 export type Controls = "default" & { controls: ControlsBindings }
 export type GameActionPayload = any
 export type HeroActions = { setHeroAction: (action: gameTypes.HeroState) => void }
+
+export interface Preferences {
+    difficulty: gameTypes.GameDifficulty
+    controls: string
+    theme: uiTypes.ThemeName
+    soundLevel: number
+    fullscreen: boolean
+}

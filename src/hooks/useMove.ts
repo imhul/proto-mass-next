@@ -241,7 +241,6 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
     }
 
     const onKeyDown = (event: KeyboardEvent) => {
-        if (!isGameInit) setGameAction("init")
         pressedKeys.current[event.code] = true
         const direction = eventConductor(pressedKeys.current)
         if (!direction) return

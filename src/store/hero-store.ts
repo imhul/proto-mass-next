@@ -20,13 +20,6 @@ const initHeroState: gameTypes.HeroEntity = {
     timestamp: performance.now(),
     zIndex: 1,
     attackPower: 7,
-    preferences: {
-        difficulty: "normal" as gameTypes.GameDifficulty,
-        controls: "default" as storeTypes.Controls,
-        theme: "system" as uiTypes.ThemeName,
-        soundLevel: 50,
-        fullscreen: false,
-    },
 }
 
 export const createHeroSlice: storeTypes.CreateHeroSliceType = () => ({

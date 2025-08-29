@@ -1,35 +1,31 @@
-// TODO: implement: https://www.npmjs.com/package/rand-seed
-export type GenerateMap = (params: {
-    width: number,
-    height: number,
-    bigClusterPercent: number,
-    smallClusterPercent: number,
-    materials: number[]
-}) => number[][]
+// utils
+import { getRandomInt } from '@lib/utils'
+import Rand from 'rand-seed'
+// config
+import { smallClusterSize, bigClusterSize } from '@lib/config'
+// types
+import type { gameTypes } from '@lib/types'
 
-export const generateMap: GenerateMap = ({
+export const generateMap: gameTypes.GenerateMap = ({
+    seed,
     width,
     height,
     materials,
     bigClusterPercent,
     smallClusterPercent,
 }) => {
+    const rand = new Rand(seed)
     const map: number[][] = Array.from({ length: height }, () => Array(width).fill(0))
-
-    const rand = (min: number, max: number) =>
-        Math.floor(Math.random() * (max - min + 1)) + min
-    const pick = <T>(arr: T[]) => arr[rand(0, arr.length - 1)]
-
+    const pick = <T>(arr: T[]) => arr[getRandomInt(0, arr.length - 1, rand)]
     const totalCells = width * height
     const avgBigSize = 15
     const avgSmallSize = 3
-
     const bigClusters = Math.floor((totalCells * bigClusterPercent) / 100 / avgBigSize)
     const smallClusters = Math.floor((totalCells * smallClusterPercent) / 100 / avgSmallSize)
 
     function placeCluster(size: number) {
-        const startX = rand(0, width - 1)
-        const startY = rand(0, height - 1)
+        const startX = getRandomInt(0, width - 1, rand)
+        const startY = getRandomInt(0, height - 1, rand)
         const material = pick(materials)
 
         const stack: [number, number][] = [[startX, startY]]
@@ -48,27 +44,24 @@ export const generateMap: GenerateMap = ({
             map[y][x] = material
             placed++
 
-            // додаємо сусідів у випадковому порядку
             const neighbors = [
                 [x + 1, y],
                 [x - 1, y],
                 [x, y + 1],
                 [x, y - 1],
             ] as [number, number][];
-            neighbors.sort(() => Math.random() - 0.5)
+            neighbors.sort(() => getRandomInt(0, 1, rand) - 0.5)
 
             stack.push(...neighbors)
         }
     }
 
-    // великі кластери
     for (let i = 0; i < bigClusters; i++) {
-        placeCluster(rand(10, 20))
+        placeCluster(getRandomInt(bigClusterSize.min, bigClusterSize.max, rand))
     }
 
-    // маленькі кластери
     for (let i = 0; i < smallClusters; i++) {
-        placeCluster(rand(1, 6))
+        placeCluster(getRandomInt(smallClusterSize.min, smallClusterSize.max, rand))
     }
 
     return map

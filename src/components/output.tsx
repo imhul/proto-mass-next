@@ -1,7 +1,10 @@
 import { useRef } from "react"
-// components
 import { Application, useExtend } from "@pixi/react"
+// store
+import { usePersistedStore } from "@/store"
+// components
 import Game from "@components/game"
+import InitialScene from "@components/initial-scene"
 import {
     AnimatedSprite,
     TilingSprite,
@@ -9,9 +12,12 @@ import {
     Graphics,
     Sprite,
 } from "pixi.js"
+// types
+import type { storeTypes } from "@lib/types"
 
 export const Output = () => {
     const parentRef = useRef<HTMLDivElement>(null)
+    const isGameInit = usePersistedStore((state: storeTypes.PersistedStore) => state.init)
 
     useExtend({
         AnimatedSprite,
@@ -23,9 +29,9 @@ export const Output = () => {
 
     return (
         <div ref={parentRef} className="game-container">
-            <Application resizeTo={parentRef}>
+            {isGameInit ? (<Application resizeTo={parentRef}>
                 <Game parentRef={parentRef} />
-            </Application>
+            </Application>) : (<InitialScene />)}
         </div>
     )
 }
