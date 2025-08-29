@@ -10,7 +10,7 @@ import type {
 // utils
 import { eventConductor } from "@lib/events"
 // config
-import { generatedObjects } from "@lib/config"
+import { z, generatedObjects } from "@lib/config"
 
 export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
     // refs
@@ -65,7 +65,7 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
 
         if (!closestObject || closestDistance > 10) return null
         let direction: gameTypes.MovementDirection
-        const { dx, dy, name, zIndex } = closestObject
+        const { dx, dy, name } = closestObject
 
         if (Math.abs(dx) > Math.abs(dy)) {
             direction = dx > 0 ? 'rune' : 'runw'
@@ -82,7 +82,6 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
 
         return {
             name,
-            zIndex,
             direction,
         }
     }
@@ -105,7 +104,6 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
                 ((boundsA.y + boundsA.height) > boundsB.y)),
             obstacle: {
                 direction: closest.direction,
-                zIndex: closest.zIndex,
                 label: closest.name,
                 position: {
                     x: closestEl.children[0].position.x,
@@ -124,7 +122,7 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
         const vp = viewportRef?.current
         if (!vp) return
         const hero: AnimatedSprite = vp.getChildByLabel("hero")
-        if (!hero.position || !hero.scale || !hero.zIndex) return
+        if (!hero.position || !hero.scale) return
         // -------------------------------------------------------
         const newHeroPosition = {
             x: hero.position.x + dx,
@@ -141,6 +139,9 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
             ease: "easeOutSine",
         })
         // -------------------------------------------------------
+        hero.zIndex = (hero.zIndex < z.hero || newHeroPosition.y < z.hero)
+            ? z.hero
+            : Math.floor(newHeroPosition.y)
         hero.position.set(newHeroPosition.x, newHeroPosition.y)
         if (["runnw", "runsw", "runw"].includes(direction)) {
             hero.scale.x = -3
@@ -151,13 +152,13 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
         const { collision, obstacle } = checkObjectCollision(newHeroPosition)
 
         if (collision && obstacle) {
-            if (hero.zIndex > obstacle.zIndex) hero.zIndex = obstacle.zIndex - 1
             stopRun(obstacle.direction)
         } else if (!collision) {
             blockedDirections.current.forEach((dir) => {
                 if (direction !== dir) blockedDirections.current.delete(dir)
             })
         }
+        // -------------------------------------------------------
     }
 
     const runAnimation = (

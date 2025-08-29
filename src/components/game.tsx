@@ -11,7 +11,7 @@ import Camera from "@components/camera"
 import Maggots from "@components/maggots"
 import Objects from "@components/objects"
 import InitialScene from "@components/initial-scene"
-import CustomTilingSprite from "@components/pixi/custom-tiling-sprite"
+import Ground from "@components/ground"
 // types
 import type { storeTypes, gameTypes } from "@lib/types"
 
@@ -59,7 +59,7 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
                     events={app.renderer.events}
                     gameSize={gameSize}
                 >
-                    <CustomTilingSprite />
+                    <Ground />
                     <Maggots width={gameSize.width} height={gameSize.height} />
                     <Objects size={gameSize} />
                     <Enemies ref={viewportRef} />

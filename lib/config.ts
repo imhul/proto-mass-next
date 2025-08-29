@@ -91,6 +91,13 @@ export const enemyTexturesConfig: Record<gameTypes.EnemyState, { count: number, 
     "transform": { count: 8, uid: 13 },
 }
 
+export const z = {
+    "ground": 1,
+    "object": 2,
+    "enemy": 3,
+    "hero": 4,
+}
+
 export const maxEnemiesPerPride = 10
 export const minute: number = 60 * 1000
 export const angryState = "angry" as gameTypes.EnemyState

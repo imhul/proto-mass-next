@@ -1,6 +1,7 @@
 import type { RefObject, ReactElement, ReactNode, JSXElementConstructor } from 'react';
 // pixi
 import type { Viewport } from 'pixi-viewport'
+import type { CompositeTilemap } from '@pixi/tilemap'
 import type { PixiReactElementProps } from '@pixi/react'
 import type {
     Point,
@@ -35,6 +36,7 @@ export type {
     Application,
     EventSystem,
     AnimatedSprite,
+    CompositeTilemap,
     PixiReactElementProps,
     TilingSprite as PixiTilingSprite,
 

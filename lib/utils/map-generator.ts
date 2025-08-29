@@ -1,11 +1,19 @@
 // TODO: implement: https://www.npmjs.com/package/rand-seed
-export function generateMap(
+export type GenerateMap = (params: {
     width: number,
     height: number,
     bigClusterPercent: number,
     smallClusterPercent: number,
     materials: number[]
-): number[][] {
+}) => number[][]
+
+export const generateMap: GenerateMap = ({
+    width,
+    height,
+    materials,
+    bigClusterPercent,
+    smallClusterPercent,
+}) => {
     const map: number[][] = Array.from({ length: height }, () => Array(width).fill(0))
 
     const rand = (min: number, max: number) =>

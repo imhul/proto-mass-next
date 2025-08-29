@@ -8,6 +8,8 @@ import DevHitbox from "@components/dev-hitbox"
 import type { storeTypes, gameTypes } from "@lib/types"
 // utils
 import { getTextures } from "@lib/utils"
+// config
+import { z } from "@lib/config"
 
 const Hero = ({ state, ref }: gameTypes.HeroProps) => {
     const spriteRef = useRef<AnimatedSprite | null>(null) // The Pixi.js `Sprite`
@@ -49,6 +51,16 @@ const Hero = ({ state, ref }: gameTypes.HeroProps) => {
                 height={textures["run"][0].height}
                 label="dev-hero-hitbox"
             />
+            <pixiText
+                text={`z: ${Math.floor(Number(spriteRef.current?.zIndex ?? 0))}`}
+                style={{
+                    fill: 0xff1010,
+                }}
+                position={{
+                    x: spriteRef.current?.position.x ?? 0,
+                    y: spriteRef.current?.position.y ?? 0,
+                }}
+            />
             <pixiAnimatedSprite
                 textures={textures[state]}
                 ref={spriteRef}
@@ -70,8 +82,8 @@ const Hero = ({ state, ref }: gameTypes.HeroProps) => {
                         textures["run"][0].height,
                     )
                 }
+                zIndex={z.hero}
                 label="hero"
-                zIndex={100}
                 autoPlay
                 loop
             // filters={[new Filter({ resolution: 4, blendMode: "multiply" })]}

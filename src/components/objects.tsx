@@ -86,7 +86,7 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
                             texture={tex}
                             scale={2}
                             label={object.name}
-                            zIndex={object.zIndex}
+                            zIndex={Math.floor(object.position.y + tex.height + 1)}
                             anchor={0.5}
                         />
                     </pixiContainer>

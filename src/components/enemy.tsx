@@ -145,7 +145,7 @@ const Enemy = ({ ref, base, item, prideState, setPrideState, }: gameTypes.EnemyP
                     )
                 }
                 label={"enemy-" + item.id}
-                zIndex={100}
+                zIndex={Math.floor(item.position.y + textures["idle"][0].height / 2)}
                 autoPlay
                 loop
                 filters={isHovered

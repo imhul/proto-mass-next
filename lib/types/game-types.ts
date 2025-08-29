@@ -1,11 +1,12 @@
 import type {
     Point,
+    uiTypes,
     Texture,
     RefObject,
     EventSystem,
     ReactElement,
     AnimatedSprite,
-    uiTypes,
+    CompositeTilemap,
 } from '@lib/types'
 
 //----------------------------------------------
@@ -16,6 +17,7 @@ export type GameProps = { parentRef: React.RefObject<HTMLDivElement | null> }
 export interface CustomTilingSpriteProps {
     tileScale?: { x: number; y: number }
     tilePosition?: { x: number; y: number }
+    tilemap: CompositeTilemap | null
 }
 
 export interface CameraProps {
@@ -171,7 +173,6 @@ export interface Breakpoint {
 
 export interface ClosestObject {
     position?: Position
-    zIndex: number
     width?: number
     height?: number
     name: string
@@ -180,7 +181,6 @@ export interface ClosestObject {
 
 export interface Obstacle {
     direction: MovementDirection
-    zIndex: number
     label: string
     position: Position
 }

@@ -16,13 +16,15 @@ The decision to abandon [Svelte](https://svelte.dev) and [Next](https://nextjs.o
 
 - [x] Implement ['@pixi/react'](https://www.npmjs.com/package/@pixi/react)
 - [x] Implement **Zustand** sliced store to control React & Pixi state
-- [x] Added player and camera 8-direction movement
-- [x] Added object collisions and zIndex reordering
-- [x] Added map generation
-- [x] Implement **JSON tilemap** with ['@pixi/tilemap'](https://www.npmjs.com/package/@pixi/tilemap)
-- [ ] Implement map chunk generation by [rand-seed](https://www.npmjs.com/package/rand-seed)
+- [x] Add player and camera 8-direction movement
+- [x] Add zIndex reordering
+- [x] Add map generation
 - [x] Add enemies spawn and enemies base
+- [x] Implement **JSON tilemap** with ['@pixi/tilemap'](https://www.npmjs.com/package/@pixi/tilemap)
+- [ ] Implement object collisions
 - [ ] Add fight/die mechanics
+- [ ] Implement map generation by [rand-seed](https://www.npmjs.com/package/rand-seed)
+- [ ] Implement map chunk generation
 - [ ] Implement [Tauri](https://tauri.app)
 - [ ] Implement save/load functionality
 
