@@ -1,27 +1,6 @@
-import type { gameTypes } from "@lib/types";
-
-export const keyBindings = {
-    moveup: {
-        keys: ['ArrowUp', 'w'],
-        codes: ['ArrowUp', 'KeyW'],
-        keyCodes: [87, 38]
-    },
-    movedown: {
-        keys: ['ArrowDown', 's'],
-        codes: ['ArrowDown', 'KeyS'],
-        keyCodes: [83, 40]
-    },
-    moveleft: {
-        keys: ['ArrowLeft', 'a'],
-        codes: ['ArrowLeft', 'KeyA'],
-        keyCodes: [65, 37]
-    },
-    moveright: {
-        keys: ['ArrowRight', 'd'],
-        codes: ['ArrowRight', 'KeyD'],
-        keyCodes: [68, 39]
-    },
-}
+import type { gameTypes } from "@lib/types"
+// config
+// import { keyBindings } from "@lib/config"
 
 export const eventConductor = (pressedKeys: { [key: string]: boolean }): gameTypes.MovementDirection | null => {
     const up = pressedKeys["ArrowUp"] || pressedKeys["KeyW"];

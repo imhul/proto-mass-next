@@ -3,12 +3,10 @@ import { useEffect, useState, useRef } from "react"
 import { useStore, usePersistedStore } from "@/store"
 // types
 import type {
-    AnimatedSprite,
     gameTypes,
     storeTypes,
+    AnimatedSprite,
 } from "@lib/types"
-// utils
-import { eventConductor } from "@lib/events"
 // config
 import { z, generatedObjects } from "@lib/config"
 
@@ -21,11 +19,12 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
     // state
     const [heroState, setHeroState] = useState<gameTypes.HeroState>("stand")
     // store
-    const isGameInit = usePersistedStore((state: storeTypes.PersistedStore) => state.init)
-    const setGameAction = usePersistedStore(
-        (state: storeTypes.PersistedStore) => state.setGameAction,
-    )
     const heroSnapshot = useStore((state: storeTypes.GlobalStore) => state.hero)
+    const keyBindings = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences.keyBindings)
+    // const isGameInit = usePersistedStore((state: storeTypes.PersistedStore) => state.init)
+    // const setGameAction = usePersistedStore(
+    //     (state: storeTypes.PersistedStore) => state.setGameAction,
+    // )
 
     const createNewMapChunk = (position: gameTypes.Position) => {
         // TODO: 2. write function
@@ -57,7 +56,7 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
             }
         })
 
-        // TODO: Якщо бігти по діагоналі,
+        // TODO: 3. Якщо бігти по діагоналі,
         // а потім відпустити одну з двох клавіш,
         // які відповідають за вертикальний рух,
         // то герой продовжувати рухатися по діагоналі, по якій він рухався,
@@ -240,6 +239,29 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
         }
     }
 
+    const eventConductor = (pressed: { [key: string]: boolean }): gameTypes.MovementDirection | null => {
+        const upKeys = keyBindings.moveup.codes
+        const downKeys = keyBindings.movedown.codes
+        const leftKeys = keyBindings.moveleft.codes
+        const rightKeys = keyBindings.moveright.codes
+
+        const up = upKeys.some((key: string) => pressed[key])
+        const down = downKeys.some((key: string) => pressed[key])
+        const left = leftKeys.some((key: string) => pressed[key])
+        const right = rightKeys.some((key: string) => pressed[key])
+
+        if (up && left) return "runnw"
+        if (up && right) return "runne"
+        if (down && left) return "runsw"
+        if (down && right) return "runse"
+        if (up) return "runn"
+        if (down) return "runs"
+        if (left) return "runw"
+        if (right) return "rune"
+
+        return null
+    }
+
     const onKeyDown = (event: KeyboardEvent) => {
         pressedKeys.current[event.code] = true
         const direction = eventConductor(pressedKeys.current)
@@ -266,6 +288,7 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
     }
 
     useEffect(() => {
+        if (!keyBindings) return
         window.addEventListener("keydown", onKeyDown)
         window.addEventListener("keyup", onKeyUp)
 

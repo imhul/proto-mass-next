@@ -1,7 +1,7 @@
 // types
 import type { uiTypes, storeTypes, gameTypes } from "@lib/types"
 
-const initState = {
+export const initState = {
     init: false,
     paused: false,
     gameOver: false,
@@ -14,10 +14,31 @@ const initState = {
     seed: undefined,
     preferences: {
         difficulty: "normal" as gameTypes.GameDifficultyType,
-        controls: "default" as storeTypes.Controls,
         theme: "system" as uiTypes.ThemeName,
         soundLevel: 50,
         fullscreen: false,
+        keyBindings: {
+            moveup: {
+                keys: ['ArrowUp', 'w'],
+                codes: ['ArrowUp', 'KeyW'],
+                keyCodes: [87, 38]
+            },
+            movedown: {
+                keys: ['ArrowDown', 's'],
+                codes: ['ArrowDown', 'KeyS'],
+                keyCodes: [83, 40]
+            },
+            moveleft: {
+                keys: ['ArrowLeft', 'a'],
+                codes: ['ArrowLeft', 'KeyA'],
+                keyCodes: [65, 37]
+            },
+            moveright: {
+                keys: ['ArrowRight', 'd'],
+                codes: ['ArrowRight', 'KeyD'],
+                keyCodes: [68, 39]
+            },
+        }
     },
 }
 

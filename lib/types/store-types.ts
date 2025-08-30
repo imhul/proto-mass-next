@@ -93,14 +93,28 @@ export type UISlice = {
 //----------------------------------------------
 // MISCELLANEOUS
 //----------------------------------------------
-export type ControlsBindings = { [key: string]: (key: string) => void }
-export type Controls = "default" & { controls: ControlsBindings }
 export type GameActionPayload = any
 export type HeroActions = { setHeroAction: (action: gameTypes.HeroState) => void }
+export type GameKeyboardActionType = "moveup" | "movedown" | "moveleft" | "moveright"
+export type KeyBindings = Record<GameKeyboardActionType, KeyBinding>
+
+export type KeyBinding = {
+    keys: string[]
+    codes: string[]
+    keyCodes: number[]
+}
+
+export type KeyBindingCollectionItem = {
+    name: string | number
+    keyCode: number
+    key: string | number
+    code: string
+    notes?: string
+}
 
 export interface Preferences {
     difficulty: gameTypes.GameDifficultyType
-    controls: string
+    keyBindings: KeyBindings
     theme: uiTypes.ThemeName
     soundLevel: number
     fullscreen: boolean

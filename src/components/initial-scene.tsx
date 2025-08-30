@@ -1,4 +1,5 @@
 // components
+import KeyBindingEditor from "@components/key-binding-editor"
 import ThemeToggle from "@components/theme-toggle"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Slider } from "@components/ui/slider"
@@ -23,7 +24,7 @@ import {
     SelectTrigger,
 } from "@components/ui/select"
 // icons
-import { Cog, Check, Apple, Keyboard, WandSparkles } from "lucide-react"
+import { Cog, Check, Apple, WandSparkles } from "lucide-react"
 // store
 import { usePersistedStore } from "@/store"
 // utils
@@ -46,25 +47,19 @@ const InitialScene = () => {
         setGameAction("setSeed", newSeed)
     }
 
-    const openKeyBindings = () => {
-        console.info("Opening key bindings modal...")
-    }
-
-    console.info(preferences)
-
     return (
         <div className="initial-scene flex items-center justify-center h-full w-full">
             <div className="max-w-[80%] w-full text-2xl text-white">
                 <div className="flex flex-col gap-[50px] items-center sm:items-start">
                     <div className="flex flex-row items-start justify-center gap-8 w-full">
-                        <Card className="p-8 basis-1/2 w-[50%]">
+                        <Card className="p-8 basis-1/2 w-[50%] border-primary">
                             <CardHeader>
                                 <CardTitle>Game Seed</CardTitle>
                                 <CardDescription>
                                     Enter or generate
                                 </CardDescription>
                                 <CardAction>
-                                    <Apple size={40} />
+                                    <Apple size={40} className="text-primary" />
                                 </CardAction>
                             </CardHeader>
                             <CardContent className="text-white">
@@ -74,7 +69,7 @@ const InitialScene = () => {
                                         <Input
                                             id="seed"
                                             type="text"
-                                            value={seed}
+                                            value={seed ?? ""}
                                             onChange={onSeedChange}
                                             minLength={16}
                                             maxLength={16}
@@ -84,22 +79,23 @@ const InitialScene = () => {
                                         <Button
                                             size="lg"
                                             onClick={() => generate()}
-                                            className="text-white"
                                         >
-                                            <WandSparkles /> Generate
+                                            <span className="text-gray-950 flex items-center gap-4 text-2xl">
+                                                <WandSparkles /> Generate
+                                            </span>
                                         </Button>
                                     </li>
                                 </ol>
                             </CardContent>
                         </Card>
-                        <Card className="p-8 basis-1/2 w-[50%]">
+                        <Card className="p-8 basis-1/2 w-[50%] border-primary">
                             <CardHeader>
                                 <CardTitle>Preferences</CardTitle>
                                 <CardDescription>
                                     Game settings
                                 </CardDescription>
                                 <CardAction>
-                                    <Cog size={40} />
+                                    <Cog size={40} className="text-primary" />
                                 </CardAction>
                             </CardHeader>
                             <CardContent>
@@ -145,14 +141,15 @@ const InitialScene = () => {
                                         <div className="flex items-center justify-between gap-4">
                                             <Label className="text-2xl">Fullscreen</Label>
                                             <Checkbox
-                                                className="flex items-center justify-center"
+                                                style={{ borderWidth: 2, color: preferences.fullscreen ? `var(--color-gray-950)` : "transparent" }}
+                                                className="flex items-center justify-center h-[20px] w-[20px]"
                                                 checked={preferences.fullscreen}
                                                 onCheckedChange={(e: boolean) => setGameAction(
                                                     "setPref",
                                                     { ...preferences, fullscreen: e }
                                                 )}
                                             >
-                                                {preferences.fullscreen && <Check className="text-white" />}
+                                                {preferences.fullscreen && <Check />}
                                             </Checkbox>
                                         </div>
                                     </li>
@@ -161,6 +158,7 @@ const InitialScene = () => {
                                             <Label className="text-2xl">Sound: </Label>
                                             <Slider
                                                 defaultValue={[preferences.soundLevel]}
+                                                className="w-[80%]"
                                                 onValueCommit={(value) => setGameAction("setPref", { ...preferences, soundLevel: value[0] })}
                                             />
                                         </div>
@@ -168,13 +166,7 @@ const InitialScene = () => {
                                     <li className="mb-8">
                                         <div className="flex items-center justify-between gap-4">
                                             <Label className="text-2xl">Controls: </Label>
-                                            <Button
-                                                size="lg"
-                                                onClick={() => openKeyBindings()}
-                                                className="text-white"
-                                            >
-                                                <Keyboard /> Key Bindings
-                                            </Button>
+                                            <KeyBindingEditor />
                                         </div>
                                     </li>
                                 </ol>
@@ -183,12 +175,11 @@ const InitialScene = () => {
                     </div>
                     <div className="flex items-center justify-center w-full">
                         <Button
-                            className="text-white"
                             size="lg"
                             disabled={!seed?.length}
                             onClick={() => setGameAction("init")}
                         >
-                            <span className="text-white">Start Game</span>
+                            <span className="text-2xl text-gray-950">Start Game</span>
                         </Button>
                     </div>
                 </div>
