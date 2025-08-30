@@ -21,6 +21,7 @@ The decision to abandon [Svelte](https://svelte.dev) and [Next](https://nextjs.o
 - [x] Add enemies spawn and enemies base
 - [x] Implement **JSON tilemap** with ['@pixi/tilemap'](https://www.npmjs.com/package/@pixi/tilemap)
 - [x] Implement seed based map generation by [rand-seed](https://www.npmjs.com/package/rand-seed)
+- [x] Add game settings and key bindings
 - [ ] Add zIndex reordering
 - [ ] Implement object collisions
 - [ ] Add fight/die mechanics
