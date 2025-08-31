@@ -121,6 +121,62 @@
     --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
+@font-face {
+    font-family: 'CourierPrime-Regular';
+    src: url('/fonts/CourierPrime/CourierPrime-Regular.eot');
+    /* IE9 Compat Modes */
+    src:
+        url('/fonts/CourierPrime/CourierPrime-Regular.eot?#iefix') format('embedded-opentype'),
+        /* IE6-IE8 */
+        url('/fonts/CourierPrime/CourierPrime-Regular.otf') format('opentype'),
+        /* Open Type Font */
+        url('/fonts/CourierPrime/CourierPrime-Regular.svg') format('svg'),
+        /* Legacy iOS */
+        url('/fonts/CourierPrime/CourierPrime-Regular.ttf') format('truetype'),
+        /* Safari, Android, iOS */
+        url('/fonts/CourierPrime/CourierPrime-Regular.woff') format('woff'),
+        /* Modern Browsers */
+        url('/fonts/CourierPrime/CourierPrime-Regular.woff2') format('woff2');
+    /* Modern Browsers */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NK221';
+    src: url('/fonts/NK221/subset-NK221.eot');
+    src:
+        url('/fonts/NK221/subset-NK221.eot?#iefix') format('embedded-opentype'),
+        url('/fonts/NK221/subset-NK221.woff') format('woff'),
+        url('/fonts/NK221/subset-NK221.woff2') format('woff2'),
+        url('/fonts/NK221/subset-NK221.ttf') format('truetype'),
+        url('/fonts/NK221/subset-NK221.svg#NK221') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PressStart2P-Regular';
+    src: url('/fonts/PressStart/PressStart2P-Regular.eot');
+    /* IE9 Compat Modes */
+    src:
+        url('/fonts/PressStart/PressStart2P-Regular.eot?#iefix') format('embedded-opentype'),
+        /* IE6-IE8 */
+        url('/fonts/PressStart/PressStart2P-Regular.otf') format('opentype'),
+        /* Open Type Font */
+        url('/fonts/PressStart/PressStart2P-Regular.svg') format('svg'),
+        /* Legacy iOS */
+        url('/fonts/PressStart/PressStart2P-Regular.ttf') format('truetype'),
+        /* Safari, Android, iOS */
+        url('/fonts/PressStart/PressStart2P-Regular.woff') format('woff'),
+        /* Modern Browsers */
+        url('/fonts/PressStart/PressStart2P-Regular.woff2') format('woff2');
+    /* Modern Browsers */
+    font-weight: normal;
+    font-style: normal;
+}
+
+
 body {
     margin: 0;
     display: flex;

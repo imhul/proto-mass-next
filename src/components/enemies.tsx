@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react"
+// store
+import { usePersistedStore } from "@/store"
 // components
 import Enemy from "@components/enemy"
 import BotBase from "@components/bot-base"
@@ -6,11 +8,9 @@ import BotBase from "@components/bot-base"
 import { getRandomInt } from "@lib/utils"
 import { toast } from "sonner"
 // types
-import type { gameTypes } from "@lib/types"
+import type { storeTypes, gameTypes } from "@lib/types"
 // config
 import {
-    idleState,
-    angryState,
     spawnMatrix,
     defaultChunkSize,
     initialEnemyModel,
@@ -23,6 +23,7 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
     const [prideState, setPrideState] = useState<gameTypes.PrideState>("idle")
     const [max, setMax] = useState(1)
     const maxIdinList = Math.max(...enemies.map(enemy => enemy.id), 0)
+    const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
 
     const getRandomPositionNearBase = (base: gameTypes.Position) => {
         const x = getRandomInt(base.x - maxDistanceFromBase, base.x + maxDistanceFromBase)
@@ -39,6 +40,7 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
     }
 
     useEffect(() => {
+        if (paused) return
         if (enemies.length) {
             if (enemies.length < max) {
                 setEnemies((prevEnemies) => [...prevEnemies, {
@@ -72,11 +74,11 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
                 },
             }])
         }
-    }, [max])
+    }, [max, paused])
 
     // Spawn control
     useEffect(() => {
-        if (enemies.length === 0) return
+        if (paused || enemies.length === 0) return
         if (enemies.length < maxEnemiesPerPride) {
             const nextCount = enemies.length + 1
             const pauseToNextBirth = spawnMatrix[nextCount]
@@ -87,7 +89,7 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
                 return () => clearTimeout(timer)
             }
         }
-    }, [enemies])
+    }, [enemies, paused])
 
     return (
         <pixiContainer sortableChildren={true}>

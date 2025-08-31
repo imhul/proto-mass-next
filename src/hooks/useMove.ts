@@ -8,7 +8,7 @@ import type {
     AnimatedSprite,
 } from "@lib/types"
 // config
-import { z } from "@lib/config"
+import { zindex } from "@lib/config"
 
 export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
     // refs
@@ -135,8 +135,8 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
             ease: "easeOutSine",
         })
         // -------------------------------------------------------
-        hero.zIndex = (hero.zIndex < z.hero || newHeroPosition.y < z.hero)
-            ? z.hero
+        hero.zIndex = (hero.zIndex < zindex.hero || newHeroPosition.y < zindex.hero)
+            ? zindex.hero
             : Math.floor(newHeroPosition.y)
         hero.position.set(newHeroPosition.x, newHeroPosition.y)
         if (["runnw", "runsw", "runw"].includes(direction)) {

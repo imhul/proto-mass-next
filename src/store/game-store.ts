@@ -53,7 +53,7 @@ export const createGameSlice: storeTypes.CreateGameSliceType = (set, get) => ({
                 set({ init: true, startTimestamp: performance.now() })
                 break
             case "pause":
-                set({ paused: true })
+                set({ paused: !get().paused })
                 break
             case "restart":
                 set(initState)
@@ -61,7 +61,7 @@ export const createGameSlice: storeTypes.CreateGameSliceType = (set, get) => ({
             case "play":
                 set({ paused: false })
                 break
-            case "over":
+            case "exit":
                 set({ gameOver: true, paused: true })
                 break
             case "resize":

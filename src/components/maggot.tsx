@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react"
+// store
+import { usePersistedStore } from "@/store"
 // types
-import type { gameTypes, Sprite } from "@lib/types"
+import type { storeTypes, gameTypes, Sprite } from "@lib/types"
 // utils
 import { getRandomInt } from "@lib/utils"
 
@@ -11,6 +13,7 @@ const Maggot = ({ texture, width, height, item }: gameTypes.MaggotProps) => {
     const [started, setStarted] = useState(false)
     const animationFrameRef = useRef<number | null>(null)
     const directionRef = useRef(item.direction)
+    const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
 
     const scheduleTurn = () => {
         const pauseBeforeNextTurn = getRandomInt(5000, 15000)
@@ -57,11 +60,33 @@ const Maggot = ({ texture, width, height, item }: gameTypes.MaggotProps) => {
     }
 
     useEffect(() => {
+        if (paused) {
+            if (animationFrameRef.current) {
+                cancelAnimationFrame(animationFrameRef.current)
+                animationFrameRef.current = null
+            }
+            return
+        }
+
         if (!started) {
-            startRun()
+            setStarted(true)
             scheduleTurn()
         }
-    }, [started])
+
+        const loop = () => {
+            maggotsAnimation()
+            animationFrameRef.current = requestAnimationFrame(loop)
+        }
+
+        animationFrameRef.current = requestAnimationFrame(loop)
+
+        return () => {
+            if (animationFrameRef.current) {
+                cancelAnimationFrame(animationFrameRef.current)
+                animationFrameRef.current = null
+            }
+        }
+    }, [paused])
 
     return (
         <pixiSprite

@@ -9,7 +9,7 @@ import { toast } from "sonner"
 // types
 import type { storeTypes } from "@lib/types"
 // config
-import { z, tileSize, defaultChunkSize } from "@lib/config"
+import { zindex, tileSize, defaultChunkSize } from "@lib/config"
 
 import CustomTilingSprite from "@components/pixi/custom-tiling-sprite"
 
@@ -33,7 +33,7 @@ const Ground = () => {
         Assets.load('/assets/map/ground.json').then(() => {
             const tiledmap = new CompositeTilemap()
             tiledmap.interactive = true
-            tiledmap.zIndex = z.ground
+            tiledmap.zIndex = zindex.ground
 
             gmap.forEach((firstLevel, x) => {
                 firstLevel.forEach((tile, y) => {

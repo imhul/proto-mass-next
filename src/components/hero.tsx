@@ -9,7 +9,7 @@ import type { storeTypes, gameTypes } from "@lib/types"
 // utils
 import { getTextures } from "@lib/utils"
 // config
-import { z } from "@lib/config"
+import { zindex } from "@lib/config"
 
 const Hero = ({ state, ref }: gameTypes.HeroProps) => {
     const spriteRef = useRef<AnimatedSprite | null>(null) // The Pixi.js `Sprite`
@@ -72,7 +72,7 @@ const Hero = ({ state, ref }: gameTypes.HeroProps) => {
                         textures["run"][0].height,
                     )
                 }
-                zIndex={z.hero}
+                zIndex={zindex.hero}
                 label="hero"
                 autoPlay
                 loop

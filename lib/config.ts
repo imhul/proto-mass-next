@@ -5,6 +5,20 @@ import type {
     storeTypes
 } from '@lib/types'
 
+export const angryState = "angry" as gameTypes.EnemyState
+export const bigClusterSize = { min: 10, max: 20 }
+export const defaultChunkSize = 1000
+export const fakeStartPosition: gameTypes.Position = { x: 200, y: 200 }
+export const idleState = "idle" as gameTypes.PrideState
+export const maggotsCount = 50
+export const maxDistanceFromBase = 200
+export const maxEnemiesPerPride = 10
+export const minute: number = 60 * 1000
+export const objectsPerChunk = { min: 150, max: 220 }
+export const seedLength = 16
+export const smallClusterSize = { min: 1, max: 6 }
+export const tileSize = 50
+
 export const menu: uiTypes.MenuItem[] = [
     {
         label: "Home",
@@ -29,8 +43,8 @@ export const gameMenu: uiTypes.GameMenuItem[] = [
         label: "Load",
         id: "load"
     }, {
-        label: "Over",
-        id: "over"
+        label: "Exit Game",
+        id: "exit"
     }
 ]
 
@@ -54,20 +68,9 @@ export const breakpoints: Record<string, gameTypes.Breakpoint> = {
     xl: { id: "xl", value: 1280, width: 1024, height: 768 },
 }
 
-export const maxEnemiesPerPride = 10
-export const minute: number = 60 * 1000
-export const angryState = "angry" as gameTypes.EnemyState
-export const idleState = "idle" as gameTypes.PrideState
-export const maxDistanceFromBase = 200
-export const fakeStartPosition: gameTypes.Position = { x: 200, y: 200 }
-export const seedLength = 16
-export const smallClusterSize = { min: 1, max: 6 }
-export const bigClusterSize = { min: 10, max: 20 }
-export const tileSize = 50
-export const maggotsCount = 50
-export const defaultChunkSize = 1000
-export const objectsPerChunk = { min: 150, max: 220 }
-export const numberOfObjectsPerChunk = Math.floor(Math.random() * (objectsPerChunk.max - objectsPerChunk.min + 1)) + objectsPerChunk.min
+export const numberOfObjectsPerChunk = Math.floor(Math.random()
+    * (objectsPerChunk.max - objectsPerChunk.min + 1))
+    + objectsPerChunk.min
 
 export const heroTexturesConfig: Record<gameTypes.HeroState, { count: number, uid: number }> = {
     "idle": { count: 4, uid: 31 },
@@ -95,7 +98,7 @@ export const enemyTexturesConfig: Record<gameTypes.EnemyState, { count: number, 
     "transform": { count: 8, uid: 13 },
 }
 
-export const z = {
+export const zindex = {
     "ground": 1,
     "object": 2,
     "enemy": 3,

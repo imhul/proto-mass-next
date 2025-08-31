@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 // components
 import {
     NavigationMenu,
@@ -17,6 +18,15 @@ import type { storeTypes } from "@lib/types"
 
 const Menu = () => {
     const route = usePersistedStore((state: storeTypes.PersistedStore) => state.route)
+    const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
+    const isGameInit = usePersistedStore((state: storeTypes.PersistedStore) => state.init)
+    const setGameAction = usePersistedStore(
+        (state: storeTypes.PersistedStore) => state.setGameAction,
+    )
+
+    useEffect(() => {
+        if (route !== "game" && isGameInit && !paused) setGameAction("pause")
+    }, [isGameInit, route, paused])
 
     return (
         <NavigationMenu>
@@ -25,7 +35,7 @@ const Menu = () => {
                     <NavigationMenuItem key={index}>
                         <NavigationMenuLink>
                             <Link
-                                className="text-white"
+                                className="hover:text-primary data-[active=true]:text-primary"
                                 text={item.label}
                                 active={item.id === route}
                                 to={item.id}

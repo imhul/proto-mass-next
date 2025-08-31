@@ -11,6 +11,7 @@ import type { storeTypes } from "@lib/types"
 
 const Header = () => {
     const setIsDev = usePersistedStore((state: storeTypes.PersistedStore) => state.setIsDev)
+    const isDev = usePersistedStore((state: storeTypes.PersistedStore) => state.isDev)
     const route = usePersistedStore((state: storeTypes.PersistedStore) => state.route)
 
     return (
@@ -18,8 +19,8 @@ const Header = () => {
             <Link withChildren to="home">
                 <img
                     className="dark:invert"
-                    src="/next.svg"
-                    alt="Next.js logo"
+                    src="/pm-logo.svg"
+                    alt="Proto-Mass logo"
                     width={180}
                     height={38}
                 />
@@ -27,7 +28,11 @@ const Header = () => {
             <Menu />
             <div className="flex items-center gap-4">
                 {route === "game" && (<>
-                    <Button className="text-white" onClick={() => setIsDev()}>
+                    <Button
+                        className={`${isDev ? "dark:text-gray-950 dark:hover:text-gray-600" : "dark:text-white dark:hover:text-primary"} hover:text-gray-950`}
+                        onClick={() => setIsDev()}
+                        variant={isDev ? "default" : "secondary"}
+                    >
                         <Bug />
                     </Button>
                     <GameMenuToggle />

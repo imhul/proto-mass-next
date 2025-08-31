@@ -37,6 +37,8 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
             const id = i + 100
             const y = Math.random() * size.height
             const x = Math.random() * size.width
+            const randomIndex = Math.ceil(Math.random() * textures.length) - 1
+            const texture = textures[randomIndex]
             result.push({
                 id,
                 position: { x, y },
@@ -46,8 +48,8 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
                 name: `game-object-container-id-${id}`,
                 dead: false,
                 timestamp: performance.now(),
-                zIndex: y + 1,
-                texture: Math.ceil(Math.random() * textures.length) - 1,
+                zIndex: y - (texture.height / 2),
+                texture: randomIndex,
             })
         }
 
@@ -72,8 +74,8 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
                         <DevHitbox
                             x={object.position.x}
                             y={object.position.y}
-                            width={tex.width * 2}
-                            height={tex.height * 2}
+                            width={tex.width}
+                            height={tex.height}
                             label={`object-dev-hitbox`}
                         />
                         <pixiSprite
@@ -92,7 +94,7 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
     }
 
     useEffect(() => {
-        if (!objectsMap.length) Assets.load([
+        if (!objectsMap.length || !textures) Assets.load([
             "/assets/objects/Eye_plant_shadow1_1.png",
             "/assets/objects/Eye_plant_shadow1_2.png",
             "/assets/objects/Eye_plant_shadow1_3.png",

@@ -16,6 +16,7 @@ import {
 
 const Enemy = ({ ref, base, item, prideState, setPrideState, }: gameTypes.EnemyProps) => {
     const spriteRef = useRef<AnimatedSprite | null>(null) // The Pixi.js `Sprite`
+    const animationFrameRef = useRef<number | null>(null)
     // state
     const [atlasJson, setAtlasJson] = useState<gameTypes.AtlasJSON | null>(null)
     const [isHovered, setIsHover] = useState(false)
@@ -26,6 +27,7 @@ const Enemy = ({ ref, base, item, prideState, setPrideState, }: gameTypes.EnemyP
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
 
     const idleAlgorithm = () => {
+        if (paused) return
         setInit(true)
         if (!spriteRef.current || !textures) {
             setState("idle")
@@ -48,6 +50,7 @@ const Enemy = ({ ref, base, item, prideState, setPrideState, }: gameTypes.EnemyP
             const start = performance.now()
 
             const step = (t: number) => {
+
                 const elapsed = t - start
 
                 if (elapsed < walkingPhase) {
@@ -74,15 +77,17 @@ const Enemy = ({ ref, base, item, prideState, setPrideState, }: gameTypes.EnemyP
                         nextTurnIndex++
                     }
 
+                    if (paused) return
                     if (state !== "run") setState("run")
 
-                    requestAnimationFrame(step)
+                    animationFrameRef.current = requestAnimationFrame(step)
                 } else {
+                    if (paused) return
                     setState("idle")
                     idleAlgorithm()
                 }
             }
-            requestAnimationFrame(step)
+            animationFrameRef.current = requestAnimationFrame(step)
         }, pausePhase)
     }
 
@@ -100,9 +105,10 @@ const Enemy = ({ ref, base, item, prideState, setPrideState, }: gameTypes.EnemyP
         if (spriteRef.current && textures) {
             spriteRef.current.textures = textures[state]
             if (paused) {
-                spriteRef.current.stop();
+                spriteRef.current.stop()
+                setInit(false)
             } else {
-                spriteRef.current.play();
+                spriteRef.current.play()
                 if (!init) idleAlgorithm()
             }
         }
@@ -121,9 +127,14 @@ const Enemy = ({ ref, base, item, prideState, setPrideState, }: gameTypes.EnemyP
         }
     }, [state])
 
+    useEffect(() => {
+        if (paused) {
+            animationFrameRef.current && cancelAnimationFrame(animationFrameRef.current)
+        }
+    }, [paused, animationFrameRef.current])
+
     return atlasJson && textures && item && ref.current ? (
         <>
-            {/* @ts-ignore: type */}
             <pixiAnimatedSprite
                 textures={textures["idle"]}
                 ref={spriteRef}
