@@ -21,7 +21,7 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
     // store
     const heroSnapshot = useStore((state: storeTypes.GlobalStore) => state.hero)
     const keyBindings = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences.keyBindings)
-    const objectsMap = usePersistedStore((state: storeTypes.PersistedStore) => state.objectsMap)
+    const water = usePersistedStore((state: storeTypes.PersistedStore) => state.water)
 
     const createNewMapChunk = (position: gameTypes.Position) => {
         // TODO: 2. write function
@@ -35,21 +35,17 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
 
     const getClosestObjectToHero = (
         pos: gameTypes.Position,
-    ): gameTypes.ClosestObject | null => {
-        let closestObject: gameTypes.GameObjectEntity | null = null
+    ): gameTypes.MovementDirection | null => {
+        let closestWater: gameTypes.ClosestWater | null = null
         let closestDistance = Infinity
 
-        objectsMap.forEach((object: gameTypes.GameObjectEntity) => {
-            const dx = object.position.x - pos.x
-            const dy = object.position.y - pos.y
+        water.forEach((object: gameTypes.Position) => {
+            const dx = object.x - pos.x
+            const dy = object.y - pos.y
             const distance = Math.hypot(dx, dy)
             if (distance < closestDistance) {
                 closestDistance = distance
-                closestObject = {
-                    dx,
-                    dy,
-                    ...object,
-                }
+                closestWater = { dx, dy }
             }
         })
 
@@ -59,9 +55,9 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
         // то герой продовжувати рухатися по діагоналі, по якій він рухався,
         // а повинен був би рухатися в горизонтальному напрямку.
 
-        if (!closestObject || closestDistance > 10) return null
+        if (!closestWater || closestDistance > 10) return null
         let direction: gameTypes.MovementDirection
-        const { dx, dy, name } = closestObject
+        const { dx, dy } = closestWater
 
         if (Math.abs(dx) > Math.abs(dy)) {
             direction = dx > 0 ? 'rune' : 'runw'
@@ -76,38 +72,36 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
             if (dx < 0 && dy < 0) direction = 'runnw'
         }
 
-        return {
-            name,
-            direction,
-        }
+        return direction
     }
 
-    const checkObjectCollision = (pos: gameTypes.Position): gameTypes.CheckObjectCollision => {
-        const vp = viewportRef?.current
-        const closest = getClosestObjectToHero(pos)
-        if (!closest || !vp) return { collision: false }
-        const hero = vp.getChildByLabel("hero")
-        const closestEl = vp.getChildByLabel(closest.name)
-        if (!closestEl || !hero) return { collision: false }
-        const boundsA = hero.getBounds()
-        const boundsB = closestEl.getBounds()
-        if (!boundsA || !boundsB) return { collision: false }
+    // TODO: 4. Completely overhaul the collision checking and hero stopping system:
+    // const checkObjectCollision = (pos: gameTypes.Position): gameTypes.CheckObjectCollision => {
+    //     const vp = viewportRef?.current
+    //     const closest = getClosestObjectToHero(pos)
+    //     if (!closest || !vp) return { collision: false }
+    //     const hero = vp.getChildByLabel("hero")
+    //     const closestEl = vp.getChildByLabel(closest.name)
+    //     if (!closestEl || !hero) return { collision: false }
+    //     const boundsA = hero.getBounds()
+    //     const boundsB = closestEl.getBounds()
+    //     if (!boundsA || !boundsB) return { collision: false }
 
-        return {
-            collision: (((boundsA.x < boundsB.x) + boundsB.width) &&
-                ((boundsA.x + boundsA.width) > boundsB.x) &&
-                ((boundsA.y < boundsB.y) + boundsB.height) &&
-                ((boundsA.y + boundsA.height) > boundsB.y)),
-            obstacle: {
-                direction: closest.direction,
-                label: closest.name,
-                position: {
-                    x: closestEl.children[0].position.x,
-                    y: closestEl.children[0].position.y
-                }
-            },
-        }
-    }
+    //     return {
+    //         collision: (((boundsA.x < boundsB.x) + boundsB.width) &&
+    //             ((boundsA.x + boundsA.width) > boundsB.x) &&
+    //             ((boundsA.y < boundsB.y) + boundsB.height) &&
+    //             ((boundsA.y + boundsA.height) > boundsB.y)),
+    //         obstacle: {
+    //             direction: closest.direction,
+    //             label: closest.name,
+    //             position: {
+    //                 x: closestEl.children[0].position.x,
+    //                 y: closestEl.children[0].position.y
+    //             }
+    //         },
+    //     }
+    // }
 
     const applyMove = (
         dx: number,
@@ -145,15 +139,15 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
             hero.scale.x = 3
         }
         // -------------------------------------------------------
-        const { collision, obstacle } = checkObjectCollision(newHeroPosition)
+        // const { collision, obstacle } = checkObjectCollision(newHeroPosition)
 
-        if (collision && obstacle) {
-            stopRun(obstacle.direction)
-        } else if (!collision) {
-            blockedDirections.current.forEach((dir) => {
-                if (direction !== dir) blockedDirections.current.delete(dir)
-            })
-        }
+        // if (collision && obstacle) {
+        //     stopRun(obstacle.direction)
+        // } else if (!collision) {
+        //     blockedDirections.current.forEach((dir) => {
+        //         if (direction !== dir) blockedDirections.current.delete(dir)
+        //     })
+        // }
         // -------------------------------------------------------
     }
 

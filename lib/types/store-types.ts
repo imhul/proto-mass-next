@@ -59,10 +59,9 @@ export type GameSlice = {
     paused: boolean
     gameOver: boolean
     gameSize: gameTypes.BaseSize
-    objectsMap: gameTypes.GameObjectEntity[]
+    water: gameTypes.Position[]
     startTimestamp: number
     preferences: Preferences
-    getObjectsMap: () => gameTypes.GameObjectEntity[]
     setGameAction: (
         action: gameTypes.GameAction,
         payload?: GameActionPayload

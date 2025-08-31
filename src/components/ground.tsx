@@ -7,15 +7,23 @@ import { CompositeTilemap } from '@pixi/tilemap'
 import { generateMap } from "@lib/utils"
 import { toast } from "sonner"
 // types
-import type { storeTypes } from "@lib/types"
+import type { gameTypes, storeTypes } from "@lib/types"
 // config
-import { zindex, tileSize, defaultChunkSize } from "@lib/config"
+import {
+    zindex,
+    tileSize,
+    defaultChunkSize,
+    waterTextureIndex,
+    bigClusterPercent,
+    smallClusterPercent,
+} from "@lib/config"
 
 import CustomTilingSprite from "@components/pixi/custom-tiling-sprite"
 
 const Ground = () => {
     // const isDev = usePersistedStore((state: storeTypes.PersistedStore) => state.isDev)
     const seed = usePersistedStore((state: storeTypes.PersistedStore) => state.seed)
+    const setGameAction = usePersistedStore((state: storeTypes.PersistedStore) => state.setGameAction)
     // state
     const [tilemap, setTilemap] = useState<CompositeTilemap | null>(null)
     const gameSize = defaultChunkSize * 2
@@ -24,19 +32,22 @@ const Ground = () => {
         seed,
         width: side,
         height: side,
-        bigClusterPercent: 5,
-        smallClusterPercent: 10,
+        bigClusterPercent,
+        smallClusterPercent,
         materials: [1, 2, 3]
     })
 
     useEffect(() => {
-        Assets.load('/assets/map/ground.json').then(() => {
+        if (!tilemap && gmap) Assets.load('/assets/map/ground.json').then(() => {
             const tiledmap = new CompositeTilemap()
             tiledmap.interactive = true
             tiledmap.zIndex = zindex.ground
+            tiledmap.label = "ground"
+            const water: gameTypes.Position[] = []
 
             gmap.forEach((firstLevel, x) => {
                 firstLevel.forEach((tile, y) => {
+                    if (tile === waterTextureIndex) water.push({ x: x * tileSize, y: y * tileSize })
                     tiledmap.tile(
                         `${tile}.png`,
                         x * tileSize,
@@ -50,11 +61,11 @@ const Ground = () => {
             })
             // TODO: just for testing
             tiledmap.on("click", (props) => {
-                // if (isDev)
                 toast.info("click", {
                     description: `x: ${props.global.x}, y: ${props.global.y}`,
                 })
             })
+            setGameAction("saveWater", water)
             setTilemap(tiledmap)
         })
     }, [])

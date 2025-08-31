@@ -6,6 +6,7 @@ import type {
 } from '@lib/types'
 
 export const angryState = "angry" as gameTypes.EnemyState
+export const bigClusterPercent = 5
 export const bigClusterSize = { min: 10, max: 20 }
 export const defaultChunkSize = 1000
 export const fakeStartPosition: gameTypes.Position = { x: 200, y: 200 }
@@ -16,8 +17,10 @@ export const maxEnemiesPerPride = 10
 export const minute: number = 60 * 1000
 export const objectsPerChunk = { min: 150, max: 220 }
 export const seedLength = 16
+export const smallClusterPercent = 10
 export const smallClusterSize = { min: 1, max: 6 }
 export const tileSize = 50
+export const waterTextureIndex = 3
 
 export const menu: uiTypes.MenuItem[] = [
     {

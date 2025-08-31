@@ -3,10 +3,10 @@ import { Assets } from "pixi.js"
 // types
 import { gameTypes, Texture, Sprite } from "@lib/types"
 
-const BotBase = ({ pos }: { pos: gameTypes.Position }) => {
+const EnemyBase = ({ pos }: { pos: gameTypes.Position }) => {
     const baseRef = useRef<Sprite | null>(null)
     const [texture, setTexture] = useState<Texture | null>(null)
-    const [hp, setHp] = useState<number>(100)
+    // const [hp, setHp] = useState<number>(100)
 
     useEffect(() => {
         if (!texture) Assets.load("/assets/ships/ship-1.png")
@@ -31,4 +31,4 @@ const BotBase = ({ pos }: { pos: gameTypes.Position }) => {
     ) : null
 }
 
-export default BotBase
+export default EnemyBase

@@ -86,8 +86,6 @@ export interface EnemyEntity extends BaseEntity {
 export interface GameObjectEntity extends BaseEntity {
     state: GameObjectState
     texture: number
-    dx?: number
-    dy?: number
 }
 
 export interface HeroEntity extends BaseEntity {
@@ -135,8 +133,9 @@ export interface Skill {
 export type AtlasJSON = { textures: { [key: number | string]: Texture } }
 export type BaseSize = { width: number; height: number }
 export type BaseState = "idle" | "die" | "damage" | "transform" | "special"
+export type ClosestWater = { dx: number; dy: number }
 export type Consumer = "hero" | "enemy"
-export type GameAction = "setPref" | "setSeed" | "resize" | "pause" | "restart" | "play" | "save" | "load" | "init" | "exit" | "saveMap"
+export type GameAction = "setPref" | "setSeed" | "resize" | "pause" | "restart" | "play" | "save" | "load" | "init" | "exit" | "saveWater"
 export type GameDifficultyType = "easy" | "normal" | "hard"
 export type GameDifficulty = { id: GameDifficultyType, label: string }
 export type GameObjectState = BaseState
@@ -160,14 +159,6 @@ export interface Breakpoint {
     value: number
     width: number
     height: number
-}
-
-export interface ClosestObject {
-    position?: Position
-    width?: number
-    height?: number
-    name: string
-    direction: MovementDirection
 }
 
 export interface Obstacle {

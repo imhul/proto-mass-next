@@ -1,63 +1,74 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, use } from "react"
 import { Assets, Rectangle, Sprite, Graphics } from "pixi.js"
 import { useExtend } from "@pixi/react"
+import Rand from 'rand-seed'
 // store
 import { usePersistedStore } from "@/store"
 // components
 import DevHitbox from "@components/dev-hitbox"
+// utils
+import { getRandomInt } from "@lib/utils"
 // types
 import type { gameTypes, Texture, storeTypes } from "@lib/types"
 // config
 import {
+    tileSize,
     defaultChunkSize,
     numberOfObjectsPerChunk,
 } from "@lib/config"
 
 const Objects = ({ size }: gameTypes.ObjectsProps) => {
-    const [textures, setTextures] = useState<Texture[] | null>(null)
-    const setGameAction = usePersistedStore(
-        (state: storeTypes.PersistedStore) => state.setGameAction,
-    )
-    const objectsMap = usePersistedStore(
-        (state: storeTypes.PersistedStore) => state.objectsMap,
-    )
-
     useExtend({ Sprite, Graphics })
+    const [textures, setTextures] = useState<Texture[] | null>(null)
+    const [objectsMap, setObjectsMap] = useState<gameTypes.GameObjectEntity[]>([])
+    const seed = usePersistedStore((state: storeTypes.PersistedStore) => state.seed)
+    const rand = new Rand(seed)
+    const water: gameTypes.Position[] = usePersistedStore((state: storeTypes.PersistedStore) => state.water)
 
     const generateObjects = () => {
         if (!textures?.length) return
-        const result = []
+        const result: gameTypes.GameObjectEntity[] = []
         const widthFactor = Math.ceil(size.width / defaultChunkSize)
         const heightFactor = Math.ceil(size.height / defaultChunkSize)
         const objectsPerChunk = Math.ceil(
             (numberOfObjectsPerChunk * (widthFactor * heightFactor)) / 2,
         )
 
-        for (let i = 0; i < objectsPerChunk; i++) {
-            const id = i + 100
-            const y = Math.random() * size.height
-            const x = Math.random() * size.width
-            const randomIndex = Math.ceil(Math.random() * textures.length) - 1
+        let i = 0
+        while (result.length < objectsPerChunk && i < objectsPerChunk * 10) {
+            i++
+            const id = result.length + 100
+            const y = getRandomInt(0, size.height, rand)
+            const x = getRandomInt(0, size.width, rand)
+            const randomIndex = Math.ceil(getRandomInt(0, textures.length - 1, rand))
             const texture = textures[randomIndex]
+            const isWater = water.some(
+                (w) =>
+                    Math.abs(w.x - x) < tileSize / 2 &&
+                    Math.abs(w.y - y) < tileSize / 2
+            )
+            if (isWater) continue
+
             result.push({
                 id,
                 position: { x, y },
                 hp: 100,
                 state: "idle" as gameTypes.GameObjectState,
-                age: Math.random() * 10,
+                age: getRandomInt(0, 1, rand) * 10,
                 name: `game-object-container-id-${id}`,
                 dead: false,
                 timestamp: performance.now(),
-                zIndex: y - (texture.height / 2),
+                zIndex: y - texture.height / 2,
                 texture: randomIndex,
             })
         }
 
-        setGameAction("saveMap", result)
+        setObjectsMap(result)
     }
 
+
     const renderObjects = () => {
-        if (!textures || !objectsMap.length) return null
+        if (!textures?.length || !objectsMap?.length) return null
 
         return objectsMap.map((object: gameTypes.GameObjectEntity) => {
             const tex = textures[object.texture]

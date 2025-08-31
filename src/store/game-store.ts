@@ -7,7 +7,7 @@ export const initState = {
     init: false,
     paused: false,
     gameOver: false,
-    objectsMap: [],
+    water: [],
     startTimestamp: 0,
     gameSize: {
         width: defaultChunkSize * 2,
@@ -46,7 +46,6 @@ export const initState = {
 
 export const createGameSlice: storeTypes.CreateGameSliceType = (set, get) => ({
     ...initState,
-    getObjectsMap: () => get().objectsMap,
     setGameAction: (action, payload) => {
         switch (action) {
             case "init":
@@ -67,8 +66,8 @@ export const createGameSlice: storeTypes.CreateGameSliceType = (set, get) => ({
             case "resize":
                 set({ gameSize: payload })
                 break
-            case "saveMap":
-                set({ objectsMap: payload })
+            case "saveWater":
+                set({ water: payload })
                 break
             case "setSeed":
                 set({ seed: payload })

@@ -3,10 +3,9 @@ import { useState, useEffect } from "react"
 import { usePersistedStore } from "@/store"
 // components
 import Enemy from "@components/enemy"
-import BotBase from "@components/bot-base"
+import EnemyBase from "@/components/enemy-base"
 // utils
 import { getRandomInt } from "@lib/utils"
-import { toast } from "sonner"
 // types
 import type { storeTypes, gameTypes } from "@lib/types"
 // config
@@ -61,10 +60,6 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
                 x: getRandomInt(1, defaultChunkSize * 2),
                 y: getRandomInt(1, defaultChunkSize * 2),
             }
-            toast.info("base", {
-                description: `x: ${base.x}, y: ${base.y}`,
-                duration: 9000,
-            })
             setEnemies((prevEnemies) => [...prevEnemies, {
                 ...initialEnemyModel,
                 base,
@@ -94,7 +89,7 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
     return (
         <pixiContainer sortableChildren={true}>
             {enemies.length > 0 ? (<>
-                <BotBase pos={enemies[0].base} />
+                <EnemyBase pos={enemies[0].base} />
                 {enemies.map((enemy) => (
                     <Enemy
                         key={enemy.id}

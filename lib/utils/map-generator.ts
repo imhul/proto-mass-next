@@ -15,7 +15,7 @@ export const generateMap: gameTypes.GenerateMap = ({
     smallClusterPercent,
 }) => {
     const rand = new Rand(seed)
-    const map: number[][] = Array.from({ length: height }, () => Array(width).fill(0))
+    const gmap: number[][] = Array.from({ length: height }, () => Array(width).fill(0))
     const pick = <T>(arr: T[]) => arr[getRandomInt(0, arr.length - 1, rand)]
     const totalCells = width * height
     const avgBigSize = 15
@@ -39,9 +39,9 @@ export const generateMap: gameTypes.GenerateMap = ({
             visited.add(key)
 
             if (x < 0 || y < 0 || x >= width || y >= height) continue
-            if (map[y][x] !== 0) continue
+            if (gmap[y][x] !== 0) continue
 
-            map[y][x] = material
+            gmap[y][x] = material
             placed++
 
             const neighbors = [
@@ -64,5 +64,5 @@ export const generateMap: gameTypes.GenerateMap = ({
         placeCluster(getRandomInt(smallClusterSize.min, smallClusterSize.max, rand))
     }
 
-    return map
+    return gmap
 }
