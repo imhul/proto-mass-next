@@ -1,5 +1,7 @@
 // types
 import type { uiTypes, storeTypes, gameTypes } from "@lib/types"
+// config
+import { defaultChunkSize } from '@lib/config'
 
 export const initState = {
     init: false,
@@ -8,8 +10,8 @@ export const initState = {
     objectsMap: [],
     startTimestamp: 0,
     gameSize: {
-        width: 800,
-        height: 600,
+        width: defaultChunkSize * 2,
+        height: defaultChunkSize * 2,
     },
     seed: undefined,
     preferences: {

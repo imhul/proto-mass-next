@@ -11,7 +11,6 @@ import type { gameTypes, Texture, storeTypes } from "@lib/types"
 import {
     defaultChunkSize,
     numberOfObjectsPerChunk,
-    generatedObjects,
 } from "@lib/config"
 
 const Objects = ({ size }: gameTypes.ObjectsProps) => {
@@ -20,12 +19,13 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
         (state: storeTypes.PersistedStore) => state.setGameAction,
     )
     const objectsMap = usePersistedStore(
-        (state: storeTypes.PersistedStore) => state.getObjectsMap,
+        (state: storeTypes.PersistedStore) => state.objectsMap,
     )
 
     useExtend({ Sprite, Graphics })
 
     const generateObjects = () => {
+        if (!textures?.length) return
         const result = []
         const widthFactor = Math.ceil(size.width / defaultChunkSize)
         const heightFactor = Math.ceil(size.height / defaultChunkSize)
@@ -35,20 +35,19 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
 
         for (let i = 0; i < objectsPerChunk; i++) {
             const id = i + 100
+            const y = Math.random() * size.height
+            const x = Math.random() * size.width
             result.push({
                 id,
-                position: {
-                    x: Math.random() * size.width,
-                    y: Math.random() * size.height,
-                },
+                position: { x, y },
                 hp: 100,
                 state: "idle" as gameTypes.GameObjectState,
                 age: Math.random() * 10,
                 name: `game-object-container-id-${id}`,
                 dead: false,
                 timestamp: performance.now(),
-                zIndex: id,
-                texture: Math.ceil(Math.random() * textures!.length) - 1,
+                zIndex: y + 1,
+                texture: Math.ceil(Math.random() * textures.length) - 1,
             })
         }
 
@@ -56,12 +55,9 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
     }
 
     const renderObjects = () => {
-        // almost worked!
-        // const objects = objectsMap()
-        // if (!textures || !objects.length) return null
-        if (!textures) return null
+        if (!textures || !objectsMap.length) return null
 
-        return generatedObjects.map((object: gameTypes.GameObjectEntity) => {
+        return objectsMap.map((object: gameTypes.GameObjectEntity) => {
             const tex = textures[object.texture]
 
             return (
@@ -84,9 +80,9 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
                             position={{ x: object.position.x, y: object.position.y }}
                             interactive={true}
                             texture={tex}
-                            scale={2}
+                            scale={1}
                             label={object.name}
-                            zIndex={Math.floor(object.position.y + tex.height + 1)}
+                            zIndex={object.zIndex}
                             anchor={0.5}
                         />
                     </pixiContainer>
@@ -96,22 +92,41 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
     }
 
     useEffect(() => {
-        const objects = objectsMap()
-        if (!objects.length) Assets.load([
-            "/assets/tree01.png",
-            "/assets/tree02.png",
-            "/assets/tree03.png",
+        if (!objectsMap.length) Assets.load([
+            "/assets/objects/Eye_plant_shadow1_1.png",
+            "/assets/objects/Eye_plant_shadow1_2.png",
+            "/assets/objects/Eye_plant_shadow1_3.png",
+            "/assets/objects/Fetus_shadow1_1.png",
+            "/assets/objects/Fetus_shadow1_2.png",
+            "/assets/objects/Fetus_shadow1_3.png",
+            "/assets/objects/Jaws_plant_shadow1_1.png",
+            "/assets/objects/Jaws_plant_shadow1_2.png",
+            "/assets/objects/Jaws_plant_shadow1_3.png",
+            "/assets/objects/Many_eyes_plant_shadow1_1.png",
+            "/assets/objects/Many_eyes_plant_shadow1_2.png",
+            "/assets/objects/Many_eyes_plant_shadow1_3.png",
+            "/assets/objects/Pustules_shadow1_1.png",
+            "/assets/objects/Pustules_shadow1_2.png",
+            "/assets/objects/Pustules_shadow1_3.png",
+            "/assets/objects/Tentacle_plant_shadow1_1.png",
+            "/assets/objects/Tentacle_plant_shadow1_2.png",
+            "/assets/objects/Tentacle_plant_shadow1_3.png",
+            "/assets/objects/Tubular_plant_shadow1_1.png",
+            "/assets/objects/Tubular_plant_shadow1_2.png",
+            "/assets/objects/Tubular_plant_shadow1_3.png",
+            "/assets/objects/Veins_shadow1_1.png",
+            "/assets/objects/Veins_shadow1_2.png",
+            "/assets/objects/Veins_shadow1_3.png",
+            "/assets/objects/Veins_shadow1_4.png"
         ]).then((tex) => {
             const texArray = Object.values(tex) as Texture[]
             setTextures(texArray)
         })
     }, [])
 
-    // worked!
-    // useEffect(() => {
-    //     const objects = objectsMap()
-    //     if (textures && !objects.length) generateObjects()
-    // }, [textures])
+    useEffect(() => {
+        if (textures && !objectsMap.length) generateObjects()
+    }, [textures])
 
     return <>{renderObjects()}</>
 }

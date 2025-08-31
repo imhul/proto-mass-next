@@ -15,26 +15,19 @@ import Ground from "@components/ground"
 import type { storeTypes, gameTypes } from "@lib/types"
 
 const Game = ({ parentRef }: gameTypes.GameProps) => {
-    // app
     const { app } = useApplication()
     globalThis.__PIXI_APP__ = app
-    // refs
     const viewportRef = useRef<gameTypes.CameraProps>(
         null,
     ) as React.RefObject<gameTypes.CameraProps>
-    // store
-    const setGameAction = usePersistedStore(
-        (state: storeTypes.PersistedStore) => state.setGameAction,
-    )
     const gameSize = usePersistedStore((state: storeTypes.PersistedStore) => state.gameSize)
-    // hooks
     const { heroState } = useMove({ viewportRef })
 
     const resize = () => {
+        if (!viewportRef.current) return
         const width = parentRef.current?.clientWidth || window.innerWidth
         const height = parentRef.current?.clientHeight || window.innerHeight
-        setGameAction("resize", { width: width * 2, height: height * 2 })
-        viewportRef.current?.resize(width, height)
+        viewportRef.current.resize(width, height)
     }
 
     useEffect(() => {

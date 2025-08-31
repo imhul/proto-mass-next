@@ -8,7 +8,7 @@ import type {
     AnimatedSprite,
 } from "@lib/types"
 // config
-import { z, generatedObjects } from "@lib/config"
+import { z } from "@lib/config"
 
 export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
     // refs
@@ -21,10 +21,7 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
     // store
     const heroSnapshot = useStore((state: storeTypes.GlobalStore) => state.hero)
     const keyBindings = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences.keyBindings)
-    // const isGameInit = usePersistedStore((state: storeTypes.PersistedStore) => state.init)
-    // const setGameAction = usePersistedStore(
-    //     (state: storeTypes.PersistedStore) => state.setGameAction,
-    // )
+    const objectsMap = usePersistedStore((state: storeTypes.PersistedStore) => state.objectsMap)
 
     const createNewMapChunk = (position: gameTypes.Position) => {
         // TODO: 2. write function
@@ -42,7 +39,7 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
         let closestObject: gameTypes.GameObjectEntity | null = null
         let closestDistance = Infinity
 
-        generatedObjects.forEach((object: gameTypes.GameObjectEntity) => {
+        objectsMap.forEach((object: gameTypes.GameObjectEntity) => {
             const dx = object.position.x - pos.x
             const dy = object.position.y - pos.y
             const distance = Math.hypot(dx, dy)
