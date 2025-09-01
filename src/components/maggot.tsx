@@ -26,7 +26,7 @@ const Maggot = ({ texture, width, height, item }: gameTypes.MaggotProps) => {
     const maggotsAnimation = () => {
         const maggotRef = spriteRef?.current
         if (!maggotRef) return
-        count += 0.5
+        count += 0.311
         item.direction = directionRef.current
         maggotRef.x += Math.sin(item.direction) * item.speed
         maggotRef.y += Math.cos(item.direction) * item.speed

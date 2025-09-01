@@ -11,7 +11,7 @@ import { getTextures, getRandomInt } from "@lib/utils"
 import {
     angryState,
     initialEnemyModel,
-    maxDistanceFromBase,
+    maxDistanceFromEnemyBase,
 } from "@lib/config"
 
 const Enemy = ({ ref, base, item, prideState, setPrideState, }: gameTypes.EnemyProps) => {
@@ -65,7 +65,7 @@ const Enemy = ({ ref, base, item, prideState, setPrideState, }: gameTypes.EnemyP
                         sprite.x - base.x,
                         sprite.y - base.y
                     )
-                    if (distFromBase > maxDistanceFromBase) {
+                    if (distFromBase > maxDistanceFromEnemyBase) {
                         angle = Math.atan2(base.y - sprite.y, base.x - sprite.x)
                     }
 

@@ -8,7 +8,7 @@ import type {
     AnimatedSprite,
 } from "@lib/types"
 // config
-import { zindex } from "@lib/config"
+import { heroSize, zindex } from "@lib/config"
 
 export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
     // refs
@@ -132,7 +132,7 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
         // -------------------------------------------------------
         hero.zIndex = (hero.zIndex < zindex.hero || newHeroPosition.y < zindex.hero)
             ? zindex.hero
-            : Math.floor(newHeroPosition.y)
+            : Math.floor(newHeroPosition.y - heroSize / 2)
         hero.position.set(newHeroPosition.x, newHeroPosition.y)
         if (["runnw", "runsw", "runw", "shoot-left"].includes(direction)) {
             hero.scale.x = -3

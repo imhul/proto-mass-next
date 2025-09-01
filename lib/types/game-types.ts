@@ -6,12 +6,22 @@ import type {
     ReactElement,
     AnimatedSprite,
     CompositeTilemap,
+    AnimatedSpriteFrames,
 } from '@lib/types'
 
 //----------------------------------------------
 // COMPONENTS PROPS
 //----------------------------------------------
 export type GameProps = { parentRef: React.RefObject<HTMLDivElement | null> }
+
+export interface BulletProps {
+    x: number
+    y: number
+    pointer: { x: number; y: number }
+    textures: AnimatedSpriteFrames
+    bulletRef: RefObject<AnimatedSprite | null>
+    onComplete: () => void
+}
 
 export interface CustomTilingSpriteProps {
     tileScale?: { x: number; y: number }

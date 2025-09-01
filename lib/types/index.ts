@@ -13,6 +13,7 @@ import type {
     EventSystem,
     TilingSprite,
     AnimatedSprite,
+    AnimatedSpriteFrames,
 } from 'pixi.js';
 // custom game types
 import type * as uiTypes from '@lib/types/ui-types';
@@ -37,6 +38,7 @@ export type {
     EventSystem,
     AnimatedSprite,
     CompositeTilemap,
+    AnimatedSpriteFrames,
     PixiReactElementProps,
     TilingSprite as PixiTilingSprite,
 

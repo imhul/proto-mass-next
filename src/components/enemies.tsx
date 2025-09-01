@@ -14,7 +14,7 @@ import {
     defaultChunkSize,
     initialEnemyModel,
     maxEnemiesPerPride,
-    maxDistanceFromBase,
+    maxDistanceFromEnemyBase,
 } from "@lib/config"
 
 const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
@@ -25,8 +25,8 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
 
     const getRandomPositionNearBase = (base: gameTypes.Position) => {
-        const x = getRandomInt(base.x - maxDistanceFromBase, base.x + maxDistanceFromBase)
-        const y = getRandomInt(base.y - maxDistanceFromBase, base.y + maxDistanceFromBase)
+        const x = getRandomInt(base.x - maxDistanceFromEnemyBase, base.x + maxDistanceFromEnemyBase)
+        const y = getRandomInt(base.y - maxDistanceFromEnemyBase, base.y + maxDistanceFromEnemyBase)
         return { x, y }
     }
 
