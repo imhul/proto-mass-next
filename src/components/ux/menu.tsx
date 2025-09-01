@@ -8,7 +8,7 @@ import {
     NavigationMenuViewport,
     NavigationMenuIndicator,
 } from "@components/ui/navigation-menu"
-import Link from "@components/link"
+import Link from "@components/ux/link"
 // config
 import { menu } from "@lib/config"
 // store

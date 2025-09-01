@@ -5,7 +5,7 @@ import { useStore, usePersistedStore } from "@/store"
 import { useMove } from "@hooks/useMove"
 // components
 import { Assets, AnimatedSprite, Rectangle } from "pixi.js"
-import Bullet from "@components/bullet"
+import Bullet from "@components/game/bullet"
 // types
 import type { storeTypes, gameTypes } from "@lib/types"
 // utils

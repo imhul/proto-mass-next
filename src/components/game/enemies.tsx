@@ -2,8 +2,8 @@ import { useState, useEffect } from "react"
 // store
 import { usePersistedStore } from "@/store"
 // components
-import Enemy from "@components/enemy"
-import EnemyBase from "@/components/enemy-base"
+import Enemy from "@components/game/enemy"
+import EnemyBase from "@/components/game/enemy-base"
 // utils
 import { getRandomInt } from "@lib/utils"
 // types

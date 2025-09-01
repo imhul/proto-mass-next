@@ -5,7 +5,7 @@ import Rand from 'rand-seed'
 // store
 import { usePersistedStore } from "@/store"
 // components
-import DevHitbox from "@components/dev-hitbox"
+import DevHitbox from "@components/game/dev-hitbox"
 // utils
 import { getRandomInt } from "@lib/utils"
 // types

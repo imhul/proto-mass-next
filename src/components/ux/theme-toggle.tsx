@@ -1,6 +1,6 @@
 import type React from "react"
 import { Moon, Sun } from "lucide-react"
-import { useTheme } from "@components/theme-provider"
+import { useTheme } from "@components/ux/theme-provider"
 // components
 import {
     Select,

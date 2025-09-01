@@ -3,8 +3,8 @@ import { Application, useExtend } from "@pixi/react"
 // store
 import { usePersistedStore } from "@/store"
 // components
-import Game from "@components/game"
-import InitialScene from "@components/initial-scene"
+import Game from "@components/game/game"
+import InitialScene from "@components/ux/initial-scene"
 import {
     AnimatedSprite,
     TilingSprite,

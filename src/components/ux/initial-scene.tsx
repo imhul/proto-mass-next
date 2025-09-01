@@ -1,6 +1,6 @@
 // components
-import KeyBindingEditor from "@components/key-binding-editor"
-import ThemeToggle from "@components/theme-toggle"
+import KeyBindingEditor from "@components/ux/key-binding-editor"
+import ThemeToggle from "@components/ux/theme-toggle"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Slider } from "@components/ui/slider"
 import { Button } from "@components/ui/button"

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 // components
 import { Assets, Rectangle, Point } from "pixi.js"
-import Maggot from "@components/maggot"
+import Maggot from "@components/game/maggot"
 // types
 import type { Texture, gameTypes } from "@lib/types"
 // config

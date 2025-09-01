@@ -3,12 +3,12 @@ import { useApplication } from "@pixi/react"
 // store
 import { usePersistedStore } from "@/store"
 // components
-import Hero from "@components/hero"
-import Enemies from "@components/enemies"
-import Camera from "@components/camera"
-import Maggots from "@components/maggots"
-import Objects from "@components/objects"
-import Ground from "@components/ground"
+import Hero from "@components/game/hero"
+import Enemies from "@components/game/enemies"
+import Camera from "@components/game/camera"
+import Maggots from "@components/game/maggots"
+import Objects from "@components/game/objects"
+import Ground from "@components/game/ground"
 // types
 import type { storeTypes, gameTypes } from "@lib/types"
 

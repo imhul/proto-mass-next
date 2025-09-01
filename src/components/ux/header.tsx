@@ -1,8 +1,8 @@
 // components
-import GameMenu from "@/components/game-menu"
-import Menu from "@components/menu"
-import Link from "@components/link"
-import DevHeroActions from "@components/dev-hero-actions"
+import GameMenu from "@/components/ux/game-menu"
+import Menu from "@components/ux/menu"
+import Link from "@components/ux/link"
+import DevHeroActions from "@components/ux/dev-hero-actions"
 import { Button } from "@components/ui/button"
 import { Bug } from "lucide-react"
 // store

@@ -1,6 +1,6 @@
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
-import readme from "../../README.md?raw"
+import readme from "@root/README.md?raw"
 import "github-markdown-css/github-markdown.css"
 
 const Home = () => {

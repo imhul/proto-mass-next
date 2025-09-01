@@ -94,6 +94,7 @@ const Maggot = ({ texture, width, height, item }: gameTypes.MaggotProps) => {
             texture={texture}
             anchor={0.5}
             scale={item.scale}
+            interactive={false}
             x={item.x}
             y={item.y}
             label={`maggot-${item.id}`}

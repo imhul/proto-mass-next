@@ -22,6 +22,7 @@
       "@utils/*": ["./lib/utils/*"],
       "@types/*": ["./lib/types/*"],
       "@lib/*": ["./lib/*"],
+      "@root/*": ["./*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", "global.d.ts"],
