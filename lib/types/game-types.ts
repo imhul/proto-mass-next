@@ -34,7 +34,6 @@ export interface MaggotProps {
 }
 
 export interface HeroProps {
-    state: HeroState
     ref: RefObject<CameraProps | null>
 }
 
@@ -135,14 +134,38 @@ export type BaseSize = { width: number; height: number }
 export type BaseState = "idle" | "die" | "damage" | "transform" | "special"
 export type ClosestWater = { dx: number; dy: number }
 export type Consumer = "hero" | "enemy"
-export type GameAction = "setPref" | "setSeed" | "resize" | "pause" | "restart" | "play" | "save" | "load" | "init" | "exit" | "saveWater"
+export type GameAction = "setPref" | "setSeed" | "resize" | "pause" | "restart" | "save" | "load" | "init" | "exit" | "saveWater"
 export type GameDifficultyType = "easy" | "normal" | "hard"
 export type GameDifficulty = { id: GameDifficultyType, label: string }
 export type GameObjectState = BaseState
 export type GetTexturesType = (atlasJson: AtlasJSON | null, consumer: Consumer) => TexturesCollection
 export type EnemyState = BaseState | "lvlup" | "angry" | "attack" | "run"
 export type Hero = { hero: HeroEntity }
-export type HeroState = BaseState | "lvlup" | "stand" | "hurt" | "run" | "run-shot" | "shoot-up"
+export type HeroState =
+    "lvlup"
+    | "die"
+    | "damage"
+    | "transform"
+    | "special"
+    | "player-stand"
+    | "player-run"
+    | "player-run-shot"
+    | "player-shoot-up"
+    | "crab-idle"
+    | "crab-walk"
+    | "enemy-death"
+    | "impact"
+    | "jumper-idle"
+    | "jumper-jump"
+    | "octopus"
+    | "player-cling"
+    | "player-duck"
+    | "player-hurt"
+    | "player-idle"
+    | "player-jump"
+    | "player-shoot-up"
+    | "power-up"
+    | "shot"
 export type LevelName = "trainee" | "medium" | "master" | "prime"
 export type MovementDirection = "runn" | "runs" | "runw" | "rune" | "runnw" | "runne" | "runsw" | "runse"
 export type ObjectsProps = { size: BaseSize }
@@ -152,7 +175,7 @@ export type PrideState = "idle" | "angry"
 export type SummaryState = HeroState | EnemyState
 export type TexturesCollection = TexturesObject | null
 export type TexturesObject = { [key in SummaryState]: Texture[] }
-export type UseMoveProps = { viewportRef: React.RefObject<CameraProps> }
+export type UseMoveProps = { ref: React.RefObject<CameraProps | null> }
 
 export interface Breakpoint {
     id: string

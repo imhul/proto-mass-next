@@ -17,7 +17,7 @@ import { cn } from "@lib/utils"
 // config
 import { gameMenu } from "@lib/config"
 
-function GameMenuToggle() {
+function GameMenu() {
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
     const setGameAction = usePersistedStore(
         (state: storeTypes.PersistedStore) => state.setGameAction,
@@ -32,7 +32,7 @@ function GameMenuToggle() {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                {gameMenu.map((item: uiTypes.GameMenuItem) => (
+                {gameMenu.map((item: uiTypes.MenuItem) => (
                     <DropdownMenuItem
                         key={item.id}
                         className={cn(
@@ -49,7 +49,7 @@ function GameMenuToggle() {
     )
 }
 
-export default GameMenuToggle
+export default GameMenu
 
 
 // inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md

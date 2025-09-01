@@ -57,9 +57,6 @@ export const createGameSlice: storeTypes.CreateGameSliceType = (set, get) => ({
             case "restart":
                 set(initState)
                 break
-            case "play":
-                set({ paused: false })
-                break
             case "exit":
                 set({ gameOver: true, paused: true })
                 break

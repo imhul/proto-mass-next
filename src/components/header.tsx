@@ -1,7 +1,8 @@
 // components
-import GameMenuToggle from "@components/game-menu-toggle"
+import GameMenu from "@/components/game-menu"
 import Menu from "@components/menu"
 import Link from "@components/link"
+import DevHeroActions from "@components/dev-hero-actions"
 import { Button } from "@components/ui/button"
 import { Bug } from "lucide-react"
 // store
@@ -35,7 +36,8 @@ const Header = () => {
                     >
                         <Bug />
                     </Button>
-                    <GameMenuToggle />
+                    <GameMenu />
+                    <DevHeroActions />
                 </>)}
             </div>
         </header>

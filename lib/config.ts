@@ -10,6 +10,7 @@ export const bigClusterPercent = 5
 export const bigClusterSize = { min: 10, max: 20 }
 export const defaultChunkSize = 1000
 export const fakeStartPosition: gameTypes.Position = { x: 200, y: 200 }
+export const heroSize = 80
 export const idleState = "idle" as gameTypes.PrideState
 export const maggotsCount = 50
 export const maxDistanceFromBase = 200
@@ -32,7 +33,7 @@ export const menu: uiTypes.MenuItem[] = [
     },
 ]
 
-export const gameMenu: uiTypes.GameMenuItem[] = [
+export const gameMenu: uiTypes.MenuItem[] = [
     {
         label: "Pause",
         id: "pause"
@@ -48,6 +49,81 @@ export const gameMenu: uiTypes.GameMenuItem[] = [
     }, {
         label: "Exit Game",
         id: "exit"
+    }
+]
+
+export const heroActionsMenu: uiTypes.MenuItem[] = [
+    {
+        label: "Crab Idle",
+        id: "crab-idle"
+    },
+    {
+        label: "Crab Walk",
+        id: "crab-walk"
+    },
+    {
+        label: "Enemy Death",
+        id: "enemy-death"
+    },
+    {
+        label: "Impact",
+        id: "impact"
+    },
+    {
+        label: "Jumper Idle",
+        id: "jumper-idle"
+    },
+    {
+        label: "Jumper Jump",
+        id: "jumper-jump"
+    },
+    {
+        label: "Octopus",
+        id: "octopus"
+    },
+    {
+        label: "Player Cling",
+        id: "player-cling"
+    },
+    {
+        label: "Player Duck",
+        id: "player-duck"
+    },
+    {
+        label: "Player Idle",
+        id: "player-idle"
+    },
+    {
+        label: "Player Jump",
+        id: "player-jump"
+    },
+    {
+        label: "Player Run",
+        id: "player-run"
+    },
+    {
+        label: "Player Run Shot",
+        id: "player-run-shot"
+    },
+    {
+        label: "Player Shoot Up",
+        id: "player-shoot-up"
+    },
+    {
+        label: "Player Stand",
+        id: "player-stand"
+    },
+    {
+        label: "Player Hurt",
+        id: "player-hurt"
+    },
+    {
+        label: "Power Up",
+        id: "power-up"
+    },
+    {
+        label: "Shoot",
+        id: "shot"
     }
 ]
 
@@ -76,15 +152,27 @@ export const numberOfObjectsPerChunk = Math.floor(Math.random()
     + objectsPerChunk.min
 
 export const heroTexturesConfig: Record<gameTypes.HeroState, { count: number, uid: number }> = {
-    "idle": { count: 4, uid: 31 },
-    "run": { count: 10, uid: 41 },
-    "run-shot": { count: 10, uid: 51 },
-    "shoot-up": { count: 1, uid: 61 },
-    "stand": { count: 3, uid: 62 },
-    "hurt": { count: 2, uid: 29 },
-    "die": { count: 0, uid: 0 },
-    "damage": { count: 0, uid: 0 },
-    "lvlup": { count: 0, uid: 0 },
+    "crab-idle": { count: 4, uid: 0 },
+    "crab-walk": { count: 4, uid: 3 },
+    "enemy-death": { count: 5, uid: 8 },
+    "impact": { count: 5, uid: 13 },
+    "jumper-idle": { count: 4, uid: 18 },
+    "jumper-jump": { count: 1, uid: 22 },
+    "octopus": { count: 4, uid: 23 },
+    "player-cling": { count: 1, uid: 27 },
+    "player-duck": { count: 1, uid: 28 },
+    "player-idle": { count: 4, uid: 31 },
+    "player-jump": { count: 6, uid: 35 },
+    "player-run": { count: 10, uid: 41 },
+    "player-run-shot": { count: 10, uid: 51 },
+    "player-shoot-up": { count: 1, uid: 61 },
+    "player-stand": { count: 3, uid: 62 },
+    "player-hurt": { count: 2, uid: 29 },
+    "power-up": { count: 7, uid: 65 },
+    "shot": { count: 2, uid: 72 },
+    "die": { count: 5, uid: 8 },
+    "damage": { count: 2, uid: 29 },
+    "lvlup": { count: 6, uid: 35 },
     "special": { count: 0, uid: 0 },
     "transform": { count: 0, uid: 0 },
 }

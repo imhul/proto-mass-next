@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 // store
-import { usePersistedStore } from "@/store"
+import { useStore, usePersistedStore } from "@/store"
+// hooks
+import { useMove } from "@hooks/useMove"
 // components
 import { Assets, AnimatedSprite, Rectangle } from "pixi.js"
 import DevHitbox from "@components/dev-hitbox"
@@ -9,69 +11,62 @@ import type { storeTypes, gameTypes } from "@lib/types"
 // utils
 import { getTextures } from "@lib/utils"
 // config
-import { zindex } from "@lib/config"
+import { zindex, heroSize } from "@lib/config"
 
-const Hero = ({ state, ref }: gameTypes.HeroProps) => {
+const Hero = ({ ref }: gameTypes.HeroProps) => {
     const spriteRef = useRef<AnimatedSprite | null>(null) // The Pixi.js `Sprite`
     // state
-    const [atlasJson, setAtlasJson] = useState<gameTypes.AtlasJSON | null>(null)
-    const [isHovered, setIsHover] = useState(false)
+    // const [isHovered, setIsHover] = useState(false)
     const [isActive, setIsActive] = useState(false)
     const [textures, setTextures] = useState<gameTypes.TexturesCollection>(null)
     // store
+    const hero = useStore((state: storeTypes.GlobalStore) => state.hero)
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
+    useMove({ ref })
 
     useEffect(() => {
-        if (!atlasJson || !textures)
-            Assets.load("/assets/atlas.json").then(
+        if (!textures)
+            Assets.load("/assets/hero/atlas.json").then(
                 (result: gameTypes.AtlasJSON) => {
-                    setAtlasJson(result)
                     setTextures(getTextures(result, "hero"))
                 },
             )
-    }, [atlasJson, textures])
+    }, [textures])
 
     useEffect(() => {
         if (spriteRef.current && textures) {
-            spriteRef.current.textures = textures[state]
+            spriteRef.current.textures = textures[hero.state]
             if (paused) {
                 spriteRef.current.stop();
             } else {
                 spriteRef.current.play();
             }
         }
-    }, [state, textures, paused, spriteRef])
+    }, [hero.state, textures, paused, spriteRef])
 
-    return atlasJson && textures && ref.current ? (
+    return (textures && ref.current) ? (
         <>
             <DevHitbox
                 x={spriteRef.current?.position.x ?? ref.current.screenWidth / 2}
                 y={spriteRef.current?.position.y ?? ref.current.screenHeight / 2}
-                width={textures["run"][0].width}
-                height={textures["run"][0].height}
+                width={heroSize}
+                height={heroSize}
                 label="dev-hero-hitbox"
             />
             <pixiAnimatedSprite
-                textures={textures[state]}
+                textures={textures[hero.state]}
                 ref={spriteRef}
                 anchor={0.5}
                 eventMode={"static"}
                 onClick={() => setIsActive(!isActive)}
-                onPointerOver={() => setIsHover(true)}
-                onPointerOut={() => setIsHover(false)}
-                scale={isHovered ? 3.5 : 3}
+                // onPointerOver={() => setIsHover(true)}
+                // onPointerOut={() => setIsHover(false)}
+                scale={2.5}
                 animationSpeed={isActive ? 0.2 : 0.1}
                 x={ref.current.screenWidth / 2}
                 y={ref.current.screenHeight / 2}
                 interactive={true}
-                hitArea={
-                    new Rectangle(
-                        0,
-                        0,
-                        textures["run"][0].width,
-                        textures["run"][0].height,
-                    )
-                }
+                hitArea={new Rectangle(0, 0, heroSize, heroSize)}
                 zIndex={zindex.hero}
                 label="hero"
                 autoPlay

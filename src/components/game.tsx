@@ -2,8 +2,6 @@ import { useEffect, useRef } from "react"
 import { useApplication } from "@pixi/react"
 // store
 import { usePersistedStore } from "@/store"
-// hooks
-import { useMove } from "@hooks/useMove"
 // components
 import Hero from "@components/hero"
 import Enemies from "@components/enemies"
@@ -21,7 +19,6 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
         null,
     ) as React.RefObject<gameTypes.CameraProps>
     const gameSize = usePersistedStore((state: storeTypes.PersistedStore) => state.gameSize)
-    const { heroState } = useMove({ viewportRef })
 
     const resize = () => {
         if (!viewportRef.current) return
@@ -53,7 +50,7 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
                     <Maggots width={gameSize.width} height={gameSize.height} />
                     <Objects size={gameSize} />
                     <Enemies ref={viewportRef} />
-                    {viewportRef && <Hero state={heroState} ref={viewportRef} />}
+                    {viewportRef ? (<Hero ref={viewportRef} />) : null}
                 </Camera>
             ) : null
             }

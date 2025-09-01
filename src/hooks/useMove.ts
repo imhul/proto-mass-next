@@ -10,18 +10,19 @@ import type {
 // config
 import { zindex } from "@lib/config"
 
-export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
+export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
     // refs
     const pressedKeys = useRef<{ [key: string]: boolean }>({})
     const keyPressTimers = useRef<{ [key: string]: NodeJS.Timeout | null }>({})
     const animationFrameRef = useRef<number | null>(null)
     const blockedDirections = useRef<Set<gameTypes.MovementDirection>>(new Set())
-    // state
-    const [heroState, setHeroState] = useState<gameTypes.HeroState>("stand")
     // store
     const heroSnapshot = useStore((state: storeTypes.GlobalStore) => state.hero)
     const keyBindings = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences.keyBindings)
     const water = usePersistedStore((state: storeTypes.PersistedStore) => state.water)
+    const setHeroAction = useStore(
+        (state: storeTypes.GlobalStore) => state.setHeroAction,
+    )
 
     const createNewMapChunk = (position: gameTypes.Position) => {
         // TODO: 2. write function
@@ -77,7 +78,7 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
 
     // TODO: 4. Completely overhaul the collision checking and hero stopping system:
     // const checkObjectCollision = (pos: gameTypes.Position): gameTypes.CheckObjectCollision => {
-    //     const vp = viewportRef?.current
+    //     const vp = ref?.current
     //     const closest = getClosestObjectToHero(pos)
     //     if (!closest || !vp) return { collision: false }
     //     const hero = vp.getChildByLabel("hero")
@@ -109,7 +110,7 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
         direction: gameTypes.MovementDirection,
     ) => {
         // -------------------------------------------------------
-        const vp = viewportRef?.current
+        const vp = ref?.current
         if (!vp) return
         const hero: AnimatedSprite = vp.getChildByLabel("hero")
         if (!hero.position || !hero.scale) return
@@ -174,7 +175,7 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
 
     const stopRun = (direction: gameTypes.MovementDirection | null = null) => {
         if (direction) blockedDirections.current.add(direction)
-        setHeroState("stand")
+        setHeroAction("player-idle")
         if (animationFrameRef.current) {
             cancelAnimationFrame(animationFrameRef.current)
             animationFrameRef.current = null
@@ -188,7 +189,7 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
         if (direction && blockedDirections.current.has(direction))
             return stopRun(direction)
 
-        setHeroState("run")
+        setHeroAction("player-run")
         const heroSpeed = heroSnapshot.speed
 
         switch (direction) {
@@ -288,6 +289,4 @@ export const useMove = ({ viewportRef }: gameTypes.UseMoveProps) => {
             window.removeEventListener("keyup", onKeyUp)
         }
     }, [])
-
-    return { heroState }
 }

@@ -20,8 +20,8 @@ export const getTextures: gameTypes.GetTexturesType = (atlasJson, consumer) => {
     textureKeys.forEach((state: gameTypes.HeroState) => {
         const texturesLength = heroTexturesConfig[state].count || 1
         obj[state] = Array.from({ length: texturesLength }, (_, i) => {
-            const uid = heroTexturesConfig[state].uid + i + 6
-            return atlasJson.textures[uid]
+            const label = heroTexturesConfig[state].uid + i
+            return atlasJson.textures[String(label)]
         })
     })
     return obj
