@@ -167,7 +167,7 @@ export type HeroState =
     | "power-up"
     | "shot"
 export type LevelName = "trainee" | "medium" | "master" | "prime"
-export type MovementDirection = "runn" | "runs" | "runw" | "rune" | "runnw" | "runne" | "runsw" | "runse"
+export type MovementDirection = "runn" | "runs" | "runw" | "rune" | "runnw" | "runne" | "runsw" | "runse" | "jump" | "shoot" | "shoot-left" | "shoot-right"
 export type ObjectsProps = { size: BaseSize }
 export type PixiChildren = (ReactElement<any, any> | AnimatedSprite | null)[]
 export type Position = { x: number; y: number }

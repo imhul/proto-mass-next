@@ -40,6 +40,16 @@ export const initState = {
                 codes: ['ArrowRight', 'KeyD'],
                 keyCodes: [68, 39]
             },
+            jump: {
+                keys: [' '],
+                codes: ['Space'],
+                keyCodes: [32]
+            },
+            shoot: {
+                keys: ['f'],
+                codes: ['KeyF'],
+                keyCodes: [70]
+            }
         }
     },
 }

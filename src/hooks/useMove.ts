@@ -134,9 +134,9 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
             ? zindex.hero
             : Math.floor(newHeroPosition.y)
         hero.position.set(newHeroPosition.x, newHeroPosition.y)
-        if (["runnw", "runsw", "runw"].includes(direction)) {
+        if (["runnw", "runsw", "runw", "shoot-left"].includes(direction)) {
             hero.scale.x = -3
-        } else if (["runne", "runse", "rune"].includes(direction)) {
+        } else if (["runne", "runse", "rune", "shoot-right"].includes(direction)) {
             hero.scale.x = 3
         }
         // -------------------------------------------------------
@@ -225,6 +225,18 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
                 if (isKeyDown) startRun(-heroSpeed, heroSpeed, direction)
                 else stopRun()
                 break
+            case "jump":
+                setHeroAction("player-jump")
+                break
+            case "shoot":
+                setHeroAction("player-stand")
+                break
+            case "shoot-left":
+                setHeroAction("player-run-shot")
+                break
+            case "shoot-right":
+                setHeroAction("player-run-shot")
+                break
             default:
                 stopRun()
                 break
@@ -232,24 +244,25 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
     }
 
     const eventConductor = (pressed: { [key: string]: boolean }): gameTypes.MovementDirection | null => {
-        const upKeys = keyBindings.moveup.codes
-        const downKeys = keyBindings.movedown.codes
-        const leftKeys = keyBindings.moveleft.codes
-        const rightKeys = keyBindings.moveright.codes
-
-        const up = upKeys.some((key: string) => pressed[key])
-        const down = downKeys.some((key: string) => pressed[key])
-        const left = leftKeys.some((key: string) => pressed[key])
-        const right = rightKeys.some((key: string) => pressed[key])
+        const up = keyBindings.moveup.codes.some((key: string) => pressed[key])
+        const down = keyBindings.movedown.codes.some((key: string) => pressed[key])
+        const left = keyBindings.moveleft.codes.some((key: string) => pressed[key])
+        const right = keyBindings.moveright.codes.some((key: string) => pressed[key])
+        const jump = keyBindings.jump.codes.some((key: string) => pressed[key])
+        const shoot = keyBindings.shoot.codes.some((key: string) => pressed[key])
 
         if (up && left) return "runnw"
         if (up && right) return "runne"
         if (down && left) return "runsw"
         if (down && right) return "runse"
+        if (((up && left) || (down && left) || left) && shoot) return "shoot-left"
+        if (((up && right) || (down && right) || right) && shoot) return "shoot-right"
         if (up) return "runn"
         if (down) return "runs"
         if (left) return "runw"
         if (right) return "rune"
+        if (jump) return "jump"
+        if (shoot) return "shoot"
 
         return null
     }

@@ -122,7 +122,7 @@ export const heroActionsMenu: uiTypes.MenuItem[] = [
         id: "power-up"
     },
     {
-        label: "Shoot",
+        label: "Shot",
         id: "shot"
     }
 ]
@@ -997,5 +997,3 @@ export const keycodes: storeTypes.KeyBindingCollectionItem[] = [
 
     }
 ]
-
-export const generatedObjects: gameTypes.GameObjectEntity[] = []

@@ -1,6 +1,6 @@
 import * as React from "react"
 // store
-import { useStore, usePersistedStore } from "@/store"
+import { useStore } from "@/store"
 // components
 import { Button } from "@components/ui/button"
 import {
@@ -17,7 +17,6 @@ import { cn } from "@lib/utils"
 import { heroActionsMenu } from "@lib/config"
 
 function DevHeroActions() {
-    const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
     const hero = useStore((state: storeTypes.GlobalStore) => state.hero)
     const setHeroAction = useStore(
         (state: storeTypes.GlobalStore) => state.setHeroAction,
@@ -27,7 +26,7 @@ function DevHeroActions() {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="hover:text-primary data-[state='open']:text-primary">
-                    Hero Actions
+                    {hero.state || "Hero Actions"}
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">

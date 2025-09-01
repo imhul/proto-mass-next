@@ -94,7 +94,7 @@ export type UISlice = {
 //----------------------------------------------
 export type GameActionPayload = any
 export type HeroActions = { setHeroAction: (action: gameTypes.HeroState, payload?: any) => void }
-export type GameKeyboardActionType = "moveup" | "movedown" | "moveleft" | "moveright"
+export type GameKeyboardActionType = "moveup" | "movedown" | "moveleft" | "moveright" | "jump" | "shoot"
 export type KeyBindings = Record<GameKeyboardActionType, KeyBinding>
 
 export type KeyBinding = {
