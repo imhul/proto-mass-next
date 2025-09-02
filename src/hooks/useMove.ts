@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from "react"
 // store
 import { useStore, usePersistedStore } from "@/store"
+// utils
+import { Tween, Easing } from "@tweenjs/tween.js"
 // types
 import type {
     gameTypes,
@@ -8,7 +10,7 @@ import type {
     AnimatedSprite,
 } from "@lib/types"
 // config
-import { heroSize, zindex } from "@lib/config"
+import { heroSize, heroJumpHeight, heroJumpDuration, heroJumpLength, zindex } from "@lib/config"
 
 export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
     // refs
@@ -50,12 +52,6 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
             }
         })
 
-        // TODO: 3. Якщо бігти по діагоналі,
-        // а потім відпустити одну з двох клавіш,
-        // які відповідають за вертикальний рух,
-        // то герой продовжувати рухатися по діагоналі, по якій він рухався,
-        // а повинен був би рухатися в горизонтальному напрямку.
-
         if (!closestWater || closestDistance > 10) return null
         let direction: gameTypes.MovementDirection
         const { dx, dy } = closestWater
@@ -78,11 +74,11 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
 
     // TODO: 4. Completely overhaul the collision checking and hero stopping system:
     // const checkObjectCollision = (pos: gameTypes.Position): gameTypes.CheckObjectCollision => {
-    //     const vp = ref?.current
+    //     const view = ref?.current
     //     const closest = getClosestObjectToHero(pos)
-    //     if (!closest || !vp) return { collision: false }
-    //     const hero = vp.getChildByLabel("hero")
-    //     const closestEl = vp.getChildByLabel(closest.name)
+    //     if (!closest || !view) return { collision: false }
+    //     const hero = view.getChildByLabel("hero")
+    //     const closestEl = view.getChildByLabel(closest.name)
     //     if (!closestEl || !hero) return { collision: false }
     //     const boundsA = hero.getBounds()
     //     const boundsB = closestEl.getBounds()
@@ -110,9 +106,9 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
         direction: gameTypes.MovementDirection,
     ) => {
         // -------------------------------------------------------
-        const vp = ref?.current
-        if (!vp) return
-        const hero: AnimatedSprite = vp.getChildByLabel("hero")
+        const view = ref?.current
+        if (!view) return
+        const hero: AnimatedSprite = view.getChildByLabel("hero")
         if (!hero.position || !hero.scale) return
         // -------------------------------------------------------
         const newHeroPosition = {
@@ -122,9 +118,9 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
         // -------------------------------------------------------
         checkContainerCollision(newHeroPosition)
         // -------------------------------------------------------
-        // worked no-easing variant: vp.moveCenter(newCameraPosition.x, newCameraPosition.y)
+        // worked no-easing variant: view.moveCenter(newCameraPosition.x, newCameraPosition.y)
         // worked easing variant:
-        vp.animate({
+        view.animate({
             time: 1200,
             position: newHeroPosition,
             ease: "easeOutSine",
@@ -134,12 +130,13 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
             ? zindex.hero
             : Math.floor(newHeroPosition.y - heroSize / 2)
         hero.position.set(newHeroPosition.x, newHeroPosition.y)
-        if (["runnw", "runsw", "runw", "shoot-left"].includes(direction)) {
+        if (["runnw", "runsw", "runw", "shoot-left", "jump-left"].includes(direction)) {
             hero.scale.x = -3
-        } else if (["runne", "runse", "rune", "shoot-right"].includes(direction)) {
+        } else if (["runne", "runse", "rune", "shoot-right", "jump-right"].includes(direction)) {
             hero.scale.x = 3
         }
         // -------------------------------------------------------
+        // TODO:
         // const { collision, obstacle } = checkObjectCollision(newHeroPosition)
 
         // if (collision && obstacle) {
@@ -180,6 +177,50 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
             cancelAnimationFrame(animationFrameRef.current)
             animationFrameRef.current = null
         }
+    }
+
+    const jump = (jumpDirection: gameTypes.JumpDirection = "up") => {
+        setHeroAction("player-jump")
+        let animationFrameId: number
+
+        const view = ref?.current
+        if (!view) return
+        const hero: AnimatedSprite = view.getChildByLabel("hero")
+        if (!hero?.position) return
+
+        const startY = hero.position.y
+        const startX = hero.position.x
+        const radius = heroJumpHeight
+        const startTime = performance.now()
+
+        function animate(time: number): void {
+            const elapsed = time - startTime
+            const progress = Math.min(elapsed / (heroJumpDuration * 2), 1)
+
+            if (progress >= 1) {
+                cancelAnimationFrame(animationFrameId)
+                return
+            }
+
+            const angle = progress * Math.PI
+
+            if (jumpDirection === "left") {
+                const x = startX + (heroJumpLength / 2) * (Math.cos(angle) - 1)
+                const y = startY - radius * Math.sin(angle)
+                hero.position.set(x, y)
+            } else if (jumpDirection === "right") {
+                const x = startX + (heroJumpLength / 2) * (1 - Math.cos(angle))
+                const y = startY - radius * Math.sin(angle)
+                hero.position.set(x, y)
+            } else {
+                const y = startY - radius * Math.sin(angle)
+                hero.position.y = y
+            }
+
+            animationFrameId = requestAnimationFrame(animate)
+        }
+
+        animationFrameId = requestAnimationFrame(animate)
     }
 
     const move = (
@@ -226,7 +267,14 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
                 else stopRun()
                 break
             case "jump":
+                jump()
                 setHeroAction("player-jump")
+                break
+            case "jump-left":
+                jump("left")
+                break
+            case "jump-right":
+                jump("right")
                 break
             case "shoot":
                 setHeroAction("player-stand")
@@ -251,18 +299,25 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
         const jump = keyBindings.jump.codes.some((key: string) => pressed[key])
         const shoot = keyBindings.shoot.codes.some((key: string) => pressed[key])
 
+        // run & jump (dedicated to Current Value)
+        if (((up && left) || (down && left) || left) && jump) return "jump-left"
+        if (((up && right) || (down && right) || right) && jump) return "jump-right"
+        if (jump) return "jump"
+
+        // // run & shoot
+        if (((up && left) || (down && left) || left) && shoot) return "shoot-left"
+        if (((up && right) || (down && right) || right) && shoot) return "shoot-right"
+        if (shoot) return "shoot"
+
+        // run
         if (up && left) return "runnw"
         if (up && right) return "runne"
         if (down && left) return "runsw"
         if (down && right) return "runse"
-        if (((up && left) || (down && left) || left) && shoot) return "shoot-left"
-        if (((up && right) || (down && right) || right) && shoot) return "shoot-right"
         if (up) return "runn"
         if (down) return "runs"
         if (left) return "runw"
         if (right) return "rune"
-        if (jump) return "jump"
-        if (shoot) return "shoot"
 
         return null
     }

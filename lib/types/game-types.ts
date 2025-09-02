@@ -175,8 +175,23 @@ export type HeroState =
     | "player-shoot-up"
     | "power-up"
     | "shot"
+export type JumpDirection = "left" | "right" | "up"
 export type LevelName = "trainee" | "medium" | "master" | "prime"
-export type MovementDirection = "runn" | "runs" | "runw" | "rune" | "runnw" | "runne" | "runsw" | "runse" | "jump" | "shoot" | "shoot-left" | "shoot-right"
+export type MovementDirection =
+    "runn"
+    | "runs"
+    | "runw"
+    | "rune"
+    | "runnw"
+    | "runne"
+    | "runsw"
+    | "runse"
+    | "jump"
+    | "shoot"
+    | "shoot-left"
+    | "shoot-right"
+    | "jump-left"
+    | "jump-right"
 export type ObjectsProps = { size: BaseSize }
 export type PixiChildren = (ReactElement<any, any> | AnimatedSprite | null)[]
 export type Position = { x: number; y: number }

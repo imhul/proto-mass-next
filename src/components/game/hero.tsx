@@ -90,7 +90,7 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
                 anchor={0.5}
                 eventMode={"static"}
                 scale={3}
-                animationSpeed={0.1}
+                animationSpeed={hero.state === "player-jump" ? 0.2 : 0.1}
                 x={ref.current.screenWidth / 2}
                 y={ref.current.screenHeight / 2}
                 interactive={true}
