@@ -19,7 +19,6 @@ export interface BulletProps {
     y: number
     pointer: { x: number; y: number }
     textures: AnimatedSpriteFrames
-    bulletRef: RefObject<AnimatedSprite | null>
     onComplete: () => void
 }
 

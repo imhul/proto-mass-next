@@ -2,11 +2,11 @@ import { create } from "zustand"
 // middleware
 import { devtools, persist } from "zustand/middleware"
 // slices
-import { createUISlice } from "@store/ui-store"
-import { createNavSlice } from "@store/nav-store"
-import { createGameSlice } from "@store/game-store"
-import { createHeroSlice } from "@store/hero-store"
-import { createKeyboardSlice } from "@store/keyboard-store"
+import { createUISlice } from "@/store/persisted/ui-store"
+import { createNavSlice } from "@/store/persisted/nav-store"
+import { createGameSlice } from "@/store/persisted/game-store"
+import { createHeroSlice } from "@/store/global/hero-store"
+import { createKeyboardSlice } from "@/store/global/keyboard-store"
 // types
 import type { storeTypes } from "@lib/types"
 

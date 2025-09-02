@@ -3,14 +3,15 @@ import { useEffect, useRef, useState } from "react"
 // store
 import { useStore, usePersistedStore } from "@/store"
 // types
-import type { storeTypes, gameTypes } from "@lib/types"
+import type { storeTypes, gameTypes, AnimatedSprite } from "@lib/types"
 // components
 import { Rectangle } from "pixi.js"
 // config
 import { zindex, bulletSpeed, maxBulletDistance } from "@lib/config"
 
-const Bullet = ({ textures, x, y, bulletRef, pointer, onComplete }: gameTypes.BulletProps) => {
+const Bullet = ({ textures, x, y, pointer, onComplete }: gameTypes.BulletProps) => {
     // refs
+    const bulletRef = useRef<AnimatedSprite | null>(null)
     const animationFrameRef = useRef<number | null>(null)
     // store
     const hero = useStore((state: storeTypes.GlobalStore) => state.hero)
@@ -20,9 +21,9 @@ const Bullet = ({ textures, x, y, bulletRef, pointer, onComplete }: gameTypes.Bu
 
     const stopBullet = () => {
         if (!bulletRef?.current) return
-        onComplete()
         bulletRef.current.stop()
         animationFrameRef.current && cancelAnimationFrame(animationFrameRef.current)
+        onComplete()
     }
 
     const startBullet = () => {
@@ -39,8 +40,6 @@ const Bullet = ({ textures, x, y, bulletRef, pointer, onComplete }: gameTypes.Bu
             y: Math.sin(angle) * bulletSpeed,
         }
         let distanceTraveled = 0
-
-        // console.info("start pointer: ", { pointer, heroPosition: hero.position, angle, velocity, distanceTraveled })
 
         const updateBullet = () => {
             if (!bulletRef?.current) return

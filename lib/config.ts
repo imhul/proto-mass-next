@@ -8,7 +8,7 @@ import type {
 export const angryState = "angry" as gameTypes.EnemyState
 export const bigClusterPercent = 5
 export const bigClusterSize = { min: 10, max: 20 }
-export const bulletSpeed = 2
+export const bulletSpeed = 4
 export const defaultChunkSize = 1000
 export const fakeStartPosition: gameTypes.Position = { x: 200, y: 200 }
 export const heroSize = 80

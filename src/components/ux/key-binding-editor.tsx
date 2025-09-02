@@ -1,7 +1,7 @@
 import { useState } from "react"
 // store
 import { usePersistedStore } from "@/store"
-import { initState } from "@store/game-store"
+import { initState } from "@/store/persisted/game-store"
 // components
 import {
     Drawer,

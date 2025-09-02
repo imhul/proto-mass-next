@@ -15,7 +15,6 @@ import { zindex, heroSize } from "@lib/config"
 
 const Hero = ({ ref }: gameTypes.HeroProps) => {
     const heroRef = useRef<AnimatedSprite | null>(null)
-    const bulletRef = useRef<AnimatedSprite | null>(null)
     // state
     const [pointer, setPointer] = useState<{ x: number; y: number } | null>(null)
     const [textures, setTextures] = useState<gameTypes.TexturesCollection>(null)
@@ -23,6 +22,7 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
     // store
     const hero = useStore((state: storeTypes.GlobalStore) => state.hero)
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
+    const keyBindings = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences.keyBindings)
     useMove({ ref })
 
     useEffect(() => {
@@ -53,11 +53,30 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
     }, [isBulletActive, hero.state])
 
     useEffect(() => {
-        ref.current?.on("pointermove", (event: any) => {
-            setPointer(event.global)
-        })
-        return () => { ref.current?.off("pointermove") }
-    }, [ref])
+        const onKeydown = (event: any) => {
+            let globalX = 0
+            const { keyCodes, keys, codes } = keyBindings.shoot
+            ref.current?.on("pointermove", (event: any) => {
+                if (!ref.current) return
+                const localPointer = ref.current.toLocal(event.global)
+                setPointer(localPointer)
+                globalX = localPointer.x
+                if (heroRef.current && !["player-run", "player-run-shot"].some(state => state === hero.state)) {
+                    heroRef.current.scale.x = heroRef.current.position.x < globalX ? 3 : -3
+                }
+            })
+
+            if ((event.key === keys[0] || event.code === codes[0] || event.keyCode === keyCodes[0]) && heroRef.current && globalX !== 0) {
+                heroRef.current.scale.x = heroRef.current.position.x < globalX ? 3 : -3
+            }
+        }
+
+        window.addEventListener("keydown", onKeydown)
+        return () => {
+            ref.current?.off("pointermove")
+            window.removeEventListener("keydown", onKeydown)
+        }
+    }, [ref, heroRef, hero.state])
 
     const onComplete = () => {
         setIsBulletActive(false)
@@ -70,7 +89,7 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
                 ref={heroRef}
                 anchor={0.5}
                 eventMode={"static"}
-                scale={2.5}
+                scale={3}
                 animationSpeed={0.1}
                 x={ref.current.screenWidth / 2}
                 y={ref.current.screenHeight / 2}
@@ -83,9 +102,10 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
             />
             {(pointer && isBulletActive && heroRef.current) ? (<Bullet
                 onComplete={onComplete}
-                bulletRef={bulletRef}
                 textures={textures["shot"]}
-                x={heroRef.current.position.x + (heroSize / 2)}
+                x={heroRef.current.position.x < pointer.x
+                    ? heroRef.current.position.x + (heroSize / 2)
+                    : heroRef.current.position.x - (heroSize / 2)}
                 y={heroRef.current.position.y - 7}
                 pointer={pointer}
             />) : null}
