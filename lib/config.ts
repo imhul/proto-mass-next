@@ -1,3 +1,5 @@
+// utils
+import { getRandomInt } from "@lib/utils"
 // types
 import type {
     uiTypes,
@@ -21,6 +23,7 @@ export const maxBulletDistance = 200
 export const maxColoniesPerChunk = 5
 export const maxDistanceFromEnemyBase = 200
 export const maxEnemiesPerColony = 10
+export const maxEnemyProgress = maxEnemiesPerColony * maxColoniesPerChunk
 export const minute: number = 60 * 1000
 export const objectsPerChunk = { min: 150, max: 220 }
 export const seedLength = 16
@@ -218,22 +221,22 @@ export const gameGameDifficulties: gameTypes.GameDifficulty[] = [
 ]
 
 export const enemySpawnMatrix: Record<number, number> = {
-    2: minute / 2,
-    3: minute,
-    4: minute * 2.5,
-    5: minute * 4.5,
-    6: minute * 7,
-    7: minute * 10,
-    8: minute * 13.5,
-    9: minute * 17.5,
-    10: minute * 22
+    2: getRandomInt(minute / 2, minute),
+    3: getRandomInt(minute, minute * 1.5),
+    4: getRandomInt(minute * 2, minute * 3),
+    5: getRandomInt(minute * 4, minute * 5),
+    6: getRandomInt(minute * 6, minute * 8),
+    7: getRandomInt(minute * 9, minute * 12),
+    8: getRandomInt(minute * 13, minute * 15),
+    9: getRandomInt(minute * 16, minute * 19),
+    10: getRandomInt(minute * 20, minute * 25)
 }
 
 export const enemiesColoniesSpawnMatrix: Record<number, number> = {
-    2: minute * 2,
-    3: minute * 5,
-    4: minute * 10,
-    5: minute * 20
+    2: getRandomInt(minute, minute * 2),
+    3: getRandomInt(minute * 3, minute * 5),
+    4: getRandomInt(minute * 7, minute * 10),
+    5: getRandomInt(minute * 13, minute * 17),
 }
 
 export const initialColonyModel = {

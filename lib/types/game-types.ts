@@ -28,6 +28,13 @@ export interface CustomTilingSpriteProps {
     tilemap: CompositeTilemap | null
 }
 
+export interface ProgressBarProps {
+    min: number
+    max: number
+    current: number
+    position: Position
+}
+
 export interface CameraProps {
     children: PixiChildren
     events: EventSystem
@@ -153,7 +160,7 @@ export type BaseSize = { width: number; height: number }
 export type BaseState = "idle" | "die" | "damage" | "transform" | "special"
 export type ClosestWater = { dx: number; dy: number }
 export type Consumer = "hero" | "enemy"
-export type GameAction = "setPref" | "setSeed" | "resize" | "pause" | "restart" | "save" | "load" | "init" | "exit" | "saveWater"
+export type GameAction = "setEnemies" | "setPref" | "setSeed" | "resize" | "pause" | "restart" | "save" | "load" | "init" | "exit" | "saveWater"
 export type GameDifficultyType = "easy" | "normal" | "hard"
 export type GameDifficulty = { id: GameDifficultyType, label: string }
 export type GameObjectState = BaseState

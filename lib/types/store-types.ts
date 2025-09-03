@@ -62,6 +62,7 @@ export type GameSlice = {
     water: gameTypes.Position[]
     startTimestamp: number
     preferences: Preferences
+    enemies: Record<gameTypes.ColonyEntity["uid"], gameTypes.EnemyEntity[]>
     setGameAction: (
         action: gameTypes.GameAction,
         payload?: GameActionPayload

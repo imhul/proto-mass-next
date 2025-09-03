@@ -18,12 +18,14 @@ import {
 } from "@lib/config"
 
 const EnemiesColony = ({ ref, colony }: gameTypes.ColonyProps) => {
-    const [enemies, setEnemies] = useState<gameTypes.EnemyEntity[]>([])
-    const [enemyColonyState, setEnemyColonyState] = useState<gameTypes.EnemyColonyState>("idle")
-    const [max, setMax] = useState(1)
-    const maxIdinList = Math.max(...enemies.map(enemy => enemy.id), 0)
     // store
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
+    const enemiesList = usePersistedStore((state: storeTypes.PersistedStore) => state.enemies)
+    const setGameAction = usePersistedStore((state: storeTypes.PersistedStore) => state.setGameAction)
+    // state
+    const [enemyColonyState, setEnemyColonyState] = useState<gameTypes.EnemyColonyState>("idle")
+    const [max, setMax] = useState(1)
+    const maxIdinList = enemiesList[colony.uid] ? Math.max(...enemiesList[colony.uid].map(enemy => enemy.id), 0) : 0
 
     const getRandomPositionNearBase = (base: gameTypes.Position) => {
         const x = getRandomInt(base.x - maxDistanceFromEnemyBase, base.x + maxDistanceFromEnemyBase)
@@ -40,10 +42,12 @@ const EnemiesColony = ({ ref, colony }: gameTypes.ColonyProps) => {
     }
 
     useEffect(() => {
-        if (paused) return
+        if (paused || !enemiesList) return
+        const enemies = enemiesList[colony.uid] || []
         if (enemies.length) {
             if (enemies.length < max) {
-                setEnemies((prevEnemies) => [...prevEnemies, {
+                const newEnemy = {
+                    ...colony,
                     ...nextEnemyModel,
                     position: {
                         x: getRandomPositionNearBase({ x: enemies[0].base.x, y: enemies[0].base.y }).x,
@@ -53,27 +57,33 @@ const EnemiesColony = ({ ref, colony }: gameTypes.ColonyProps) => {
                         x: enemies[0].base.x,
                         y: enemies[0].base.y,
                     }
-                }])
+                }
+                setGameAction("setEnemies", { colonyUid: colony.uid, newEnemy })
             }
         } else {
             // First enemy spawn
             const base = {
-                x: 300, // getRandomInt(1, defaultChunkSize * 2),
-                y: 300, // getRandomInt(1, defaultChunkSize * 2),
+                x: getRandomInt(1, defaultChunkSize * 2),
+                y: getRandomInt(1, defaultChunkSize * 2),
             }
-            setEnemies((prevEnemies) => [...prevEnemies, {
+            const newEnemy = {
+                ...colony,
                 ...initialEnemyModel,
+                uid: colony.id + initialEnemyModel.uid,
                 base,
                 position: {
                     x: getRandomPositionNearBase(base).x,
                     y: getRandomPositionNearBase(base).y,
                 },
-            }])
+            }
+            setGameAction("setEnemies", { colonyUid: colony.uid, newEnemy })
         }
-    }, [max, paused])
+    }, [max, paused, colony])
 
     // Spawn control
     useEffect(() => {
+        if (!enemiesList) return
+        const enemies = enemiesList[colony.uid] || []
         if (paused || enemies.length === 0) return
         if (enemies.length < maxEnemiesPerColony) {
             const nextCount = enemies.length + 1
@@ -85,24 +95,23 @@ const EnemiesColony = ({ ref, colony }: gameTypes.ColonyProps) => {
                 return () => clearTimeout(timer)
             }
         }
-    }, [enemies, paused])
+    }, [enemiesList, paused])
 
     return (
         <pixiContainer sortableChildren={true} >
-            {ref.current && enemies.length > 0 ? (<>
-                <EnemyBase isBirth={enemies.length < 2} pos={enemies[0].base} />
-                {enemies.map((enemy) => (
+            {ref.current && enemiesList[colony.uid]?.length > 0 ? (<>
+                <EnemyBase isBirth={enemiesList[colony.uid].length < 2} pos={enemiesList[colony.uid][0].base} />
+                {enemiesList[colony.uid].map((enemy) => (
                     <Enemy
                         key={enemy.id}
                         item={enemy}
                         ref={ref}
-                        base={enemies[0].base}
+                        base={enemiesList[colony.uid][0].base}
                         enemyColonyState={enemyColonyState}
                         setEnemyColonyState={setEnemyColonyState}
                     />
                 ))}
             </>) : null}
-
         </pixiContainer>
     )
 }

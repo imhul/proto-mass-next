@@ -24,7 +24,6 @@ export const useBirthAnimation = (
         }
 
         let cancelled = false
-        // console.info("useBirthAnimation called: ", { type, active, sprite })
 
         const runAnimation = async () => {
             for (const step of Object.values(birthAnimationSteps)) {

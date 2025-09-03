@@ -3,6 +3,8 @@ import type { uiTypes, storeTypes, gameTypes } from "@lib/types"
 // config
 import { defaultChunkSize } from '@lib/config'
 
+export type Enemies = Record<string, gameTypes.EnemyEntity[]>
+
 export const initState = {
     init: false,
     paused: false,
@@ -14,6 +16,7 @@ export const initState = {
         height: defaultChunkSize * 2,
     },
     seed: undefined,
+    enemies: {},
     preferences: {
         difficulty: "normal" as gameTypes.GameDifficultyType,
         theme: "system" as uiTypes.ThemeName,
@@ -81,6 +84,14 @@ export const createGameSlice: storeTypes.CreateGameSliceType = (set, get) => ({
                 break
             case "setPref":
                 set({ preferences: payload })
+                break
+            case "setEnemies":
+                set({
+                    enemies: {
+                        ...get().enemies,
+                        [payload.colonyUid]: [...(get().enemies[payload.colonyUid] || []), payload.newEnemy],
+                    }
+                })
                 break
             case "save":
                 // TODO: handle save
