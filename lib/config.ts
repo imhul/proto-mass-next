@@ -15,11 +15,12 @@ export const heroJumpHeight = 100
 export const heroJumpLength = 100
 export const heroJumpDuration = 500
 export const heroSize = 80
-export const idleState = "idle" as gameTypes.PrideState
+export const idleState = "idle" as gameTypes.EnemyColonyState
 export const maggotsCount = 20
 export const maxBulletDistance = 200
+export const maxColoniesPerChunk = 5
 export const maxDistanceFromEnemyBase = 200
-export const maxEnemiesPerPride = 10
+export const maxEnemiesPerColony = 10
 export const minute: number = 60 * 1000
 export const objectsPerChunk = { min: 150, max: 220 }
 export const seedLength = 16
@@ -216,7 +217,7 @@ export const gameGameDifficulties: gameTypes.GameDifficulty[] = [
     }
 ]
 
-export const spawnMatrix: Record<number, number> = {
+export const enemySpawnMatrix: Record<number, number> = {
     2: minute / 2,
     3: minute,
     4: minute * 2.5,
@@ -226,6 +227,18 @@ export const spawnMatrix: Record<number, number> = {
     8: minute * 13.5,
     9: minute * 17.5,
     10: minute * 22
+}
+
+export const enemiesColoniesSpawnMatrix: Record<number, number> = {
+    2: minute * 2,
+    3: minute * 5,
+    4: minute * 10,
+    5: minute * 20
+}
+
+export const initialColonyModel = {
+    id: 1,
+    uid: "456039fa-815d-4239-8491-6cb91b0b6ab7",
 }
 
 export const initialEnemyModel = {
@@ -242,6 +255,23 @@ export const initialEnemyModel = {
     name: "Enemy-" + 1,
     dead: false,
 } as gameTypes.EnemyEntity
+
+export const birthAnimationSteps = {
+    0: { duration: 0, opacity: 0, filter: false }, // start
+    1: { duration: 50, opacity: 0.1, filter: true },
+    2: { duration: 50, opacity: 0, filter: false },
+    3: { duration: 100, opacity: 0.25, filter: true },
+    4: { duration: 100, opacity: 0.1, filter: false },
+    5: { duration: 200, opacity: 0.5, filter: true },
+    6: { duration: 200, opacity: 0.25, filter: false },
+    7: { duration: 300, opacity: 0.75, filter: true },
+    8: { duration: 300, opacity: 0.5, filter: false },
+    9: { duration: 400, opacity: 1, filter: true },
+    10: { duration: 400, opacity: 0.75, filter: false },
+    11: { duration: 500, opacity: 1, filter: true },
+    12: { duration: 500, opacity: 1, filter: false },
+    13: { duration: 0, opacity: 1, filter: false } // end
+}
 
 export const keycodes: storeTypes.KeyBindingCollectionItem[] = [
     {

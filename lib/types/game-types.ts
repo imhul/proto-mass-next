@@ -48,14 +48,19 @@ export interface HeroProps {
 
 export interface EnemyProps {
     base: Position
-    prideState?: PrideState
+    enemyColonyState?: EnemyColonyState
     item: EnemyEntity | null
     ref: RefObject<CameraProps | null>
-    setPrideState: (state: PrideState) => void
+    setEnemyColonyState: (state: EnemyColonyState) => void
 }
 
 export interface EnemiesProps {
     ref: RefObject<CameraProps | null>
+}
+
+export interface ColonyProps {
+    ref: RefObject<CameraProps | null>
+    colony: ColonyEntity
 }
 
 export type DevComponentProps = {
@@ -89,6 +94,11 @@ export interface EnemyEntity extends BaseEntity {
     base: Position
     timestamp: number
     state: EnemyState
+}
+
+export interface ColonyEntity {
+    id: number
+    uid: string
 }
 
 export interface GameObjectEntity extends BaseEntity {
@@ -195,7 +205,7 @@ export type MovementDirection =
 export type ObjectsProps = { size: BaseSize }
 export type PixiChildren = (ReactElement<any, any> | AnimatedSprite | null)[]
 export type Position = { x: number; y: number }
-export type PrideState = "idle" | "angry"
+export type EnemyColonyState = "idle" | "angry"
 export type SummaryState = HeroState | EnemyState
 export type TexturesCollection = TexturesObject | null
 export type TexturesObject = { [key in SummaryState]: Texture[] }

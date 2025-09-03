@@ -4,7 +4,7 @@ import { useApplication } from "@pixi/react"
 import { usePersistedStore } from "@/store"
 // components
 import Hero from "@components/game/hero"
-import Enemies from "@components/game/enemies"
+import Enemies from "@/components/game/enemies"
 import Camera from "@components/game/camera"
 import Maggots from "@components/game/maggots"
 import Objects from "@components/game/objects"

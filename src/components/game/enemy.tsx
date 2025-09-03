@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react"
 // store
 import { usePersistedStore } from "@/store"
+// hooks
+import { useBirthAnimation } from "@hooks/useBirth"
 // components
 import { ColorMatrixFilter, Assets, AnimatedSprite, Rectangle } from "pixi.js"
 // types
-import { storeTypes, gameTypes } from "@lib/types"
+import { storeTypes, gameTypes, Sprite } from "@lib/types"
 // utils
 import { getTextures, getRandomInt } from "@lib/utils"
 // config
@@ -14,17 +16,19 @@ import {
     maxDistanceFromEnemyBase,
 } from "@lib/config"
 
-const Enemy = ({ ref, base, item, prideState, setPrideState, }: gameTypes.EnemyProps) => {
+const Enemy = ({ ref, base, item, enemyColonyState, setEnemyColonyState, }: gameTypes.EnemyProps) => {
     const spriteRef = useRef<AnimatedSprite | null>(null) // The Pixi.js `Sprite`
     const animationFrameRef = useRef<number | null>(null)
     // state
     const [atlasJson, setAtlasJson] = useState<gameTypes.AtlasJSON | null>(null)
     const [isHovered, setIsHover] = useState(false)
     const [textures, setTextures] = useState<gameTypes.TexturesCollection>(null)
-    const [state, setState] = useState<gameTypes.EnemyState>(prideState || "idle")
+    const [state, setState] = useState<gameTypes.EnemyState>(enemyColonyState || "idle")
     const [init, setInit] = useState(false)
     // store
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
+
+    useBirthAnimation(spriteRef as React.RefObject<AnimatedSprite>, !!textures, "enemy")
 
     const idleAlgorithm = () => {
         if (paused) return
@@ -115,15 +119,15 @@ const Enemy = ({ ref, base, item, prideState, setPrideState, }: gameTypes.EnemyP
     }, [state, textures, paused, spriteRef.current])
 
     useEffect(() => {
-        if (prideState === angryState) {
+        if (enemyColonyState === angryState) {
             setState(angryState)
             return
         }
-    }, [prideState])
+    }, [enemyColonyState])
 
     useEffect(() => {
-        if (state === "angry" && prideState !== "angry") {
-            setPrideState("angry")
+        if (state === "angry" && enemyColonyState !== "angry") {
+            setEnemyColonyState("angry")
         }
     }, [state])
 

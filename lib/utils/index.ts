@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx"
+import { delay } from '@lib/utils/delay'
 import { twMerge } from "tailwind-merge"
 import { getTextures } from '@lib/utils/get-textures'
 import { generateMap } from '@lib/utils/map-generator'
@@ -18,6 +19,7 @@ function cn(...inputs: ClassValue[]) {
 
 export {
     cn,
+    delay,
     playSFX,
     generateMap,
     getTextures,
