@@ -5,11 +5,13 @@ import { usePersistedStore } from "@/store"
 import EnemiesColony from "@/components/game/enemies-colony"
 // types
 import type { storeTypes, gameTypes } from "@lib/types"
+// utils
+import { getRandomInt } from "@lib/utils"
 // config
 import {
+    minute,
     initialColonyModel,
     maxColoniesPerChunk,
-    enemiesColoniesSpawnMatrix
 } from "@lib/config"
 
 const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
@@ -20,12 +22,10 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
 
     useEffect(() => {
         if (paused) return
-
         if (colonies.length === 0) {
             const enemiesListKeys = enemiesList ? Object.keys(enemiesList) : []
 
             if (enemiesListKeys.length > 0) {
-                // Відновлюємо колонії зі стору
                 setColonies(
                     enemiesListKeys.map((key, index) => ({
                         id: index + 1,
@@ -42,6 +42,12 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
         if (paused || colonies.length === 0) return
 
         if (colonies.length < maxColoniesPerChunk) {
+            const enemiesColoniesSpawnMatrix: Record<number, number> = {
+                2: getRandomInt(minute, minute * 2, null, false),
+                3: getRandomInt(minute * 3, minute * 5, null, false),
+                4: getRandomInt(minute * 7, minute * 10, null, false),
+                5: getRandomInt(minute * 13, minute * 17, null, false),
+            }
             const nextCount = colonies.length + 1
             const pauseToNextBirth = enemiesColoniesSpawnMatrix[nextCount]
 
@@ -52,7 +58,6 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
                         { id: prev.length + 1, uid: crypto.randomUUID() }
                     ])
                 }, pauseToNextBirth)
-
                 return () => clearTimeout(timer)
             }
         }

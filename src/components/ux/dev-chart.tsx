@@ -21,7 +21,7 @@ const chartConfig = {
     },
 } satisfies ChartConfig
 
-const DevChart = ({ currentValue }: { currentValue: number }) => {
+const DevChart = ({ currentValue, cache = 2000 }: { currentValue: number; cache?: number }) => {
     const [chartData, setChartData] = useState<{ time: string; value: number }[]>([])
 
     useEffect(() => {
@@ -33,7 +33,7 @@ const DevChart = ({ currentValue }: { currentValue: number }) => {
                 .padStart(2, "0")}`
 
             setChartData((prev) => [
-                ...prev.slice(-2000),
+                ...prev.slice(-cache),
                 { time, value: currentValue },
             ])
         }, 1000)
