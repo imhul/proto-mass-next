@@ -4,6 +4,7 @@ import { Application, useExtend } from "@pixi/react"
 import { usePersistedStore } from "@/store"
 // components
 import Game from "@components/game/game"
+import DevChart from "@components/ux/dev-chart"
 import ProgressBar from "@components/ux/progress-bar"
 import InitialScene from "@components/ux/initial-scene"
 import {
@@ -43,6 +44,7 @@ export const Output = () => {
         <div ref={parentRef} className="game-container">
             {isGameInit ? (<>
                 <ProgressBar min={0} max={maxEnemyProgress} current={enemiesLength} />
+                <DevChart currentValue={enemiesLength} />
                 <Application resizeTo={parentRef}>
                     <Game parentRef={parentRef} />
                 </Application>

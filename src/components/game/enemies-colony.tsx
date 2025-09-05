@@ -55,7 +55,6 @@ const EnemiesColony = ({ ref, colony }: gameTypes.ColonyProps) => {
             return
         }
 
-        // Якщо ворогів є менше, ніж треба – додаємо з затримкою
         if (enemies.length < maxEnemiesPerColony) {
             const nextCount = enemies.length + 1
             const pauseToNextBirth = enemySpawnMatrix[nextCount]

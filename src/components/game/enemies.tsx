@@ -18,7 +18,6 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
     const enemiesList = usePersistedStore((state: storeTypes.PersistedStore) => state.enemies)
 
-    // Ініціалізація (відновлення збережених колоній або створення першої)
     useEffect(() => {
         if (paused) return
 
@@ -34,13 +33,11 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
                     }))
                 )
             } else {
-                // Якщо у сторі пусто – створюємо першу колонію
                 setColonies([initialColonyModel])
             }
         }
     }, [paused, enemiesList, colonies.length])
 
-    // Контроль спавну нових колоній
     useEffect(() => {
         if (paused || colonies.length === 0) return
 
