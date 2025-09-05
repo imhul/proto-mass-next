@@ -1,7 +1,7 @@
 // types
 import type { uiTypes, storeTypes, gameTypes } from "@lib/types"
 // config
-import { defaultChunkSize } from '@lib/config'
+import { defaultChunkSize, maxColoniesPerChunk } from '@lib/config'
 
 export type Enemies = Record<string, gameTypes.EnemyEntity[]>
 
@@ -86,6 +86,8 @@ export const createGameSlice: storeTypes.CreateGameSliceType = (set, get) => ({
                 set({ preferences: payload })
                 break
             case "setEnemies":
+                const colonies = Object.keys(get().enemies)
+                if (colonies.length >= maxColoniesPerChunk) return
                 set({
                     enemies: {
                         ...get().enemies,

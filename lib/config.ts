@@ -221,22 +221,22 @@ export const gameGameDifficulties: gameTypes.GameDifficulty[] = [
 ]
 
 export const enemySpawnMatrix: Record<number, number> = {
-    2: getRandomInt(minute / 2, minute),
-    3: getRandomInt(minute, minute * 1.5),
-    4: getRandomInt(minute * 2, minute * 3),
-    5: getRandomInt(minute * 4, minute * 5),
-    6: getRandomInt(minute * 6, minute * 8),
-    7: getRandomInt(minute * 9, minute * 12),
-    8: getRandomInt(minute * 13, minute * 15),
-    9: getRandomInt(minute * 16, minute * 19),
-    10: getRandomInt(minute * 20, minute * 25)
+    2: getRandomInt(minute / 2, minute, null, false),
+    3: getRandomInt(minute, minute * 1.5, null, false),
+    4: getRandomInt(minute * 2, minute * 3, null, false),
+    5: getRandomInt(minute * 4, minute * 5, null, false),
+    6: getRandomInt(minute * 6, minute * 8, null, false),
+    7: getRandomInt(minute * 9, minute * 12, null, false),
+    8: getRandomInt(minute * 13, minute * 15, null, false),
+    9: getRandomInt(minute * 16, minute * 19, null, false),
+    10: getRandomInt(minute * 20, minute * 25, null, false)
 }
 
 export const enemiesColoniesSpawnMatrix: Record<number, number> = {
-    2: getRandomInt(minute, minute * 2),
-    3: getRandomInt(minute * 3, minute * 5),
-    4: getRandomInt(minute * 7, minute * 10),
-    5: getRandomInt(minute * 13, minute * 17),
+    2: getRandomInt(minute, minute * 2, null, false),
+    3: getRandomInt(minute * 3, minute * 5, null, false),
+    4: getRandomInt(minute * 7, minute * 10, null, false),
+    5: getRandomInt(minute * 13, minute * 17, null, false),
 }
 
 export const initialColonyModel = {

@@ -281,7 +281,7 @@ button:focus-visible {
 }
 
 .game-container {
-    height: calc(100vh - 84px);
+    height: calc(100vh - 80px);
 }
 
 .initial-scene button,

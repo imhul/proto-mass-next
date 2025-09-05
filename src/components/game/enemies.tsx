@@ -18,6 +18,7 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
     const maxIdinList = Math.max(...colonies.map(colony => colony.id), 0)
     // store
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
+    const enemiesList = usePersistedStore((state: storeTypes.PersistedStore) => state.enemies)
 
     useEffect(() => {
         if (paused) return
@@ -29,8 +30,17 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
                 }])
             }
         } else {
+            const enemiesListKeys = enemiesList ? Object.keys(enemiesList) : []
+            if (enemiesListKeys.length > 0 && enemiesListKeys.length < maxColoniesPerChunk) {
+                setColonies(enemiesListKeys.map((key, index) => ({
+                    id: index + 1,
+                    uid: key,
+                })))
+                setMax(Object.keys(enemiesList).length + 1)
+                return
+            }
             // First colony spawn
-            setColonies((prev) => [...prev, initialColonyModel])
+            setColonies(() => [initialColonyModel])
         }
     }, [max, paused])
 

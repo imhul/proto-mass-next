@@ -33,6 +33,11 @@ const EnemiesColony = ({ ref, colony }: gameTypes.ColonyProps) => {
         return { x, y }
     }
 
+    // TODO: Має генеруватися 5 колоній по 10 ворогів в кожній.
+    // 1. Зараз генериться 4 колонії по 5 ворогів і ще одна лише із одним ворогом.
+    // 2. Потім генерація зупиняється, хоча мала би продовжуватися, допоки в кожній колонії не стане по 10 ворогів
+    // 3. Після перезавантаження стрінки генерація не продовжується, хоча мала би
+
     const nextEnemyModel: gameTypes.EnemyEntity = {
         ...initialEnemyModel,
         id: maxIdinList + 1,
@@ -42,13 +47,13 @@ const EnemiesColony = ({ ref, colony }: gameTypes.ColonyProps) => {
     }
 
     useEffect(() => {
-        if (paused || !enemiesList) return
+        if (paused) return
         const enemies = enemiesList[colony.uid] || []
         if (enemies.length) {
             if (enemies.length < max) {
                 const newEnemy = {
-                    ...colony,
                     ...nextEnemyModel,
+                    colony: enemies[0].colony,
                     position: {
                         x: getRandomPositionNearBase({ x: enemies[0].base.x, y: enemies[0].base.y }).x,
                         y: getRandomPositionNearBase({ x: enemies[0].base.x, y: enemies[0].base.y }).y,
@@ -67,10 +72,10 @@ const EnemiesColony = ({ ref, colony }: gameTypes.ColonyProps) => {
                 y: getRandomInt(1, defaultChunkSize * 2),
             }
             const newEnemy = {
-                ...colony,
                 ...initialEnemyModel,
-                uid: colony.id + initialEnemyModel.uid,
                 base,
+                colony,
+                uid: colony.id + initialEnemyModel.uid,
                 position: {
                     x: getRandomPositionNearBase(base).x,
                     y: getRandomPositionNearBase(base).y,
@@ -84,6 +89,7 @@ const EnemiesColony = ({ ref, colony }: gameTypes.ColonyProps) => {
     useEffect(() => {
         if (!enemiesList) return
         const enemies = enemiesList[colony.uid] || []
+        console.info("Enemies: ", { enemiesList, enemies, colony, max })
         if (paused || enemies.length === 0) return
         if (enemies.length < maxEnemiesPerColony) {
             const nextCount = enemies.length + 1

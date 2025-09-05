@@ -1,5 +1,6 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useRef } from "react"
 import { useApplication } from "@pixi/react"
+import { Viewport } from "pixi-viewport"
 // store
 import { usePersistedStore } from "@/store"
 // components
@@ -9,21 +10,14 @@ import Camera from "@components/game/camera"
 import Maggots from "@components/game/maggots"
 import Objects from "@components/game/objects"
 import Ground from "@components/game/ground"
-import CustomProgressBar from "@components/pixi/custom-progress-bar"
 // types
 import type { storeTypes, gameTypes } from "@lib/types"
-// config
-import { maxEnemyProgress } from "@lib/config"
 
 const Game = ({ parentRef }: gameTypes.GameProps) => {
     const { app } = useApplication()
     globalThis.__PIXI_APP__ = app
-    const viewportRef = useRef<gameTypes.CameraProps>(
-        null,
-    ) as React.RefObject<gameTypes.CameraProps>
+    const viewportRef = useRef<Viewport | null>(null)
     const gameSize = usePersistedStore((state: storeTypes.PersistedStore) => state.gameSize)
-    const enemiesList = usePersistedStore((state: storeTypes.PersistedStore) => state.enemies)
-    const [enemiesLength, setEnemiesLength] = useState(0)
 
     const resize = () => {
         if (!viewportRef.current) return
@@ -41,13 +35,6 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
         }
     }, [])
 
-    useEffect(() => {
-        if (enemiesList) {
-            const total = Object.values(enemiesList).reduce((acc, enemies) => acc + enemies.length, 0)
-            setEnemiesLength(total)
-        }
-    }, [enemiesList])
-
     return (
         <>
             {(parentRef.current &&
@@ -64,12 +51,6 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
                         <Enemies ref={viewportRef} />
                         {viewportRef ? (<Hero ref={viewportRef} />) : null}
                     </Camera>
-                    {viewportRef.current?.position ? (<CustomProgressBar
-                        position={viewportRef.current.position}
-                        min={0}
-                        max={maxEnemyProgress}
-                        current={enemiesLength}
-                    />) : null}
                 </>) : null
             }
         </>

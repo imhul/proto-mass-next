@@ -1,6 +1,7 @@
 import type {
     Point,
     Texture,
+    Viewport,
     RefObject,
     EventSystem,
     ReactElement,
@@ -32,7 +33,7 @@ export interface ProgressBarProps {
     min: number
     max: number
     current: number
-    position: Position
+    position?: Position
 }
 
 export interface CameraProps {
@@ -50,23 +51,23 @@ export interface MaggotProps {
 }
 
 export interface HeroProps {
-    ref: RefObject<CameraProps | null>
+    ref: RefObject<Viewport | null>
 }
 
 export interface EnemyProps {
     base: Position
     enemyColonyState?: EnemyColonyState
     item: EnemyEntity | null
-    ref: RefObject<CameraProps | null>
+    ref: RefObject<Viewport | null>
     setEnemyColonyState: (state: EnemyColonyState) => void
 }
 
 export interface EnemiesProps {
-    ref: RefObject<CameraProps | null>
+    ref: RefObject<Viewport | null>
 }
 
 export interface ColonyProps {
-    ref: RefObject<CameraProps | null>
+    ref: RefObject<Viewport | null>
     colony: ColonyEntity
 }
 
@@ -101,6 +102,7 @@ export interface EnemyEntity extends BaseEntity {
     base: Position
     timestamp: number
     state: EnemyState
+    colony: ColonyEntity
 }
 
 export interface ColonyEntity {
@@ -216,7 +218,7 @@ export type EnemyColonyState = "idle" | "angry"
 export type SummaryState = HeroState | EnemyState
 export type TexturesCollection = TexturesObject | null
 export type TexturesObject = { [key in SummaryState]: Texture[] }
-export type UseMoveProps = { ref: React.RefObject<CameraProps | null> }
+export type UseMoveProps = { ref: React.RefObject<Viewport | null> }
 
 export interface Breakpoint {
     id: string
