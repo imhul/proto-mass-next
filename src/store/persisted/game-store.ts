@@ -86,12 +86,13 @@ export const createGameSlice: storeTypes.CreateGameSliceType = (set, get) => ({
                 set({ preferences: payload })
                 break
             case "setEnemies":
-                const colonies = Object.keys(get().enemies)
-                if (colonies.length >= maxColoniesPerChunk) return
                 set({
                     enemies: {
                         ...get().enemies,
-                        [payload.colonyUid]: [...(get().enemies[payload.colonyUid] || []), payload.newEnemy],
+                        [payload.colonyUid]: [
+                            ...(get().enemies[payload.colonyUid] || []),
+                            payload.newEnemy,
+                        ],
                     }
                 })
                 break
