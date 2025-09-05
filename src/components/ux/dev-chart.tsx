@@ -33,7 +33,7 @@ const DevChart = ({ currentValue }: { currentValue: number }) => {
                 .padStart(2, "0")}`
 
             setChartData((prev) => [
-                ...prev.slice(-60),
+                ...prev.slice(-2000),
                 { time, value: currentValue },
             ])
         }, 1000)
