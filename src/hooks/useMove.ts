@@ -2,18 +2,24 @@ import { useEffect, useState, useRef } from "react"
 // store
 import { useStore, usePersistedStore } from "@/store"
 // utils
+import { generateMapChunk } from "@lib/utils"
 import { Tween, Easing } from "@tweenjs/tween.js"
 // types
-import type {
-    gameTypes,
-    storeTypes,
-    AnimatedSprite,
-} from "@lib/types"
+import type { gameTypes, storeTypes } from "@lib/types"
 // config
-import { heroSize, heroJumpHeight, heroJumpDuration, heroJumpLength, zindex } from "@lib/config"
+import {
+    zindex,
+    heroSize,
+    heroJumpHeight,
+    heroJumpDuration,
+    defaultChunkSize,
+    distanceToMapBorder,
+} from "@lib/config"
 
 export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
     // refs
+    const isJumpingRef = useRef(false)
+    const jumpAnimationRef = useRef<number | null>(null)
     const pressedKeys = useRef<{ [key: string]: boolean }>({})
     const keyPressTimers = useRef<{ [key: string]: NodeJS.Timeout | null }>({})
     const animationFrameRef = useRef<number | null>(null)
@@ -26,16 +32,17 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
         (state: storeTypes.GlobalStore) => state.setHeroAction,
     )
 
-    const createNewMapChunk = (position: gameTypes.Position) => {
-        // TODO: 2. write function
-    }
-
     const checkContainerCollision = (position: gameTypes.Position) => {
-        // TODO: 1. check collision with map boundaries and run createNewMapChunk(position)
-        let collision = true // fake
-        if (collision) createNewMapChunk(position)
+        if (position.x < distanceToMapBorder) generateMapChunk(position, "left")
+        if (position.y < distanceToMapBorder) generateMapChunk(position, "top")
+        if (position.x > (defaultChunkSize * 2) - distanceToMapBorder) generateMapChunk(position, "right")
+        if (position.y > (defaultChunkSize * 2) - distanceToMapBorder) generateMapChunk(position, "bottom")
     }
 
+    // TODO: 4. Completely overhaul the water collision checking and hero stopping system, including:
+    // getClosestObjectToHero
+    // checkObjectCollision
+    // applyMove (stopping and continuing movement after collision in certain directions) logic
     const getClosestObjectToHero = (
         pos: gameTypes.Position,
     ): gameTypes.MovementDirection | null => {
@@ -72,7 +79,6 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
         return direction
     }
 
-    // TODO: 4. Completely overhaul the collision checking and hero stopping system:
     // const checkObjectCollision = (pos: gameTypes.Position): gameTypes.CheckObjectCollision => {
     //     const view = ref?.current
     //     const closest = getClosestObjectToHero(pos)
@@ -108,8 +114,8 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
         // -------------------------------------------------------
         const view = ref?.current
         if (!view) return
-        const hero: AnimatedSprite = view.getChildByLabel("hero")
-        if (!hero.position || !hero.scale) return
+        const hero: gameTypes.HeroInstance = view.getChildByLabel("hero")
+        if (!hero?.position || !hero?.scale) return
         // -------------------------------------------------------
         const newHeroPosition = {
             x: hero.position.x + dx,
@@ -129,6 +135,7 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
         hero.zIndex = (hero.zIndex < zindex.hero || newHeroPosition.y < zindex.hero)
             ? zindex.hero
             : Math.floor(newHeroPosition.y - heroSize / 2)
+        // -------------------------------------------------------
         hero.position.set(newHeroPosition.x, newHeroPosition.y)
         if (["runnw", "runsw", "runw", "shoot-left", "jump-left"].includes(direction)) {
             hero.scale.x = -3
@@ -179,49 +186,45 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
         }
     }
 
-    const jump = (jumpDirection: gameTypes.JumpDirection = "up") => {
+    const jump = () => {
+        if (isJumpingRef.current) return
+        isJumpingRef.current = true
+
         setHeroAction("player-jump")
-        let animationFrameId: number
 
         const view = ref?.current
         if (!view) return
-        const hero: AnimatedSprite = view.getChildByLabel("hero")
+        const hero: gameTypes.HeroInstance = view.getChildByLabel("hero")
         if (!hero?.position) return
 
         const startY = hero.position.y
-        const startX = hero.position.x
         const radius = heroJumpHeight
         const startTime = performance.now()
 
-        function animate(time: number): void {
+        const animate = (time: number): void => {
+            if (!hero?.position) return
             const elapsed = time - startTime
             const progress = Math.min(elapsed / (heroJumpDuration * 2), 1)
-
-            if (progress >= 1) {
-                cancelAnimationFrame(animationFrameId)
-                return
-            }
-
             const angle = progress * Math.PI
+            hero.position.y = startY - radius * Math.sin(angle)
 
-            if (jumpDirection === "left") {
-                const x = startX + (heroJumpLength / 2) * (Math.cos(angle) - 1)
-                const y = startY - radius * Math.sin(angle)
-                hero.position.set(x, y)
-            } else if (jumpDirection === "right") {
-                const x = startX + (heroJumpLength / 2) * (1 - Math.cos(angle))
-                const y = startY - radius * Math.sin(angle)
-                hero.position.set(x, y)
+            if (progress < 1) {
+                jumpAnimationRef.current = requestAnimationFrame(animate)
             } else {
-                const y = startY - radius * Math.sin(angle)
-                hero.position.y = y
+                isJumpingRef.current = false
+                if (jumpAnimationRef.current) {
+                    cancelAnimationFrame(jumpAnimationRef.current)
+                    jumpAnimationRef.current = null
+                }
+                if (pressedKeys.current["Space"]) {
+                    jump()
+                }
             }
-
-            animationFrameId = requestAnimationFrame(animate)
         }
 
-        animationFrameId = requestAnimationFrame(animate)
+        jumpAnimationRef.current = requestAnimationFrame(animate)
     }
+
 
     const move = (
         direction: gameTypes.MovementDirection | null,
@@ -270,12 +273,6 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
                 jump()
                 setHeroAction("player-jump")
                 break
-            case "jump-left":
-                jump("left")
-                break
-            case "jump-right":
-                jump("right")
-                break
             case "shoot":
                 setHeroAction("player-stand")
                 break
@@ -300,8 +297,6 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
         const shoot = keyBindings.shoot.codes.some((key: string) => pressed[key])
 
         // run & jump (dedicated to Current Value)
-        if (((up && left) || (down && left) || left) && jump) return "jump-left"
-        if (((up && right) || (down && right) || right) && jump) return "jump-right"
         if (jump) return "jump"
 
         // // run & shoot
@@ -326,6 +321,14 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
         pressedKeys.current[event.code] = true
         const direction = eventConductor(pressedKeys.current)
         if (!direction) return
+
+        if (direction === "jump") {
+            if (!isJumpingRef.current) {
+                jump()
+            }
+            return
+        }
+
         if (keyPressTimers.current[event.code]) return
         keyPressTimers.current[event.code] = setTimeout(() => {
             move(direction)

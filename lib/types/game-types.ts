@@ -3,8 +3,10 @@ import type {
     Texture,
     Viewport,
     RefObject,
+    Container,
     EventSystem,
     ReactElement,
+    ContainerChild,
     AnimatedSprite,
     CompositeTilemap,
     AnimatedSpriteFrames,
@@ -169,6 +171,7 @@ export type GameObjectState = BaseState
 export type GetTexturesType = (atlasJson: AtlasJSON | null, consumer: Consumer) => TexturesCollection
 export type EnemyState = BaseState | "lvlup" | "angry" | "attack" | "run"
 export type Hero = { hero: HeroEntity }
+export type HeroInstance = Container<ContainerChild> | null
 export type HeroState =
     "lvlup"
     | "die"
@@ -209,8 +212,6 @@ export type MovementDirection =
     | "shoot"
     | "shoot-left"
     | "shoot-right"
-    | "jump-left"
-    | "jump-right"
 export type ObjectsProps = { size: BaseSize }
 export type PixiChildren = (ReactElement<any, any> | AnimatedSprite | null)[]
 export type Position = { x: number; y: number }

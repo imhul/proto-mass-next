@@ -7,6 +7,7 @@ import { playSFX } from '@utils/play-sfx'
 import { getRandomInt } from "@utils/get-random-int"
 import { getTimeDifference } from '@utils/get-time-difference'
 import { generateSeed } from '@utils/seed-generator'
+import { generateMapChunk } from '@lib/utils/chunk-generator'
 import {
     saveToLocalStorage,
     readFromLocalStorage,
@@ -25,6 +26,7 @@ export {
     getTextures,
     getRandomInt,
     generateSeed,
+    generateMapChunk,
     getTimeDifference,
     saveToLocalStorage,
     readFromLocalStorage,

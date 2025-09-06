@@ -12,6 +12,7 @@ import type {
     Application,
     EventSystem,
     TilingSprite,
+    ContainerChild,
     AnimatedSprite,
     AnimatedSpriteFrames,
 } from 'pixi.js';
@@ -36,6 +37,7 @@ export type {
     Container,
     Application,
     EventSystem,
+    ContainerChild,
     AnimatedSprite,
     CompositeTilemap,
     AnimatedSpriteFrames,

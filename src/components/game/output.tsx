@@ -44,7 +44,7 @@ export const Output = () => {
         <div ref={parentRef} className="game-container">
             {isGameInit ? (<>
                 <ProgressBar min={0} max={maxEnemyProgress} current={enemiesLength} />
-                <DevChart currentValue={enemiesLength} />
+                {/* <DevChart currentValue={enemiesLength} /> */}
                 <Application resizeTo={parentRef}>
                     <Game parentRef={parentRef} />
                 </Application>
