@@ -1,4 +1,4 @@
-## Browser Game
+## Browser Game ![version](https://img.shields.io/badge/version-0.8.2-brightgreen`)
 
 ### Technologies Used
 
@@ -22,8 +22,8 @@ The decision to abandon [Svelte](https://svelte.dev) and [Next](https://nextjs.o
 - [x] Implement **JSON tilemap** with ['@pixi/tilemap'](https://www.npmjs.com/package/@pixi/tilemap)
 - [x] Implement seed based map generation by [rand-seed](https://www.npmjs.com/package/rand-seed)
 - [x] Add game settings and key bindings
+- [x] Implement object collisions
 - [ ] Add zIndex reordering
-- [ ] Implement object collisions
 - [ ] Add fight/die mechanics
 - [ ] Implement map chunk generation
 - [ ] Implement [Tauri](https://tauri.app)
