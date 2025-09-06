@@ -41,4 +41,4 @@ To make a browser game that combines technologies Pixi.js, React 19, and Zustand
 ## Donate
 
 - ❤️[Patreon](https://www.patreon.com/protomass?fan_landing=true)
-- ☕[buymeacoffee](https://www.buymeacoffee.com/blashirk
+- ☕[buymeacoffee](https://www.buymeacoffee.com/blashirk)
