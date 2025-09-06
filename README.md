@@ -12,6 +12,11 @@
 
 The decision to abandon [Svelte](https://svelte.dev) and [Next](https://nextjs.org) was made for obvious reasons, because this project is not about **SSR**.
 
+## Story
+
+Far away on a distant planet inhabited by primitive life forms a small colony of robots accidentally trapped must build, develop and fight only to exist...
+How far can they go? 🕹 🎲 🌌 🎰 ⭐ ⭐ ⭐
+
 ### TODO:
 
 - [x] Implement ['@pixi/react'](https://www.npmjs.com/package/@pixi/react)
@@ -32,3 +37,8 @@ The decision to abandon [Svelte](https://svelte.dev) and [Next](https://nextjs.o
 ## Motivation:
 
 To make a browser game that combines technologies Pixi.js, React 19, and Zustand for maximum convenience in design, layout, and state control
+
+## Donate
+
+- ❤️[Patreon](https://www.patreon.com/protomass?fan_landing=true)
+- ☕[buymeacoffee](https://www.buymeacoffee.com/blashirk
