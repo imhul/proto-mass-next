@@ -1,6 +1,6 @@
-## Browser Game ![version](https://img.shields.io/badge/version-0.8.2-brightgreen`)
+# Browser Game ![version](https://img.shields.io/badge/version-0.8.2-brightgreen`)
 
-### Technologies Used
+## Technologies Used
 
 - [React 19](https://reactjs.org)
 - [Zustand](https://zustand.docs.pmnd.rs/)
@@ -17,7 +17,7 @@ The decision to abandon [Svelte](https://svelte.dev) and [Next](https://nextjs.o
 Far away on a distant planet inhabited by primitive life forms a small colony of robots accidentally trapped must build, develop and fight only to exist...
 How far can they go? 🕹 🎲 🌌 🎰 ⭐ ⭐ ⭐
 
-### TODO:
+## TODO:
 
 - [x] Implement ['@pixi/react'](https://www.npmjs.com/package/@pixi/react)
 - [x] Implement **Zustand** sliced store to control React & Pixi state
