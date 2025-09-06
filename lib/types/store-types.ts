@@ -5,12 +5,12 @@ import type { uiTypes, gameTypes } from "@lib/types"
 //----------------------------------------------
 // PERSISTED STORE
 //----------------------------------------------
-export type PersistedStore = NavSlice & GameSlice & UISlice & HeroSlice
+export type PersistedStore = GameSlice & UISlice & HeroSlice
 
 //----------------------------------------------
 // GLOBAL STORE
 //----------------------------------------------
-export type GlobalStore = KeyboardSlice
+export type GlobalStore = NavSlice & KeyboardSlice
 
 //----------------------------------------------
 // SLICE CREATORS
@@ -44,7 +44,7 @@ export type CreateUISliceType = StateCreator<
 >
 
 export type CreateNavSliceType = StateCreator<
-    PersistedStore,
+    GlobalStore,
     [["zustand/devtools", never]],
     [],
     NavSlice

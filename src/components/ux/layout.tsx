@@ -1,5 +1,5 @@
 // store
-import { usePersistedStore } from "@/store"
+import { useStore } from "@/store"
 // types
 import type { storeTypes } from "@lib/types"
 // components
@@ -10,7 +10,7 @@ import Home from "@components/ux/home"
 import { Output as GameOutput } from "@components/game/output"
 
 const Layout = () => {
-    const route = usePersistedStore((state: storeTypes.PersistedStore) => state.route)
+    const route = useStore((state: storeTypes.GlobalStore) => state.route)
 
     const render = () => {
         switch (route) {

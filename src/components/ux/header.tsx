@@ -6,14 +6,14 @@ import DevHeroActions from "@components/ux/dev-hero-actions"
 import { Button } from "@components/ui/button"
 import { Bug } from "lucide-react"
 // store
-import { usePersistedStore } from "@/store"
+import { useStore, usePersistedStore } from "@/store"
 // types
 import type { storeTypes } from "@lib/types"
 
 const Header = () => {
     const setIsDev = usePersistedStore((state: storeTypes.PersistedStore) => state.setIsDev)
     const isDev = usePersistedStore((state: storeTypes.PersistedStore) => state.isDev)
-    const route = usePersistedStore((state: storeTypes.PersistedStore) => state.route)
+    const route = useStore((state: storeTypes.GlobalStore) => state.route)
 
     return (
         <header className="flex items-center justify-between p-4 bg-gray-100 dark:bg-gray-800">

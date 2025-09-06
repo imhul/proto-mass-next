@@ -12,12 +12,12 @@ import Link from "@components/ux/link"
 // config
 import { menu } from "@lib/config"
 // store
-import { usePersistedStore } from "@/store"
+import { useStore, usePersistedStore } from "@/store"
 // types
 import type { storeTypes } from "@lib/types"
 
 const Menu = () => {
-    const route = usePersistedStore((state: storeTypes.PersistedStore) => state.route)
+    const route = useStore((state: storeTypes.GlobalStore) => state.route)
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
     const isGameInit = usePersistedStore((state: storeTypes.PersistedStore) => state.init)
     const setGameAction = usePersistedStore(

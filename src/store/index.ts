@@ -3,7 +3,7 @@ import { create } from "zustand"
 import { devtools, persist } from "zustand/middleware"
 // slices
 import { createUISlice } from "@/store/persisted/ui-store"
-import { createNavSlice } from "@/store/persisted/nav-store"
+import { createNavSlice } from "@/store/global/nav-store"
 import { createGameSlice } from "@/store/persisted/game-store"
 import { createHeroSlice } from "@/store/persisted/hero-store"
 import { createKeyboardSlice } from "@/store/global/keyboard-store"
@@ -14,7 +14,6 @@ export const usePersistedStore = create<storeTypes.PersistedStore>()(
     devtools(
         persist(
             (...args) => ({
-                ...createNavSlice(...args),
                 ...createGameSlice(...args),
                 ...createUISlice(...args),
                 ...createHeroSlice(...args),
@@ -28,6 +27,7 @@ export const usePersistedStore = create<storeTypes.PersistedStore>()(
 
 export const useStore = create<storeTypes.GlobalStore>()(
     devtools((...args) => ({
+        ...createNavSlice(...args),
         ...createKeyboardSlice(...args),
     })),
 )
