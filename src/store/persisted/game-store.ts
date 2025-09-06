@@ -15,6 +15,7 @@ export const initState = {
         width: defaultChunkSize * 2,
         height: defaultChunkSize * 2,
     },
+    zoom: 1,
     seed: undefined,
     enemies: {},
     preferences: {

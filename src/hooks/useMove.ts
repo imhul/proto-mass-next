@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react"
 // store
-import { useStore, usePersistedStore } from "@/store"
+import { usePersistedStore } from "@/store"
 // utils
 import { generateMapChunk } from "@lib/utils"
 // types
@@ -24,11 +24,11 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
     const animationFrameRef = useRef<number | null>(null)
     const blockedDirections = useRef<Set<gameTypes.MovementDirection>>(new Set())
     // store
-    const heroSnapshot = useStore((state: storeTypes.GlobalStore) => state.hero)
+    const heroSnapshot = usePersistedStore((state: storeTypes.PersistedStore) => state.hero)
     const keyBindings = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences.keyBindings)
     const water = usePersistedStore((state: storeTypes.PersistedStore) => state.water)
-    const setHeroAction = useStore(
-        (state: storeTypes.GlobalStore) => state.setHeroAction,
+    const setHeroAction = usePersistedStore(
+        (state: storeTypes.PersistedStore) => state.setHeroAction,
     )
 
     const checkContainerCollision = (position: gameTypes.Position) => {
@@ -312,6 +312,14 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
         if (!keyBindings) return
         window.addEventListener("keydown", onKeyDown)
         window.addEventListener("keyup", onKeyUp)
+
+        if (ref?.current && (heroSnapshot.position.x !== 0 || heroSnapshot.position.y !== 0)) {
+            ref.current.animate({
+                time: 1200,
+                position: heroSnapshot.position,
+                ease: "easeOutSine",
+            })
+        }
 
         return () => {
             window.removeEventListener("keydown", onKeyDown)

@@ -1,5 +1,3 @@
-// utils
-import { getRandomInt } from "@lib/utils"
 // types
 import type {
     uiTypes,

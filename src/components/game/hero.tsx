@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 // store
-import { useStore, usePersistedStore } from "@/store"
+import { usePersistedStore } from "@/store"
 // hooks
 import { useMove } from "@hooks/useMove"
 // components
@@ -20,9 +20,10 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
     const [textures, setTextures] = useState<gameTypes.TexturesCollection>(null)
     const [isBulletActive, setIsBulletActive] = useState(false)
     // store
-    const hero = useStore((state: storeTypes.GlobalStore) => state.hero)
+    const hero = usePersistedStore((state: storeTypes.PersistedStore) => state.hero)
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
     const keyBindings = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences.keyBindings)
+    const setHeroPosition = usePersistedStore((state: storeTypes.PersistedStore) => state.setHeroPosition)
     useMove({ ref })
 
     useEffect(() => {
@@ -51,6 +52,18 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
             ref.current?.off("pointermove")
         }
     }, [isBulletActive, hero.state])
+
+    useEffect(() => {
+        if (!heroRef?.current?.position) return
+        const { x, y } = heroRef.current.position
+        setHeroPosition({ x, y })
+    }, [heroRef, hero.state])
+
+    useEffect(() => {
+        if (heroRef?.current && (hero.position.x !== 0 || hero.position.y !== 0)) {
+            heroRef.current.position.set(hero.position.x, hero.position.y)
+        }
+    }, [])
 
     useEffect(() => {
         const onKeydown = (event: any) => {
@@ -91,8 +104,8 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
                 eventMode={"static"}
                 scale={3}
                 animationSpeed={hero.state === "player-jump" ? 0.2 : 0.1}
-                x={ref.current.screenWidth / 2}
-                y={ref.current.screenHeight / 2}
+                x={hero.position.x || ref.current.screenWidth / 2}
+                y={hero.position.y || ref.current.screenHeight / 2}
                 interactive={true}
                 hitArea={new Rectangle(0, 0, heroSize, heroSize)}
                 zIndex={zindex.hero}

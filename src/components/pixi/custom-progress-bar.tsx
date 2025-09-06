@@ -11,7 +11,6 @@ const CustomProgressBar = forwardRef<ProgressBar | null, gameTypes.ProgressBarPr
         const containerRef = useRef<Container | null>(null)
         const barRef = useRef<ProgressBar | null>(null)
 
-        // 1️⃣ Створюємо ProgressBar тільки один раз
         useEffect(() => {
             if (!containerRef.current) return
             if (barRef.current) return // вже є
@@ -34,7 +33,6 @@ const CustomProgressBar = forwardRef<ProgressBar | null, gameTypes.ProgressBarPr
             containerRef.current.addChild(bar)
         }, [])
 
-        // 2️⃣ Оновлюємо позицію і прогрес при зміні current / position
         useEffect(() => {
             if (!barRef.current) return
             const bar = barRef.current
@@ -74,7 +72,6 @@ export default CustomProgressBar
 //         useExtend({ ProgressBar })
 //         const containerRef = useRef<Container | null>(null)
 //         const progress = Math.min(Math.max(current, min), max)
-//         console.info("Rendering ProgressBar: ", { position, progress })
 
 //         useEffect(() => {
 //             if (containerRef.current && bar && position) {
@@ -86,7 +83,6 @@ export default CustomProgressBar
 //                     readyBar.progress = progress
 //                     readyBar.x = position.x + bar.width / 2
 //                     readyBar.y = position.y
-//                     console.info("bar already exists: ", { ...position, readyBar })
 //                     return
 //                 }
 //                 containerRef.current.addChild(bar)

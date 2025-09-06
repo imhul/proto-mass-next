@@ -32,7 +32,6 @@ const Enemy = ({ ref, base, item, enemyColonyState, setEnemyColonyState, }: game
     useBirthAnimation(spriteRef as React.RefObject<AnimatedSprite>, !!textures, "enemy")
 
     const checkContainerCollision = (position: gameTypes.Position) => {
-
         const sprite = spriteRef.current!
         if ((position.x < 10) || (position.y < 10) ||
             (position.x > ((defaultChunkSize * 2) - 10)) ||

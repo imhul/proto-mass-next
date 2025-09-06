@@ -38,6 +38,11 @@ How far can they go? 🕹 🎲 🌌 🎰 ⭐ ⭐ ⭐
 
 To make a browser game that combines technologies Pixi.js, React 19, and Zustand for maximum convenience in design, layout, and state control
 
+## Contribute
+
+Want to be part of the Proto-Mass project? Great! All are welcome! We will get there quicker together 👌
+Whether you find a bug, have a great feature request, or you fancy owning a task from the road map above, feel free to get in touch.
+
 ## Donate
 
 - ❤️[Patreon](https://www.patreon.com/protomass?fan_landing=true)

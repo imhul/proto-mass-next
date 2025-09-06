@@ -1,7 +1,7 @@
 
 import { useEffect, useRef, useState } from "react"
 // store
-import { useStore, usePersistedStore } from "@/store"
+import { usePersistedStore } from "@/store"
 // types
 import type { storeTypes, gameTypes, AnimatedSprite } from "@lib/types"
 // components
@@ -14,7 +14,7 @@ const Bullet = ({ textures, x, y, pointer, onComplete }: gameTypes.BulletProps) 
     const bulletRef = useRef<AnimatedSprite | null>(null)
     const animationFrameRef = useRef<number | null>(null)
     // store
-    const hero = useStore((state: storeTypes.GlobalStore) => state.hero)
+    const hero = usePersistedStore((state: storeTypes.PersistedStore) => state.hero)
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
     // state
     const [started, setStarted] = useState(false)

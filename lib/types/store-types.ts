@@ -5,12 +5,12 @@ import type { uiTypes, gameTypes } from "@lib/types"
 //----------------------------------------------
 // PERSISTED STORE
 //----------------------------------------------
-export type PersistedStore = NavSlice & GameSlice & UISlice
+export type PersistedStore = NavSlice & GameSlice & UISlice & HeroSlice
 
 //----------------------------------------------
 // GLOBAL STORE
 //----------------------------------------------
-export type GlobalStore = HeroSlice & KeyboardSlice
+export type GlobalStore = KeyboardSlice
 
 //----------------------------------------------
 // SLICE CREATORS
@@ -23,7 +23,7 @@ export type CreateGameSliceType = StateCreator<
 >
 
 export type CreateHeroSliceType = StateCreator<
-    GlobalStore,
+    PersistedStore,
     [["zustand/devtools", never]],
     [],
     HeroSlice
@@ -55,6 +55,7 @@ export type CreateNavSliceType = StateCreator<
 //----------------------------------------------
 export type GameSlice = {
     init: boolean
+    zoom: number
     seed: string | undefined
     paused: boolean
     gameOver: boolean
@@ -70,6 +71,10 @@ export type GameSlice = {
 }
 
 export type HeroSlice = gameTypes.Hero & HeroActions
+export type HeroActions = {
+    setHeroAction: (action: gameTypes.HeroState) => void
+    setHeroPosition: (position: gameTypes.Position) => void
+}
 
 export type KeyboardSlice = {
     onKeyDown: ((e: KeyboardEvent) => void) | null
@@ -94,7 +99,6 @@ export type UISlice = {
 // MISCELLANEOUS
 //----------------------------------------------
 export type GameActionPayload = any
-export type HeroActions = { setHeroAction: (action: gameTypes.HeroState, payload?: any) => void }
 export type GameKeyboardActionType = "moveup" | "movedown" | "moveleft" | "moveright" | "jump" | "shoot"
 export type KeyBindings = Record<GameKeyboardActionType, KeyBinding>
 

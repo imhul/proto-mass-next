@@ -24,7 +24,10 @@ const initHeroState: gameTypes.HeroEntity = {
 
 export const createHeroSlice: storeTypes.CreateHeroSliceType = (set, get) => ({
     hero: initHeroState,
-    setHeroAction: (action: gameTypes.HeroState, payload?: any) => {
-        set({ hero: { ...get().hero, state: action } })
+    setHeroAction: (state: gameTypes.HeroState) => {
+        set({ hero: { ...get().hero, state } })
+    },
+    setHeroPosition: (position: gameTypes.Position) => {
+        set({ hero: { ...get().hero, position } })
     },
 })

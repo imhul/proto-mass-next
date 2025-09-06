@@ -1,6 +1,6 @@
 import * as React from "react"
 // store
-import { useStore } from "@/store"
+import { usePersistedStore } from "@/store"
 // components
 import { Button } from "@components/ui/button"
 import {
@@ -17,9 +17,8 @@ import { cn } from "@lib/utils"
 import { heroActionsMenu } from "@lib/config"
 
 function DevHeroActions() {
-    const hero = useStore((state: storeTypes.GlobalStore) => state.hero)
-    const setHeroAction = useStore(
-        (state: storeTypes.GlobalStore) => state.setHeroAction,
+    const hero = usePersistedStore((state: storeTypes.PersistedStore) => state.hero)
+    const setHeroAction = usePersistedStore((state: storeTypes.PersistedStore) => state.setHeroAction,
     )
 
     return (
