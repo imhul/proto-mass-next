@@ -6,12 +6,13 @@ import { useBirthAnimation } from "@hooks/useBirth"
 // components
 import { ColorMatrixFilter, Assets, AnimatedSprite, Rectangle } from "pixi.js"
 // types
-import { storeTypes, gameTypes, Sprite } from "@lib/types"
+import { storeTypes, gameTypes } from "@lib/types"
 // utils
 import { getTextures, getRandomInt } from "@lib/utils"
 // config
 import {
     angryState,
+    defaultChunkSize,
     initialEnemyModel,
     maxDistanceFromEnemyBase,
 } from "@lib/config"
@@ -29,6 +30,18 @@ const Enemy = ({ ref, base, item, enemyColonyState, setEnemyColonyState, }: game
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
 
     useBirthAnimation(spriteRef as React.RefObject<AnimatedSprite>, !!textures, "enemy")
+
+    const checkContainerCollision = (position: gameTypes.Position) => {
+
+        const sprite = spriteRef.current!
+        if ((position.x < 10) || (position.y < 10) ||
+            (position.x > ((defaultChunkSize * 2) - 10)) ||
+            (position.y > ((defaultChunkSize * 2) - 10))) {
+            sprite.alpha = 0
+        } else {
+            sprite.alpha = 1
+        }
+    }
 
     const idleAlgorithm = () => {
         if (paused) return
@@ -54,7 +67,6 @@ const Enemy = ({ ref, base, item, enemyColonyState, setEnemyColonyState, }: game
             const start = performance.now()
 
             const step = (t: number) => {
-
                 const elapsed = t - start
 
                 if (elapsed < walkingPhase) {
@@ -64,6 +76,11 @@ const Enemy = ({ ref, base, item, enemyColonyState, setEnemyColonyState, }: game
 
                     sprite.x += dx
                     sprite.y += dy
+
+                    checkContainerCollision({
+                        x: sprite.x,
+                        y: sprite.y,
+                    })
 
                     const distFromBase = Math.hypot(
                         sprite.x - base.x,
