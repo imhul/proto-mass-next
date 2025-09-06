@@ -110,9 +110,6 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
             hero.scale.x = 3
         }
         // -------------------------------------------------------
-        // TODO: stopping and continuing movement after collision in certain directions
-        // checkObjectCollision()
-        // -------------------------------------------------------
     }
 
     const runAnimation = (

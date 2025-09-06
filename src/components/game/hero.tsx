@@ -20,7 +20,8 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
     const [textures, setTextures] = useState<gameTypes.TexturesCollection>(null)
     const [isBulletActive, setIsBulletActive] = useState(false)
     // store
-    const hero = usePersistedStore((state: storeTypes.PersistedStore) => state.hero)
+    const heroState = usePersistedStore((state: storeTypes.PersistedStore) => state.hero.state)
+    const heroPosition = usePersistedStore((state: storeTypes.PersistedStore) => state.hero.position)
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
     const keyBindings = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences.keyBindings)
     const setHeroPosition = usePersistedStore((state: storeTypes.PersistedStore) => state.setHeroPosition)
@@ -37,33 +38,29 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
 
     useEffect(() => {
         if (heroRef.current && textures) {
-            heroRef.current.textures = textures[hero.state]
+            heroRef.current.textures = textures[heroState]
             if (paused) {
                 heroRef.current.stop()
             } else {
                 heroRef.current.play()
             }
         }
-    }, [hero.state, textures, paused, heroRef])
+    }, [heroState, textures, paused, heroRef])
 
     useEffect(() => {
-        if (!isBulletActive && ["player-run-shot", "player-shoot-up", "player-stand"].some(state => state === hero.state)) {
+        if (!isBulletActive && ["player-run-shot", "player-shoot-up", "player-stand"].some(state => state === heroState)) {
             setIsBulletActive(true)
             ref.current?.off("pointermove")
         }
-    }, [isBulletActive, hero.state])
+    }, [isBulletActive, heroState])
 
     useEffect(() => {
-        if (!heroRef?.current?.position) return
-        const { x, y } = heroRef.current.position
-        setHeroPosition({ x, y })
-    }, [heroRef, hero.state])
-
-    useEffect(() => {
-        if (heroRef?.current && (hero.position.x !== 0 || hero.position.y !== 0)) {
-            heroRef.current.position.set(hero.position.x, hero.position.y)
+        if (!heroRef.current) return
+        if (heroState === "player-idle") {
+            const { x, y } = heroRef.current!.position
+            setHeroPosition({ x, y })
         }
-    }, [])
+    }, [heroRef, heroState])
 
     useEffect(() => {
         const onKeydown = (event: any) => {
@@ -74,7 +71,7 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
                 const localPointer = ref.current.toLocal(event.global)
                 setPointer(localPointer)
                 globalX = localPointer.x
-                if (heroRef.current && !["player-run", "player-run-shot"].some(state => state === hero.state)) {
+                if (heroRef.current && !["player-run", "player-run-shot"].some(state => state === heroState)) {
                     heroRef.current.scale.x = heroRef.current.position.x < globalX ? 3 : -3
                 }
             })
@@ -89,7 +86,7 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
             ref.current?.off("pointermove")
             window.removeEventListener("keydown", onKeydown)
         }
-    }, [ref, heroRef, hero.state])
+    }, [ref, heroRef, heroState])
 
     const onComplete = () => {
         setIsBulletActive(false)
@@ -98,14 +95,14 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
     return (textures && ref.current) ? (
         <>
             <pixiAnimatedSprite
-                textures={textures[hero.state]}
+                textures={textures[heroState]}
                 ref={heroRef}
                 anchor={0.5}
                 eventMode={"static"}
                 scale={3}
-                animationSpeed={hero.state === "player-jump" ? 0.2 : 0.1}
-                x={hero.position.x || ref.current.screenWidth / 2}
-                y={hero.position.y || ref.current.screenHeight / 2}
+                animationSpeed={heroState === "player-jump" ? 0.2 : 0.1}
+                x={heroPosition.x !== 0 ? heroPosition.x : ref.current.screenWidth / 2}
+                y={heroPosition.y !== 0 ? heroPosition.y : ref.current.screenHeight / 2}
                 interactive={true}
                 hitArea={new Rectangle(0, 0, heroSize, heroSize)}
                 zIndex={zindex.hero}
