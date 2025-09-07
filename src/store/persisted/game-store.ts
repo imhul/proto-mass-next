@@ -17,6 +17,8 @@ export const initState = {
     },
     zoom: 1,
     seed: undefined,
+    worldName: '',
+    heroName: '',
     enemies: {},
     preferences: {
         difficulty: "normal" as gameTypes.GameDifficultyType,
@@ -85,6 +87,12 @@ export const createGameSlice: storeTypes.CreateGameSliceType = (set) => ({
                 break
             case "setSeed":
                 set({ seed: payload })
+                break
+            case "setWorldName":
+                set({ worldName: payload })
+                break
+            case "setHeroName":
+                set({ heroName: payload })
                 break
             case "setPref":
                 set({ preferences: payload })

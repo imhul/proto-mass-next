@@ -8,6 +8,7 @@ import { getRandomInt } from "@utils/get-random-int"
 import { getTimeDifference } from '@utils/get-time-difference'
 import { generateSeed } from '@utils/seed-generator'
 import { generateMapChunk } from '@lib/utils/chunk-generator'
+import { generateNames } from '@lib/utils/names-generator'
 import {
     saveToLocalStorage,
     readFromLocalStorage,
@@ -26,6 +27,7 @@ export {
     getTextures,
     getRandomInt,
     generateSeed,
+    generateNames,
     generateMapChunk,
     getTimeDifference,
     saveToLocalStorage,

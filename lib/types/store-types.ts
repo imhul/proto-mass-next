@@ -59,6 +59,8 @@ export type GameSlice = {
     seed: string | undefined
     paused: boolean
     gameOver: boolean
+    worldName: string
+    heroName: string
     gameSize: gameTypes.BaseSize
     water: gameTypes.Position[]
     startTimestamp: number

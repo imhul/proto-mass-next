@@ -1049,3 +1049,38 @@ export const keycodes: storeTypes.KeyBindingCollectionItem[] = [
 
     }
 ]
+
+export const worldFirstNames = [
+    "Ancient", "Hidden", "Misty", "Silent", "Red", "Dark", "Dusty", "Golden", "Crystal", "Emerald", "Frozen", "Grand",
+    "Iron", "Jade", "Lost", "Sacred", "Shining", "Silver", "Silent", "Solar", "Starry", "Stormy", "Sunny", "Twilight",
+    "White", "Windy", "Winter", "Azure", "Blazing", "Bright", "Celestial", "Cobalt", "Coral", "Dawn", "Eternal",
+    "Frosty", "Glowing", "Glorious", "Luminous", "Majestic", "Mystic", "Radiant", "Serene", "Vivid", "Wild",
+    "Zephyr", "Autumn", "Blooming", "Crescent", "Dewy", "Eclipse", "Gleaming", "Harmonic", "Lush", "Opal", "Prismatic",
+    "Sapphire", "Tranquil", "Vibrant", "Whispering"
+]
+
+export const worldSecondNames = [
+    "Forest", "Valley", "Hill", "River", "Lake", "Mountain", "Canyon", "Desert", "Meadow", "Glade", "Grove",
+    "Harbor", "Island", "Lagoon", "Marsh", "Oasis", "Prairie", "Reef", "Swamp", "Tundra", "Bay", "Cliff",
+    "Cove", "Dune", "Estuary", "Glacier", "Gulf", "Hollow", "Knoll", "Plain", "Quagmire", "Ravine", "Summit",
+    "Thicket", "Wasteland", "Wetland", "Woodland", "Bluff", "Butte", "Crag", "Delta", "Fjord", "Foothills",
+    "Headland", "Inlet", "Mesa", "Peninsula", "Ridge", "Strait", "Vale", "Wood", "Barrens", "Basin", "Bog",
+    "Cleft", "Copse", "Crater", "Dell", "Fens", "Glen", "Heath", "Isle", "Moor", "Pond", "Rill", "Springs", "Swale", "Thorn", "Tor"
+]
+
+export const heroFirstNames = [
+    "Arin", "Borin", "Cedric", "Darin", "Eldric", "Farin", "Garrick", "Hadrian", "Ivor", "Jareth", "Kael",
+    "Loric", "Merek", "Nolan", "Orin", "Perrin", "Quinlan", "Roderic", "Soren", "Theron",
+    "Ulric", "Varek", "Wystan", "Xander", "Yorick", "Zarek", "Alaric", "Baldric", "Caius", "Dorian", "Evander",
+    "Fenris", "Gideon", "Hawke", "Ignatius", "Jaxon", "Kieran", "Lucian", "Magnus", "Nero", "Oberon",
+    "Phineas", "Quintus", "Ragnar", "Silas", "Talon", "Ulysses", "Valen", "Wulfric", "Xavian", "Zephyr"
+]
+
+export const heroSecondNames = [
+    "Stormrider", "Ironfist", "Shadowbane", "Dawnbringer", "Nightwalker", "Fireforge", "Windrider",
+    "Stonehelm", "Darkwater", "Lightbringer", "Frostbane", "Thunderstrike", "Earthshaker", "Flameheart",
+    "Silverblade", "Goldenshield", "Blackthorn", "Brightspear", "Grimward", "Stormcaller",
+    "Ironheart", "Shadowhunter", "Dawnguard", "Nightshade", "Firestorm", "Windwalker", "Stonefist",
+    "Darkblade", "Lightshield", "Frostguard", "Thunderfist", "Earthwarden", "Flameblade",
+    "Silverheart", "Goldenaxe", "Blackblade", "Brightshield", "Grimblade", "Stormshadow"
+]
