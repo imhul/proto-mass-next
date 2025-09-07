@@ -1,7 +1,7 @@
 // types
 import type { uiTypes, storeTypes, gameTypes } from "@lib/types"
 // config
-import { defaultChunkSize, maxColoniesPerChunk } from '@lib/config'
+import { defaultChunkSize } from '@lib/config'
 
 export type Enemies = Record<string, gameTypes.EnemyEntity[]>
 
@@ -58,7 +58,7 @@ export const initState = {
     },
 }
 
-export const createGameSlice: storeTypes.CreateGameSliceType = (set, get) => ({
+export const createGameSlice: storeTypes.CreateGameSliceType = (set) => ({
     ...initState,
     setGameAction: (action, payload) => {
         switch (action) {
@@ -66,7 +66,7 @@ export const createGameSlice: storeTypes.CreateGameSliceType = (set, get) => ({
                 set({ init: true, startTimestamp: performance.now() })
                 break
             case "pause":
-                set({ paused: !get().paused })
+                set((s) => ({ paused: !s.paused }))
                 break
             case "restart":
                 set(initState)
@@ -87,21 +87,15 @@ export const createGameSlice: storeTypes.CreateGameSliceType = (set, get) => ({
                 set({ preferences: payload })
                 break
             case "setEnemies":
-                set({
+                set((s) => ({
                     enemies: {
-                        ...get().enemies,
+                        ...s.enemies,
                         [payload.colonyUid]: [
-                            ...(get().enemies[payload.colonyUid] || []),
+                            ...(s.enemies[payload.colonyUid] || []),
                             payload.newEnemy,
                         ],
                     }
-                })
-                break
-            case "save":
-                // TODO: handle save
-                break
-            case "load":
-                // TODO: handle load
+                }))
                 break
         }
     },

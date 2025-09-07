@@ -22,12 +22,11 @@ const initHeroState: gameTypes.HeroEntity = {
     attackPower: 7,
 }
 
-export const createHeroSlice: storeTypes.CreateHeroSliceType = (set, get) => ({
+export const createHeroSlice: storeTypes.CreateHeroSliceType = (set) => ({
     hero: initHeroState,
-    setHeroAction: (state: gameTypes.HeroState) => {
-        set({ hero: { ...get().hero, state } })
-    },
+    setHeroAction: (state: gameTypes.HeroState) =>
+        set((s) => ({ hero: { ...s.hero, state } })),
     setHeroPosition: (position: gameTypes.Position) => {
-        set({ hero: { ...get().hero, position } })
+        set((s) => ({ hero: { ...s.hero, position } }))
     },
 })

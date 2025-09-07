@@ -5,9 +5,10 @@ import { usePersistedStore } from "@/store"
 import { Button } from "@components/ui/button"
 import {
     DropdownMenu,
-    DropdownMenuContent,
     DropdownMenuItem,
+    DropdownMenuLabel,
     DropdownMenuTrigger,
+    DropdownMenuContent,
 } from "@components/ui/dropdown-menu"
 // types
 import type { uiTypes, storeTypes, gameTypes } from "@lib/types"
@@ -19,6 +20,7 @@ import { gameMenu } from "@lib/config"
 
 function GameMenu() {
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
+    const hero = usePersistedStore((state: storeTypes.PersistedStore) => state.hero)
     const setGameAction = usePersistedStore(
         (state: storeTypes.PersistedStore) => state.setGameAction,
     )
@@ -26,12 +28,13 @@ function GameMenu() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon" className="hover:text-primary data-[state='open']:text-primary">
+                <Button variant={hero.state !== "player-idle" ? "default" : "secondary"} size="icon" className="hover:text-primary data-[state='open']:text-primary">
                     <Ellipsis className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all" />
                     <span className="sr-only">Toggle theme</span>
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
+                <DropdownMenuLabel className="text-xl text-primary">Game Menu</DropdownMenuLabel>
                 {gameMenu.map((item: uiTypes.MenuItem) => (
                     <DropdownMenuItem
                         key={item.id}

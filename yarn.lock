@@ -529,7 +529,7 @@
   resolved "https://registry.yarnpkg.com/@pixi/colord/-/colord-2.9.6.tgz#7e4e7851480da6fd3cef4e331f008d60be7e1204"
   integrity sha512-nezytU2pw587fQstUu1AsJZDVEynjskwOL+kibwcdxsMBFqPsFFNA7xl0ii/gXuDi6M0xj3mfRJj8pBSc2jCfA==
 
-"@pixi/react@^8.0.0-beta.25":
+"@pixi/react@^8.0.3":
   version "8.0.3"
   resolved "https://registry.yarnpkg.com/@pixi/react/-/react-8.0.3.tgz#a3a0cfef0a91c6a7344e9f8944990e5eb2b02a45"
   integrity sha512-k0feY0Vj4WIWpaLaRQY8NBKlDqVCPPyEUu5EibQVqdtgdMx1brRWeJC+ruq7Im08vtZWx7iZwNGhgHNubO/OMQ==

@@ -20,9 +20,14 @@ import type { storeTypes } from "@lib/types"
 import { maxEnemyProgress } from "@lib/config"
 
 export const Output = () => {
+    // refs
     const parentRef = useRef<HTMLDivElement>(null)
+    // store
     const isGameInit = usePersistedStore((state: storeTypes.PersistedStore) => state.init)
     const enemiesList = usePersistedStore((state: storeTypes.PersistedStore) => state.enemies)
+    const showCharts = usePersistedStore((state: storeTypes.PersistedStore) => state.showCharts)
+    const showEnemyProgress = usePersistedStore((state: storeTypes.PersistedStore) => state.showEnemyProgress)
+    // state
     const [enemiesLength, setEnemiesLength] = useState(0)
 
     useExtend({
@@ -43,8 +48,8 @@ export const Output = () => {
     return (
         <div ref={parentRef} className="game-container">
             {isGameInit ? (<>
-                <ProgressBar min={0} max={maxEnemyProgress} current={enemiesLength} />
-                {/* <DevChart currentValue={enemiesLength} /> */}
+                {showEnemyProgress && (<ProgressBar min={0} max={maxEnemyProgress} current={enemiesLength} />)}
+                {showCharts && (<DevChart currentValue={enemiesLength} />)}
                 <Application resizeTo={parentRef}>
                     <Game parentRef={parentRef} />
                 </Application>

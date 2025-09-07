@@ -1,10 +1,11 @@
-import { useState, useEffect, use } from "react"
+import { useState, useEffect } from "react"
 import { Assets, Rectangle, Sprite, Graphics } from "pixi.js"
 import { useExtend } from "@pixi/react"
 import Rand from 'rand-seed'
 // store
 import { usePersistedStore } from "@/store"
 // components
+import DevDot from "@components/game/dev-dot"
 import DevHitbox from "@components/game/dev-hitbox"
 // utils
 import { getRandomInt } from "@lib/utils"
@@ -24,6 +25,7 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
     const seed = usePersistedStore((state: storeTypes.PersistedStore) => state.seed)
     const rand = new Rand(seed)
     const water: gameTypes.Position[] = usePersistedStore((state: storeTypes.PersistedStore) => state.water)
+    const showObjectHitboxes = usePersistedStore((state: storeTypes.PersistedStore) => state.showObjectHitboxes)
 
     const generateObjects = () => {
         if (!textures?.length) return
@@ -82,12 +84,19 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
                         label={object.name}
                         hitArea={new Rectangle(0, 0, tex.width * 2, tex.height * 2)}
                     >
-                        <DevHitbox
+                        {showObjectHitboxes && (<DevHitbox
                             x={object.position.x}
                             y={object.position.y}
                             width={tex.width}
                             height={tex.height}
                             label={`object-dev-hitbox`}
+                        />)}
+                        <DevDot
+                            x={object.position.x}
+                            y={object.position.y}
+                            width={tex.width}
+                            height={tex.height}
+                            label={`object-dev-dot`}
                         />
                         <pixiSprite
                             position={{ x: object.position.x, y: object.position.y }}

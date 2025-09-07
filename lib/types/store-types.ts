@@ -91,8 +91,17 @@ export type NavSlice = {
 }
 
 export type UISlice = {
-    isDev: boolean
-    setIsDev: () => void
+    showObjectHitboxes: boolean
+    showEnemyHitboxes: boolean
+    showHeroHitbox: boolean
+    showDots: boolean
+    showFPS: boolean
+    isGodMode: boolean
+    showCharts: boolean
+    showHeroActionMenu: boolean
+    showEnemyProgress: boolean
+    isDev: () => boolean
+    setDev: (id: string | boolean) => void
 }
 
 //----------------------------------------------

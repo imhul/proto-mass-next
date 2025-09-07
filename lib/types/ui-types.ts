@@ -1,5 +1,7 @@
+import type { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
+
+export type Checked = DropdownMenuCheckboxItemProps["checked"]
 export interface GameMenuItem extends BaseItem { }
-export interface MenuItem extends BaseItem { }
 export interface Theme extends BaseItem { id: ThemeName }
 export type ThemeName = "light" | "dark" | "system"
 
@@ -24,4 +26,8 @@ export interface LinkProps {
     children?: React.ReactNode;
     withChildren?: boolean;
     [key: string]: any;
+}
+
+export interface MenuItem extends BaseItem {
+    checked?: Checked
 }

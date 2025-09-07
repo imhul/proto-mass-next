@@ -41,6 +41,46 @@ export const menu: uiTypes.MenuItem[] = [
     },
 ]
 
+export const devMenu: uiTypes.MenuItem[] = [
+    {
+        label: "Dots",
+        id: "dots",
+        checked: false,
+    }, {
+        label: "Charts",
+        id: "charts",
+        checked: false,
+    }, {
+        label: "God Mode",
+        id: "god-mode",
+        checked: false,
+    }, {
+        label: "FPS Monitor",
+        id: "fps",
+        checked: false,
+    }, {
+        label: "Hero Hitbox",
+        id: "hero-hitbox",
+        checked: false,
+    }, {
+        label: "Enemy Hitboxes",
+        id: "enemy-hitboxes",
+        checked: false,
+    }, {
+        label: "Object Hitboxes",
+        id: "object-hitboxes",
+        checked: false,
+    }, {
+        label: "Enemy Progress",
+        id: "enemy-progress",
+        checked: false,
+    }, {
+        label: "Hero Action Menu",
+        id: "hero-action-menu",
+        checked: false,
+    }
+]
+
 export const gameMenu: uiTypes.MenuItem[] = [
     {
         label: "Pause",

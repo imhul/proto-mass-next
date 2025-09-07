@@ -1,4 +1,4 @@
-# Browser Game ![version](https://img.shields.io/badge/version-0.8.2-brightgreen`)
+# React + Pixi.js + Zustand Browser Game ![version](https://img.shields.io/badge/version-0.8.3-brightgreen`)
 
 ## Technologies Used
 
@@ -23,7 +23,7 @@ How far can they go? 🕹 🎲 🌌 🎰 ⭐ ⭐ ⭐
 - [x] Implement **Zustand** sliced store to control React & Pixi state
 - [x] Add player and camera 8-direction movement
 - [x] Add map generation
-- [x] Add enemies spawn and enemies base
+- [x] Add enemies spawn and enemies colonies
 - [x] Implement **JSON tilemap** with ['@pixi/tilemap'](https://www.npmjs.com/package/@pixi/tilemap)
 - [x] Implement seed based map generation by [rand-seed](https://www.npmjs.com/package/rand-seed)
 - [x] Add game settings and key bindings

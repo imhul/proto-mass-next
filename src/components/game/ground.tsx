@@ -21,7 +21,7 @@ import {
 import CustomTilingSprite from "@components/pixi/custom-tiling-sprite"
 
 const Ground = () => {
-    // const isDev = usePersistedStore((state: storeTypes.PersistedStore) => state.isDev)
+    const isDev = usePersistedStore((state: storeTypes.PersistedStore) => state.isDev)
     const seed = usePersistedStore((state: storeTypes.PersistedStore) => state.seed)
     const setGameAction = usePersistedStore((state: storeTypes.PersistedStore) => state.setGameAction)
     // state
@@ -59,12 +59,13 @@ const Ground = () => {
                     )
                 })
             })
-            // TODO: just for testing
-            tiledmap.on("click", (props) => {
-                toast.info("click", {
-                    description: `x: ${props.global.x}, y: ${props.global.y}`,
+            if (isDev()) {
+                tiledmap.on("click", (props) => {
+                    toast.info("click", {
+                        description: `x: ${props.global.x}, y: ${props.global.y}`,
+                    })
                 })
-            })
+            }
             setGameAction("saveWater", water)
             setTilemap(tiledmap)
         })

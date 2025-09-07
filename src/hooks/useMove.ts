@@ -27,6 +27,7 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
     const heroSnapshot = usePersistedStore((state: storeTypes.PersistedStore) => state.hero)
     const keyBindings = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences.keyBindings)
     const water = usePersistedStore((state: storeTypes.PersistedStore) => state.water)
+    const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
     const setHeroAction = usePersistedStore(
         (state: storeTypes.PersistedStore) => state.setHeroAction,
     )
@@ -273,6 +274,7 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
     }
 
     const onKeyDown = (event: KeyboardEvent) => {
+        if (paused) return
         pressedKeys.current[event.code] = true
         const direction = eventConductor(pressedKeys.current)
         if (!direction) return
@@ -292,6 +294,7 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
     }
 
     const onKeyUp = (event: KeyboardEvent) => {
+        if (paused) return
         if (keyPressTimers.current[event.code]) {
             clearTimeout(keyPressTimers.current[event.code]!);
             keyPressTimers.current[event.code] = null;
@@ -306,7 +309,7 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
     }
 
     useEffect(() => {
-        if (!keyBindings) return
+        if (!keyBindings || paused) return
         window.addEventListener("keydown", onKeyDown)
         window.addEventListener("keyup", onKeyUp)
 

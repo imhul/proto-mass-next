@@ -4,9 +4,9 @@ import { usePersistedStore } from "@/store"
 import type { storeTypes, gameTypes } from "@lib/types"
 
 const DevDot = ({ x, y, width, height, ...props }: gameTypes.DevComponentProps) => {
-    const isDev = usePersistedStore((state: storeTypes.PersistedStore) => state.isDev)
+    const showDots = usePersistedStore((state: storeTypes.PersistedStore) => state.showDots)
 
-    return isDev ? (
+    return showDots ? (
         <pixiGraphics
             draw={(g) => {
                 g.clear()

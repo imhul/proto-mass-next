@@ -4,6 +4,7 @@ import { usePersistedStore } from "@/store"
 // hooks
 import { useMove } from "@hooks/useMove"
 // components
+import DevHitbox from "@components/game/dev-hitbox"
 import { Assets, AnimatedSprite, Rectangle } from "pixi.js"
 import Bullet from "@components/game/bullet"
 // types
@@ -25,6 +26,7 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
     const keyBindings = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences.keyBindings)
     const setHeroPosition = usePersistedStore((state: storeTypes.PersistedStore) => state.setHeroPosition)
+    const showHeroHitbox = usePersistedStore((state: storeTypes.PersistedStore) => state.showHeroHitbox)
     useMove({ ref })
 
     useEffect(() => {
@@ -110,6 +112,13 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
                 autoPlay
                 loop
             />
+            {showHeroHitbox && (<DevHitbox
+                x={heroPosition.x !== 0 ? heroPosition.x : ref.current.screenWidth / 2}
+                y={heroPosition.y !== 0 ? heroPosition.y : ref.current.screenHeight / 2}
+                width={heroSize}
+                height={heroSize}
+                label={`hero-dev-hitbox`}
+            />)}
             {(pointer && isBulletActive && heroRef.current) ? (<Bullet
                 onComplete={onComplete}
                 textures={textures["shot"]}
