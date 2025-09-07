@@ -6,6 +6,7 @@ import { usePersistedStore } from "@/store"
 import Game from "@components/game/game"
 import DevFPS from "@components/ux/dev-fps"
 import DevChart from "@components/ux/dev-chart"
+import PauseModal from "@components/ux/pause-modal"
 import ProgressBar from "@components/ux/progress-bar"
 import InitialScene from "@components/ux/initial-scene"
 import {
@@ -24,6 +25,7 @@ export const Output = () => {
     // refs
     const parentRef = useRef<HTMLDivElement>(null)
     // store
+    const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
     const showFPS = usePersistedStore((state: storeTypes.PersistedStore) => state.showFPS)
     const isGameInit = usePersistedStore((state: storeTypes.PersistedStore) => state.init)
     const enemiesList = usePersistedStore((state: storeTypes.PersistedStore) => state.enemies)
@@ -56,6 +58,7 @@ export const Output = () => {
                 <Application resizeTo={parentRef}>
                     <Game parentRef={parentRef} />
                 </Application>
+                <PauseModal open={paused} />
             </>) : (<InitialScene />)}
         </div>
     )

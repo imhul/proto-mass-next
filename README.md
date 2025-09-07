@@ -1,4 +1,4 @@
-# React + Pixi.js + Zustand Browser Game ![version](https://img.shields.io/badge/version-0.8.3-brightgreen`)
+# React + Pixi.js + Zustand Browser Game ![version](https://img.shields.io/badge/version-0.8.4-brightgreen`)
 
 ## Technologies Used
 
