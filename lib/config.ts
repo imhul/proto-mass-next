@@ -89,12 +89,6 @@ export const gameMenu: uiTypes.MenuItem[] = [
         label: "Restart",
         id: "restart"
     }, {
-        label: "Save",
-        id: "save"
-    }, {
-        label: "Load",
-        id: "load"
-    }, {
         label: "Exit Game",
         id: "exit"
     }

@@ -294,3 +294,20 @@ button:focus-visible {
 .initial-scene {
     text-shadow: -1px 1px 0 #ff4400;
 }
+
+.fps>div {
+    height: 100px !important;
+    width: 200px !important;
+    font-family: "PressStart2P-Regular" !important;
+    font-size: 40px !important;
+    line-height: 66px !important;
+    padding: 0 !important;
+    text-align: center;
+    overflow: hidden;
+}
+
+.fps>div>div {
+    bottom: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+}

@@ -4,6 +4,7 @@ import { Application, useExtend } from "@pixi/react"
 import { usePersistedStore } from "@/store"
 // components
 import Game from "@components/game/game"
+import DevFPS from "@components/ux/dev-fps"
 import DevChart from "@components/ux/dev-chart"
 import ProgressBar from "@components/ux/progress-bar"
 import InitialScene from "@components/ux/initial-scene"
@@ -23,6 +24,7 @@ export const Output = () => {
     // refs
     const parentRef = useRef<HTMLDivElement>(null)
     // store
+    const showFPS = usePersistedStore((state: storeTypes.PersistedStore) => state.showFPS)
     const isGameInit = usePersistedStore((state: storeTypes.PersistedStore) => state.init)
     const enemiesList = usePersistedStore((state: storeTypes.PersistedStore) => state.enemies)
     const showCharts = usePersistedStore((state: storeTypes.PersistedStore) => state.showCharts)
@@ -49,6 +51,7 @@ export const Output = () => {
         <div ref={parentRef} className="game-container">
             {isGameInit ? (<>
                 {showEnemyProgress && (<ProgressBar min={0} max={maxEnemyProgress} current={enemiesLength} />)}
+                {showFPS && (<DevFPS />)}
                 {showCharts && (<DevChart currentValue={enemiesLength} />)}
                 <Application resizeTo={parentRef}>
                     <Game parentRef={parentRef} />
