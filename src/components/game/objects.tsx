@@ -62,6 +62,8 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
                 timestamp: performance.now(),
                 zIndex: y - texture.height / 2,
                 texture: randomIndex,
+                damage: 0,
+                obstacle: false,
             })
         }
 
