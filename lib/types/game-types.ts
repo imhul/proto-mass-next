@@ -85,13 +85,13 @@ export type DevComponentProps = {
 // ENTITIES
 //----------------------------------------------
 export interface BaseEntity {
-    id: number
-    position: Position
-    hp: number
-    state: BaseState | SummaryState
     age: number
-    name: string
     dead: boolean
+    hp: number
+    id: number
+    name: string
+    position: Position
+    state: BaseState | SummaryState
     timestamp: number
     zIndex: number
 }
@@ -115,19 +115,28 @@ export interface ColonyEntity {
 export interface GameObjectEntity extends BaseEntity {
     state: GameObjectState
     texture: number
+    damage: number
+    obstacle: boolean
 }
 
 export interface HeroEntity extends BaseEntity {
-    speed: number
-    state: HeroState | BaseState
     abilities: any[] // temporary type
-    skills: Skill[]
-    inventory: any[] // temporary type
-    xp: number
-    buffs: any[] // temporary type
-    debuffs: any[] // temporary type
     achievements: any[] // temporary type
     attackPower: number
+    buffs: any[] // temporary type
+    damage: number
+    debuffs: any[] // temporary type
+    inventory: any[] // temporary type
+    itemsStorage: any[] // temporary type
+    lvl: number
+    pointsToNextLevel: number
+    professions: any[] // temporary type
+    skills: Skill[]
+    speed: number
+    state: HeroState | BaseState
+    technologies: any[] // temporary type
+    wearedItems: any[] // temporary type
+    xp: number
 }
 
 export interface MaggotEntity {
@@ -141,6 +150,12 @@ export interface MaggotEntity {
     original: Point
 }
 
+export interface Bonus {
+    id: string
+    name: string
+    value: number
+}
+
 export interface Skill {
     id: string
     name: string
@@ -149,11 +164,29 @@ export interface Skill {
     level: number
     levelName: LevelName
     pointsToNextLevel: number
-    bonus: {
-        id: string,
-        name: string,
-        value: number,
-    }
+    bonus: Bonus
+}
+
+export interface Technology {
+    id: string
+    name: string
+    status: string
+    progress: number
+    level: number
+    levelName: LevelName
+    pointsToNextLevel: number
+    bonus: Bonus
+}
+
+export interface Profession {
+    id: string
+    name: ProfessionType
+    status: string
+    progress: number
+    level: number
+    levelName: LevelName
+    pointsToNextLevel: number
+    bonus: Bonus
 }
 
 //----------------------------------------------
@@ -163,11 +196,25 @@ export type AtlasJSON = { textures: { [key: number | string]: Texture } }
 export type BaseSize = { width: number; height: number }
 export type BaseState = "idle" | "die" | "damage" | "transform" | "special"
 export type ClosestWater = { dx: number; dy: number }
+export type Construction =
+    | 'base'
+    | 'auto-turret'
+    | 'turret'
+    | 'nano-lab'
+    | 'melter'
+    | 'mega-factory'
+    | 'factory'
+    | 'mini-factory'
+    | 'fabricator'
+    | 'calibrator'
+    | 'mega-power-plant'
+    | 'power-plant'
+    | 'power-storage'
 export type Consumer = "hero" | "enemy"
 export type GameAction = "setHeroName" | "setWorldName" | "setEnemies" | "setPref" | "setSeed" | "resize" | "pause" | "resume" | "restart" | "init" | "exit" | "saveWater"
 export type GameDifficultyType = "easy" | "normal" | "hard"
 export type GameDifficulty = { id: GameDifficultyType, label: string }
-export type GameObjectState = BaseState
+export type GameObjectState = BaseState & ("grow" | "repair")
 export type GetTexturesType = (atlasJson: AtlasJSON | null, consumer: Consumer) => TexturesCollection
 export type EnemyState = BaseState | "lvlup" | "angry" | "attack" | "run"
 export type Hero = { hero: HeroEntity }
@@ -215,18 +262,58 @@ export type MovementDirection =
 export type ObjectsProps = { size: BaseSize }
 export type PixiChildren = (ReactElement<any, any> | AnimatedSprite | null)[]
 export type Position = { x: number; y: number }
+export type ProfessionLevel =
+    | 'trainee'
+    | 'junior'
+    | 'middle'
+    | 'senior'
+    | 'architect'
+    | 'master'
+    | 'legendary'
+export type ProfessionType =
+    | 'collector'
+    | 'constructor'
+    | 'defender'
+    | 'warrior'
+    | 'explorer'
+    | 'harvester'
+    | 'miner'
+    | 'crafter'
+    | 'researcher'
+    | 'healer'
+    | 'bearer'
+    | 'any'
 export type EnemyColonyState = "idle" | "angry"
 export type SummaryState = HeroState | EnemyState
+export type TaskStatus =
+    | 'accepted'
+    | 'paused'
+    | 'continued'
+    | 'await'
+    | 'complete'
+    | 'progress'
+    | 'failed'
+    | 'canceled'
+export type TaskType =
+    | 'collect'
+    | 'construct'
+    | 'deconstruct'
+    | 'repair'
+    | 'upgrade'
+    | 'attack'
+    | 'move'
+    | 'patrol'
+    | 'explore'
+    | 'harvest'
+    | 'mine'
+    | 'craft'
+    | 'research'
+    | 'heal'
+    | 'carrying'
+    | 'cancel'
 export type TexturesCollection = TexturesObject | null
 export type TexturesObject = { [key in SummaryState]: Texture[] }
 export type UseMoveProps = { ref: React.RefObject<Viewport | null> }
-
-export interface Breakpoint {
-    id: string
-    value: number
-    width: number
-    height: number
-}
 
 export interface Obstacle {
     direction: MovementDirection

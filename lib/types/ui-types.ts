@@ -10,6 +10,13 @@ export interface BaseItem {
     label: string;
 }
 
+export interface Breakpoint {
+    id: string
+    value: number
+    width: number
+    height: number
+}
+
 export interface ErrorProps {
     error: {
         environmentName: string;

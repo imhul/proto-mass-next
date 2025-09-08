@@ -182,7 +182,7 @@ export const themeMenu: uiTypes.Theme[] = [
     }
 ]
 
-export const breakpoints: Record<string, gameTypes.Breakpoint> = {
+export const breakpoints: Record<string, uiTypes.Breakpoint> = {
     sm: { id: "sm", value: 430, width: 320, height: 320 },
     md: { id: "md", value: 768, width: 640, height: 480 },
     lg: { id: "lg", value: 1024, width: 800, height: 600 },

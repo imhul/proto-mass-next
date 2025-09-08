@@ -11,6 +11,7 @@ export const initState = {
     gameOver: false,
     water: [],
     startTimestamp: 0,
+    playTime: 0,
     gameSize: {
         width: defaultChunkSize * 2,
         height: defaultChunkSize * 2,

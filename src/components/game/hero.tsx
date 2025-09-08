@@ -21,12 +21,16 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
     const [textures, setTextures] = useState<gameTypes.TexturesCollection>(null)
     const [isBulletActive, setIsBulletActive] = useState(false)
     // store
-    const heroState = usePersistedStore((state: storeTypes.PersistedStore) => state.hero.state)
-    const heroPosition = usePersistedStore((state: storeTypes.PersistedStore) => state.hero.position)
+    const hero = usePersistedStore((state: storeTypes.PersistedStore) => state.hero)
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
-    const keyBindings = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences.keyBindings)
-    const setHeroPosition = usePersistedStore((state: storeTypes.PersistedStore) => state.setHeroPosition)
+    const heroName = usePersistedStore((state: storeTypes.PersistedStore) => state.heroName)
+    const heroState = usePersistedStore((state: storeTypes.PersistedStore) => state.hero.state)
+    const setHeroName = usePersistedStore((state: storeTypes.PersistedStore) => state.setHeroName)
+    const heroPosition = usePersistedStore((state: storeTypes.PersistedStore) => state.hero.position)
     const showHeroHitbox = usePersistedStore((state: storeTypes.PersistedStore) => state.showHeroHitbox)
+    const setHeroPosition = usePersistedStore((state: storeTypes.PersistedStore) => state.setHeroPosition)
+    const keyBindings = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences.keyBindings)
+
     useMove({ ref })
 
     useEffect(() => {
@@ -89,6 +93,10 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
             window.removeEventListener("keydown", onKeydown)
         }
     }, [ref, heroRef, heroState])
+
+    useEffect(() => {
+        if (!hero.name && heroName) setHeroName(heroName)
+    }, [heroName])
 
     const onComplete = () => {
         setIsBulletActive(false)

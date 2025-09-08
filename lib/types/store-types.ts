@@ -61,6 +61,7 @@ export type GameSlice = {
     gameOver: boolean
     worldName: string
     heroName: string
+    playTime: number
     gameSize: gameTypes.BaseSize
     water: gameTypes.Position[]
     startTimestamp: number
@@ -74,6 +75,7 @@ export type GameSlice = {
 
 export type HeroSlice = gameTypes.Hero & HeroActions
 export type HeroActions = {
+    setHeroName: (name: string) => void
     setHeroAction: (action: gameTypes.HeroState) => void
     setHeroPosition: (position: gameTypes.Position) => void
 }

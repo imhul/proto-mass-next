@@ -2,31 +2,39 @@
 import type { gameTypes, storeTypes } from "@lib/types"
 
 const initHeroState: gameTypes.HeroEntity = {
-    id: 0,
-    speed: 1,
-    position: { x: 0, y: 0 },
-    hp: 100,
-    state: "player-idle",
-    xp: 0,
-    buffs: [],
-    debuffs: [],
+    abilities: [],
     achievements: [],
     age: 0,
-    name: "",
-    abilities: [],
-    skills: [],
-    inventory: [],
-    dead: false,
-    timestamp: performance.now(),
-    zIndex: 1,
     attackPower: 7,
+    buffs: [],
+    damage: 0,
+    dead: false,
+    debuffs: [],
+    hp: 100,
+    id: 0,
+    inventory: [],
+    itemsStorage: [],
+    lvl: 1,
+    name: "",
+    pointsToNextLevel: 0,
+    position: { x: 0, y: 0 },
+    professions: [],
+    skills: [],
+    speed: 1,
+    state: "player-idle",
+    technologies: [],
+    timestamp: performance.now(),
+    wearedItems: [],
+    xp: 0,
+    zIndex: 1,
 }
 
 export const createHeroSlice: storeTypes.CreateHeroSliceType = (set) => ({
     hero: initHeroState,
     setHeroAction: (state: gameTypes.HeroState) =>
         set((s) => ({ hero: { ...s.hero, state } })),
-    setHeroPosition: (position: gameTypes.Position) => {
-        set((s) => ({ hero: { ...s.hero, position } }))
-    },
+    setHeroName: (name: string) =>
+        set((s) => ({ hero: { ...s.hero, name } })),
+    setHeroPosition: (position: gameTypes.Position) =>
+        set((s) => ({ hero: { ...s.hero, position } })),
 })
