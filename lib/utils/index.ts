@@ -9,11 +9,6 @@ import { getTimeDifference } from '@utils/get-time-difference'
 import { generateSeed } from '@utils/seed-generator'
 import { generateMapChunk } from '@lib/utils/chunk-generator'
 import { generateNames } from '@lib/utils/names-generator'
-import {
-    saveToLocalStorage,
-    readFromLocalStorage,
-    removeFromLocalStorage,
-} from "@lib/utils/ls"
 
 function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
@@ -30,7 +25,4 @@ export {
     generateNames,
     generateMapChunk,
     getTimeDifference,
-    saveToLocalStorage,
-    readFromLocalStorage,
-    removeFromLocalStorage,
 }

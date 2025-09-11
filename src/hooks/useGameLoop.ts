@@ -55,7 +55,7 @@ export const useGameLoop = ({ ref }: UseGameLoopProps) => {
         if (enemyManager) {
             const colonyList = enemyManager.getChildrenByLabel("enemy-colony", true)
             enemiesRef.current = colonyList.flatMap(colony =>
-                colony.getChildrenByLabel("enemy", true),
+                colony.getChildrenByLabel(/enemy/, true),
             )
         }
 

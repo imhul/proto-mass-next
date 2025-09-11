@@ -5,6 +5,7 @@ import { usePersistedStore } from "@/store"
 import { useBirthAnimation } from "@hooks/useBirth"
 // components
 import { ColorMatrixFilter, Assets, AnimatedSprite, Rectangle } from "pixi.js"
+import CustomProgressBar from "@components/pixi/custom-progress-bar"
 // types
 import { storeTypes, gameTypes } from "@lib/types"
 // utils
@@ -16,8 +17,11 @@ import {
     initialEnemyModel,
     maxDistanceFromEnemyBase,
 } from "@lib/config"
+import { ProgressBar } from "@pixi/ui"
 
 const Enemy = ({ ref, base, item, enemyColonyState, setEnemyColonyState, }: gameTypes.EnemyProps) => {
+    // refs
+    const progressBarRef = useRef<ProgressBar | null>(null)
     const spriteRef = useRef<AnimatedSprite | null>(null) // The Pixi.js `Sprite`
     const animationFrameRef = useRef<number | null>(null)
     // state
@@ -90,10 +94,8 @@ const Enemy = ({ ref, base, item, enemyColonyState, setEnemyColonyState, }: game
                         angle = Math.atan2(base.y - sprite.y, base.x - sprite.x)
                     }
 
-                    if (
-                        nextTurnIndex < turnSchedule.length &&
-                        elapsed >= turnSchedule[nextTurnIndex]
-                    ) {
+                    if (nextTurnIndex < turnSchedule.length &&
+                        elapsed >= turnSchedule[nextTurnIndex]) {
                         angle = getRandomInt(0, 360) * (Math.PI / 180)
                         nextTurnIndex++
                     }
@@ -156,6 +158,7 @@ const Enemy = ({ ref, base, item, enemyColonyState, setEnemyColonyState, }: game
 
     return atlasJson && textures && item && ref.current ? (
         <>
+
             <pixiAnimatedSprite
                 textures={textures["idle"]}
                 ref={spriteRef}
@@ -183,7 +186,17 @@ const Enemy = ({ ref, base, item, enemyColonyState, setEnemyColonyState, }: game
                 filters={isHovered
                     ? [new ColorMatrixFilter({ resolution: 2, blendMode: "multiply" })]
                     : []}
-            />
+            >
+                {spriteRef.current ? (
+                    <CustomProgressBar
+                        ref={progressBarRef}
+                        position={{ x: -spriteRef.current?.width / 3, y: -15 }}
+                        min={0}
+                        max={100}
+                        current={item.hp}
+                    />) : null}
+
+            </pixiAnimatedSprite>
         </>
     ) : null
 }

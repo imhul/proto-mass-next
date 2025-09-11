@@ -10,7 +10,6 @@ import type {
     AnimatedSprite,
     CompositeTilemap,
     AnimatedSpriteFrames,
-    gameTypes,
 } from '@lib/types'
 
 //----------------------------------------------
@@ -19,8 +18,13 @@ import type {
 export type GameProps = { parentRef: React.RefObject<HTMLDivElement | null> }
 
 export interface BulletProps extends BulletEntity {
+    ref: RefObject<Viewport | null>
     textures: AnimatedSpriteFrames
     onComplete: () => void
+}
+
+export interface BulletsProps extends BulletEntity {
+    ref: RefObject<Viewport | null>
 }
 
 export interface CustomTilingSpriteProps {
@@ -103,6 +107,8 @@ export interface EnemyEntity extends BaseEntity {
     timestamp: number
     state: EnemyState
     colony: ColonyEntity
+    totalHp: number
+    damage: number
 }
 
 export interface ColonyEntity {

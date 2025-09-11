@@ -9,7 +9,7 @@ import Bullet from "@components/game/bullet"
 // utils
 import { getTextures } from "@lib/utils"
 
-const Bullets = () => {
+const Bullets = ({ ref }: gameTypes.BulletsProps) => {
     const [textures, setTextures] = useState<Texture[]>([])
     const bullets = usePersistedStore((state: storeTypes.PersistedStore) => state.bullets)
     const setGameAction = usePersistedStore((state: storeTypes.PersistedStore) => state.setGameAction)
@@ -29,6 +29,7 @@ const Bullets = () => {
         <>
             {textures && bullets.length > 0 && bullets.map((bullet: gameTypes.BulletEntity) => (
                 <Bullet
+                    ref={ref}
                     key={bullet.id}
                     textures={textures}
                     onComplete={() => setGameAction("removeBullet", bullet.id)}

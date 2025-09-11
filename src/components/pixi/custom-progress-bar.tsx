@@ -6,14 +6,14 @@ import { ProgressBar } from "@pixi/ui"
 import type { gameTypes, Container } from "@lib/types"
 
 const CustomProgressBar = forwardRef<ProgressBar | null, gameTypes.ProgressBarProps>(
-    ({ position, min, max, current }, _) => {
+    ({ position, min, max, current }, ref) => {
         useExtend({ ProgressBar })
-        const containerRef = useRef<Container | null>(null)
+        // const containerRef = useRef<Container | null>(null)
         const barRef = useRef<ProgressBar | null>(null)
 
         useEffect(() => {
-            if (!containerRef.current) return
-            if (barRef.current) return // вже є
+            if (typeof ref !== "function" && (!ref || !("current" in ref) || !ref.current)) return
+            if (barRef.current) return
 
             const bar = new ProgressBar({
                 // bg: 'path/to/background_image.png', // Optional: image for the background
@@ -23,14 +23,18 @@ const CustomProgressBar = forwardRef<ProgressBar | null, gameTypes.ProgressBarPr
             })
 
             bar.label = "progress-bar"
-            bar.width = 600
-            bar.height = 10
-            bar.zIndex = 1000
-            bar.alpha = 0.8
+            bar.width = 12
+            bar.height = 2
+            bar.zIndex = 2000
+            bar.alpha = 0.85
             bar.progress = 0
 
             barRef.current = bar
-            containerRef.current.addChild(bar)
+            if (typeof ref === "function") {
+                ref(bar)
+            } else if (ref && "current" in ref && ref.current) {
+                ref.current.addChild(bar)
+            }
         }, [])
 
         useEffect(() => {
@@ -45,7 +49,7 @@ const CustomProgressBar = forwardRef<ProgressBar | null, gameTypes.ProgressBarPr
             }
         }, [current, min, max, position])
 
-        return <pixiContainer ref={containerRef} label="progress-bar" />
+        return <pixiContainer ref={ref} label="progress-bar" />
     }
 )
 

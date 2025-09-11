@@ -269,6 +269,8 @@ export const initialEnemyModel = {
     attackSpeed: 15,
     attackPower: 6,
     hp: 100,
+    totalHp: 100,
+    damage: 0,
     age: 0,
     zIndex: 99,
     name: "Enemy-" + 1,

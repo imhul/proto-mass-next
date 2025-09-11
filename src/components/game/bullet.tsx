@@ -1,5 +1,5 @@
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useLayoutEffect } from "react"
 // store
 import { usePersistedStore } from "@/store"
 // types
@@ -13,6 +13,7 @@ const Bullet = ({
     x,
     y,
     id,
+    ref,
     speed,
     owner,
     distance,
@@ -23,11 +24,22 @@ const Bullet = ({
     // refs
     const bulletRef = useRef<AnimatedSprite | null>(null)
     const animationFrameRef = useRef<number | null>(null)
+    const enemiesRef = useRef<gameTypes.PixiElementInstance[]>([])
     // store
     const hero = usePersistedStore((state: storeTypes.PersistedStore) => state.hero)
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
     // state
     const [started, setStarted] = useState(false)
+
+    const collision = () => {
+        stopBullet()
+
+        if (owner === "hero") {
+            console.info("enemy collision !!!!")
+        } else if (owner === "enemy") {
+            console.info("hero collision !!!!")
+        }
+    }
 
     const stopBullet = () => {
         if (!bulletRef?.current) return
@@ -52,10 +64,23 @@ const Bullet = ({
         let distanceTraveled = 0
 
         const updateBullet = () => {
-            if (!bulletRef?.current) return
-            bulletRef.current.x += velocity.x
-            bulletRef.current.y += velocity.y
+            const bullet = bulletRef.current
+            if (!bullet) return
+            bullet.x += velocity.x
+            bullet.y += velocity.y
             distanceTraveled += speed
+
+            // check collision with enemies(item of enemiesRef.current)
+            for (const enemy of enemiesRef.current) {
+                if (!enemy) continue
+                const bulletBounds = bullet.getBounds();
+                const enemyBounds = enemy.getBounds();
+
+                if (bulletBounds.containsPoint(enemyBounds.x, enemyBounds.y) || enemyBounds.containsPoint(bulletBounds.x, bulletBounds.y)) {
+                    collision()
+                    break // ?
+                }
+            }
 
             if (distanceTraveled < distance) {
                 animationFrameRef.current = requestAnimationFrame(updateBullet)
@@ -65,6 +90,17 @@ const Bullet = ({
         }
         animationFrameRef.current = requestAnimationFrame(updateBullet)
     }
+
+    useLayoutEffect(() => {
+        if (!ref?.current) return
+        const enemyManager = ref.current.getChildByLabel("enemy-manager")
+        if (enemyManager) {
+            const colonyList = enemyManager.getChildrenByLabel("enemy-colony", true)
+            enemiesRef.current = colonyList.flatMap((colony) =>
+                colony.getChildrenByLabel(/enemy/, true),
+            )
+        }
+    }, [ref.current])
 
     useEffect(() => {
         if (!bulletRef.current) return
@@ -77,7 +113,9 @@ const Bullet = ({
         }
     }, [hero.state, paused, bulletRef.current, started])
 
-    return textures ? (<pixiAnimatedSprite
+    if (!textures || !Array.isArray(textures) || textures.length === 0) return null
+
+    return (<pixiAnimatedSprite
         textures={textures}
         ref={bulletRef}
         anchor={0.5}
@@ -92,7 +130,7 @@ const Bullet = ({
         label={`bullet-${owner}-${id}`}
         autoPlay
         loop
-    />) : null
+    />)
 }
 
 export default Bullet
