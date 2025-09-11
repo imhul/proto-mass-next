@@ -7,9 +7,19 @@ import type { storeTypes, gameTypes, AnimatedSprite } from "@lib/types"
 // components
 import { Rectangle } from "pixi.js"
 // config
-import { zindex, bulletSpeed, maxBulletDistance } from "@lib/config"
+import { zindex } from "@lib/config"
 
-const Bullet = ({ textures, x, y, pointer, onComplete }: gameTypes.BulletProps) => {
+const Bullet = ({
+    x,
+    y,
+    id,
+    speed,
+    owner,
+    distance,
+    textures,
+    direction,
+    onComplete,
+}: gameTypes.BulletProps) => {
     // refs
     const bulletRef = useRef<AnimatedSprite | null>(null)
     const animationFrameRef = useRef<number | null>(null)
@@ -27,17 +37,17 @@ const Bullet = ({ textures, x, y, pointer, onComplete }: gameTypes.BulletProps) 
     }
 
     const startBullet = () => {
-        if (!bulletRef?.current || !pointer) return
+        if (!bulletRef?.current || !direction) return
         setStarted(true)
 
         const angle = Math.atan2(
-            pointer.y - y,
-            pointer.x - x,
+            direction.y - y,
+            direction.x - x,
         )
 
         const velocity = {
-            x: Math.cos(angle) * bulletSpeed,
-            y: Math.sin(angle) * bulletSpeed,
+            x: Math.cos(angle) * speed,
+            y: Math.sin(angle) * speed,
         }
         let distanceTraveled = 0
 
@@ -45,9 +55,9 @@ const Bullet = ({ textures, x, y, pointer, onComplete }: gameTypes.BulletProps) 
             if (!bulletRef?.current) return
             bulletRef.current.x += velocity.x
             bulletRef.current.y += velocity.y
-            distanceTraveled += bulletSpeed
+            distanceTraveled += speed
 
-            if (distanceTraveled < maxBulletDistance) {
+            if (distanceTraveled < distance) {
                 animationFrameRef.current = requestAnimationFrame(updateBullet)
             } else {
                 stopBullet()
@@ -65,9 +75,9 @@ const Bullet = ({ textures, x, y, pointer, onComplete }: gameTypes.BulletProps) 
             startBullet()
             bulletRef.current.play()
         }
-    }, [hero.state, paused, bulletRef, started])
+    }, [hero.state, paused, bulletRef.current, started])
 
-    return (<pixiAnimatedSprite
+    return textures ? (<pixiAnimatedSprite
         textures={textures}
         ref={bulletRef}
         anchor={0.5}
@@ -78,11 +88,11 @@ const Bullet = ({ textures, x, y, pointer, onComplete }: gameTypes.BulletProps) 
         y={y}
         interactive={true}
         hitArea={new Rectangle(0, 0, 2, 2)}
-        zIndex={zindex.hero - 1}
-        label="bullet"
+        zIndex={zindex.bullet}
+        label={`bullet-${owner}-${id}`}
         autoPlay
         loop
-    />)
+    />) : null
 }
 
 export default Bullet

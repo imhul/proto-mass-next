@@ -21,6 +21,7 @@ export const initState = {
     worldName: '',
     heroName: '',
     enemies: {},
+    bullets: [] as gameTypes.BulletEntity[],
     preferences: {
         difficulty: "normal" as gameTypes.GameDifficultyType,
         theme: "system" as uiTypes.ThemeName,
@@ -56,7 +57,12 @@ export const initState = {
                 keys: ['f'],
                 codes: ['KeyF'],
                 keyCodes: [70]
-            }
+            },
+            pause: {
+                keys: ['Escape', 'p'],
+                codes: ['Escape', 'KeyP'],
+                keyCodes: [27, 80]
+            },
         }
     },
 }
@@ -97,6 +103,16 @@ export const createGameSlice: storeTypes.CreateGameSliceType = (set) => ({
                 break
             case "setPref":
                 set({ preferences: payload })
+                break
+            case "addBullet":
+                set((s) => ({
+                    bullets: [...s.bullets, payload]
+                }))
+                break
+            case "removeBullet":
+                set((s) => ({
+                    bullets: s.bullets.filter(bullet => bullet.id !== payload)
+                }))
                 break
             case "setEnemies":
                 set((s) => ({

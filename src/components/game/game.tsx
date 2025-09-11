@@ -12,6 +12,7 @@ import Camera from "@components/game/camera"
 import Maggots from "@components/game/maggots"
 import Objects from "@components/game/objects"
 import Ground from "@components/game/ground"
+import Bullets from "@components/game/bullets"
 // types
 import type { storeTypes, gameTypes } from "@lib/types"
 
@@ -53,6 +54,7 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
                         <Maggots width={gameSize.width} height={gameSize.height} />
                         <Objects size={gameSize} />
                         <Enemies ref={viewportRef} />
+                        <Bullets />
                         <Hero ref={viewportRef} />
                     </>) : null}
                 </Camera>) : null

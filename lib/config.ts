@@ -236,7 +236,8 @@ export const zindex = {
     "ground": 1,
     "object": 2,
     "enemy": 3,
-    "hero": 4,
+    "bullet": 4,
+    "hero": 5,
 }
 
 export const gameGameDifficulties: gameTypes.GameDifficulty[] = [

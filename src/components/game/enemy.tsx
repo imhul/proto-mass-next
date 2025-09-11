@@ -70,6 +70,7 @@ const Enemy = ({ ref, base, item, enemyColonyState, setEnemyColonyState, }: game
 
                 if (elapsed < walkingPhase) {
                     const sprite = spriteRef.current!
+                    if (!sprite) return
                     const dx = Math.cos(angle) * (speed * 0.1)
                     const dy = Math.sin(angle) * (speed * 0.1)
 

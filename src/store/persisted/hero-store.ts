@@ -19,6 +19,7 @@ const initHeroState: gameTypes.HeroEntity = {
     pointsToNextLevel: 0,
     position: { x: 0, y: 0 },
     professions: [],
+    shooting: 2,
     skills: [],
     speed: 2,
     state: "player-idle",

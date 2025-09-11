@@ -10,6 +10,7 @@ import type {
     AnimatedSprite,
     CompositeTilemap,
     AnimatedSpriteFrames,
+    gameTypes,
 } from '@lib/types'
 
 //----------------------------------------------
@@ -17,10 +18,7 @@ import type {
 //----------------------------------------------
 export type GameProps = { parentRef: React.RefObject<HTMLDivElement | null> }
 
-export interface BulletProps {
-    x: number
-    y: number
-    pointer: { x: number; y: number }
+export interface BulletProps extends BulletEntity {
     textures: AnimatedSpriteFrames
     onComplete: () => void
 }
@@ -131,6 +129,7 @@ export interface HeroEntity extends BaseEntity {
     lvl: number
     pointsToNextLevel: number
     professions: any[] // temporary type
+    shooting: number
     skills: Skill[]
     speed: number
     state: HeroState | BaseState
@@ -148,6 +147,16 @@ export interface MaggotEntity {
     y: number
     scale: { x: number; y: number }
     original: Point
+}
+
+export interface BulletEntity {
+    id: string
+    x: number
+    y: number
+    owner: "hero" | "enemy"
+    direction: { x: number; y: number }
+    speed: number
+    distance: number
 }
 
 export interface Bonus {
@@ -211,7 +220,7 @@ export type Construction =
     | 'power-plant'
     | 'power-storage'
 export type Consumer = "hero" | "enemy"
-export type GameAction = "damageHero" | "damageEnemy" | "setHeroName" | "setWorldName" | "setEnemies" | "setPref" | "setSeed" | "resize" | "pause" | "resume" | "restart" | "init" | "exit" | "saveWater"
+export type GameAction = "removeBullet" | "addBullet" | "damageHero" | "damageEnemy" | "setHeroName" | "setWorldName" | "setEnemies" | "setPref" | "setSeed" | "resize" | "pause" | "resume" | "restart" | "init" | "exit" | "saveWater"
 export type GameDifficultyType = "easy" | "normal" | "hard"
 export type GameDifficulty = { id: GameDifficultyType, label: string }
 export type GameObjectState = BaseState & ("grow" | "repair")

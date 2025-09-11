@@ -39,10 +39,8 @@ export const useGameLoop = ({ ref }: UseGameLoopProps) => {
     const keyBindings = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences.keyBindings)
     const water = usePersistedStore((state: storeTypes.PersistedStore) => state.water)
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
-    const setHeroAction = usePersistedStore(
-        (state: storeTypes.PersistedStore) => state.setHeroAction,
-    )
-
+    const setHeroAction = usePersistedStore((state: storeTypes.PersistedStore) => state.setHeroAction)
+    const setGameAction = usePersistedStore((state: storeTypes.PersistedStore) => state.setGameAction)
     // refs to Pixi elements
     const viewRef = useRef<Viewport | null>(null)
     const heroRef = useRef<gameTypes.PixiElementInstance | null>(null)
@@ -61,8 +59,8 @@ export const useGameLoop = ({ ref }: UseGameLoopProps) => {
             )
         }
 
-        bulletsRef.current = ref.current.getChildrenByLabel("bullet", true)
-    }, [ref.current])
+        bulletsRef.current = ref.current.getChildrenByLabel(/bullet/, true)
+    }, [ref.current, heroSnapshot.state])
 
     const getView = (): Viewport => {
         if (!viewRef.current) throw new Error("Viewport is not ready yet")
@@ -116,10 +114,7 @@ export const useGameLoop = ({ ref }: UseGameLoopProps) => {
         // -------------------------------------------------------
         const view = viewRef.current
         const hero = heroRef.current
-        const enemies = getEnemies()
-        const bullets = bulletsRef.current
-
-        if (!hero) return
+        if (!hero || !view) return
         // -------------------------------------------------------
         const newHeroPosition = {
             x: hero.position.x + dx,
@@ -140,7 +135,7 @@ export const useGameLoop = ({ ref }: UseGameLoopProps) => {
         // -------------------------------------------------------
         // worked no-easing variant: view.moveCenter(newCameraPosition.x, newCameraPosition.y)
         // worked easing variant:
-        view && view.animate({
+        view.animate({
             time: 1200,
             position: newHeroPosition,
             ease: "easeOutSine",
@@ -230,6 +225,11 @@ export const useGameLoop = ({ ref }: UseGameLoopProps) => {
         direction: gameTypes.MovementDirection | null,
         isKeyDown: boolean = true,
     ) => {
+        // const view = viewRef.current
+        // const hero = heroRef.current
+        // const enemies = enemiesRef.current
+        // const bullets = bulletsRef.current
+        // console.info(">> applyMove:", { enemies, bullets, hero, view })
         if (direction && blockedDirections.current.has(direction))
             return stopRun(direction)
 
@@ -295,6 +295,12 @@ export const useGameLoop = ({ ref }: UseGameLoopProps) => {
         const right = keyBindings.moveright.codes.some((key: string) => pressed[key])
         const jump = keyBindings.jump.codes.some((key: string) => pressed[key])
         const shoot = keyBindings.shoot.codes.some((key: string) => pressed[key])
+        const escape = keyBindings.pause.codes.some((key: string) => pressed[key])
+        if (escape) {
+            pressedKeys.current = {}
+            setGameAction("pause")
+            return null
+        }
 
         // run & jump command (dedicated to Current Value)
         if (jump) return "jump"

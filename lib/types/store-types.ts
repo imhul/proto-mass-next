@@ -66,6 +66,7 @@ export type GameSlice = {
     water: gameTypes.Position[]
     startTimestamp: number
     preferences: Preferences
+    bullets: gameTypes.BulletEntity[]
     enemies: Record<gameTypes.ColonyEntity["uid"], gameTypes.EnemyEntity[]>
     setGameAction: (
         action: gameTypes.GameAction,
@@ -112,7 +113,7 @@ export type UISlice = {
 // MISCELLANEOUS
 //----------------------------------------------
 export type GameActionPayload = any
-export type GameKeyboardActionType = "moveup" | "movedown" | "moveleft" | "moveright" | "jump" | "shoot"
+export type GameKeyboardActionType = "moveup" | "movedown" | "moveleft" | "moveright" | "jump" | "shoot" | "pause"
 export type KeyBindings = Record<GameKeyboardActionType, KeyBinding>
 
 export type KeyBinding = {
