@@ -3,6 +3,8 @@ import { useApplication } from "@pixi/react"
 import { Viewport } from "pixi-viewport"
 // store
 import { usePersistedStore } from "@/store"
+// hooks
+import { useGameLoop } from "@hooks/useGameLoop"
 // components
 import Hero from "@components/game/hero"
 import Enemies from "@/components/game/enemies"
@@ -18,6 +20,7 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
     globalThis.__PIXI_APP__ = app
     const viewportRef = useRef<Viewport | null>(null)
     const gameSize = usePersistedStore((state: storeTypes.PersistedStore) => state.gameSize)
+    useGameLoop({ ref: viewportRef })
 
     const resize = () => {
         if (!viewportRef.current) return
@@ -39,19 +42,20 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
         <>
             {(parentRef.current &&
                 app.renderer &&
-                gameSize) ? (<>
-                    <Camera
-                        ref={viewportRef}
-                        events={app.renderer.events}
-                        gameSize={gameSize}
-                    >
-                        <Ground />
+                gameSize) ? (<Camera
+                    ref={viewportRef}
+                    events={app.renderer.events}
+                    gameSize={gameSize}
+                    label="camera"
+                >
+                    {viewportRef ? (<>
+                        <Ground size={gameSize} />
                         <Maggots width={gameSize.width} height={gameSize.height} />
                         <Objects size={gameSize} />
                         <Enemies ref={viewportRef} />
-                        {viewportRef ? (<Hero ref={viewportRef} />) : null}
-                    </Camera>
-                </>) : null
+                        <Hero ref={viewportRef} />
+                    </>) : null}
+                </Camera>) : null
             }
         </>
     )

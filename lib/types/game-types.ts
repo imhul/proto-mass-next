@@ -211,14 +211,14 @@ export type Construction =
     | 'power-plant'
     | 'power-storage'
 export type Consumer = "hero" | "enemy"
-export type GameAction = "setHeroName" | "setWorldName" | "setEnemies" | "setPref" | "setSeed" | "resize" | "pause" | "resume" | "restart" | "init" | "exit" | "saveWater"
+export type GameAction = "damageHero" | "damageEnemy" | "setHeroName" | "setWorldName" | "setEnemies" | "setPref" | "setSeed" | "resize" | "pause" | "resume" | "restart" | "init" | "exit" | "saveWater"
 export type GameDifficultyType = "easy" | "normal" | "hard"
 export type GameDifficulty = { id: GameDifficultyType, label: string }
 export type GameObjectState = BaseState & ("grow" | "repair")
 export type GetTexturesType = (atlasJson: AtlasJSON | null, consumer: Consumer) => TexturesCollection
 export type EnemyState = BaseState | "lvlup" | "angry" | "attack" | "run"
 export type Hero = { hero: HeroEntity }
-export type HeroInstance = Container<ContainerChild> | null
+export type PixiElementInstance = Container<ContainerChild> | null
 export type HeroState =
     "lvlup"
     | "die"

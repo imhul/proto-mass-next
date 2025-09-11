@@ -20,7 +20,7 @@ const initHeroState: gameTypes.HeroEntity = {
     position: { x: 0, y: 0 },
     professions: [],
     skills: [],
-    speed: 1,
+    speed: 2,
     state: "player-idle",
     technologies: [],
     timestamp: performance.now(),

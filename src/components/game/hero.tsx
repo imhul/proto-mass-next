@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 // store
 import { usePersistedStore } from "@/store"
-// hooks
-import { useMove } from "@hooks/useMove"
 // components
 import DevHitbox from "@components/game/dev-hitbox"
 import { Assets, AnimatedSprite, Rectangle } from "pixi.js"
@@ -12,14 +10,14 @@ import type { storeTypes, gameTypes } from "@lib/types"
 // utils
 import { getTextures } from "@lib/utils"
 // config
-import { zindex, heroSize } from "@lib/config"
+import { zindex, heroSize, heroScale } from "@lib/config"
 
 const Hero = ({ ref }: gameTypes.HeroProps) => {
     const heroRef = useRef<AnimatedSprite | null>(null)
     // state
-    const [pointer, setPointer] = useState<{ x: number; y: number } | null>(null)
-    const [textures, setTextures] = useState<gameTypes.TexturesCollection>(null)
     const [isBulletActive, setIsBulletActive] = useState(false)
+    const [textures, setTextures] = useState<gameTypes.TexturesCollection>(null)
+    const [pointer, setPointer] = useState<{ x: number; y: number } | null>(null)
     // store
     const hero = usePersistedStore((state: storeTypes.PersistedStore) => state.hero)
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
@@ -30,8 +28,6 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
     const showHeroHitbox = usePersistedStore((state: storeTypes.PersistedStore) => state.showHeroHitbox)
     const setHeroPosition = usePersistedStore((state: storeTypes.PersistedStore) => state.setHeroPosition)
     const keyBindings = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences.keyBindings)
-
-    useMove({ ref })
 
     useEffect(() => {
         if (!textures)
@@ -78,12 +74,12 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
                 setPointer(localPointer)
                 globalX = localPointer.x
                 if (heroRef.current && !["player-run", "player-run-shot"].some(state => state === heroState)) {
-                    heroRef.current.scale.x = heroRef.current.position.x < globalX ? 3 : -3
+                    heroRef.current.scale.x = heroRef.current.position.x < globalX ? heroScale : -heroScale
                 }
             })
 
             if ((event.key === keys[0] || event.code === codes[0] || event.keyCode === keyCodes[0]) && heroRef.current && globalX !== 0) {
-                heroRef.current.scale.x = heroRef.current.position.x < globalX ? 3 : -3
+                heroRef.current.scale.x = heroRef.current.position.x < globalX ? heroScale : -heroScale
             }
         }
 
@@ -109,8 +105,8 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
                 ref={heroRef}
                 anchor={0.5}
                 eventMode={"static"}
-                scale={3}
-                animationSpeed={heroState === "player-jump" ? 0.2 : 0.1}
+                scale={heroScale}
+                animationSpeed={heroState !== "player-idle" ? 0.2 : 0.1}
                 x={heroPosition.x !== 0 ? heroPosition.x : ref.current.screenWidth / 2}
                 y={heroPosition.y !== 0 ? heroPosition.y : ref.current.screenHeight / 2}
                 interactive={true}

@@ -87,7 +87,7 @@ const EnemiesColony = ({ ref, colony }: gameTypes.ColonyProps) => {
     }, [paused, enemiesList, colony, setGameAction])
 
     return (
-        <pixiContainer sortableChildren={true}>
+        <pixiContainer sortableChildren={true} label="enemy-colony">
             {ref.current && enemiesList[colony.uid]?.length > 0 ? (
                 <>
                     <EnemyBase

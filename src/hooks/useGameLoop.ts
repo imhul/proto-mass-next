@@ -1,21 +1,31 @@
-import { useEffect, useRef } from "react"
+import { useLayoutEffect, useEffect, useRef } from "react"
 // store
 import { usePersistedStore } from "@/store"
 // utils
 import { generateMapChunk } from "@lib/utils"
 // types
-import type { gameTypes, storeTypes } from "@lib/types"
+import type { gameTypes, storeTypes, Viewport } from "@lib/types"
 // config
 import {
     zindex,
     heroSize,
+    heroScale,
     heroJumpHeight,
     heroJumpDuration,
     defaultChunkSize,
     distanceToMapBorder,
 } from "@lib/config"
 
-export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
+export type GameEvent =
+    | { type: "bullet-hit-enemy"; bulletUid: string; enemyUid: string }
+    | { type: "bullet-hit-hero"; bulletUid: string }
+    | { type: "enemy-hit-hero"; enemyUid: string }
+    | { type: "hero-hit-enemy"; enemyUid: string }
+
+export type Colonies = Record<gameTypes.ColonyEntity["uid"], gameTypes.EnemyEntity[]>
+export type UseGameLoopProps = { ref: React.RefObject<Viewport | null> }
+
+export const useGameLoop = ({ ref }: UseGameLoopProps) => {
     // refs
     const isJumpingRef = useRef(false)
     const jumpAnimationRef = useRef<number | null>(null)
@@ -24,6 +34,7 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
     const animationFrameRef = useRef<number | null>(null)
     const blockedDirections = useRef<Set<gameTypes.MovementDirection>>(new Set())
     // store
+    const enemyColonies: Colonies = usePersistedStore((state: storeTypes.PersistedStore) => state.enemies)
     const heroSnapshot = usePersistedStore((state: storeTypes.PersistedStore) => state.hero)
     const keyBindings = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences.keyBindings)
     const water = usePersistedStore((state: storeTypes.PersistedStore) => state.water)
@@ -31,6 +42,39 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
     const setHeroAction = usePersistedStore(
         (state: storeTypes.PersistedStore) => state.setHeroAction,
     )
+
+    // refs to Pixi elements
+    const viewRef = useRef<Viewport | null>(null)
+    const heroRef = useRef<gameTypes.PixiElementInstance | null>(null)
+    const enemiesRef = useRef<gameTypes.PixiElementInstance[]>([])
+    const bulletsRef = useRef<gameTypes.PixiElementInstance[]>([])
+
+    useLayoutEffect(() => {
+        if (!ref.current) return
+        viewRef.current = ref.current
+        heroRef.current = ref.current.getChildByLabel("hero")
+        const enemyManager = ref.current.getChildByLabel("enemy-manager")
+        if (enemyManager) {
+            const colonyList = enemyManager.getChildrenByLabel("enemy-colony", true)
+            enemiesRef.current = colonyList.flatMap(colony =>
+                colony.getChildrenByLabel("enemy", true),
+            )
+        }
+
+        bulletsRef.current = ref.current.getChildrenByLabel("bullet", true)
+    }, [ref.current])
+
+    const getView = (): Viewport => {
+        if (!viewRef.current) throw new Error("Viewport is not ready yet")
+        return viewRef.current
+    }
+    const getHero = (): gameTypes.PixiElementInstance => {
+        if (!heroRef.current) throw new Error("Hero not found")
+        return heroRef.current
+    }
+
+    const getEnemies = (): gameTypes.PixiElementInstance[] => enemiesRef.current
+    const getBullets = (): gameTypes.PixiElementInstance[] => bulletsRef.current
 
     const checkContainerCollision = (position: gameTypes.Position) => {
         if (position.x < distanceToMapBorder) generateMapChunk(position, "left")
@@ -70,10 +114,12 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
         direction: gameTypes.MovementDirection,
     ) => {
         // -------------------------------------------------------
-        const view = ref?.current
-        if (!view) return
-        const hero: gameTypes.HeroInstance = view.getChildByLabel("hero")
-        if (!hero?.position || !hero?.scale) return
+        const view = viewRef.current
+        const hero = heroRef.current
+        const enemies = getEnemies()
+        const bullets = bulletsRef.current
+
+        if (!hero) return
         // -------------------------------------------------------
         const newHeroPosition = {
             x: hero.position.x + dx,
@@ -94,7 +140,7 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
         // -------------------------------------------------------
         // worked no-easing variant: view.moveCenter(newCameraPosition.x, newCameraPosition.y)
         // worked easing variant:
-        view.animate({
+        view && view.animate({
             time: 1200,
             position: newHeroPosition,
             ease: "easeOutSine",
@@ -106,11 +152,11 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
         // -------------------------------------------------------
         hero.position.set(newHeroPosition.x, newHeroPosition.y)
         if (["runnw", "runsw", "runw", "shoot-left", "jump-left"].includes(direction)) {
-            hero.scale.x = -3
+            hero.scale.x = -heroScale
         } else if (["runne", "runse", "rune", "shoot-right", "jump-right"].includes(direction)) {
-            hero.scale.x = 3
+            hero.scale.x = heroScale
         }
-        // -------------------------------------------------------
+        // -------------------------------------------------------ds
     }
 
     const runAnimation = (
@@ -149,9 +195,7 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
 
         setHeroAction("player-jump")
 
-        const view = ref?.current
-        if (!view) return
-        const hero: gameTypes.HeroInstance = view.getChildByLabel("hero")
+        const hero = getHero()
         if (!hero?.position) return
 
         const startY = hero.position.y
@@ -252,7 +296,7 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
         const jump = keyBindings.jump.codes.some((key: string) => pressed[key])
         const shoot = keyBindings.shoot.codes.some((key: string) => pressed[key])
 
-        // run & jump (dedicated to Current Value)
+        // run & jump command (dedicated to Current Value)
         if (jump) return "jump"
 
         // // run & shoot
@@ -325,5 +369,5 @@ export const useMove = ({ ref }: gameTypes.UseMoveProps) => {
             window.removeEventListener("keydown", onKeyDown)
             window.removeEventListener("keyup", onKeyUp)
         }
-    }, [])
+    }, [paused])
 }

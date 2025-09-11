@@ -15,6 +15,7 @@ export const fakeStartPosition: gameTypes.Position = { x: 200, y: 200 }
 export const heroJumpHeight = 100
 export const heroJumpLength = 100
 export const heroJumpDuration = 500
+export const heroScale = 3
 export const heroSize = 80
 export const idleState = "idle" as gameTypes.EnemyColonyState
 export const maggotsCount = 20

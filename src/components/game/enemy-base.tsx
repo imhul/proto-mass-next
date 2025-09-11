@@ -30,7 +30,7 @@ const EnemyBase = ({ isBirth, pos }: { isBirth: boolean, pos: gameTypes.Position
             scale={0.75}
             x={pos.x}
             y={pos.y}
-            label="bot-base"
+            label="enemy-base"
         />
     ) : null
 }

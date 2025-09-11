@@ -12,7 +12,6 @@ import type { gameTypes, storeTypes } from "@lib/types"
 import {
     zindex,
     tileSize,
-    defaultChunkSize,
     waterTextureIndex,
     bigClusterPercent,
     smallClusterPercent,
@@ -20,18 +19,18 @@ import {
 
 import CustomTilingSprite from "@components/pixi/custom-tiling-sprite"
 
-const Ground = () => {
+const Ground = ({ size }: { size: gameTypes.BaseSize }) => {
     const isDev = usePersistedStore((state: storeTypes.PersistedStore) => state.isDev)
     const seed = usePersistedStore((state: storeTypes.PersistedStore) => state.seed)
     const setGameAction = usePersistedStore((state: storeTypes.PersistedStore) => state.setGameAction)
     // state
     const [tilemap, setTilemap] = useState<CompositeTilemap | null>(null)
-    const gameSize = defaultChunkSize * 2
-    const side = Math.floor(gameSize / tileSize)
+    const width = Math.floor(size.width / tileSize)
+    const height = Math.floor(size.height / tileSize)
     const gmap = generateMap({
         seed,
-        width: side,
-        height: side,
+        width,
+        height,
         bigClusterPercent,
         smallClusterPercent,
         materials: [1, 2, 3]

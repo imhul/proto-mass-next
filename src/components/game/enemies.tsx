@@ -64,7 +64,7 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
     }, [paused, colonies])
 
     return (
-        <pixiContainer sortableChildren={true}>
+        <pixiContainer sortableChildren={true} label="enemy-manager">
             {colonies.map(colony => (
                 <EnemiesColony colony={colony} key={colony.uid} ref={ref} />
             ))}

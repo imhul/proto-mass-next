@@ -45,7 +45,7 @@ const CustomProgressBar = forwardRef<ProgressBar | null, gameTypes.ProgressBarPr
             }
         }, [current, min, max, position])
 
-        return <pixiContainer ref={containerRef} />
+        return <pixiContainer ref={containerRef} label="progress-bar" />
     }
 )
 
