@@ -20,7 +20,19 @@ const initHeroState: gameTypes.HeroEntity = {
     position: { x: 0, y: 0 },
     professions: [],
     shooting: 2,
-    skills: {},
+    skills: {
+        shooting: {
+            id: "base-shooting",
+            name: "Shooting",
+            status: "active",
+            level: 1,
+            progress: 0,
+            levelName: "trainee",
+            skillType: "shooting",
+            pointsToNextLevel: 100,
+            bonus: { id: "damage", name: "Damage", value: 0.5 }
+        },
+    },
     speed: 2,
     state: "player-idle",
     technologies: [],

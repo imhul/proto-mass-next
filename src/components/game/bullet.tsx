@@ -47,10 +47,11 @@ const Bullet = ({
         if (owner === "hero") {
             const enemy = getEnemyByUid(colonies, uid)
             if (enemy) {
+                const totalDamage = damage + enemy.damage
                 const damaged = {
                     ...enemy,
-                    damage,
-                    hp: enemy.totalHp - damage,
+                    damage: totalDamage,
+                    hp: enemy.totalHp - totalDamage,
                 }
                 if (damaged.hp > 0) {
                     setGameAction("updateEnemy", damaged)
@@ -59,7 +60,7 @@ const Bullet = ({
                 }
             }
         } else if (owner === "enemy") {
-            console.info("hero collision !!!!")
+            console.info("hero take damage!")
         }
     }
 

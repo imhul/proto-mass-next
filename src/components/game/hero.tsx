@@ -88,7 +88,7 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
                         y: heroRef.current.position.y - 7,
                         direction: pointer,
                         owner: "hero",
-                        damage: bulletDamage + hero.damage + (Number(hero.skills["shooting"]?.bonus?.value) ?? 0),
+                        damage: bulletDamage + hero.damage + (Number(hero.skills["shooting"].bonus.value) ?? 0),
                         speed: bulletSpeed + heroBonus.bulletSpeed,
                         distance: maxBulletDistance + heroBonus.bulletDistance,
                     })

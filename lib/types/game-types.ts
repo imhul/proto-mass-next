@@ -177,7 +177,7 @@ export interface Skill {
     id: string
     name: string
     status: string
-    progress: string
+    progress: number
     level: number
     levelName: LevelName
     pointsToNextLevel: number

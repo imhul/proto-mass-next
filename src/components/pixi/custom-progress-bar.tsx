@@ -8,7 +8,6 @@ import type { gameTypes, Container } from "@lib/types"
 const CustomProgressBar = forwardRef<ProgressBar | null, gameTypes.ProgressBarProps>(
     ({ position, min, max, current }, ref) => {
         useExtend({ ProgressBar })
-        // const containerRef = useRef<Container | null>(null)
         const barRef = useRef<ProgressBar | null>(null)
 
         useEffect(() => {
