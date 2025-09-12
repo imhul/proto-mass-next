@@ -67,7 +67,7 @@ export type GameSlice = {
     startTimestamp: number
     preferences: Preferences
     bullets: gameTypes.BulletEntity[]
-    enemies: Record<gameTypes.ColonyEntity["uid"], gameTypes.EnemyEntity[]>
+    enemies: Colonies
     setGameAction: (
         action: gameTypes.GameAction,
         payload?: GameActionPayload
@@ -112,6 +112,7 @@ export type UISlice = {
 //----------------------------------------------
 // MISCELLANEOUS
 //----------------------------------------------
+export type Colonies = Record<gameTypes.ColonyEntity["uid"], gameTypes.EnemyEntity[]>
 export type GameActionPayload = any
 export type GameKeyboardActionType = "moveup" | "movedown" | "moveleft" | "moveright" | "jump" | "shoot" | "pause"
 export type KeyBindings = Record<GameKeyboardActionType, KeyBinding>

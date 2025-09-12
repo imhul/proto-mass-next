@@ -9,11 +9,12 @@ import type { storeTypes, gameTypes } from "@lib/types"
 // utils
 import { getTextures } from "@lib/utils"
 // config
-import { zindex, heroSize, heroScale, bulletSpeed, maxBulletDistance } from "@lib/config"
+import { zindex, heroSize, heroScale, bulletSpeed, bulletDamage, maxBulletDistance } from "@lib/config"
 
 const heroBonus = {
     bulletSpeed: 0,
     bulletDistance: 0,
+    bulletDamage: 1,
 }
 
 const Hero = ({ ref }: gameTypes.HeroProps) => {
@@ -87,6 +88,7 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
                         y: heroRef.current.position.y - 7,
                         direction: pointer,
                         owner: "hero",
+                        damage: bulletDamage + hero.damage + (Number(hero.skills["shooting"]?.bonus?.value) ?? 0),
                         speed: bulletSpeed + heroBonus.bulletSpeed,
                         distance: maxBulletDistance + heroBonus.bulletDistance,
                     })

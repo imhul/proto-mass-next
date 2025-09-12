@@ -179,7 +179,7 @@ const Enemy = ({ ref, base, item, enemyColonyState, setEnemyColonyState, }: game
                         textures["idle"][0].height,
                     )
                 }
-                label={"enemy"}
+                label={`enemy-${item.uid}`}
                 zIndex={Math.floor(item.position.y + textures["idle"][0].height / 2)}
                 autoPlay
                 loop

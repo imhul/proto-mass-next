@@ -16,6 +16,7 @@ import type {
 // COMPONENTS PROPS
 //----------------------------------------------
 export type GameProps = { parentRef: React.RefObject<HTMLDivElement | null> }
+export type UseGameLoopProps = { ref: React.RefObject<Viewport | null> }
 
 export interface BulletProps extends BulletEntity {
     ref: RefObject<Viewport | null>
@@ -95,6 +96,7 @@ export interface BaseEntity {
     position: Position
     state: BaseState | SummaryState
     timestamp: number
+    totalHp: number
     zIndex: number
 }
 
@@ -107,7 +109,6 @@ export interface EnemyEntity extends BaseEntity {
     timestamp: number
     state: EnemyState
     colony: ColonyEntity
-    totalHp: number
     damage: number
 }
 
@@ -136,7 +137,7 @@ export interface HeroEntity extends BaseEntity {
     pointsToNextLevel: number
     professions: any[] // temporary type
     shooting: number
-    skills: Skill[]
+    skills: Record<string, Skill>
     speed: number
     state: HeroState | BaseState
     technologies: any[] // temporary type
@@ -162,6 +163,7 @@ export interface BulletEntity {
     owner: "hero" | "enemy"
     direction: { x: number; y: number }
     speed: number
+    damage: number
     distance: number
 }
 
@@ -180,6 +182,7 @@ export interface Skill {
     levelName: LevelName
     pointsToNextLevel: number
     bonus: Bonus
+    skillType: SkillType
 }
 
 export interface Technology {
@@ -226,7 +229,23 @@ export type Construction =
     | 'power-plant'
     | 'power-storage'
 export type Consumer = "hero" | "enemy"
-export type GameAction = "removeBullet" | "addBullet" | "damageHero" | "damageEnemy" | "setHeroName" | "setWorldName" | "setEnemies" | "setPref" | "setSeed" | "resize" | "pause" | "resume" | "restart" | "init" | "exit" | "saveWater"
+export type GameAction =
+    "removeBullet"
+    | "addBullet"
+    | "updateEnemy"
+    | "removeEnemy"
+    | "setHeroName"
+    | "setWorldName"
+    | "setEnemies"
+    | "setPref"
+    | "setSeed"
+    | "resize"
+    | "pause"
+    | "resume"
+    | "restart"
+    | "init"
+    | "exit"
+    | "saveWater"
 export type GameDifficultyType = "easy" | "normal" | "hard"
 export type GameDifficulty = { id: GameDifficultyType, label: string }
 export type GameObjectState = BaseState & ("grow" | "repair")
@@ -299,6 +318,7 @@ export type ProfessionType =
     | 'bearer'
     | 'any'
 export type EnemyColonyState = "idle" | "angry"
+export type SkillType = "shooting" | "defense" | "speed" | "health" | "critical-chance" | "critical-damage" | "crafting" | "mining" | "harvesting" | "building" | "research" | "healing"
 export type SummaryState = HeroState | EnemyState
 export type TaskStatus =
     | 'accepted'
@@ -349,3 +369,9 @@ export type GenerateMap = (params: {
     smallClusterPercent: number,
     materials: number[]
 }) => number[][]
+
+export type GameEvent =
+    | { type: "bullet-hit-enemy"; bulletUid: string; enemyUid: string }
+    | { type: "bullet-hit-hero"; bulletUid: string }
+    | { type: "enemy-hit-hero"; enemyUid: string }
+    | { type: "hero-hit-enemy"; enemyUid: string }

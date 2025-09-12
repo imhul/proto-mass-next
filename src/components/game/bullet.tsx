@@ -9,6 +9,13 @@ import { Rectangle } from "pixi.js"
 // config
 import { zindex } from "@lib/config"
 
+export const getEnemyByUid = (colonies: storeTypes.Colonies, uid: string) => {
+    for (const colonyId in colonies) {
+        const enemy = colonies[colonyId].find((enemy) => enemy.uid === uid)
+        if (enemy) return enemy
+    }
+}
+
 const Bullet = ({
     x,
     y,
@@ -16,6 +23,7 @@ const Bullet = ({
     ref,
     speed,
     owner,
+    damage,
     distance,
     textures,
     direction,
@@ -28,14 +36,28 @@ const Bullet = ({
     // store
     const hero = usePersistedStore((state: storeTypes.PersistedStore) => state.hero)
     const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
+    const colonies = usePersistedStore((state: storeTypes.PersistedStore) => state.enemies)
+    const setGameAction = usePersistedStore((state: storeTypes.PersistedStore) => state.setGameAction)
     // state
     const [started, setStarted] = useState(false)
 
-    const collision = () => {
+    const collision = (uid: string) => {
         stopBullet()
 
         if (owner === "hero") {
-            console.info("enemy collision !!!!")
+            const enemy = getEnemyByUid(colonies, uid)
+            if (enemy) {
+                const damaged = {
+                    ...enemy,
+                    damage,
+                    hp: enemy.totalHp - damage,
+                }
+                if (damaged.hp > 0) {
+                    setGameAction("updateEnemy", damaged)
+                } else {
+                    setGameAction("removeEnemy", damaged)
+                }
+            }
         } else if (owner === "enemy") {
             console.info("hero collision !!!!")
         }
@@ -70,14 +92,14 @@ const Bullet = ({
             bullet.y += velocity.y
             distanceTraveled += speed
 
-            // check collision with enemies(item of enemiesRef.current)
             for (const enemy of enemiesRef.current) {
                 if (!enemy) continue
-                const bulletBounds = bullet.getBounds();
-                const enemyBounds = enemy.getBounds();
+                const bulletBounds = bullet.getBounds()
+                const enemyBounds = enemy.getBounds()
 
                 if (bulletBounds.containsPoint(enemyBounds.x, enemyBounds.y) || enemyBounds.containsPoint(bulletBounds.x, bulletBounds.y)) {
-                    collision()
+                    const enemyUid = enemy.label.replace("enemy-", "") || ""
+                    collision(enemyUid)
                     break // ?
                 }
             }

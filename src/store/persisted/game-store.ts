@@ -125,6 +125,26 @@ export const createGameSlice: storeTypes.CreateGameSliceType = (set) => ({
                     }
                 }))
                 break
+            case "updateEnemy":
+                set((s) => ({
+                    enemies: {
+                        ...s.enemies,
+                        [payload.colony.uid]: s.enemies[payload.colony.uid].map((enemy) =>
+                            enemy.uid === payload.uid ? payload : enemy
+                        ),
+                    },
+                }))
+                break
+            case "removeEnemy":
+                set((s) => ({
+                    enemies: {
+                        ...s.enemies,
+                        [payload.colony.uid]: s.enemies[payload.colony.uid].filter(
+                            (enemy) => enemy.uid !== payload.uid
+                        ),
+                    },
+                }))
+                break
         }
     },
 })

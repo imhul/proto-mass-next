@@ -16,16 +16,7 @@ import {
     distanceToMapBorder,
 } from "@lib/config"
 
-export type GameEvent =
-    | { type: "bullet-hit-enemy"; bulletUid: string; enemyUid: string }
-    | { type: "bullet-hit-hero"; bulletUid: string }
-    | { type: "enemy-hit-hero"; enemyUid: string }
-    | { type: "hero-hit-enemy"; enemyUid: string }
-
-export type Colonies = Record<gameTypes.ColonyEntity["uid"], gameTypes.EnemyEntity[]>
-export type UseGameLoopProps = { ref: React.RefObject<Viewport | null> }
-
-export const useGameLoop = ({ ref }: UseGameLoopProps) => {
+export const useGameLoop = ({ ref }: gameTypes.UseGameLoopProps) => {
     // refs
     const isJumpingRef = useRef(false)
     const jumpAnimationRef = useRef<number | null>(null)
@@ -34,7 +25,7 @@ export const useGameLoop = ({ ref }: UseGameLoopProps) => {
     const animationFrameRef = useRef<number | null>(null)
     const blockedDirections = useRef<Set<gameTypes.MovementDirection>>(new Set())
     // store
-    const enemyColonies: Colonies = usePersistedStore((state: storeTypes.PersistedStore) => state.enemies)
+    const enemyColonies: storeTypes.Colonies = usePersistedStore((state: storeTypes.PersistedStore) => state.enemies)
     const heroSnapshot = usePersistedStore((state: storeTypes.PersistedStore) => state.hero)
     const keyBindings = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences.keyBindings)
     const water = usePersistedStore((state: storeTypes.PersistedStore) => state.water)

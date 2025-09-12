@@ -8,6 +8,7 @@ import type {
 export const angryState = "angry" as gameTypes.EnemyState
 export const bigClusterPercent = 5
 export const bigClusterSize = { min: 10, max: 20 }
+export const bulletDamage = 10
 export const bulletSpeed = 4
 export const defaultChunkSize = 1000
 export const distanceToMapBorder = 200
