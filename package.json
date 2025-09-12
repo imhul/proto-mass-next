@@ -34,7 +34,7 @@
         "github-markdown-css": "^5.8.1",
         "lucide-react": "^0.542.0",
         "pixi-viewport": "^6.0.3",
-        "pixi.js": "^8.2.6",
+        "pixi.js": "^8.13.2",
         "rand-seed": "^3.0.0",
         "react": "19.1.1",
         "react-dom": "19.1.1",

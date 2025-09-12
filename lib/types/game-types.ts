@@ -24,7 +24,7 @@ export interface BulletProps extends BulletEntity {
     onComplete: () => void
 }
 
-export interface BulletsProps extends BulletEntity {
+export interface BulletsProps {
     ref: RefObject<Viewport | null>
 }
 
