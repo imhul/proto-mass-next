@@ -1,14 +1,14 @@
-# React + Pixi.js + Zustand Browser Game ![version](https://img.shields.io/badge/version-0.8.4-brightgreen`)
+# React + Pixi.js + Zustand Browser Game ![version](https://img.shields.io/badge/version-0.8.5-brightgreen`)
 
 ## Technologies Used
 
-- [React 19.1.1](https://reactjs.org)
-- [Zustand 5.0.8](https://zustand.docs.pmnd.rs/)
-- [PixiJS 8.13.2](https://pixijs.com)
-- [Tailwind CSS 4.1.12](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com)
-- [TypeScript 5.9.2](https://www.typescriptlang.org)
-- [Vite 7.1.5](https://vitejs.dev)
-- [ESLint 9.35.0](https://eslint.org)
+- [React](https://reactjs.org) 19.1.1
+- [Zustand](https://zustand.docs.pmnd.rs/) 5.0.8
+- [PixiJS](https://pixijs.com) 8.13.2
+- [Tailwind CSS](https://tailwindcss.com) 4.1.12 + [shadcn/ui](https://ui.shadcn.com)
+- [TypeScript](https://www.typescriptlang.org) 5.9.2
+- [Vite](https://vitejs.dev) 7.1.5
+- [ESLint](https://eslint.org) 9.35.0
 
 The decision to abandon [Svelte](https://svelte.dev) and [Next](https://nextjs.org) was made for obvious reasons, because this project is not about **SSR**. The open source repository is on [GitHub](https://github.com/imhul/proto-mass-next).
 
