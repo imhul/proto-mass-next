@@ -61,7 +61,7 @@ const EnemiesColony = ({ ref, colony }: gameTypes.ColonyProps) => {
                         }
                         const newEnemy: gameTypes.EnemyEntity = {
                             ...initialEnemyModel,
-                            id: 1,
+                            id: "1-1",
                             uid: crypto.randomUUID(),
                             base,
                             colony,
@@ -74,10 +74,11 @@ const EnemiesColony = ({ ref, colony }: gameTypes.ColonyProps) => {
                     const enemyBase = (basePos.x !== 0 && basePos.y !== 0) ? basePos : enemies[0].base
                     const newEnemy: gameTypes.EnemyEntity = {
                         ...initialEnemyModel,
-                        id: enemies.length + 1,
+                        id: `${colony.id}-${enemies.length + 1}`,
                         uid: crypto.randomUUID(),
                         colony,
                         base: enemyBase,
+                        timestamp: performance.now(),
                         position: getRandomPositionNearBase(enemyBase),
                     }
                     setGameAction("setEnemies", { colonyUid: colony.uid, newEnemy })
@@ -89,14 +90,16 @@ const EnemiesColony = ({ ref, colony }: gameTypes.ColonyProps) => {
     }, [paused, enemies, colony, setGameAction])
 
     useEffect(() => {
-        if (enemiesList[colony.uid]) {
+        const list = enemiesList[colony.uid]
+        if (list?.length > 0) {
+            setBasePos(list[0].base)
             setEnemies(enemiesList[colony.uid])
         }
     }, [enemiesList, colony])
 
     return (
         <pixiContainer sortableChildren={true} label="enemy-colony">
-            {(ref.current && (basePos.x !== 0 || basePos.y !== 0)) ? (
+            {(ref.current && (basePos.x !== 0 || basePos.y !== 0 || Object.keys(enemiesList).length > 0)) ? (
                 <>
                     <EnemyBase
                         isBirth={!enemies.length || enemies.length < 2}

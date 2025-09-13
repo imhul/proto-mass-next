@@ -216,11 +216,6 @@ export const useGameLoop = ({ ref }: gameTypes.UseGameLoopProps) => {
         direction: gameTypes.MovementDirection | null,
         isKeyDown: boolean = true,
     ) => {
-        // const view = viewRef.current
-        // const hero = heroRef.current
-        // const enemies = enemiesRef.current
-        // const bullets = bulletsRef.current
-        // console.info(">> applyMove:", { enemies, bullets, hero, view })
         if (direction && blockedDirections.current.has(direction))
             return stopRun(direction)
 

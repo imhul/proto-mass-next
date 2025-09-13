@@ -91,7 +91,7 @@ export interface BaseEntity {
     age: number
     dead: boolean
     hp: number
-    id: number
+    id: number | string
     name: string
     position: Position
     state: BaseState | SummaryState

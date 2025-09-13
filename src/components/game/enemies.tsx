@@ -35,13 +35,7 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
             } else {
                 setColonies([initialColonyModel])
             }
-        }
-    }, [paused, enemiesList, colonies.length])
-
-    useEffect(() => {
-        if (paused || colonies.length === 0) return
-
-        if (colonies.length < maxColoniesPerChunk) {
+        } else if (colonies.length !== 0 && colonies.length < maxColoniesPerChunk) {
             const enemiesColoniesSpawnMatrix: Record<number, number> = {
                 2: getRandomInt(minute, minute * 2, null, false),
                 3: getRandomInt(minute * 3, minute * 5, null, false),
