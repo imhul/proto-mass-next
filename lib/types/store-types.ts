@@ -110,7 +110,12 @@ export type UISlice = {
 //----------------------------------------------
 // MISCELLANEOUS
 //----------------------------------------------
-export type Colonies = Record<all.game.ColonyEntity["uid"], all.game.EnemyEntity[]>
+export type Colonies = Record<all.game.ColonyEntity["uid"], {
+    list: all.game.EnemyEntity[]
+    hp: number
+    totalHp: number
+    dirty: boolean
+}>
 export type GameActionPayload = any
 export type GameKeyboardActionType = "moveup" | "movedown" | "moveleft" | "moveright" | "jump" | "shoot" | "pause"
 export type KeyBindings = Record<GameKeyboardActionType, KeyBinding>

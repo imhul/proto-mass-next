@@ -44,7 +44,7 @@ export const Output = () => {
 
     useEffect(() => {
         if (enemiesList) {
-            const total = Object.values(enemiesList).reduce((acc, enemies) => acc + enemies.length, 0)
+            const total = Object.values(enemiesList).reduce((acc, enemies) => acc + enemies.list?.length, 0)
             setEnemiesLength(total)
         }
     }, [enemiesList])

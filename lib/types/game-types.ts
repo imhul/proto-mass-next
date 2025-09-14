@@ -22,6 +22,25 @@ export interface CustomTilingSpriteProps {
 
 export interface CustomGifSpriteProps {
     url: string
+    scale?: number
+    loop?: boolean
+    auto?: boolean
+    speed?: number
+    position: Position
+    onComplete: () => void
+}
+
+export interface EnemyBaseProps {
+    isBirth: boolean
+    isDeath: boolean
+    pos: Position
+    uid: string
+}
+
+export interface ExplosionProps {
+    position: Position
+    scale: number
+    onComplete: () => void
 }
 
 export interface ProgressBarProps {
@@ -224,6 +243,7 @@ export type GameAction =
     | "addBullet"
     | "updateEnemy"
     | "removeEnemy"
+    | "removeColony"
     | "setHeroName"
     | "setWorldName"
     | "setEnemies"

@@ -256,6 +256,12 @@ export const initialColonyModel = {
     uid: "456039fa-815d-4239-8491-6cb91b0b6ab7",
 }
 
+export const initialBaseModel = {
+    hp: 100,
+    totalHp: 100,
+    dirty: false,
+}
+
 export const initialEnemyModel = {
     id: 1,
     uid: "356039fa-815d-4239-8491-6cb91b0b6ab7",

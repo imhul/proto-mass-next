@@ -4,7 +4,6 @@ import { usePersistedStore } from "@/store"
 // components
 import Enemy from "@components/game/enemy"
 import EnemyBase from "@/components/game/enemy-base"
-import Explosion from "@/components/game/explosion"
 // utils
 import { getRandomInt } from "@lib/utils"
 // config
@@ -110,7 +109,7 @@ const EnemiesColony = ({ ref, colony }: all.game.ColonyProps) => {
     }, [paused, enemies, colony, setGameAction])
 
     useEffect(() => {
-        const list = enemiesList[colony.uid] || []
+        const list = enemiesList[colony.uid]?.list || []
         setEnemies(list)
 
         if (list.length > 0) {
@@ -120,16 +119,15 @@ const EnemiesColony = ({ ref, colony }: all.game.ColonyProps) => {
 
     return (
         <pixiContainer sortableChildren={true} label="enemy-colony">
-            {ref.current &&
-                (basePos.x !== 0 ||
-                    basePos.y !== 0 ||
-                    Object.keys(enemiesList).length > 0) ? (
+            {(ref.current && (basePos.x !== 0 || basePos.y !== 0)
+                && Object.keys(enemiesList).length > 0) ? (
                 <>
                     <EnemyBase
-                        isBirth={!enemies.length}
+                        isDeath={!enemies.length && enemiesList[colony.uid]?.dirty}
+                        isBirth={!enemies.length && !enemiesList[colony.uid]?.dirty}
                         pos={basePos}
+                        uid={colony.uid}
                     />
-                    <Explosion />
                     {enemies.length > 0 &&
                         enemies.map((enemy) => (
                             <Enemy

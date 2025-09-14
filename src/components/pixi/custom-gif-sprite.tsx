@@ -1,32 +1,40 @@
 import { forwardRef, useEffect, useState } from "react"
+import { GifSprite, type GifSource } from "pixi.js/gif"
 import { useExtend } from "@pixi/react"
 import { Assets } from "pixi.js"
-import { GifSprite, type GifSource } from "pixi.js/gif"
 
-const CustomGifSprite = forwardRef<GifSprite, { url: string }>(
-    ({ url }, ref) => {
+const CustomGifSprite = forwardRef<GifSprite, all.game.CustomGifSpriteProps>(
+    ({
+        url,
+        position,
+        loop = false,
+        auto = true,
+        speed = 1,
+        scale = 1,
+        onComplete,
+    }, ref) => {
         useExtend({ GifSprite })
         const [source, setSource] = useState<GifSource | null>(null)
 
         useEffect(() => {
-            if (url) {
+            if (url && !source) {
                 Assets.load(url).then((asset: GifSource) => setSource(asset))
             }
         }, [url])
 
-        if (!source) return null
-
-        return (
+        return source ? (
             <pixiGifSprite
                 ref={ref}
+                loop={loop}
+                scale={scale}
+                x={position.x}
+                y={position.y}
                 source={source}
-                x={100}
-                y={100}
-                loop={false}
-                autoPlay={true}
-                animationSpeed={1}
+                autoPlay={auto}
+                animationSpeed={speed}
+                onComplete={onComplete}
             />
-        )
+        ) : null
     }
 )
 

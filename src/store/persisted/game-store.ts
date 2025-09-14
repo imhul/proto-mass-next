@@ -1,5 +1,5 @@
 // config
-import { defaultChunkSize } from '@lib/config'
+import { defaultChunkSize, initialBaseModel } from '@lib/config'
 
 export type Enemies = Record<string, all.game.EnemyEntity[]>
 
@@ -116,20 +116,27 @@ export const createGameSlice: all.store.CreateGameSliceType = (set) => ({
                 set((s) => ({
                     enemies: {
                         ...s.enemies,
-                        [payload.colonyUid]: [
-                            ...(s.enemies[payload.colonyUid] || []),
-                            payload.newEnemy,
-                        ],
-                    }
+                        [payload.colonyUid]: {
+                            ...initialBaseModel,
+                            list: [
+                                ...(s.enemies[payload.colonyUid]?.list || []),
+                                payload.newEnemy,
+                            ],
+                            dirty: true,
+                        },
+                    },
                 }))
                 break
             case "updateEnemy":
                 set((s) => ({
                     enemies: {
                         ...s.enemies,
-                        [payload.colony.uid]: s.enemies[payload.colony.uid].map((enemy) =>
-                            enemy.uid === payload.uid ? payload : enemy
-                        ),
+                        [payload.colony.uid]: {
+                            ...s.enemies[payload.colony.uid],
+                            list: s.enemies[payload.colony.uid].list.map((enemy) =>
+                                enemy.uid === payload.uid ? payload : enemy
+                            ),
+                        },
                     },
                 }))
                 break
@@ -137,12 +144,21 @@ export const createGameSlice: all.store.CreateGameSliceType = (set) => ({
                 set((s) => ({
                     enemies: {
                         ...s.enemies,
-                        [payload.colony.uid]: s.enemies[payload.colony.uid].filter(
-                            (enemy) => enemy.uid !== payload.uid
-                        ),
+                        [payload.colony.uid]: {
+                            ...s.enemies[payload.colony.uid],
+                            list: s.enemies[payload.colony.uid].list.filter(
+                                (enemy) => enemy.uid !== payload.uid
+                            ),
+                        },
                     },
                 }))
                 break
+            case "removeColony":
+                set((s) => {
+                    const newEnemies = { ...s.enemies }
+                    delete newEnemies[payload.uid]
+                    return { enemies: newEnemies }
+                })
         }
     },
 })

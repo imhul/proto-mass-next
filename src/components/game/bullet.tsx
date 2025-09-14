@@ -10,7 +10,7 @@ type Store = all.store.PersistedStore
 
 export const getEnemyByUid = (colonies: all.store.Colonies, uid: string) => {
     for (const colonyId in colonies) {
-        const enemy = colonies[colonyId].find((enemy) => enemy.uid === uid)
+        const enemy = colonies[colonyId].list.find((enemy) => enemy.uid === uid)
         if (enemy) return enemy
     }
 }
