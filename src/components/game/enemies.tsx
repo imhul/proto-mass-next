@@ -8,17 +8,17 @@ import type { storeTypes, gameTypes } from "@lib/types"
 // utils
 import { getRandomInt } from "@lib/utils"
 // config
-import {
-    minute,
-    initialColonyModel,
-    maxColoniesPerChunk,
-} from "@lib/config"
+import { minute, initialColonyModel, maxColoniesPerChunk } from "@lib/config"
 
 const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
     const [colonies, setColonies] = useState<gameTypes.ColonyEntity[]>([])
     // store
-    const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
-    const enemiesList = usePersistedStore((state: storeTypes.PersistedStore) => state.enemies)
+    const paused = usePersistedStore(
+        (state: storeTypes.PersistedStore) => state.paused
+    )
+    const enemiesList = usePersistedStore(
+        (state: storeTypes.PersistedStore) => state.enemies
+    )
 
     useEffect(() => {
         if (paused) return
@@ -47,9 +47,9 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
 
             if (pauseToNextBirth) {
                 const timer = setTimeout(() => {
-                    setColonies(prev => [
+                    setColonies((prev) => [
                         ...prev,
-                        { id: prev.length + 1, uid: crypto.randomUUID() }
+                        { id: prev.length + 1, uid: crypto.randomUUID() },
                     ])
                 }, pauseToNextBirth)
                 return () => clearTimeout(timer)
@@ -59,7 +59,7 @@ const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
 
     return (
         <pixiContainer sortableChildren={true} label="enemy-manager">
-            {colonies.map(colony => (
+            {colonies.map((colony) => (
                 <EnemiesColony colony={colony} key={colony.uid} ref={ref} />
             ))}
         </pixiContainer>

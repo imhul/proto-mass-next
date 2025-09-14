@@ -250,7 +250,7 @@ export type GameDifficultyType = "easy" | "normal" | "hard"
 export type GameDifficulty = { id: GameDifficultyType, label: string }
 export type GameObjectState = BaseState & ("grow" | "repair")
 export type GetTexturesType = (atlasJson: AtlasJSON | null, consumer: Consumer) => TexturesCollection
-export type EnemyState = BaseState | "lvlup" | "angry" | "attack" | "run"
+export type EnemyState = "idle" | "lvlup" | "angry" | "run"
 export type Hero = { hero: HeroEntity }
 export type PixiElementInstance = Container<ContainerChild> | null
 export type HeroState =

@@ -52,10 +52,10 @@ const Game = ({ parentRef }: gameTypes.GameProps) => {
                     {viewportRef ? (<>
                         <Ground size={gameSize} />
                         <Maggots width={gameSize.width} height={gameSize.height} />
-                        <Objects size={gameSize} />
                         <Enemies ref={viewportRef} />
                         <Bullets ref={viewportRef} />
                         <Hero ref={viewportRef} />
+                        <Objects size={gameSize} />
                     </>) : null}
                 </Camera>) : null
             }

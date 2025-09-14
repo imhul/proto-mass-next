@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState, useLayoutEffect } from "react"
 // store
 import { usePersistedStore } from "@/store"
@@ -34,10 +33,18 @@ const Bullet = ({
     const animationFrameRef = useRef<number | null>(null)
     const enemiesRef = useRef<gameTypes.PixiElementInstance[]>([])
     // store
-    const hero = usePersistedStore((state: storeTypes.PersistedStore) => state.hero)
-    const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
-    const colonies = usePersistedStore((state: storeTypes.PersistedStore) => state.enemies)
-    const setGameAction = usePersistedStore((state: storeTypes.PersistedStore) => state.setGameAction)
+    const hero = usePersistedStore(
+        (state: storeTypes.PersistedStore) => state.hero
+    )
+    const paused = usePersistedStore(
+        (state: storeTypes.PersistedStore) => state.paused
+    )
+    const colonies = usePersistedStore(
+        (state: storeTypes.PersistedStore) => state.enemies
+    )
+    const setGameAction = usePersistedStore(
+        (state: storeTypes.PersistedStore) => state.setGameAction
+    )
     // state
     const [started, setStarted] = useState(false)
 
@@ -50,11 +57,15 @@ const Bullet = ({
                 const totalDamage = damage + enemy.damage
                 const damaged = {
                     ...enemy,
+                    state: "angry",
                     damage: totalDamage,
                     hp: enemy.totalHp - totalDamage,
                 }
                 if (damaged.hp > 0) {
                     setGameAction("updateEnemy", damaged)
+                    // TODO: if (target not in sight) {
+                    //     add timer to set enemy state back to "idle" 4 seconds later
+                    // }
                 } else {
                     setGameAction("removeEnemy", damaged)
                 }
@@ -75,10 +86,7 @@ const Bullet = ({
         if (!bulletRef?.current || !direction) return
         setStarted(true)
 
-        const angle = Math.atan2(
-            direction.y - y,
-            direction.x - x,
-        )
+        const angle = Math.atan2(direction.y - y, direction.x - x)
 
         const velocity = {
             x: Math.cos(angle) * speed,
@@ -98,7 +106,10 @@ const Bullet = ({
                 const bulletBounds = bullet.getBounds()
                 const enemyBounds = enemy.getBounds()
 
-                if (bulletBounds.containsPoint(enemyBounds.x, enemyBounds.y) || enemyBounds.containsPoint(bulletBounds.x, bulletBounds.y)) {
+                if (
+                    bulletBounds.containsPoint(enemyBounds.x, enemyBounds.y) ||
+                    enemyBounds.containsPoint(bulletBounds.x, bulletBounds.y)
+                ) {
                     const enemyUid = enemy.label.replace("enemy-", "") || ""
                     collision(enemyUid)
                     break // ?
@@ -120,7 +131,7 @@ const Bullet = ({
         if (enemyManager) {
             const colonyList = enemyManager.getChildrenByLabel("enemy-colony", true)
             enemiesRef.current = colonyList.flatMap((colony) =>
-                colony.getChildrenByLabel(/enemy/, true),
+                colony.getChildrenByLabel(/enemy/, true)
             )
         }
     }, [ref.current])
@@ -129,31 +140,35 @@ const Bullet = ({
         if (!bulletRef.current) return
         if (paused) {
             bulletRef.current.stop()
-            animationFrameRef.current && cancelAnimationFrame(animationFrameRef.current)
+            animationFrameRef.current &&
+                cancelAnimationFrame(animationFrameRef.current)
         } else if (!started && !paused) {
             startBullet()
             bulletRef.current.play()
         }
     }, [hero.state, paused, bulletRef.current, started])
 
-    if (!textures || !Array.isArray(textures) || textures.length === 0) return null
+    if (!textures || !Array.isArray(textures) || textures.length === 0)
+        return null
 
-    return (<pixiAnimatedSprite
-        textures={textures}
-        ref={bulletRef}
-        anchor={0.5}
-        eventMode={"static"}
-        scale={2}
-        animationSpeed={0.1}
-        x={x}
-        y={y}
-        interactive={true}
-        hitArea={new Rectangle(0, 0, 2, 2)}
-        zIndex={zindex.bullet}
-        label={`bullet-${owner}-${id}`}
-        autoPlay
-        loop
-    />)
+    return (
+        <pixiAnimatedSprite
+            textures={textures}
+            ref={bulletRef}
+            anchor={0.5}
+            eventMode={"static"}
+            scale={2}
+            animationSpeed={0.1}
+            x={x}
+            y={y}
+            interactive={true}
+            hitArea={new Rectangle(0, 0, 2, 2)}
+            zIndex={zindex.bullet}
+            label={`bullet-${owner}-${id}`}
+            autoPlay
+            loop
+        />
+    )
 }
 
 export default Bullet

@@ -18,7 +18,7 @@ export const heroJumpLength = 100
 export const heroJumpDuration = 500
 export const heroScale = 3
 export const heroSize = 80
-export const idleState = "idle" as gameTypes.EnemyColonyState
+export const idleState = "idle" as gameTypes.EnemyState
 export const maggotsCount = 20
 export const maxBulletDistance = 200
 export const maxColoniesPerChunk = 5
@@ -32,6 +32,13 @@ export const smallClusterPercent = 10
 export const smallClusterSize = { min: 1, max: 6 }
 export const tileSize = 50
 export const waterTextureIndex = 3
+
+export const colors: Record<string, number> = {
+    gray: 0x555555,
+    green: 0x00ff00,
+    yellow: 0xff2200,
+    red: 0xffdd00,
+}
 
 export const menu: uiTypes.MenuItem[] = [
     {
@@ -223,14 +230,9 @@ export const heroTexturesConfig: Record<gameTypes.HeroState, { count: number, ui
 
 export const enemyTexturesConfig: Record<gameTypes.EnemyState, { count: number, uid: number }> = {
     "angry": { count: 8, uid: 13 },
-    "attack": { count: 8, uid: 13 },
     "idle": { count: 4, uid: 9 },
     "run": { count: 8, uid: 13 },
-    "die": { count: 4, uid: 9 },
-    "damage": { count: 8, uid: 13 },
     "lvlup": { count: 8, uid: 13 },
-    "special": { count: 8, uid: 13 },
-    "transform": { count: 8, uid: 13 },
 }
 
 export const zindex = {
@@ -269,8 +271,8 @@ export const initialEnemyModel = {
     speed: 2.1,
     attackSpeed: 15,
     attackPower: 6,
-    hp: 100,
-    totalHp: 100,
+    hp: 111,
+    totalHp: 111,
     damage: 0,
     age: 0,
     zIndex: 99,

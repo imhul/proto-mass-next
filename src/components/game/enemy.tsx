@@ -12,6 +12,7 @@ import { storeTypes, gameTypes } from "@lib/types"
 import { getTextures, getRandomInt } from "@lib/utils"
 // config
 import {
+    idleState,
     angryState,
     defaultChunkSize,
     initialEnemyModel,
@@ -19,38 +20,81 @@ import {
 } from "@lib/config"
 import { ProgressBar } from "@pixi/ui"
 
-const Enemy = ({ ref, base, item, enemyColonyState, setEnemyColonyState, }: gameTypes.EnemyProps) => {
+export type InitProps = {
+    initialized: boolean
+    currentState: gameTypes.EnemyState
+}
+
+const Enemy = ({
+    ref,
+    base,
+    item,
+    enemyColonyState,
+    setEnemyColonyState,
+}: gameTypes.EnemyProps) => {
     // refs
     const progressBarRef = useRef<ProgressBar | null>(null)
-    const spriteRef = useRef<AnimatedSprite | null>(null) // The Pixi.js `Sprite`
+    const spriteRef = useRef<AnimatedSprite | null>(null)
     const animationFrameRef = useRef<number | null>(null)
     // state
     const [atlasJson, setAtlasJson] = useState<gameTypes.AtlasJSON | null>(null)
     const [isHovered, setIsHover] = useState(false)
     const [textures, setTextures] = useState<gameTypes.TexturesCollection>(null)
-    const [state, setState] = useState<gameTypes.EnemyState>(enemyColonyState || "idle")
+    const [state, setState] = useState<gameTypes.EnemyState>(
+        enemyColonyState || idleState
+    )
     const [init, setInit] = useState(false)
     // store
-    const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
+    const paused = usePersistedStore(
+        (state: storeTypes.PersistedStore) => state.paused
+    )
 
-    useBirthAnimation(spriteRef as React.RefObject<AnimatedSprite>, !!textures, "enemy")
+    useBirthAnimation(
+        spriteRef as React.RefObject<AnimatedSprite>,
+        !!textures,
+        "enemy"
+    )
+
+    const initialization = ({ initialized, currentState }: InitProps) => {
+        if (!initialized) {
+            if (currentState === idleState) {
+                idleAlgorithm()
+            } else if (currentState === angryState) {
+                attackAlgorithm()
+            }
+        }
+    }
 
     const checkContainerCollision = (position: gameTypes.Position) => {
         const sprite = spriteRef.current!
-        if ((position.x < 10) || (position.y < 10) ||
-            (position.x > ((defaultChunkSize * 2) - 10)) ||
-            (position.y > ((defaultChunkSize * 2) - 10))) {
+        if (
+            position.x < 10 ||
+            position.y < 10 ||
+            position.x > defaultChunkSize * 2 - 10 ||
+            position.y > defaultChunkSize * 2 - 10
+        ) {
             sprite.alpha = 0
         } else {
             sprite.alpha = 1
         }
     }
 
+    const attackAlgorithm = () => {
+        if (paused) return
+        setInit(true)
+        if (!spriteRef.current || !textures) {
+            setState(idleState)
+            return
+        }
+        setEnemyColonyState("angry")
+        // TODO: find hero position and move towards him
+    }
+
     const idleAlgorithm = () => {
         if (paused) return
         setInit(true)
         if (!spriteRef.current || !textures) {
-            setState("idle")
+            setState(idleState)
             return
         }
         let angle = 0
@@ -58,7 +102,7 @@ const Enemy = ({ ref, base, item, enemyColonyState, setEnemyColonyState, }: game
         const pausePhase = getRandomInt(1000, 4000)
         const walkingPhase = getRandomInt(3000, 9000)
 
-        if (state !== "idle") setState("idle")
+        if (state !== idleState) setState(idleState)
         setTimeout(() => {
             angle = getRandomInt(0, 360) * (Math.PI / 180)
             const turnsCount = getRandomInt(0, 4)
@@ -86,16 +130,15 @@ const Enemy = ({ ref, base, item, enemyColonyState, setEnemyColonyState, }: game
                         y: sprite.y,
                     })
 
-                    const distFromBase = Math.hypot(
-                        sprite.x - base.x,
-                        sprite.y - base.y
-                    )
+                    const distFromBase = Math.hypot(sprite.x - base.x, sprite.y - base.y)
                     if (distFromBase > maxDistanceFromEnemyBase) {
                         angle = Math.atan2(base.y - sprite.y, base.x - sprite.x)
                     }
 
-                    if (nextTurnIndex < turnSchedule.length &&
-                        elapsed >= turnSchedule[nextTurnIndex]) {
+                    if (
+                        nextTurnIndex < turnSchedule.length &&
+                        elapsed >= turnSchedule[nextTurnIndex]
+                    ) {
                         angle = getRandomInt(0, 360) * (Math.PI / 180)
                         nextTurnIndex++
                     }
@@ -106,7 +149,7 @@ const Enemy = ({ ref, base, item, enemyColonyState, setEnemyColonyState, }: game
                     animationFrameRef.current = requestAnimationFrame(step)
                 } else {
                     if (paused) return
-                    setState("idle")
+                    setState(idleState)
                     idleAlgorithm()
                 }
             }
@@ -120,7 +163,7 @@ const Enemy = ({ ref, base, item, enemyColonyState, setEnemyColonyState, }: game
                 (result: gameTypes.AtlasJSON) => {
                     setAtlasJson(result)
                     setTextures(getTextures(result, "enemy"))
-                },
+                }
             )
     }, [atlasJson, textures])
 
@@ -132,35 +175,35 @@ const Enemy = ({ ref, base, item, enemyColonyState, setEnemyColonyState, }: game
                 setInit(false)
             } else {
                 spriteRef.current.play()
-                if (!init) idleAlgorithm()
+                initialization({ initialized: init, currentState: state })
             }
         }
     }, [state, textures, paused, spriteRef.current])
 
     useEffect(() => {
-        if (enemyColonyState === angryState) {
+        if (enemyColonyState === angryState && state !== angryState) {
             setState(angryState)
             return
         }
     }, [enemyColonyState])
 
     useEffect(() => {
-        if (state === "angry" && enemyColonyState !== "angry") {
+        if (state === angryState && enemyColonyState !== angryState) {
             setEnemyColonyState("angry")
         }
     }, [state])
 
     useEffect(() => {
         if (paused) {
-            animationFrameRef.current && cancelAnimationFrame(animationFrameRef.current)
+            animationFrameRef.current &&
+                cancelAnimationFrame(animationFrameRef.current)
         }
     }, [paused, animationFrameRef.current])
 
-    return atlasJson && textures && item && ref.current ? (
+    return (atlasJson && textures && item && ref.current) ? (
         <>
-
             <pixiAnimatedSprite
-                textures={textures["idle"]}
+                textures={textures[idleState]}
                 ref={spriteRef}
                 anchor={0.5}
                 eventMode={"static"}
@@ -175,27 +218,29 @@ const Enemy = ({ ref, base, item, enemyColonyState, setEnemyColonyState, }: game
                     new Rectangle(
                         0,
                         0,
-                        textures["idle"][0].width,
-                        textures["idle"][0].height,
+                        textures[idleState][0].width,
+                        textures[idleState][0].height
                     )
                 }
                 label={`enemy-${item.uid}`}
-                zIndex={Math.floor(item.position.y + textures["idle"][0].height / 2)}
+                zIndex={Math.floor(item.position.y + textures[idleState][0].height / 2)}
                 autoPlay
                 loop
-                filters={isHovered
-                    ? [new ColorMatrixFilter({ resolution: 2, blendMode: "multiply" })]
-                    : []}
+                filters={
+                    isHovered
+                        ? [new ColorMatrixFilter({ resolution: 2, blendMode: "multiply" })]
+                        : []
+                }
             >
-                {spriteRef.current ? (
+                {(spriteRef.current && item.hp < item.totalHp) ? (
                     <CustomProgressBar
                         ref={progressBarRef}
                         position={{ x: -spriteRef.current?.width / 3, y: -15 }}
                         min={0}
-                        max={100}
+                        max={item.totalHp}
                         current={item.hp}
-                    />) : null}
-
+                    />
+                ) : null}
             </pixiAnimatedSprite>
         </>
     ) : null
