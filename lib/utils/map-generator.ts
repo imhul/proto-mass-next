@@ -3,10 +3,8 @@ import { getRandomInt } from '@lib/utils'
 import Rand from 'rand-seed'
 // config
 import { smallClusterSize, bigClusterSize } from '@lib/config'
-// types
-import type { gameTypes } from '@lib/types'
 
-export const generateMap: gameTypes.GenerateMap = ({
+export const generateMap: all.game.GenerateMap = ({
     seed,
     width,
     height,
@@ -15,7 +13,7 @@ export const generateMap: gameTypes.GenerateMap = ({
     smallClusterPercent,
 }) => {
     const rand = new Rand(seed)
-    const gmap: number[][] = Array.from({ length: height }, () => Array(width).fill(0))
+    const gmap: all.game.GMap = Array.from({ length: height }, () => Array(width).fill(0))
     const pick = <T>(arr: T[]) => arr[getRandomInt(0, arr.length - 1, rand)]
     const totalCells = width * height
     const avgBigSize = 15

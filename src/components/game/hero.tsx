@@ -4,12 +4,12 @@ import { usePersistedStore } from "@/store"
 // components
 import DevHitbox from "@components/game/dev-hitbox"
 import { Assets, AnimatedSprite, Rectangle } from "pixi.js"
-// types
-import type { storeTypes, gameTypes } from "@lib/types"
 // utils
 import { getTextures } from "@lib/utils"
 // config
 import { zindex, heroSize, heroScale, bulletSpeed, bulletDamage, maxBulletDistance } from "@lib/config"
+
+type Store = all.store.PersistedStore
 
 const heroBonus = {
     bulletSpeed: 0,
@@ -17,23 +17,23 @@ const heroBonus = {
     bulletDamage: 1,
 }
 
-const Hero = ({ ref }: gameTypes.HeroProps) => {
+const Hero = ({ ref }: all.game.HeroProps) => {
     const heroRef = useRef<AnimatedSprite | null>(null)
     // state
     const [isBulletActive, setIsBulletActive] = useState(false)
-    const [textures, setTextures] = useState<gameTypes.TexturesCollection>(null)
+    const [textures, setTextures] = useState<all.game.TexturesCollection>(null)
     const [pointer, setPointer] = useState<{ x: number; y: number } | null>(null)
     // store
-    const hero = usePersistedStore((state: storeTypes.PersistedStore) => state.hero)
-    const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
-    const heroName = usePersistedStore((state: storeTypes.PersistedStore) => state.heroName)
-    const heroState = usePersistedStore((state: storeTypes.PersistedStore) => state.hero.state)
-    const setHeroName = usePersistedStore((state: storeTypes.PersistedStore) => state.setHeroName)
-    const heroPosition = usePersistedStore((state: storeTypes.PersistedStore) => state.hero.position)
-    const setGameAction = usePersistedStore((state: storeTypes.PersistedStore) => state.setGameAction)
-    const showHeroHitbox = usePersistedStore((state: storeTypes.PersistedStore) => state.showHeroHitbox)
-    const setHeroPosition = usePersistedStore((state: storeTypes.PersistedStore) => state.setHeroPosition)
-    const keyBindings = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences.keyBindings)
+    const hero = usePersistedStore((state: Store) => state.hero)
+    const paused = usePersistedStore((state: Store) => state.paused)
+    const heroName = usePersistedStore((state: Store) => state.heroName)
+    const heroState = usePersistedStore((state: Store) => state.hero.state)
+    const setHeroName = usePersistedStore((state: Store) => state.setHeroName)
+    const heroPosition = usePersistedStore((state: Store) => state.hero.position)
+    const setGameAction = usePersistedStore((state: Store) => state.setGameAction)
+    const showHeroHitbox = usePersistedStore((state: Store) => state.showHeroHitbox)
+    const setHeroPosition = usePersistedStore((state: Store) => state.setHeroPosition)
+    const keyBindings = usePersistedStore((state: Store) => state.preferences.keyBindings)
 
     const onKeydown = (event: any) => {
         let globalX = 0
@@ -56,7 +56,7 @@ const Hero = ({ ref }: gameTypes.HeroProps) => {
     useEffect(() => {
         if (!textures)
             Assets.load("/assets/hero/atlas.json").then(
-                (result: gameTypes.AtlasJSON) => {
+                (result: all.game.AtlasJSON) => {
                     setTextures(getTextures(result, "hero"))
                 },
             )

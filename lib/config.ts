@@ -1,24 +1,17 @@
-// types
-import type {
-    uiTypes,
-    gameTypes,
-    storeTypes
-} from '@lib/types'
-
-export const angryState = "angry" as gameTypes.EnemyState
+export const angryState = "angry" as all.game.EnemyState
 export const bigClusterPercent = 5
 export const bigClusterSize = { min: 10, max: 20 }
 export const bulletDamage = 10
 export const bulletSpeed = 4
 export const defaultChunkSize = 1000
 export const distanceToMapBorder = 200
-export const fakeStartPosition: gameTypes.Position = { x: 200, y: 200 }
+export const fakeStartPosition: all.game.Position = { x: 200, y: 200 }
 export const heroJumpHeight = 100
 export const heroJumpLength = 100
 export const heroJumpDuration = 500
 export const heroScale = 3
 export const heroSize = 80
-export const idleState = "idle" as gameTypes.EnemyState
+export const idleState = "idle" as all.game.EnemyState
 export const maggotsCount = 20
 export const maxBulletDistance = 200
 export const maxColoniesPerChunk = 5
@@ -40,7 +33,7 @@ export const colors: Record<string, number> = {
     red: 0xffdd00,
 }
 
-export const menu: uiTypes.MenuItem[] = [
+export const menu: all.ui.MenuItem[] = [
     {
         label: "Home",
         id: "home",
@@ -50,7 +43,7 @@ export const menu: uiTypes.MenuItem[] = [
     },
 ]
 
-export const devMenu: uiTypes.MenuItem[] = [
+export const devMenu: all.ui.MenuItem[] = [
     {
         label: "Dots",
         id: "dots",
@@ -90,7 +83,7 @@ export const devMenu: uiTypes.MenuItem[] = [
     }
 ]
 
-export const gameMenu: uiTypes.MenuItem[] = [
+export const gameMenu: all.ui.MenuItem[] = [
     {
         label: "Pause",
         id: "pause"
@@ -103,7 +96,7 @@ export const gameMenu: uiTypes.MenuItem[] = [
     }
 ]
 
-export const heroActionsMenu: uiTypes.MenuItem[] = [
+export const heroActionsMenu: all.ui.MenuItem[] = [
     {
         label: "Crab Idle",
         id: "crab-idle"
@@ -178,7 +171,7 @@ export const heroActionsMenu: uiTypes.MenuItem[] = [
     }
 ]
 
-export const themeMenu: uiTypes.Theme[] = [
+export const themeMenu: all.ui.Theme[] = [
     {
         label: "Light",
         id: "light"
@@ -191,7 +184,7 @@ export const themeMenu: uiTypes.Theme[] = [
     }
 ]
 
-export const breakpoints: Record<string, uiTypes.Breakpoint> = {
+export const breakpoints: Record<string, all.ui.Breakpoint> = {
     sm: { id: "sm", value: 430, width: 320, height: 320 },
     md: { id: "md", value: 768, width: 640, height: 480 },
     lg: { id: "lg", value: 1024, width: 800, height: 600 },
@@ -202,7 +195,7 @@ export const numberOfObjectsPerChunk = Math.floor(Math.random()
     * (objectsPerChunk.max - objectsPerChunk.min + 1))
     + objectsPerChunk.min
 
-export const heroTexturesConfig: Record<gameTypes.HeroState, { count: number, uid: number }> = {
+export const heroTexturesConfig: Record<all.game.HeroState, { count: number, uid: number }> = {
     "crab-idle": { count: 4, uid: 0 },
     "crab-walk": { count: 4, uid: 3 },
     "enemy-death": { count: 5, uid: 8 },
@@ -228,7 +221,7 @@ export const heroTexturesConfig: Record<gameTypes.HeroState, { count: number, ui
     "transform": { count: 0, uid: 0 },
 }
 
-export const enemyTexturesConfig: Record<gameTypes.EnemyState, { count: number, uid: number }> = {
+export const enemyTexturesConfig: Record<all.game.EnemyState, { count: number, uid: number }> = {
     "angry": { count: 8, uid: 13 },
     "idle": { count: 4, uid: 9 },
     "run": { count: 8, uid: 13 },
@@ -243,7 +236,7 @@ export const zindex = {
     "hero": 5,
 }
 
-export const gameGameDifficulties: gameTypes.GameDifficulty[] = [
+export const gameGameDifficulties: all.game.GameDifficulty[] = [
     {
         label: "Easy",
         id: "easy"
@@ -278,7 +271,7 @@ export const initialEnemyModel = {
     zIndex: 99,
     name: "Enemy-" + 1,
     dead: false,
-} as gameTypes.EnemyEntity
+} as all.game.EnemyEntity
 
 export const birthAnimationSteps = {
     0: { duration: 0, opacity: 0, filter: false }, // start
@@ -297,7 +290,7 @@ export const birthAnimationSteps = {
     13: { duration: 0, opacity: 1, filter: false } // end
 }
 
-export const keycodes: storeTypes.KeyBindingCollectionItem[] = [
+export const keycodes: all.store.KeyBindingCollectionItem[] = [
     {
         name: "backspace",
         keyCode: 8,

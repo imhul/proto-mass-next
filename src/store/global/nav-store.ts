@@ -1,7 +1,4 @@
-// types
-import type { storeTypes } from "@lib/types"
-
-export const createNavSlice: storeTypes.CreateNavSliceType = (set) => ({
+export const createNavSlice: all.store.CreateNavSliceType = (set) => ({
     route: "home",
     to: (route: string) => set({ route }),
 })

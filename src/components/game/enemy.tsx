@@ -6,8 +6,6 @@ import { useBirthAnimation } from "@hooks/useBirth"
 // components
 import { ColorMatrixFilter, Assets, AnimatedSprite, Rectangle } from "pixi.js"
 import CustomProgressBar from "@components/pixi/custom-progress-bar"
-// types
-import { storeTypes, gameTypes } from "@lib/types"
 // utils
 import { getTextures, getRandomInt } from "@lib/utils"
 // config
@@ -22,7 +20,7 @@ import { ProgressBar } from "@pixi/ui"
 
 export type InitProps = {
     initialized: boolean
-    currentState: gameTypes.EnemyState
+    currentState: all.game.EnemyState
 }
 
 const Enemy = ({
@@ -31,22 +29,22 @@ const Enemy = ({
     item,
     enemyColonyState,
     setEnemyColonyState,
-}: gameTypes.EnemyProps) => {
+}: all.game.EnemyProps) => {
     // refs
     const progressBarRef = useRef<ProgressBar | null>(null)
     const spriteRef = useRef<AnimatedSprite | null>(null)
     const animationFrameRef = useRef<number | null>(null)
     // state
-    const [atlasJson, setAtlasJson] = useState<gameTypes.AtlasJSON | null>(null)
+    const [atlasJson, setAtlasJson] = useState<all.game.AtlasJSON | null>(null)
     const [isHovered, setIsHover] = useState(false)
-    const [textures, setTextures] = useState<gameTypes.TexturesCollection>(null)
-    const [state, setState] = useState<gameTypes.EnemyState>(
+    const [textures, setTextures] = useState<all.game.TexturesCollection>(null)
+    const [state, setState] = useState<all.game.EnemyState>(
         enemyColonyState || idleState
     )
     const [init, setInit] = useState(false)
     // store
     const paused = usePersistedStore(
-        (state: storeTypes.PersistedStore) => state.paused
+        (state: all.store.PersistedStore) => state.paused
     )
 
     useBirthAnimation(
@@ -65,7 +63,7 @@ const Enemy = ({
         }
     }
 
-    const checkContainerCollision = (position: gameTypes.Position) => {
+    const checkContainerCollision = (position: all.game.Position) => {
         const sprite = spriteRef.current!
         if (
             position.x < 10 ||
@@ -160,7 +158,7 @@ const Enemy = ({
     useEffect(() => {
         if (!atlasJson || !textures)
             Assets.load("/assets/enemy/bot.json").then(
-                (result: gameTypes.AtlasJSON) => {
+                (result: all.game.AtlasJSON) => {
                     setAtlasJson(result)
                     setTextures(getTextures(result, "enemy"))
                 }

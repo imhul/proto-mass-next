@@ -1,37 +1,27 @@
-import type {
-    Point,
-    Texture,
-    Viewport,
-    RefObject,
-    Container,
-    EventSystem,
-    ReactElement,
-    ContainerChild,
-    AnimatedSprite,
-    CompositeTilemap,
-    AnimatedSpriteFrames,
-} from '@lib/types'
-
 //----------------------------------------------
 // COMPONENTS PROPS
 //----------------------------------------------
-export type GameProps = { parentRef: React.RefObject<HTMLDivElement | null> }
-export type UseGameLoopProps = { ref: React.RefObject<Viewport | null> }
+export type GameProps = { parentRef: all.react.RefObject<HTMLDivElement | null> }
+export type UseGameLoopProps = { ref: all.react.RefObject<all.view.Viewport | null> }
 
 export interface BulletProps extends BulletEntity {
-    ref: RefObject<Viewport | null>
-    textures: AnimatedSpriteFrames
+    ref: all.react.RefObject<all.view.Viewport | null>
+    textures: all.pixi.AnimatedSpriteFrames
     onComplete: () => void
 }
 
 export interface BulletsProps {
-    ref: RefObject<Viewport | null>
+    ref: all.react.RefObject<all.view.Viewport | null>
 }
 
 export interface CustomTilingSpriteProps {
     tileScale?: { x: number; y: number }
     tilePosition?: { x: number; y: number }
-    tilemap: CompositeTilemap | null
+    tilemap: all.map.CompositeTilemap | null
+}
+
+export interface CustomGifSpriteProps {
+    url: string
 }
 
 export interface ProgressBarProps {
@@ -43,36 +33,36 @@ export interface ProgressBarProps {
 
 export interface CameraProps {
     children: PixiChildren
-    events: EventSystem
+    events: all.pixi.EventSystem
     gameSize: BaseSize
     [key: string]: any
 }
 
 export interface MaggotProps {
-    texture: Texture
+    texture: all.pixi.Texture
     width: number
     height: number
     item: MaggotEntity
 }
 
 export interface HeroProps {
-    ref: RefObject<Viewport | null>
+    ref: all.react.RefObject<all.view.Viewport | null>
 }
 
 export interface EnemyProps {
     base: Position
     enemyColonyState?: EnemyColonyState
     item: EnemyEntity | null
-    ref: RefObject<Viewport | null>
+    ref: all.react.RefObject<all.view.Viewport | null>
     setEnemyColonyState: (state: EnemyColonyState) => void
 }
 
 export interface EnemiesProps {
-    ref: RefObject<Viewport | null>
+    ref: all.react.RefObject<all.view.Viewport | null>
 }
 
 export interface ColonyProps {
-    ref: RefObject<Viewport | null>
+    ref: all.react.RefObject<all.view.Viewport | null>
     colony: ColonyEntity
 }
 
@@ -153,7 +143,7 @@ export interface MaggotEntity {
     x: number
     y: number
     scale: { x: number; y: number }
-    original: Point
+    original: all.pixi.Point
 }
 
 export interface BulletEntity {
@@ -210,7 +200,7 @@ export interface Profession {
 //----------------------------------------------
 // MISCELLANEOUS
 //----------------------------------------------
-export type AtlasJSON = { textures: { [key: number | string]: Texture } }
+export type AtlasJSON = { textures: { [key: number | string]: all.pixi.Texture } }
 export type BaseSize = { width: number; height: number }
 export type BaseState = "idle" | "die" | "damage" | "transform" | "special"
 export type ClosestWater = { dx: number; dy: number }
@@ -250,9 +240,10 @@ export type GameDifficultyType = "easy" | "normal" | "hard"
 export type GameDifficulty = { id: GameDifficultyType, label: string }
 export type GameObjectState = BaseState & ("grow" | "repair")
 export type GetTexturesType = (atlasJson: AtlasJSON | null, consumer: Consumer) => TexturesCollection
+export type GMap = number[][]
 export type EnemyState = "idle" | "lvlup" | "angry" | "run"
 export type Hero = { hero: HeroEntity }
-export type PixiElementInstance = Container<ContainerChild> | null
+export type PixiElementInstance = all.pixi.Container<all.pixi.ContainerChild> | null
 export type HeroState =
     "lvlup"
     | "die"
@@ -294,7 +285,7 @@ export type MovementDirection =
     | "shoot-left"
     | "shoot-right"
 export type ObjectsProps = { size: BaseSize }
-export type PixiChildren = (ReactElement<any, any> | AnimatedSprite | null)[]
+export type PixiChildren = (all.react.ReactElement<any, any> | all.pixi.AnimatedSprite | null)[]
 export type Position = { x: number; y: number }
 export type ProfessionLevel =
     | 'trainee'
@@ -347,8 +338,8 @@ export type TaskType =
     | 'carrying'
     | 'cancel'
 export type TexturesCollection = TexturesObject | null
-export type TexturesObject = { [key in SummaryState]: Texture[] }
-export type UseMoveProps = { ref: React.RefObject<Viewport | null> }
+export type TexturesObject = { [key in SummaryState]: all.pixi.Texture[] }
+export type UseMoveProps = { ref: React.RefObject<all.view.Viewport | null> }
 
 export interface Obstacle {
     direction: MovementDirection
@@ -368,7 +359,7 @@ export type GenerateMap = (params: {
     bigClusterPercent: number,
     smallClusterPercent: number,
     materials: number[]
-}) => number[][]
+}) => GMap
 
 export type GameEvent =
     | { type: "bullet-hit-enemy"; bulletUid: string; enemyUid: string }

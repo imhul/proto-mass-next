@@ -2,12 +2,10 @@ import { forwardRef, useEffect, useRef } from "react"
 import { useExtend } from "@pixi/react"
 import { Graphics } from "pixi.js"
 import { ProgressBar } from "@pixi/ui"
-// types
-import type { gameTypes } from "@lib/types"
 // config
 import { colors } from "@lib/config"
 
-const CustomProgressBar = forwardRef<ProgressBar | null, gameTypes.ProgressBarProps>(
+const CustomProgressBar = forwardRef<ProgressBar | null, all.game.ProgressBarProps>(
     ({ position, min, max, current }, ref) => {
         useExtend({ ProgressBar })
         const barRef = useRef<ProgressBar | null>(null)

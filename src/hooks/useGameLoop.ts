@@ -3,8 +3,6 @@ import { useLayoutEffect, useEffect, useRef } from "react"
 import { usePersistedStore } from "@/store"
 // utils
 import { generateMapChunk } from "@lib/utils"
-// types
-import type { gameTypes, storeTypes, Viewport } from "@lib/types"
 // config
 import {
     zindex,
@@ -16,27 +14,29 @@ import {
     distanceToMapBorder,
 } from "@lib/config"
 
-export const useGameLoop = ({ ref }: gameTypes.UseGameLoopProps) => {
+type Store = all.store.PersistedStore
+
+export const useGameLoop = ({ ref }: all.game.UseGameLoopProps) => {
     // refs
     const isJumpingRef = useRef(false)
     const jumpAnimationRef = useRef<number | null>(null)
     const pressedKeys = useRef<{ [key: string]: boolean }>({})
     const keyPressTimers = useRef<{ [key: string]: NodeJS.Timeout | null }>({})
     const animationFrameRef = useRef<number | null>(null)
-    const blockedDirections = useRef<Set<gameTypes.MovementDirection>>(new Set())
+    const blockedDirections = useRef<Set<all.game.MovementDirection>>(new Set())
     // store
-    const enemyColonies: storeTypes.Colonies = usePersistedStore((state: storeTypes.PersistedStore) => state.enemies)
-    const heroSnapshot = usePersistedStore((state: storeTypes.PersistedStore) => state.hero)
-    const keyBindings = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences.keyBindings)
-    const water = usePersistedStore((state: storeTypes.PersistedStore) => state.water)
-    const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
-    const setHeroAction = usePersistedStore((state: storeTypes.PersistedStore) => state.setHeroAction)
-    const setGameAction = usePersistedStore((state: storeTypes.PersistedStore) => state.setGameAction)
+    const enemyColonies: all.store.Colonies = usePersistedStore((state: Store) => state.enemies)
+    const heroSnapshot = usePersistedStore((state: Store) => state.hero)
+    const keyBindings = usePersistedStore((state: Store) => state.preferences.keyBindings)
+    const water = usePersistedStore((state: Store) => state.water)
+    const paused = usePersistedStore((state: Store) => state.paused)
+    const setHeroAction = usePersistedStore((state: Store) => state.setHeroAction)
+    const setGameAction = usePersistedStore((state: Store) => state.setGameAction)
     // refs to Pixi elements
-    const viewRef = useRef<Viewport | null>(null)
-    const heroRef = useRef<gameTypes.PixiElementInstance | null>(null)
-    const enemiesRef = useRef<gameTypes.PixiElementInstance[]>([])
-    const bulletsRef = useRef<gameTypes.PixiElementInstance[]>([])
+    const viewRef = useRef<all.view.Viewport | null>(null)
+    const heroRef = useRef<all.game.PixiElementInstance | null>(null)
+    const enemiesRef = useRef<all.game.PixiElementInstance[]>([])
+    const bulletsRef = useRef<all.game.PixiElementInstance[]>([])
 
     useLayoutEffect(() => {
         if (!ref.current) return
@@ -53,29 +53,29 @@ export const useGameLoop = ({ ref }: gameTypes.UseGameLoopProps) => {
         bulletsRef.current = ref.current.getChildrenByLabel(/bullet/, true)
     }, [ref.current, heroSnapshot.state])
 
-    const getView = (): Viewport => {
+    const getView = (): all.view.Viewport => {
         if (!viewRef.current) throw new Error("Viewport is not ready yet")
         return viewRef.current
     }
-    const getHero = (): gameTypes.PixiElementInstance => {
+    const getHero = (): all.game.PixiElementInstance => {
         if (!heroRef.current) throw new Error("Hero not found")
         return heroRef.current
     }
 
-    const getEnemies = (): gameTypes.PixiElementInstance[] => enemiesRef.current
-    const getBullets = (): gameTypes.PixiElementInstance[] => bulletsRef.current
+    const getEnemies = (): all.game.PixiElementInstance[] => enemiesRef.current
+    const getBullets = (): all.game.PixiElementInstance[] => bulletsRef.current
 
-    const checkContainerCollision = (position: gameTypes.Position) => {
+    const checkContainerCollision = (position: all.game.Position) => {
         if (position.x < distanceToMapBorder) generateMapChunk(position, "left")
         if (position.y < distanceToMapBorder) generateMapChunk(position, "top")
         if (position.x > (defaultChunkSize * 2) - distanceToMapBorder) generateMapChunk(position, "right")
         if (position.y > (defaultChunkSize * 2) - distanceToMapBorder) generateMapChunk(position, "bottom")
     }
 
-    const checkObjectCollision = (
-        newPos: gameTypes.Position,
-    ): { collision: boolean; direction: gameTypes.MovementDirection | null } => {
-        let collidedDirection: gameTypes.MovementDirection | null = null
+    const checkWaterCollision = (
+        newPos: all.game.Position,
+    ): { collision: boolean; direction: all.game.MovementDirection | null } => {
+        let collidedDirection: all.game.MovementDirection | null = null
         const halfOfHero = heroSize / 2
 
         for (const object of water) {
@@ -100,7 +100,7 @@ export const useGameLoop = ({ ref }: gameTypes.UseGameLoopProps) => {
     const applyMove = (
         dx: number,
         dy: number,
-        direction: gameTypes.MovementDirection,
+        direction: all.game.MovementDirection,
     ) => {
         // -------------------------------------------------------
         const view = viewRef.current
@@ -114,7 +114,7 @@ export const useGameLoop = ({ ref }: gameTypes.UseGameLoopProps) => {
         // -------------------------------------------------------
         checkContainerCollision(newHeroPosition)
         // -------------------------------------------------------
-        const { collision, direction: obstacleDir } = checkObjectCollision(newHeroPosition)
+        const { collision, direction: obstacleDir } = checkWaterCollision(newHeroPosition)
 
         if (collision && obstacleDir) {
             blockedDirections.current.add(obstacleDir)
@@ -142,13 +142,13 @@ export const useGameLoop = ({ ref }: gameTypes.UseGameLoopProps) => {
         } else if (["runne", "runse", "rune", "shoot-right", "jump-right"].includes(direction)) {
             hero.scale.x = heroScale
         }
-        // -------------------------------------------------------ds
+        // -------------------------------------------------------
     }
 
     const runAnimation = (
         dx: number,
         dy: number,
-        direction: gameTypes.MovementDirection,
+        direction: all.game.MovementDirection,
     ) => {
         applyMove(dx, dy, direction)
         animationFrameRef.current = requestAnimationFrame(() =>
@@ -159,14 +159,14 @@ export const useGameLoop = ({ ref }: gameTypes.UseGameLoopProps) => {
     const startRun = (
         dx: number,
         dy: number,
-        direction: gameTypes.MovementDirection,
+        direction: all.game.MovementDirection,
     ) => {
         if (animationFrameRef.current)
             cancelAnimationFrame(animationFrameRef.current)
         runAnimation(dx, dy, direction)
     }
 
-    const stopRun = (direction: gameTypes.MovementDirection | null = null) => {
+    const stopRun = (direction: all.game.MovementDirection | null = null) => {
         if (direction) blockedDirections.current.add(direction)
         setHeroAction("player-idle")
         if (animationFrameRef.current) {
@@ -213,7 +213,7 @@ export const useGameLoop = ({ ref }: gameTypes.UseGameLoopProps) => {
     }
 
     const move = (
-        direction: gameTypes.MovementDirection | null,
+        direction: all.game.MovementDirection | null,
         isKeyDown: boolean = true,
     ) => {
         if (direction && blockedDirections.current.has(direction))
@@ -274,7 +274,7 @@ export const useGameLoop = ({ ref }: gameTypes.UseGameLoopProps) => {
         }
     }
 
-    const eventConductor = (pressed: { [key: string]: boolean }): gameTypes.MovementDirection | null => {
+    const eventConductor = (pressed: { [key: string]: boolean }): all.game.MovementDirection | null => {
         const up = keyBindings.moveup.codes.some((key: string) => pressed[key])
         const down = keyBindings.movedown.codes.some((key: string) => pressed[key])
         const left = keyBindings.moveleft.codes.some((key: string) => pressed[key])

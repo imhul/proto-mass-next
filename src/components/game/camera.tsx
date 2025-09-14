@@ -1,10 +1,8 @@
 import { useEffect, forwardRef, useImperativeHandle, useRef } from "react"
 import { useExtend } from "@pixi/react"
 import { Viewport } from "pixi-viewport"
-// types
-import type { gameTypes } from "@lib/types"
 
-const Camera = forwardRef<Viewport | null, gameTypes.CameraProps>(
+const Camera = forwardRef<Viewport | null, all.game.CameraProps>(
     ({ gameSize, children, ...props }, ref) => {
         useExtend({ Viewport })
         const camRef = useRef<Viewport | null>(null)

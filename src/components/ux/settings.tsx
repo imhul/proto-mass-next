@@ -35,25 +35,25 @@ import {
     seedLength,
     gameGameDifficulties,
 } from '@lib/config'
-// types
-import type { gameTypes, storeTypes } from "@lib/types"
+
+type Store = all.store.PersistedStore
 
 const Settings = () => {
     const [copied, setCopied] = useState(false)
     // store
-    const seed = usePersistedStore((state: storeTypes.PersistedStore) => state.seed)
-    const worldName = usePersistedStore((state: storeTypes.PersistedStore) => state.worldName)
-    const heroName = usePersistedStore((state: storeTypes.PersistedStore) => state.heroName)
-    const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
-    const isGameInit = usePersistedStore((state: storeTypes.PersistedStore) => state.init)
-    const preferences = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences)
-    const setGameAction = usePersistedStore((state: storeTypes.PersistedStore) => state.setGameAction)
+    const seed = usePersistedStore((state: Store) => state.seed)
+    const worldName = usePersistedStore((state: Store) => state.worldName)
+    const heroName = usePersistedStore((state: Store) => state.heroName)
+    const paused = usePersistedStore((state: Store) => state.paused)
+    const isGameInit = usePersistedStore((state: Store) => state.init)
+    const preferences = usePersistedStore((state: Store) => state.preferences)
+    const setGameAction = usePersistedStore((state: Store) => state.setGameAction)
 
-    const onSeedChange = (e: React.ChangeEvent<HTMLInputElement>) => { setGameAction("setSeed", String(e.target.value)) }
+    const onSeedChange = (e: all.react.ChangeEvent<HTMLInputElement>) => { setGameAction("setSeed", String(e.target.value)) }
 
-    const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => { setGameAction("setWorldName", String(e.target.value)) }
+    const onNameChange = (e: all.react.ChangeEvent<HTMLInputElement>) => { setGameAction("setWorldName", String(e.target.value)) }
 
-    const onHeroNameChange = (e: React.ChangeEvent<HTMLInputElement>) => { setGameAction("setHeroName", String(e.target.value)) }
+    const onHeroNameChange = (e: all.react.ChangeEvent<HTMLInputElement>) => { setGameAction("setHeroName", String(e.target.value)) }
 
     const generate = () => {
         if (paused && isGameInit) return
@@ -188,7 +188,7 @@ const Settings = () => {
                                         <SelectContent>
                                             <SelectGroup>
                                                 <SelectLabel>Themes</SelectLabel>
-                                                {gameGameDifficulties.map((diff: gameTypes.GameDifficulty) => (
+                                                {gameGameDifficulties.map((diff: all.game.GameDifficulty) => (
                                                     <SelectItem
                                                         className={preferences.difficulty === diff.id ? "bg-muted" : ""}
                                                         key={diff.id}

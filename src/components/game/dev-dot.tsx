@@ -1,10 +1,8 @@
 // store
 import { usePersistedStore } from "@/store"
-// types
-import type { storeTypes, gameTypes } from "@lib/types"
 
-const DevDot = ({ x, y, width, height, ...props }: gameTypes.DevComponentProps) => {
-    const showDots = usePersistedStore((state: storeTypes.PersistedStore) => state.showDots)
+const DevDot = ({ x, y, width, height, ...props }: all.game.DevComponentProps) => {
+    const showDots = usePersistedStore((state: all.store.PersistedStore) => state.showDots)
 
     return showDots ? (
         <pixiGraphics

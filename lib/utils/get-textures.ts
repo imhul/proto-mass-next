@@ -1,14 +1,12 @@
-// types
-import type { gameTypes } from '@lib/types'
 // config
 import { heroTexturesConfig, enemyTexturesConfig } from '@lib/config'
 
-export const getTextures: gameTypes.GetTexturesType = (atlasJson, consumer) => {
+export const getTextures: all.game.GetTexturesType = (atlasJson, consumer) => {
     if (!atlasJson) return null
-    const obj: gameTypes.TexturesObject = {} as gameTypes.TexturesObject
+    const obj: all.game.TexturesObject = {} as all.game.TexturesObject
     if (consumer === "enemy") {
-        const textureKeys = Object.keys(enemyTexturesConfig) as gameTypes.EnemyState[]
-        textureKeys.forEach((state: gameTypes.EnemyState) => {
+        const textureKeys = Object.keys(enemyTexturesConfig) as all.game.EnemyState[]
+        textureKeys.forEach((state: all.game.EnemyState) => {
             const texturesLength = enemyTexturesConfig[state].count || 1
             obj[state] = Array.from({ length: texturesLength }, (_, i) => {
                 return atlasJson.textures['bot-' + state + '-' + (i + 1) + '.png']
@@ -16,8 +14,8 @@ export const getTextures: gameTypes.GetTexturesType = (atlasJson, consumer) => {
         })
         return obj
     }
-    const textureKeys = Object.keys(heroTexturesConfig) as gameTypes.HeroState[]
-    textureKeys.forEach((state: gameTypes.HeroState) => {
+    const textureKeys = Object.keys(heroTexturesConfig) as all.game.HeroState[]
+    textureKeys.forEach((state: all.game.HeroState) => {
         const texturesLength = heroTexturesConfig[state].count || 1
         obj[state] = Array.from({ length: texturesLength }, (_, i) => {
             const label = heroTexturesConfig[state].uid + i

@@ -1,8 +1,6 @@
 import { Button } from "@components/ui/button"
 // store
 import { useStore } from "@/store"
-// types
-import type { storeTypes, uiTypes } from "@lib/types"
 
 const Link = ({
     to,
@@ -12,8 +10,8 @@ const Link = ({
     asChild = false,
     withChildren = false,
     ...props
-}: uiTypes.LinkProps) => {
-    const goto = useStore((state: storeTypes.GlobalStore) => state.to)
+}: all.ui.LinkProps) => {
+    const goto = useStore((state: all.store.GlobalStore) => state.to)
 
     return withChildren ? (
         <div onClick={() => goto(to)} {...props}>

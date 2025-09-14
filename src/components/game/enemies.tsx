@@ -3,21 +3,19 @@ import { useState, useEffect } from "react"
 import { usePersistedStore } from "@/store"
 // components
 import EnemiesColony from "@/components/game/enemies-colony"
-// types
-import type { storeTypes, gameTypes } from "@lib/types"
 // utils
 import { getRandomInt } from "@lib/utils"
 // config
 import { minute, initialColonyModel, maxColoniesPerChunk } from "@lib/config"
 
-const Enemies = ({ ref }: gameTypes.EnemiesProps) => {
-    const [colonies, setColonies] = useState<gameTypes.ColonyEntity[]>([])
+const Enemies = ({ ref }: all.game.EnemiesProps) => {
+    const [colonies, setColonies] = useState<all.game.ColonyEntity[]>([])
     // store
     const paused = usePersistedStore(
-        (state: storeTypes.PersistedStore) => state.paused
+        (state: all.store.PersistedStore) => state.paused
     )
     const enemiesList = usePersistedStore(
-        (state: storeTypes.PersistedStore) => state.enemies
+        (state: all.store.PersistedStore) => state.enemies
     )
 
     useEffect(() => {

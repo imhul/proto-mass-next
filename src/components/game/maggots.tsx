@@ -2,19 +2,17 @@ import { useState, useEffect } from "react"
 // components
 import { Assets, Rectangle, Point } from "pixi.js"
 import Maggot from "@components/game/maggot"
-// types
-import type { Texture, gameTypes } from "@lib/types"
 // config
 import { maggotsCount } from "@lib/config"
 
 const Maggots = ({ width, height }: { width: number; height: number }) => {
-    const [texture, setTexture] = useState<Texture | null>(null)
-    const [maggots, setMaggots] = useState<gameTypes.MaggotEntity[]>([])
+    const [texture, setTexture] = useState<all.pixi.Texture | null>(null)
+    const [maggots, setMaggots] = useState<all.game.MaggotEntity[]>([])
     const bounds = new Rectangle(0, 0, width, height)
 
     useEffect(() => {
         Assets.load("/assets/maggot.png").then((tex) => {
-            setTexture(tex as Texture)
+            setTexture(tex as all.pixi.Texture)
         })
     }, [])
 
@@ -24,7 +22,7 @@ const Maggots = ({ width, height }: { width: number; height: number }) => {
     }, [texture])
 
     const generateMaggots = () => {
-        const maggotsArray: gameTypes.MaggotEntity[] = []
+        const maggotsArray: all.game.MaggotEntity[] = []
         for (let i = 0; i < maggotsCount; i++) {
             const maggot = {
                 id: i + 1,
@@ -47,7 +45,7 @@ const Maggots = ({ width, height }: { width: number; height: number }) => {
         <>
             {texture &&
                 maggots &&
-                maggots.map((maggot: gameTypes.MaggotEntity) => (
+                maggots.map((maggot: all.game.MaggotEntity) => (
                     <Maggot
                         key={maggot.id}
                         texture={texture}

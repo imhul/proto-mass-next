@@ -1,6 +1,4 @@
 import { StateCreator } from "zustand"
-// types
-import type { uiTypes, gameTypes } from "@lib/types"
 
 //----------------------------------------------
 // PERSISTED STORE
@@ -62,23 +60,23 @@ export type GameSlice = {
     worldName: string
     heroName: string
     playTime: number
-    gameSize: gameTypes.BaseSize
-    water: gameTypes.Position[]
+    gameSize: all.game.BaseSize
+    water: all.game.Position[]
     startTimestamp: number
     preferences: Preferences
-    bullets: gameTypes.BulletEntity[]
+    bullets: all.game.BulletEntity[]
     enemies: Colonies
     setGameAction: (
-        action: gameTypes.GameAction,
+        action: all.game.GameAction,
         payload?: GameActionPayload
     ) => void
 }
 
-export type HeroSlice = gameTypes.Hero & HeroActions
+export type HeroSlice = all.game.Hero & HeroActions
 export type HeroActions = {
     setHeroName: (name: string) => void
-    setHeroAction: (action: gameTypes.HeroState) => void
-    setHeroPosition: (position: gameTypes.Position) => void
+    setHeroAction: (action: all.game.HeroState) => void
+    setHeroPosition: (position: all.game.Position) => void
 }
 
 export type KeyboardSlice = {
@@ -112,7 +110,7 @@ export type UISlice = {
 //----------------------------------------------
 // MISCELLANEOUS
 //----------------------------------------------
-export type Colonies = Record<gameTypes.ColonyEntity["uid"], gameTypes.EnemyEntity[]>
+export type Colonies = Record<all.game.ColonyEntity["uid"], all.game.EnemyEntity[]>
 export type GameActionPayload = any
 export type GameKeyboardActionType = "moveup" | "movedown" | "moveleft" | "moveright" | "jump" | "shoot" | "pause"
 export type KeyBindings = Record<GameKeyboardActionType, KeyBinding>
@@ -132,9 +130,9 @@ export type KeyBindingCollectionItem = {
 }
 
 export interface Preferences {
-    difficulty: gameTypes.GameDifficultyType
+    difficulty: all.game.GameDifficultyType
     keyBindings: KeyBindings
-    theme: uiTypes.ThemeName
+    theme: all.ui.ThemeName
     soundLevel: number
     fullscreen: boolean
 }

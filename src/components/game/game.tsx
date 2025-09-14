@@ -13,14 +13,12 @@ import Maggots from "@components/game/maggots"
 import Objects from "@components/game/objects"
 import Ground from "@components/game/ground"
 import Bullets from "@components/game/bullets"
-// types
-import type { storeTypes, gameTypes } from "@lib/types"
 
-const Game = ({ parentRef }: gameTypes.GameProps) => {
+const Game = ({ parentRef }: all.game.GameProps) => {
     const { app } = useApplication()
     globalThis.__PIXI_APP__ = app
     const viewportRef = useRef<Viewport | null>(null)
-    const gameSize = usePersistedStore((state: storeTypes.PersistedStore) => state.gameSize)
+    const gameSize = usePersistedStore((state: all.store.PersistedStore) => state.gameSize)
     useGameLoop({ ref: viewportRef })
 
     const resize = () => {

@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState, useLayoutEffect } from "react"
 // store
 import { usePersistedStore } from "@/store"
-// types
-import type { storeTypes, gameTypes, AnimatedSprite } from "@lib/types"
 // components
 import { Rectangle } from "pixi.js"
 // config
 import { zindex } from "@lib/config"
 
-export const getEnemyByUid = (colonies: storeTypes.Colonies, uid: string) => {
+type Store = all.store.PersistedStore
+
+export const getEnemyByUid = (colonies: all.store.Colonies, uid: string) => {
     for (const colonyId in colonies) {
         const enemy = colonies[colonyId].find((enemy) => enemy.uid === uid)
         if (enemy) return enemy
@@ -27,24 +27,16 @@ const Bullet = ({
     textures,
     direction,
     onComplete,
-}: gameTypes.BulletProps) => {
+}: all.game.BulletProps) => {
     // refs
-    const bulletRef = useRef<AnimatedSprite | null>(null)
+    const bulletRef = useRef<all.pixi.AnimatedSprite | null>(null)
     const animationFrameRef = useRef<number | null>(null)
-    const enemiesRef = useRef<gameTypes.PixiElementInstance[]>([])
+    const enemiesRef = useRef<all.game.PixiElementInstance[]>([])
     // store
-    const hero = usePersistedStore(
-        (state: storeTypes.PersistedStore) => state.hero
-    )
-    const paused = usePersistedStore(
-        (state: storeTypes.PersistedStore) => state.paused
-    )
-    const colonies = usePersistedStore(
-        (state: storeTypes.PersistedStore) => state.enemies
-    )
-    const setGameAction = usePersistedStore(
-        (state: storeTypes.PersistedStore) => state.setGameAction
-    )
+    const hero = usePersistedStore((state: Store) => state.hero)
+    const paused = usePersistedStore((state: Store) => state.paused)
+    const colonies = usePersistedStore((state: Store) => state.enemies)
+    const setGameAction = usePersistedStore((state: Store) => state.setGameAction)
     // state
     const [started, setStarted] = useState(false)
 

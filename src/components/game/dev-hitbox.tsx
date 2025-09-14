@@ -1,7 +1,4 @@
-// types
-import type { gameTypes } from "@lib/types"
-
-const DevHitbox = ({ x, y, width, height, ...props }: gameTypes.DevComponentProps) => {
+const DevHitbox = ({ x, y, width, height, ...props }: all.game.DevComponentProps) => {
     return (
         <pixiGraphics
             draw={(g) => {

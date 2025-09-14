@@ -1,6 +1,3 @@
-// types
-import type { storeTypes } from "@lib/types"
-
 const initUIState = {
     showObjectHitboxes: false,
     showEnemyHitboxes: false,
@@ -13,7 +10,7 @@ const initUIState = {
     showEnemyProgress: false,
 }
 
-export const createUISlice: storeTypes.CreateUISliceType = (set, get) => ({
+export const createUISlice: all.store.CreateUISliceType = (set, get) => ({
     ...initUIState,
     isDev: () => Boolean(
         get().showObjectHitboxes ||

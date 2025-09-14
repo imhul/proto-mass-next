@@ -1,6 +1,4 @@
-import type { uiTypes } from "@lib/types"
-
-const ErrorLayout = (props: uiTypes.ErrorProps) => {
+const ErrorLayout = (props: all.ui.ErrorProps) => {
     const { error } = props
 
     return (

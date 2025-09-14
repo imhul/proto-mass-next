@@ -1,14 +1,12 @@
 import { useEffect } from "react"
 import { ColorMatrixFilter } from "pixi.js"
-// types
-import type { Sprite, AnimatedSprite } from "@lib/types"
 // utils
 import { delay } from '@lib/utils'
 // config
 import { birthAnimationSteps } from '@lib/config'
 
 export const useBirthAnimation = (
-    ref: React.RefObject<Sprite | AnimatedSprite> | null = null,
+    ref: React.RefObject<all.pixi.Sprite | all.pixi.AnimatedSprite> | null = null,
     active: boolean,
     type: "enemy" | "base"
 ) => {

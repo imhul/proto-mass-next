@@ -16,21 +16,21 @@ import {
     Graphics,
     Sprite,
 } from "pixi.js"
-// types
-import type { storeTypes } from "@lib/types"
 // config
 import { maxEnemyProgress } from "@lib/config"
+
+type Store = all.store.PersistedStore
 
 export const Output = () => {
     // refs
     const parentRef = useRef<HTMLDivElement>(null)
     // store
-    const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
-    const showFPS = usePersistedStore((state: storeTypes.PersistedStore) => state.showFPS)
-    const isGameInit = usePersistedStore((state: storeTypes.PersistedStore) => state.init)
-    const enemiesList = usePersistedStore((state: storeTypes.PersistedStore) => state.enemies)
-    const showCharts = usePersistedStore((state: storeTypes.PersistedStore) => state.showCharts)
-    const showEnemyProgress = usePersistedStore((state: storeTypes.PersistedStore) => state.showEnemyProgress)
+    const paused = usePersistedStore((state: Store) => state.paused)
+    const showFPS = usePersistedStore((state: Store) => state.showFPS)
+    const isGameInit = usePersistedStore((state: Store) => state.init)
+    const enemiesList = usePersistedStore((state: Store) => state.enemies)
+    const showCharts = usePersistedStore((state: Store) => state.showCharts)
+    const showEnemyProgress = usePersistedStore((state: Store) => state.showEnemyProgress)
     // state
     const [enemiesLength, setEnemiesLength] = useState(0)
 

@@ -9,17 +9,16 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu"
-// types
-import type { uiTypes, storeTypes, gameTypes } from "@lib/types"
 // utils
 import { cn } from "@lib/utils"
 // config
 import { heroActionsMenu } from "@lib/config"
 
+type Store = all.store.PersistedStore
+
 function DevHeroActions() {
-    const hero = usePersistedStore((state: storeTypes.PersistedStore) => state.hero)
-    const setHeroAction = usePersistedStore((state: storeTypes.PersistedStore) => state.setHeroAction,
-    )
+    const hero = usePersistedStore((state: Store) => state.hero)
+    const setHeroAction = usePersistedStore((state: Store) => state.setHeroAction)
 
     return (
         <DropdownMenu>
@@ -29,14 +28,14 @@ function DevHeroActions() {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                {heroActionsMenu.map((item: uiTypes.MenuItem) => (
+                {heroActionsMenu.map((item: all.ui.MenuItem) => (
                     <DropdownMenuItem
                         key={item.id}
                         className={cn(
                             "text-2xl p-4 pl-8 pr-8 dark:hover:text-primary hover:text-primary",
                             item.id === hero.state ? "text-primary" : "",
                         )}
-                        onClick={() => setHeroAction(item.id as gameTypes.HeroState)}
+                        onClick={() => setHeroAction(item.id as all.game.HeroState)}
                     >
                         {item.label}
                     </DropdownMenuItem>

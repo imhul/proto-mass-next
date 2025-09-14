@@ -1,9 +1,7 @@
-// types
-import type { uiTypes, storeTypes, gameTypes } from "@lib/types"
 // config
 import { defaultChunkSize } from '@lib/config'
 
-export type Enemies = Record<string, gameTypes.EnemyEntity[]>
+export type Enemies = Record<string, all.game.EnemyEntity[]>
 
 export const initState = {
     init: false,
@@ -21,10 +19,10 @@ export const initState = {
     worldName: '',
     heroName: '',
     enemies: {},
-    bullets: [] as gameTypes.BulletEntity[],
+    bullets: [] as all.game.BulletEntity[],
     preferences: {
-        difficulty: "normal" as gameTypes.GameDifficultyType,
-        theme: "system" as uiTypes.ThemeName,
+        difficulty: "normal" as all.game.GameDifficultyType,
+        theme: "system" as all.ui.ThemeName,
         soundLevel: 50,
         fullscreen: false,
         keyBindings: {
@@ -67,7 +65,7 @@ export const initState = {
     },
 }
 
-export const createGameSlice: storeTypes.CreateGameSliceType = (set) => ({
+export const createGameSlice: all.store.CreateGameSliceType = (set) => ({
     ...initState,
     setGameAction: (action, payload) => {
         switch (action) {

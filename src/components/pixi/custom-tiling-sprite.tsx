@@ -1,13 +1,11 @@
 import { forwardRef, useEffect, useRef } from "react"
 import { useExtend } from "@pixi/react"
 import { TilingSprite } from "pixi.js"
-// types
-import type { gameTypes, Container } from "@lib/types"
 
-const CustomTilingSprite = forwardRef<TilingSprite | null, gameTypes.CustomTilingSpriteProps>(
+const CustomTilingSprite = forwardRef<TilingSprite | null, all.game.CustomTilingSpriteProps>(
     ({ tilemap }, _) => {
         useExtend({ TilingSprite })
-        const reffer = useRef<Container | null>(null)
+        const reffer = useRef<all.pixi.Container | null>(null)
 
         useEffect(() => {
             if (tilemap && reffer.current) {

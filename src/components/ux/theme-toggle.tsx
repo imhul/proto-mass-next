@@ -11,8 +11,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-// types
-import type { uiTypes } from "@lib/types"
 // config
 import { themeMenu } from "@lib/config"
 
@@ -20,7 +18,7 @@ const ThemeToggle = () => {
     const { setTheme, theme } = useTheme()
 
     return (
-        <Select onValueChange={(value) => setTheme(value as uiTypes.ThemeName)} defaultValue={"system"}>
+        <Select onValueChange={(value) => setTheme(value as all.ui.ThemeName)} defaultValue={"system"}>
             <SelectTrigger className="w-[180px] text-white">
                 <SelectValue placeholder={(
                     <div className="flex items-center justify-start">
@@ -33,7 +31,7 @@ const ThemeToggle = () => {
             <SelectContent>
                 <SelectGroup>
                     <SelectLabel>Themes</SelectLabel>
-                    {themeMenu.map((themeItem: uiTypes.Theme) => (
+                    {themeMenu.map((themeItem: all.ui.Theme) => (
                         <SelectItem
                             className={theme === themeItem.id ? "bg-muted" : ""}
                             key={themeItem.id}

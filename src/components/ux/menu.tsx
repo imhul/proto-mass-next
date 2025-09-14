@@ -13,16 +13,14 @@ import Link from "@components/ux/link"
 import { menu } from "@lib/config"
 // store
 import { useStore, usePersistedStore } from "@/store"
-// types
-import type { storeTypes } from "@lib/types"
+
+type Store = all.store.PersistedStore
 
 const Menu = () => {
-    const route = useStore((state: storeTypes.GlobalStore) => state.route)
-    const paused = usePersistedStore((state: storeTypes.PersistedStore) => state.paused)
-    const isGameInit = usePersistedStore((state: storeTypes.PersistedStore) => state.init)
-    const setGameAction = usePersistedStore(
-        (state: storeTypes.PersistedStore) => state.setGameAction,
-    )
+    const route = useStore((state: all.store.GlobalStore) => state.route)
+    const paused = usePersistedStore((state: Store) => state.paused)
+    const isGameInit = usePersistedStore((state: Store) => state.init)
+    const setGameAction = usePersistedStore((state: Store) => state.setGameAction)
 
     useEffect(() => {
         if (route !== "game" && isGameInit && !paused) setGameAction("pause")

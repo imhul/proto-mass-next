@@ -9,8 +9,6 @@ import DevDot from "@components/game/dev-dot"
 import DevHitbox from "@components/game/dev-hitbox"
 // utils
 import { getRandomInt } from "@lib/utils"
-// types
-import type { gameTypes, Texture, storeTypes } from "@lib/types"
 // config
 import {
     tileSize,
@@ -18,18 +16,20 @@ import {
     numberOfObjectsPerChunk,
 } from "@lib/config"
 
-const Objects = ({ size }: gameTypes.ObjectsProps) => {
+type Store = all.store.PersistedStore
+
+const Objects = ({ size }: all.game.ObjectsProps) => {
     useExtend({ Sprite, Graphics })
-    const [textures, setTextures] = useState<Texture[] | null>(null)
-    const [objectsMap, setObjectsMap] = useState<gameTypes.GameObjectEntity[]>([])
-    const seed = usePersistedStore((state: storeTypes.PersistedStore) => state.seed)
+    const [textures, setTextures] = useState<all.pixi.Texture[] | null>(null)
+    const [objectsMap, setObjectsMap] = useState<all.game.GameObjectEntity[]>([])
+    const seed = usePersistedStore((state: Store) => state.seed)
     const rand = new Rand(seed)
-    const water: gameTypes.Position[] = usePersistedStore((state: storeTypes.PersistedStore) => state.water)
-    const showObjectHitboxes = usePersistedStore((state: storeTypes.PersistedStore) => state.showObjectHitboxes)
+    const water: all.game.Position[] = usePersistedStore((state: Store) => state.water)
+    const showObjectHitboxes = usePersistedStore((state: Store) => state.showObjectHitboxes)
 
     const generateObjects = () => {
         if (!textures?.length) return
-        const result: gameTypes.GameObjectEntity[] = []
+        const result: all.game.GameObjectEntity[] = []
         const widthFactor = Math.ceil(size.width / defaultChunkSize)
         const heightFactor = Math.ceil(size.height / defaultChunkSize)
         const objectsPerChunk = Math.ceil(
@@ -55,7 +55,8 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
                 id,
                 position: { x, y },
                 hp: 100,
-                state: "idle" as gameTypes.GameObjectState,
+                totalHp: 100,
+                state: "idle" as all.game.GameObjectState,
                 age: getRandomInt(0, 1, rand) * 10,
                 name: `game-object-container-id-${id}`,
                 dead: false,
@@ -74,7 +75,7 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
     const renderObjects = () => {
         if (!textures?.length || !objectsMap?.length) return null
 
-        return objectsMap.map((object: gameTypes.GameObjectEntity) => {
+        return objectsMap.map((object: all.game.GameObjectEntity) => {
             const tex = textures[object.texture]
 
             return (
@@ -143,7 +144,7 @@ const Objects = ({ size }: gameTypes.ObjectsProps) => {
             "/assets/objects/Veins_shadow1_3.png",
             "/assets/objects/Veins_shadow1_4.png"
         ]).then((tex) => {
-            const texArray = Object.values(tex) as Texture[]
+            const texArray = Object.values(tex) as all.pixi.Texture[]
             setTextures(texArray)
         })
     }, [])

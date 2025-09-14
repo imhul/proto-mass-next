@@ -4,10 +4,9 @@ import { usePersistedStore } from "@/store"
 // components
 import Enemy from "@components/game/enemy"
 import EnemyBase from "@/components/game/enemy-base"
+import Explosion from "@/components/game/explosion"
 // utils
 import { getRandomInt } from "@lib/utils"
-// types
-import type { storeTypes, gameTypes } from "@lib/types"
 // config
 import {
     minute,
@@ -17,24 +16,26 @@ import {
     maxDistanceFromEnemyBase,
 } from "@lib/config"
 
-const EnemiesColony = ({ ref, colony }: gameTypes.ColonyProps) => {
+type Store = all.store.PersistedStore
+
+const EnemiesColony = ({ ref, colony }: all.game.ColonyProps) => {
     // store
     const paused = usePersistedStore(
-        (state: storeTypes.PersistedStore) => state.paused
+        (state: Store) => state.paused
     )
     const enemiesList = usePersistedStore(
-        (state: storeTypes.PersistedStore) => state.enemies
+        (state: Store) => state.enemies
     )
     const setGameAction = usePersistedStore(
-        (state: storeTypes.PersistedStore) => state.setGameAction
+        (state: Store) => state.setGameAction
     )
     // state
-    const [enemies, setEnemies] = useState<gameTypes.EnemyEntity[]>([])
-    const [basePos, setBasePos] = useState<gameTypes.Position>({ x: 0, y: 0 })
+    const [enemies, setEnemies] = useState<all.game.EnemyEntity[]>([])
+    const [basePos, setBasePos] = useState<all.game.Position>({ x: 0, y: 0 })
     const [enemyColonyState, setEnemyColonyState] =
-        useState<gameTypes.EnemyColonyState>("idle")
+        useState<all.game.EnemyColonyState>("idle")
 
-    const getRandomPositionNearBase = (base: gameTypes.Position) => {
+    const getRandomPositionNearBase = (base: all.game.Position) => {
         const x = getRandomInt(
             base.x - maxDistanceFromEnemyBase,
             base.x + maxDistanceFromEnemyBase
@@ -77,7 +78,7 @@ const EnemiesColony = ({ ref, colony }: gameTypes.ColonyProps) => {
                                     ? basePos.y
                                     : getRandomInt(1, defaultChunkSize * 2),
                         }
-                        const newEnemy: gameTypes.EnemyEntity = {
+                        const newEnemy: all.game.EnemyEntity = {
                             ...initialEnemyModel,
                             id: `${colony.id}-1`,
                             uid: crypto.randomUUID(),
@@ -91,7 +92,7 @@ const EnemiesColony = ({ ref, colony }: gameTypes.ColonyProps) => {
                     }
                     const enemyBase =
                         basePos.x !== 0 && basePos.y !== 0 ? basePos : enemies[0].base
-                    const newEnemy: gameTypes.EnemyEntity = {
+                    const newEnemy: all.game.EnemyEntity = {
                         ...initialEnemyModel,
                         id: `${colony.id}-${enemies.length + 1}`,
                         uid: crypto.randomUUID(),
@@ -109,10 +110,11 @@ const EnemiesColony = ({ ref, colony }: gameTypes.ColonyProps) => {
     }, [paused, enemies, colony, setGameAction])
 
     useEffect(() => {
-        const list = enemiesList[colony.uid]
-        if (list?.length > 0) {
+        const list = enemiesList[colony.uid] || []
+        setEnemies(list)
+
+        if (list.length > 0) {
             setBasePos(list[0].base)
-            setEnemies(enemiesList[colony.uid])
         }
     }, [enemiesList, colony])
 
@@ -124,9 +126,10 @@ const EnemiesColony = ({ ref, colony }: gameTypes.ColonyProps) => {
                     Object.keys(enemiesList).length > 0) ? (
                 <>
                     <EnemyBase
-                        isBirth={!enemies.length || enemies.length < 2}
+                        isBirth={!enemies.length}
                         pos={basePos}
                     />
+                    <Explosion />
                     {enemies.length > 0 &&
                         enemies.map((enemy) => (
                             <Enemy

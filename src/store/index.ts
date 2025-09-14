@@ -7,10 +7,8 @@ import { createNavSlice } from "@/store/global/nav-store"
 import { createGameSlice } from "@/store/persisted/game-store"
 import { createHeroSlice } from "@/store/persisted/hero-store"
 import { createKeyboardSlice } from "@/store/global/keyboard-store"
-// types
-import type { storeTypes } from "@lib/types"
 
-export const usePersistedStore = create<storeTypes.PersistedStore>()(
+export const usePersistedStore = create<all.store.PersistedStore>()(
     devtools(
         persist(
             (...args) => ({
@@ -25,7 +23,7 @@ export const usePersistedStore = create<storeTypes.PersistedStore>()(
     ),
 )
 
-export const useStore = create<storeTypes.GlobalStore>()(
+export const useStore = create<all.store.GlobalStore>()(
     devtools((...args) => ({
         ...createNavSlice(...args),
         ...createKeyboardSlice(...args),

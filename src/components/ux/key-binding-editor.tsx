@@ -25,23 +25,22 @@ import { Input } from "@components/ui/input"
 import { Button } from "@components/ui/button"
 // icons
 import { Keyboard } from "lucide-react"
-// types
-import type { storeTypes } from "@lib/types"
 // config
 import { keycodes } from '@lib/config'
 // utils
 import { toast } from "sonner"
 
-export type Fields = "keys" | "codes" | "keyCodes"
+type Fields = "keys" | "codes" | "keyCodes"
+type Store = all.store.PersistedStore
 
 const KeyBindingEditor = () => {
-    const [newBindings, setNewBindings] = useState<storeTypes.KeyBindings | {}>({})
-    const preferences = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences)
-    const keyBindings = usePersistedStore((state: storeTypes.PersistedStore) => state.preferences.keyBindings)
-    const setGameAction = usePersistedStore((state: storeTypes.PersistedStore) => state.setGameAction)
+    const [newBindings, setNewBindings] = useState<all.store.KeyBindings | {}>({})
+    const preferences = usePersistedStore((state: Store) => state.preferences)
+    const keyBindings = usePersistedStore((state: Store) => state.preferences.keyBindings)
+    const setGameAction = usePersistedStore((state: Store) => state.setGameAction)
 
     const checkIfKeyBindingExists = (keyCode: number) => {
-        const allBindings = { ...keyBindings, ...newBindings } as storeTypes.KeyBindings
+        const allBindings = { ...keyBindings, ...newBindings } as all.store.KeyBindings
         return Object.values(allBindings).some((binding) => binding.keyCodes.includes(keyCode))
     }
 
@@ -65,7 +64,7 @@ const KeyBindingEditor = () => {
     }
 
     const updateBindings = (
-        keyObj: storeTypes.KeyBindingCollectionItem,
+        keyObj: all.store.KeyBindingCollectionItem,
         keyIndex: number,
         action: string,
         field: Fields
@@ -77,8 +76,8 @@ const KeyBindingEditor = () => {
             return
         }
         const current =
-            (newBindings as storeTypes.KeyBindings)[action as storeTypes.GameKeyboardActionType]?.[field] ||
-            keyBindings[action as storeTypes.GameKeyboardActionType][field]
+            (newBindings as all.store.KeyBindings)[action as all.store.GameKeyboardActionType]?.[field] ||
+            keyBindings[action as all.store.GameKeyboardActionType][field]
 
         return current.map((k: any, i: number) => {
             if (i === keyIndex) {
@@ -92,22 +91,22 @@ const KeyBindingEditor = () => {
         })
     }
 
-    const removeAction = (action: storeTypes.GameKeyboardActionType) => {
-        const { [action]: removed, ...rest } = newBindings as storeTypes.KeyBindings
+    const removeAction = (action: all.store.GameKeyboardActionType) => {
+        const { [action]: removed, ...rest } = newBindings as all.store.KeyBindings
         setNewBindings(rest)
     }
 
-    const onKeyChange = (e: React.ChangeEvent<HTMLInputElement>, action: storeTypes.GameKeyboardActionType, keyIndex: number) => {
+    const onKeyChange = (e: React.ChangeEvent<HTMLInputElement>, action: all.store.GameKeyboardActionType, keyIndex: number) => {
         if (!e.target.value.length) {
             removeAction(action)
             return
         }
-        const keyObj: storeTypes.KeyBindingCollectionItem | undefined = keycodes.find((key) => key["key"] === e.target.value)
+        const keyObj: all.store.KeyBindingCollectionItem | undefined = keycodes.find((key) => key["key"] === e.target.value)
         if (!keyObj) return
         setNewBindings({
             ...newBindings,
             [action]: {
-                ...keyBindings[action as storeTypes.GameKeyboardActionType],
+                ...keyBindings[action as all.store.GameKeyboardActionType],
                 keys: updateBindings(keyObj, keyIndex, action, "keys"),
                 codes: updateBindings(keyObj, keyIndex, action, "codes"),
                 keyCodes: updateBindings(keyObj, keyIndex, action, "keyCodes"),
@@ -117,7 +116,7 @@ const KeyBindingEditor = () => {
 
     const generateTable = () => {
         const rows = Object.keys(keyBindings).map((action: string) => {
-            const binding = keyBindings[action as storeTypes.GameKeyboardActionType]
+            const binding = keyBindings[action as all.store.GameKeyboardActionType]
 
             return (
                 <TableRow key={binding.keys[0]}>
@@ -137,9 +136,9 @@ const KeyBindingEditor = () => {
                                 placeholder={binding.keys[0] === " " ? "Space" : binding.keys[0]}
                                 value={
                                     newBindings &&
-                                    ((newBindings as storeTypes.KeyBindings)[action as storeTypes.GameKeyboardActionType]?.keys[0] ?? "")
+                                    ((newBindings as all.store.KeyBindings)[action as all.store.GameKeyboardActionType]?.keys[0] ?? "")
                                 }
-                                onChange={(e) => onKeyChange(e, action as storeTypes.GameKeyboardActionType, 0)}
+                                onChange={(e) => onKeyChange(e, action as all.store.GameKeyboardActionType, 0)}
                             />
                         </div>
                     </TableCell>
@@ -152,11 +151,11 @@ const KeyBindingEditor = () => {
                                 placeholder={binding.keys[1] === " " ? "Space" : binding.keys[1]}
                                 value={
                                     newBindings &&
-                                        (newBindings as storeTypes.KeyBindings)[action as storeTypes.GameKeyboardActionType]
-                                        ? (newBindings as storeTypes.KeyBindings)[action as storeTypes.GameKeyboardActionType].keys[1]
+                                        (newBindings as all.store.KeyBindings)[action as all.store.GameKeyboardActionType]
+                                        ? (newBindings as all.store.KeyBindings)[action as all.store.GameKeyboardActionType].keys[1]
                                         : ""
                                 }
-                                onChange={(e) => onKeyChange(e, action as storeTypes.GameKeyboardActionType, 1)}
+                                onChange={(e) => onKeyChange(e, action as all.store.GameKeyboardActionType, 1)}
                             />
                         </div>
                     </TableCell>

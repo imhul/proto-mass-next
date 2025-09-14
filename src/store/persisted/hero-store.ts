@@ -1,7 +1,4 @@
-// types
-import type { gameTypes, storeTypes } from "@lib/types"
-
-const initHeroState: gameTypes.HeroEntity = {
+const initHeroState: all.game.HeroEntity = {
     abilities: [],
     achievements: [],
     age: 0,
@@ -43,12 +40,12 @@ const initHeroState: gameTypes.HeroEntity = {
     zIndex: 1,
 }
 
-export const createHeroSlice: storeTypes.CreateHeroSliceType = (set) => ({
+export const createHeroSlice: all.store.CreateHeroSliceType = (set) => ({
     hero: initHeroState,
-    setHeroAction: (state: gameTypes.HeroState) =>
+    setHeroAction: (state: all.game.HeroState) =>
         set((s) => ({ hero: { ...s.hero, state } })),
     setHeroName: (name: string) =>
         set((s) => ({ hero: { ...s.hero, name } })),
-    setHeroPosition: (position: gameTypes.Position) =>
+    setHeroPosition: (position: all.game.Position) =>
         set((s) => ({ hero: { ...s.hero, position } })),
 })

@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react"
 import { Assets } from "pixi.js"
-// types
-import type { gameTypes, storeTypes, Texture } from "@lib/types"
 // store
 import { usePersistedStore } from "@/store"
 // components
@@ -9,15 +7,17 @@ import Bullet from "@components/game/bullet"
 // utils
 import { getTextures } from "@lib/utils"
 
-const Bullets = ({ ref }: gameTypes.BulletsProps) => {
-    const [textures, setTextures] = useState<Texture[]>([])
-    const bullets = usePersistedStore((state: storeTypes.PersistedStore) => state.bullets)
-    const setGameAction = usePersistedStore((state: storeTypes.PersistedStore) => state.setGameAction)
+type Store = all.store.PersistedStore
+
+const Bullets = ({ ref }: all.game.BulletsProps) => {
+    const [textures, setTextures] = useState<all.pixi.Texture[]>([])
+    const bullets = usePersistedStore((state: Store) => state.bullets)
+    const setGameAction = usePersistedStore((state: Store) => state.setGameAction)
 
     useEffect(() => {
         if (!textures.length) {
             Assets.load("/assets/hero/atlas.json").then(
-                (result: gameTypes.AtlasJSON) => {
+                (result: all.game.AtlasJSON) => {
                     const tex = getTextures(result, "hero")
                     setTextures(tex!["shot"])
                 },
@@ -27,7 +27,7 @@ const Bullets = ({ ref }: gameTypes.BulletsProps) => {
 
     return (
         <>
-            {textures && bullets.length > 0 && bullets.map((bullet: gameTypes.BulletEntity) => (
+            {textures && bullets.length > 0 && bullets.map((bullet: all.game.BulletEntity) => (
                 <Bullet
                     ref={ref}
                     key={bullet.id}

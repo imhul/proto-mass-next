@@ -6,12 +6,10 @@ import DevHeroActions from "@components/ux/dev-hero-actions"
 import DevMenu from "@/components/ux/dev-menu"
 // store
 import { useStore, usePersistedStore } from "@/store"
-// types
-import type { storeTypes } from "@lib/types"
 
 const Header = () => {
-    const route = useStore((state: storeTypes.GlobalStore) => state.route)
-    const showHeroActionMenu = usePersistedStore((state: storeTypes.PersistedStore) => state.showHeroActionMenu)
+    const route = useStore((state: all.store.GlobalStore) => state.route)
+    const showHeroActionMenu = usePersistedStore((state: all.store.PersistedStore) => state.showHeroActionMenu)
 
     return (
         <header className="flex items-center justify-between p-4 bg-gray-100 dark:bg-gray-800">

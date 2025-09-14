@@ -6,8 +6,6 @@ import { usePersistedStore } from "@/store"
 import { CompositeTilemap } from '@pixi/tilemap'
 import { generateMap } from "@lib/utils"
 import { toast } from "sonner"
-// types
-import type { gameTypes, storeTypes } from "@lib/types"
 // config
 import {
     zindex,
@@ -17,12 +15,14 @@ import {
     smallClusterPercent,
 } from "@lib/config"
 
+type Store = all.store.PersistedStore
+
 import CustomTilingSprite from "@components/pixi/custom-tiling-sprite"
 
-const Ground = ({ size }: { size: gameTypes.BaseSize }) => {
-    const isDev = usePersistedStore((state: storeTypes.PersistedStore) => state.isDev)
-    const seed = usePersistedStore((state: storeTypes.PersistedStore) => state.seed)
-    const setGameAction = usePersistedStore((state: storeTypes.PersistedStore) => state.setGameAction)
+const Ground = ({ size }: { size: all.game.BaseSize }) => {
+    const isDev = usePersistedStore((state: Store) => state.isDev)
+    const seed = usePersistedStore((state: Store) => state.seed)
+    const setGameAction = usePersistedStore((state: Store) => state.setGameAction)
     // state
     const [tilemap, setTilemap] = useState<CompositeTilemap | null>(null)
     const width = Math.floor(size.width / tileSize)
@@ -42,7 +42,7 @@ const Ground = ({ size }: { size: gameTypes.BaseSize }) => {
             tiledmap.interactive = true
             tiledmap.zIndex = zindex.ground
             tiledmap.label = "ground"
-            const water: gameTypes.Position[] = []
+            const water: all.game.Position[] = []
 
             gmap.forEach((firstLevel, x) => {
                 firstLevel.forEach((tile, y) => {
