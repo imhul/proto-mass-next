@@ -34,6 +34,7 @@ const Bullet = ({
     const enemiesRef = useRef<all.game.PixiElementInstance[]>([])
     // store
     const hero = usePersistedStore((state: Store) => state.hero)
+    const godMode = usePersistedStore((state: Store) => state.isGodMode)
     const paused = usePersistedStore((state: Store) => state.paused)
     const colonies = usePersistedStore((state: Store) => state.enemies)
     const setGameAction = usePersistedStore((state: Store) => state.setGameAction)
@@ -51,7 +52,11 @@ const Bullet = ({
                     ...enemy,
                     state: "angry",
                     damage: totalDamage,
-                    hp: enemy.totalHp - totalDamage,
+                    hp: enemy.hp - damage,
+                }
+                if (godMode) {
+                    setGameAction("removeEnemy", damaged)
+                    return
                 }
                 if (damaged.hp > 0) {
                     setGameAction("updateEnemy", damaged)

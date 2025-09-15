@@ -19,12 +19,9 @@ type Store = all.store.PersistedStore
 
 const EnemiesColony = ({ ref, colony }: all.game.ColonyProps) => {
     // store
-    const paused = usePersistedStore(
-        (state: Store) => state.paused
-    )
-    const enemiesList = usePersistedStore(
-        (state: Store) => state.enemies
-    )
+    const isDev = usePersistedStore((state: Store) => state.isDev)
+    const paused = usePersistedStore((state: Store) => state.paused)
+    const enemiesList = usePersistedStore((state: Store) => state.enemies)
     const setGameAction = usePersistedStore(
         (state: Store) => state.setGameAction
     )
@@ -49,34 +46,31 @@ const EnemiesColony = ({ ref, colony }: all.game.ColonyProps) => {
     useEffect(() => {
         if (paused) return
         if (enemies.length < maxEnemiesPerColony) {
+            const dev = isDev()
             const enemySpawnMatrix: Record<number, number> = {
-                1: getRandomInt(minute / 2, minute, null, false),
-                2: getRandomInt(minute / 2, minute * 1.5, null, false),
-                3: getRandomInt(minute, minute * 2, null, false),
-                4: getRandomInt(minute * 2.5, minute * 3, null, false),
-                5: getRandomInt(minute * 4, minute * 5, null, false),
-                6: getRandomInt(minute * 6, minute * 8, null, false),
-                7: getRandomInt(minute * 9, minute * 12, null, false),
-                8: getRandomInt(minute * 13, minute * 15, null, false),
-                9: getRandomInt(minute * 16, minute * 19, null, false),
-                10: getRandomInt(minute * 20, minute * 25, null, false),
+                1: dev ? minute / 4 : getRandomInt(minute / 2, minute, null, false),
+                2: dev ? minute / 4 : getRandomInt(minute / 2, minute * 1.5, null, false),
+                3: dev ? minute / 4 : getRandomInt(minute, minute * 2, null, false),
+                4: dev ? minute / 4 : getRandomInt(minute * 2.5, minute * 3, null, false),
+                5: dev ? minute / 4 : getRandomInt(minute * 4, minute * 5, null, false),
+                6: dev ? minute / 4 : getRandomInt(minute * 6, minute * 8, null, false),
+                7: dev ? minute / 4 : getRandomInt(minute * 9, minute * 12, null, false),
+                8: dev ? minute / 4 : getRandomInt(minute * 13, minute * 15, null, false),
+                9: dev ? minute / 4 : getRandomInt(minute * 16, minute * 19, null, false),
+                10: dev ? minute / 4 : getRandomInt(minute * 20, minute * 25, null, false),
             }
             const nextCount = enemies.length + 1
             const pauseToNextBirth = enemySpawnMatrix[nextCount]
 
             if (pauseToNextBirth) {
+                const currentColony = enemiesList[colony.uid]
+                const dirty = currentColony ? currentColony.dirty : false
                 const timer = setTimeout(() => {
-                    if (enemies.length === 0) {
-                        const base = {
-                            x:
-                                basePos.x !== 0
-                                    ? basePos.x
-                                    : getRandomInt(1, defaultChunkSize * 2),
-                            y:
-                                basePos.y !== 0
-                                    ? basePos.y
-                                    : getRandomInt(1, defaultChunkSize * 2),
-                        }
+                    const base = {
+                        x: getRandomInt(1, defaultChunkSize * 2),
+                        y: getRandomInt(1, defaultChunkSize * 2),
+                    }
+                    if (enemies.length === 0 && dirty) {
                         const newEnemy: all.game.EnemyEntity = {
                             ...initialEnemyModel,
                             id: `${colony.id}-1`,
@@ -89,8 +83,7 @@ const EnemiesColony = ({ ref, colony }: all.game.ColonyProps) => {
                         setGameAction("setEnemies", { colonyUid: colony.uid, newEnemy })
                         return
                     }
-                    const enemyBase =
-                        basePos.x !== 0 && basePos.y !== 0 ? basePos : enemies[0].base
+                    const enemyBase = dirty ? (enemies[0]?.base ?? base) : base
                     const newEnemy: all.game.EnemyEntity = {
                         ...initialEnemyModel,
                         id: `${colony.id}-${enemies.length + 1}`,
@@ -106,10 +99,18 @@ const EnemiesColony = ({ ref, colony }: all.game.ColonyProps) => {
                 return () => clearTimeout(timer)
             }
         }
-    }, [paused, enemies, colony, setGameAction])
+    }, [paused, enemies, colony, setGameAction, enemiesList])
 
     useEffect(() => {
-        const list = enemiesList[colony.uid]?.list || []
+        const colonyData = enemiesList[colony.uid]
+
+        if (!colonyData) {
+            setEnemies([])
+            setBasePos({ x: 0, y: 0 })
+            return
+        }
+
+        const list = colonyData.list || []
         setEnemies(list)
 
         if (list.length > 0) {
@@ -117,14 +118,19 @@ const EnemiesColony = ({ ref, colony }: all.game.ColonyProps) => {
         }
     }, [enemiesList, colony])
 
+    const colonyData = enemiesList[colony.uid]
+
+    if (!colonyData) {
+        return null
+    }
+
     return (
         <pixiContainer sortableChildren={true} label="enemy-colony">
-            {(ref.current && (basePos.x !== 0 || basePos.y !== 0)
-                && Object.keys(enemiesList).length > 0) ? (
+            {(ref.current && (basePos.x !== 0 || basePos.y !== 0)) ? (
                 <>
                     <EnemyBase
-                        isDeath={!enemies.length && enemiesList[colony.uid]?.dirty}
-                        isBirth={!enemies.length && !enemiesList[colony.uid]?.dirty}
+                        isDeath={!enemies.length && colonyData.dirty}
+                        isBirth={!enemies.length && !colonyData.dirty}
                         pos={basePos}
                         uid={colony.uid}
                     />

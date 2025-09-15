@@ -8,14 +8,19 @@ import { getRandomInt } from "@lib/utils"
 // config
 import { minute, initialColonyModel, maxColoniesPerChunk } from "@lib/config"
 
+type Store = all.store.PersistedStore
+
 const Enemies = ({ ref }: all.game.EnemiesProps) => {
     const [colonies, setColonies] = useState<all.game.ColonyEntity[]>([])
     // store
+    const isDev = usePersistedStore(
+        (state: Store) => state.isDev
+    )
     const paused = usePersistedStore(
-        (state: all.store.PersistedStore) => state.paused
+        (state: Store) => state.paused
     )
     const enemiesList = usePersistedStore(
-        (state: all.store.PersistedStore) => state.enemies
+        (state: Store) => state.enemies
     )
 
     useEffect(() => {
@@ -34,11 +39,12 @@ const Enemies = ({ ref }: all.game.EnemiesProps) => {
                 setColonies([initialColonyModel])
             }
         } else if (colonies.length !== 0 && colonies.length < maxColoniesPerChunk) {
+            const dev = isDev()
             const enemiesColoniesSpawnMatrix: Record<number, number> = {
-                2: getRandomInt(minute, minute * 2, null, false),
-                3: getRandomInt(minute * 3, minute * 5, null, false),
-                4: getRandomInt(minute * 7, minute * 10, null, false),
-                5: getRandomInt(minute * 13, minute * 17, null, false),
+                2: dev ? (minute / 4) : getRandomInt(minute, minute * 2, null, false),
+                3: dev ? (minute / 4) : getRandomInt(minute * 3, minute * 5, null, false),
+                4: dev ? (minute / 4) : getRandomInt(minute * 7, minute * 10, null, false),
+                5: dev ? (minute / 4) : getRandomInt(minute * 13, minute * 17, null, false),
             }
             const nextCount = colonies.length + 1
             const pauseToNextBirth = enemiesColoniesSpawnMatrix[nextCount]

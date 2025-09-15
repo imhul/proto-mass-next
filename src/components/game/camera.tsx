@@ -7,7 +7,7 @@ const Camera = forwardRef<Viewport | null, all.game.CameraProps>(
         useExtend({ Viewport })
         const camRef = useRef<Viewport | null>(null)
 
-        // проброс ref у Game
+        // throw ref in Game
         useImperativeHandle(ref, () => camRef.current as Viewport, [])
 
         const cameraOptions = {
