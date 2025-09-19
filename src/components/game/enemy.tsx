@@ -11,6 +11,7 @@ import CustomProgressBar from "@components/pixi/custom-progress-bar"
 import { getTextures, getRandomInt } from "@lib/utils"
 // config
 import {
+    runState,
     heroSize,
     idleState,
     angryState,
@@ -78,6 +79,7 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
             if (distanceToHero < 1000) {
                 const speed = initialEnemyModel.speed * 1.5
                 const angle = Math.atan2(heroPos.y - sprite.y, heroPos.x - sprite.x)
+                if (!sprite || !sprite.x || !sprite.y) return
                 sprite.x += Math.cos(angle) * (speed * 0.1)
                 sprite.y += Math.sin(angle) * (speed * 0.1)
 
@@ -98,7 +100,9 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
         const walkingPhase = getRandomInt(3000, 9000)
 
         idleTimeoutRef.current = window.setTimeout(() => {
-            if (paused || state !== idleState) return
+            if (paused) return
+            setState(runState)
+
             let angle = getRandomInt(0, 360) * (Math.PI / 180)
             const turnsCount = getRandomInt(0, 4)
             const turnSchedule = Array.from({ length: turnsCount }, () =>
@@ -109,7 +113,7 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
             const start = performance.now()
 
             const step = (t: number) => {
-                if (paused || state !== idleState) return
+                if (paused || state !== runState) return
                 const elapsed = t - start
 
                 if (elapsed < walkingPhase) {
@@ -132,6 +136,7 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
 
                     animationFrameRef.current = requestAnimationFrame(step)
                 } else {
+                    if (state === runState) setState(idleState)
                     idleAlgorithm()
                 }
             }
@@ -155,10 +160,10 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
                 spriteRef.current.stop()
             } else {
                 spriteRef.current.play()
-                if (state === idleState) {
-                    idleAlgorithm()
-                } else if (state === angryState) {
+                if (state === angryState) {
                     attackAlgorithm()
+                } else {
+                    idleAlgorithm()
                 }
             }
         }

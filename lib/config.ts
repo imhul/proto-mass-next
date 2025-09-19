@@ -20,6 +20,7 @@ export const maxEnemiesPerColony = 10
 export const maxEnemyProgress = maxEnemiesPerColony * maxColoniesPerChunk
 export const minute: number = 60 * 1000
 export const objectsPerChunk = { min: 150, max: 220 }
+export const runState = "run" as all.game.EnemyState
 export const seedLength = 16
 export const smallClusterPercent = 10
 export const smallClusterSize = { min: 1, max: 6 }
