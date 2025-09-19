@@ -20,8 +20,8 @@ type Store = all.store.PersistedStore
 
 const DevMenu = () => {
     // store
-    const setDev = usePersistedStore((state: Store) => state.setDev)
-    const isDev = usePersistedStore((state: Store) => state.isDev)
+    const setDev = usePersistedStore((s: Store) => s.setDev)
+    const isDev = usePersistedStore((s: Store) => s.isDev)
     const showObjectHitboxes = usePersistedStore(
         (state: Store) => state.showObjectHitboxes
     )
@@ -31,10 +31,10 @@ const DevMenu = () => {
     const showHeroHitbox = usePersistedStore(
         (state: Store) => state.showHeroHitbox
     )
-    const showDots = usePersistedStore((state: Store) => state.showDots)
-    const showFPS = usePersistedStore((state: Store) => state.showFPS)
-    const isGodMode = usePersistedStore((state: Store) => state.isGodMode)
-    const showCharts = usePersistedStore((state: Store) => state.showCharts)
+    const showDots = usePersistedStore((s: Store) => s.showDots)
+    const showFPS = usePersistedStore((s: Store) => s.showFPS)
+    const isGodMode = usePersistedStore((s: Store) => s.isGodMode)
+    const showCharts = usePersistedStore((s: Store) => s.showCharts)
     const showHeroActionMenu = usePersistedStore(
         (state: Store) => state.showHeroActionMenu
     )

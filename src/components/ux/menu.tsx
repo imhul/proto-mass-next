@@ -18,9 +18,9 @@ type Store = all.store.PersistedStore
 
 const Menu = () => {
     const route = useStore((state: all.store.GlobalStore) => state.route)
-    const paused = usePersistedStore((state: Store) => state.paused)
-    const isGameInit = usePersistedStore((state: Store) => state.init)
-    const setGameAction = usePersistedStore((state: Store) => state.setGameAction)
+    const paused = usePersistedStore((s: Store) => s.paused)
+    const isGameInit = usePersistedStore((s: Store) => s.init)
+    const setGameAction = usePersistedStore((s: Store) => s.setGameAction)
 
     useEffect(() => {
         if (route !== "game" && isGameInit && !paused) setGameAction("pause")

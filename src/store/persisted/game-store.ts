@@ -112,6 +112,23 @@ export const createGameSlice: all.store.CreateGameSliceType = (set) => ({
                     bullets: s.bullets.filter(bullet => bullet.id !== payload)
                 }))
                 break
+            case "setColonyState":
+                const { uid, angry } = payload
+                set((s) => ({
+                    enemies: {
+                        ...s.enemies,
+                        [uid]: {
+                            ...s.enemies[uid],
+                            angry,
+                            lastAttackTimestamp: performance.now(),
+                            list: s.enemies[uid]?.list.map((enemy) => ({
+                                ...enemy,
+                                state: angry ? "angry" : enemy.state,
+                            })) || [],
+                        },
+                    },
+                }))
+                break
             case "setEnemies":
                 set((s) => ({
                     enemies: {
@@ -123,6 +140,8 @@ export const createGameSlice: all.store.CreateGameSliceType = (set) => ({
                                 payload.newEnemy,
                             ],
                             dirty: true,
+                            angry: false,
+                            lastAttackTimestamp: 0,
                         },
                     },
                 }))

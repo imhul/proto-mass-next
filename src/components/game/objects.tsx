@@ -22,10 +22,10 @@ const Objects = ({ size }: all.game.ObjectsProps) => {
     useExtend({ Sprite, Graphics })
     const [textures, setTextures] = useState<all.pixi.Texture[] | null>(null)
     const [objectsMap, setObjectsMap] = useState<all.game.GameObjectEntity[]>([])
-    const seed = usePersistedStore((state: Store) => state.seed)
+    const seed = usePersistedStore((s: Store) => s.seed)
     const rand = new Rand(seed)
-    const water: all.game.Position[] = usePersistedStore((state: Store) => state.water)
-    const showObjectHitboxes = usePersistedStore((state: Store) => state.showObjectHitboxes)
+    const water: all.game.Position[] = usePersistedStore((s: Store) => s.water)
+    const showObjectHitboxes = usePersistedStore((s: Store) => s.showObjectHitboxes)
 
     const generateObjects = () => {
         if (!textures?.length) return

@@ -20,9 +20,9 @@ type Store = all.store.PersistedStore
 import CustomTilingSprite from "@components/pixi/custom-tiling-sprite"
 
 const Ground = ({ size }: { size: all.game.BaseSize }) => {
-    const isDev = usePersistedStore((state: Store) => state.isDev)
-    const seed = usePersistedStore((state: Store) => state.seed)
-    const setGameAction = usePersistedStore((state: Store) => state.setGameAction)
+    const isDev = usePersistedStore((s: Store) => s.isDev)
+    const seed = usePersistedStore((s: Store) => s.seed)
+    const setGameAction = usePersistedStore((s: Store) => s.setGameAction)
     // state
     const [tilemap, setTilemap] = useState<CompositeTilemap | null>(null)
     const width = Math.floor(size.width / tileSize)

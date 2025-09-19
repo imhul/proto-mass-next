@@ -41,13 +41,13 @@ type Store = all.store.PersistedStore
 const Settings = () => {
     const [copied, setCopied] = useState(false)
     // store
-    const seed = usePersistedStore((state: Store) => state.seed)
-    const worldName = usePersistedStore((state: Store) => state.worldName)
-    const heroName = usePersistedStore((state: Store) => state.heroName)
-    const paused = usePersistedStore((state: Store) => state.paused)
-    const isGameInit = usePersistedStore((state: Store) => state.init)
-    const preferences = usePersistedStore((state: Store) => state.preferences)
-    const setGameAction = usePersistedStore((state: Store) => state.setGameAction)
+    const seed = usePersistedStore((s: Store) => s.seed)
+    const worldName = usePersistedStore((s: Store) => s.worldName)
+    const heroName = usePersistedStore((s: Store) => s.heroName)
+    const paused = usePersistedStore((s: Store) => s.paused)
+    const isGameInit = usePersistedStore((s: Store) => s.init)
+    const preferences = usePersistedStore((s: Store) => s.preferences)
+    const setGameAction = usePersistedStore((s: Store) => s.setGameAction)
 
     const onSeedChange = (e: all.react.ChangeEvent<HTMLInputElement>) => { setGameAction("setSeed", String(e.target.value)) }
 

@@ -6,38 +6,66 @@ import { usePersistedStore } from "@/store"
 // hooks
 import { useBirthAnimation } from "@hooks/useBirth"
 
+type Store = all.store.PersistedStore
+
 const EnemyBase = ({ isBirth, isDeath, uid, pos }: all.game.EnemyBaseProps) => {
-    const baseRef = useRef<all.pixi.Sprite | null>(null)
-    const [texture, setTexture] = useState<all.pixi.Texture | null>(null)
-    const setGameAction = usePersistedStore(
-        (state: all.store.PersistedStore) => state.setGameAction
-    )
+    const baseRef = useRef<all.pixi.AnimatedSprite | null>(null)
+    const [angry, setAngry] = useState<boolean>(false)
+    const [size, setSize] = useState<all.game.BaseSize>({ width: 0, height: 0 })
+    const [textures, setTextures] = useState<all.pixi.AnimatedSpriteFrames | null>(null)
+    // store
+    const paused = usePersistedStore((s: Store) => s.paused)
+    const enemiesList = usePersistedStore((s: Store) => s.enemies)
+    const setGameAction = usePersistedStore((s: Store) => s.setGameAction)
 
     useBirthAnimation(
         baseRef as React.RefObject<all.pixi.Sprite>,
-        isBirth && !!texture,
+        isBirth && !!textures,
         "base"
     )
 
     useEffect(() => {
-        if (!texture) Assets.load("/assets/ships/ship-1.png")
+        if (!textures) Assets.load("/assets/enemy/enemy-base.json")
             .then((tex) => {
-                setTexture(tex as all.pixi.Texture)
+                const values = Object.values(tex.textures) as all.pixi.Texture[]
+                setSize({ width: values[0]?.width || 100, height: values[0]?.height || 100 })
+                const animation = Object.values(tex.textures).map((texture) => texture)
+                setTextures(animation as all.pixi.AnimatedSpriteFrames)
             })
-    }, [])
+    }, [textures, uid])
 
-    return texture ? (<>
-        <pixiSprite
+    useEffect(() => {
+        if (baseRef.current && textures) {
+            if (paused) {
+                baseRef.current.stop()
+            } else {
+                baseRef.current.play()
+            }
+        }
+    }, [textures, paused, uid])
+
+    useEffect(() => {
+        const colony = enemiesList[uid]
+        if (!colony) return
+        const angry = colony.angry
+        setAngry(angry)
+    }, [uid, enemiesList])
+
+    return textures ? (<>
+        <pixiAnimatedSprite
             ref={baseRef}
-            texture={texture}
+            textures={textures}
             anchor={0.5}
             interactive={true}
-            width={texture.width}
-            height={texture.height}
+            width={size.width}
+            height={size.height}
+            animationSpeed={angry ? 0.2 : 0.1}
             scale={0.75}
-            x={pos.x + (texture.width / 2 * 0.75)}
-            y={pos.y + texture.height}
+            x={pos.x + ((size.width / 2) * 0.75)}
+            y={pos.y + size.height}
             label="enemy-base"
+            autoPlay
+            loop
         />
         {isDeath ? (<Explosion
             position={pos}

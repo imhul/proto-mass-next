@@ -3,13 +3,15 @@ import { useEffect, useRef, useState } from "react"
 import { usePersistedStore } from "@/store"
 // hooks
 import { useBirthAnimation } from "@hooks/useBirth"
-// components
+// pixi
 import { ColorMatrixFilter, Assets, AnimatedSprite, Rectangle } from "pixi.js"
+// components
 import CustomProgressBar from "@components/pixi/custom-progress-bar"
 // utils
 import { getTextures, getRandomInt } from "@lib/utils"
 // config
 import {
+    heroSize,
     idleState,
     angryState,
     defaultChunkSize,
@@ -18,34 +20,23 @@ import {
 } from "@lib/config"
 import { ProgressBar } from "@pixi/ui"
 
-export type InitProps = {
-    initialized: boolean
-    currentState: all.game.EnemyState
-}
+type Store = all.store.PersistedStore
 
-const Enemy = ({
-    ref,
-    base,
-    item,
-    enemyColonyState,
-    setEnemyColonyState,
-}: all.game.EnemyProps) => {
+const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
     // refs
     const progressBarRef = useRef<ProgressBar | null>(null)
     const spriteRef = useRef<AnimatedSprite | null>(null)
     const animationFrameRef = useRef<number | null>(null)
+    const idleTimeoutRef = useRef<number | null>(null)
     // state
-    const [atlasJson, setAtlasJson] = useState<all.game.AtlasJSON | null>(null)
-    const [isHovered, setIsHover] = useState(false)
     const [textures, setTextures] = useState<all.game.TexturesCollection>(null)
-    const [state, setState] = useState<all.game.EnemyState>(
-        enemyColonyState || idleState
-    )
-    const [init, setInit] = useState(false)
+    const [state, setState] = useState<all.game.EnemyState>(idleState)
+    const [isHovered, setIsHover] = useState(false)
     // store
-    const paused = usePersistedStore(
-        (state: all.store.PersistedStore) => state.paused
-    )
+    const paused = usePersistedStore((s: Store) => s.paused)
+    const setGameAction = usePersistedStore((s: Store) => s.setGameAction)
+    const enemiesList = usePersistedStore((s: Store) => s.enemies)
+    const hero = usePersistedStore((s: Store) => s.hero)
 
     useBirthAnimation(
         spriteRef as React.RefObject<AnimatedSprite>,
@@ -53,24 +44,22 @@ const Enemy = ({
         "enemy"
     )
 
-    const initialization = ({ initialized, currentState }: InitProps) => {
-        if (!initialized) {
-            if (currentState === idleState) {
-                idleAlgorithm()
-            } else if (currentState === angryState) {
-                attackAlgorithm()
-            }
+    const stopLoop = () => {
+        if (animationFrameRef.current) {
+            cancelAnimationFrame(animationFrameRef.current)
+            animationFrameRef.current = null
+        }
+        if (idleTimeoutRef.current) {
+            clearTimeout(idleTimeoutRef.current)
+            idleTimeoutRef.current = null
         }
     }
 
-    const checkContainerCollision = (position: all.game.Position) => {
-        const sprite = spriteRef.current!
-        if (
-            position.x < 10 ||
-            position.y < 10 ||
-            position.x > defaultChunkSize * 2 - 10 ||
-            position.y > defaultChunkSize * 2 - 10
-        ) {
+    const checkContainerCollision = (pos: all.game.Position, sprite: AnimatedSprite) => {
+        if (!sprite) return
+        if (pos.x < 10 || pos.y < 10 ||
+            pos.x > (defaultChunkSize * 2 - 10) ||
+            pos.y > (defaultChunkSize * 2 - 10)) {
             sprite.alpha = 0
         } else {
             sprite.alpha = 1
@@ -78,31 +67,39 @@ const Enemy = ({
     }
 
     const attackAlgorithm = () => {
-        if (paused) return
-        setInit(true)
-        if (!spriteRef.current || !textures) {
-            setState(idleState)
-            return
+        const sprite = spriteRef.current
+        if (!sprite || !textures) return
+
+        const step = () => {
+            if (paused || state !== angryState) return
+            const heroPos = { x: hero.position.x, y: hero.position.y + heroSize / 2 }
+            const distanceToHero = Math.hypot(heroPos.x - sprite.x, heroPos.y - sprite.y)
+
+            if (distanceToHero < 1000) {
+                const speed = initialEnemyModel.speed * 1.5
+                const angle = Math.atan2(heroPos.y - sprite.y, heroPos.x - sprite.x)
+                sprite.x += Math.cos(angle) * (speed * 0.1)
+                sprite.y += Math.sin(angle) * (speed * 0.1)
+
+                animationFrameRef.current = requestAnimationFrame(step)
+            } else {
+                setState(idleState)
+            }
         }
-        setEnemyColonyState("angry")
-        // TODO: find hero position and move towards him
+
+        animationFrameRef.current = requestAnimationFrame(step)
     }
 
     const idleAlgorithm = () => {
-        if (paused) return
-        setInit(true)
-        if (!spriteRef.current || !textures) {
-            setState(idleState)
-            return
-        }
-        let angle = 0
+        if (paused || !spriteRef.current || !textures) return
+        const sprite = spriteRef.current
         const speed = initialEnemyModel.speed
         const pausePhase = getRandomInt(1000, 4000)
         const walkingPhase = getRandomInt(3000, 9000)
 
-        if (state !== idleState) setState(idleState)
-        setTimeout(() => {
-            angle = getRandomInt(0, 360) * (Math.PI / 180)
+        idleTimeoutRef.current = window.setTimeout(() => {
+            if (paused || state !== idleState) return
+            let angle = getRandomInt(0, 360) * (Math.PI / 180)
             const turnsCount = getRandomInt(0, 4)
             const turnSchedule = Array.from({ length: turnsCount }, () =>
                 getRandomInt(0, walkingPhase)
@@ -112,42 +109,29 @@ const Enemy = ({
             const start = performance.now()
 
             const step = (t: number) => {
+                if (paused || state !== idleState) return
                 const elapsed = t - start
 
                 if (elapsed < walkingPhase) {
-                    const sprite = spriteRef.current!
-                    if (!sprite) return
                     const dx = Math.cos(angle) * (speed * 0.1)
                     const dy = Math.sin(angle) * (speed * 0.1)
-
                     sprite.x += dx
                     sprite.y += dy
 
-                    checkContainerCollision({
-                        x: sprite.x,
-                        y: sprite.y,
-                    })
+                    checkContainerCollision({ x: sprite.x, y: sprite.y }, sprite)
 
                     const distFromBase = Math.hypot(sprite.x - base.x, sprite.y - base.y)
                     if (distFromBase > maxDistanceFromEnemyBase) {
                         angle = Math.atan2(base.y - sprite.y, base.x - sprite.x)
                     }
 
-                    if (
-                        nextTurnIndex < turnSchedule.length &&
-                        elapsed >= turnSchedule[nextTurnIndex]
-                    ) {
+                    if (nextTurnIndex < turnSchedule.length && elapsed >= turnSchedule[nextTurnIndex]) {
                         angle = getRandomInt(0, 360) * (Math.PI / 180)
                         nextTurnIndex++
                     }
 
-                    if (paused) return
-                    if (state !== "run") setState("run")
-
                     animationFrameRef.current = requestAnimationFrame(step)
                 } else {
-                    if (paused) return
-                    setState(idleState)
                     idleAlgorithm()
                 }
             }
@@ -156,91 +140,91 @@ const Enemy = ({
     }
 
     useEffect(() => {
-        if (!atlasJson || !textures)
-            Assets.load("/assets/enemy/bot.json").then(
-                (result: all.game.AtlasJSON) => {
-                    setAtlasJson(result)
-                    setTextures(getTextures(result, "enemy"))
-                }
-            )
-    }, [atlasJson, textures])
+        if (!textures) {
+            Assets.load("/assets/enemy/bot.json").then((result: all.game.AtlasJSON) => {
+                setTextures(getTextures(result, "enemy"))
+            })
+        }
+    }, [textures])
 
     useEffect(() => {
+        stopLoop()
         if (spriteRef.current && textures) {
             spriteRef.current.textures = textures[state]
             if (paused) {
                 spriteRef.current.stop()
-                setInit(false)
             } else {
                 spriteRef.current.play()
-                initialization({ initialized: init, currentState: state })
+                if (state === idleState) {
+                    idleAlgorithm()
+                } else if (state === angryState) {
+                    attackAlgorithm()
+                }
             }
         }
-    }, [state, textures, paused, spriteRef.current])
+        return stopLoop
+    }, [state, textures, paused, hero.position.x, hero.position.y])
 
     useEffect(() => {
-        if (enemyColonyState === angryState && state !== angryState) {
-            setState(angryState)
-            return
+        if (!item?.colony) return
+        const colony = enemiesList[item.colony.uid]
+        if (!colony) return
+        const currentEnemy = colony.list.find((e) => e.uid === item.uid)
+        if (!currentEnemy) return
+        const enemyState = currentEnemy.state
+
+        if (enemyState !== state) {
+            stopLoop()
+            if (enemyState === angryState) {
+                setState(angryState)
+            } else {
+                setState(idleState)
+                setGameAction("setColonyState", { uid: item.colony.uid, angry: false })
+            }
         }
-    }, [enemyColonyState])
+    }, [item, enemiesList])
 
     useEffect(() => {
-        if (state === angryState && enemyColonyState !== angryState) {
-            setEnemyColonyState("angry")
-        }
-    }, [state])
+        if (paused) stopLoop()
+    }, [paused])
 
-    useEffect(() => {
-        if (paused) {
-            animationFrameRef.current &&
-                cancelAnimationFrame(animationFrameRef.current)
-        }
-    }, [paused, animationFrameRef.current])
-
-    return (atlasJson && textures && item && ref.current) ? (
-        <>
-            <pixiAnimatedSprite
-                textures={textures[idleState]}
-                ref={spriteRef}
-                anchor={0.5}
-                eventMode={"static"}
-                onPointerOver={() => setIsHover(true)}
-                onPointerOut={() => setIsHover(false)}
-                scale={2.5}
-                animationSpeed={0.14}
-                x={item.position.x}
-                y={item.position.y}
-                interactive={true}
-                hitArea={
-                    new Rectangle(
-                        0,
-                        0,
-                        textures[idleState][0].width,
-                        textures[idleState][0].height
-                    )
-                }
-                label={`enemy-${item.uid}`}
-                zIndex={Math.floor(item.position.y + textures[idleState][0].height / 2)}
-                autoPlay
-                loop
-                filters={
-                    isHovered
-                        ? [new ColorMatrixFilter({ resolution: 2, blendMode: "multiply" })]
-                        : []
-                }
-            >
-                {(spriteRef.current && item.hp < item.totalHp) ? (
-                    <CustomProgressBar
-                        ref={progressBarRef}
-                        position={{ x: -spriteRef.current?.width / 3, y: -15 }}
-                        min={0}
-                        max={item.totalHp}
-                        current={item.hp}
-                    />
-                ) : null}
-            </pixiAnimatedSprite>
-        </>
+    return (textures && item && ref.current) ? (
+        <pixiAnimatedSprite
+            textures={textures[idleState]}
+            ref={spriteRef}
+            anchor={0.5}
+            eventMode={"static"}
+            onPointerOver={() => setIsHover(true)}
+            onPointerOut={() => setIsHover(false)}
+            scale={2.5}
+            animationSpeed={0.14}
+            x={item.position.x}
+            y={item.position.y}
+            interactive={true}
+            hitArea={
+                new Rectangle(
+                    0,
+                    0,
+                    textures[idleState][0].width,
+                    textures[idleState][0].height
+                )
+            }
+            label={`enemy-${item.uid}`}
+            zIndex={Math.floor(item.position.y + textures[idleState][0].height / 2)}
+            autoPlay
+            loop
+            filters={(isHovered || state === angryState) ? [new ColorMatrixFilter({ resolution: 2, blendMode: "multiply" })] : []}
+        >
+            {(spriteRef.current && item.hp < item.totalHp) ? (
+                <CustomProgressBar
+                    ref={progressBarRef}
+                    position={{ x: -spriteRef.current.width / 3, y: -15 }}
+                    min={0}
+                    max={item.totalHp}
+                    current={item.hp}
+                />
+            ) : null}
+        </pixiAnimatedSprite>
     ) : null
 }
 

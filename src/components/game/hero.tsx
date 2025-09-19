@@ -24,16 +24,16 @@ const Hero = ({ ref }: all.game.HeroProps) => {
     const [textures, setTextures] = useState<all.game.TexturesCollection>(null)
     const [pointer, setPointer] = useState<{ x: number; y: number } | null>(null)
     // store
-    const hero = usePersistedStore((state: Store) => state.hero)
-    const paused = usePersistedStore((state: Store) => state.paused)
-    const heroName = usePersistedStore((state: Store) => state.heroName)
-    const heroState = usePersistedStore((state: Store) => state.hero.state)
-    const setHeroName = usePersistedStore((state: Store) => state.setHeroName)
-    const heroPosition = usePersistedStore((state: Store) => state.hero.position)
-    const setGameAction = usePersistedStore((state: Store) => state.setGameAction)
-    const showHeroHitbox = usePersistedStore((state: Store) => state.showHeroHitbox)
-    const setHeroPosition = usePersistedStore((state: Store) => state.setHeroPosition)
-    const keyBindings = usePersistedStore((state: Store) => state.preferences.keyBindings)
+    const hero = usePersistedStore((s: Store) => s.hero)
+    const paused = usePersistedStore((s: Store) => s.paused)
+    const heroName = usePersistedStore((s: Store) => s.heroName)
+    const heroState = usePersistedStore((s: Store) => s.hero.state)
+    const setHeroName = usePersistedStore((s: Store) => s.setHeroName)
+    const heroPosition = usePersistedStore((s: Store) => s.hero.position)
+    const setGameAction = usePersistedStore((s: Store) => s.setGameAction)
+    const showHeroHitbox = usePersistedStore((s: Store) => s.showHeroHitbox)
+    const setHeroPosition = usePersistedStore((s: Store) => s.setHeroPosition)
+    const keyBindings = usePersistedStore((s: Store) => s.preferences.keyBindings)
 
     const onKeydown = (event: any) => {
         let globalX = 0

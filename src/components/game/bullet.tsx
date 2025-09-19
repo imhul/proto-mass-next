@@ -33,11 +33,11 @@ const Bullet = ({
     const animationFrameRef = useRef<number | null>(null)
     const enemiesRef = useRef<all.game.PixiElementInstance[]>([])
     // store
-    const hero = usePersistedStore((state: Store) => state.hero)
-    const godMode = usePersistedStore((state: Store) => state.isGodMode)
-    const paused = usePersistedStore((state: Store) => state.paused)
-    const colonies = usePersistedStore((state: Store) => state.enemies)
-    const setGameAction = usePersistedStore((state: Store) => state.setGameAction)
+    const hero = usePersistedStore((s: Store) => s.hero)
+    const godMode = usePersistedStore((s: Store) => s.isGodMode)
+    const paused = usePersistedStore((s: Store) => s.paused)
+    const colonies = usePersistedStore((s: Store) => s.enemies)
+    const setGameAction = usePersistedStore((s: Store) => s.setGameAction)
     // state
     const [started, setStarted] = useState(false)
 
@@ -50,7 +50,7 @@ const Bullet = ({
                 const totalDamage = damage + enemy.damage
                 const damaged = {
                     ...enemy,
-                    state: "angry",
+                    // state: "angry",
                     damage: totalDamage,
                     hp: enemy.hp - damage,
                 }
@@ -60,6 +60,10 @@ const Bullet = ({
                 }
                 if (damaged.hp > 0) {
                     setGameAction("updateEnemy", damaged)
+                    setGameAction(
+                        "setColonyState",
+                        { uid: enemy.colony.uid, angry: true }
+                    )
                     // TODO: if (target not in sight) {
                     //     add timer to set enemy state back to "idle" 4 seconds later
                     // }

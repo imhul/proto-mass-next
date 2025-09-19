@@ -25,12 +25,12 @@ export const Output = () => {
     // refs
     const parentRef = useRef<HTMLDivElement>(null)
     // store
-    const paused = usePersistedStore((state: Store) => state.paused)
-    const showFPS = usePersistedStore((state: Store) => state.showFPS)
-    const isGameInit = usePersistedStore((state: Store) => state.init)
-    const enemiesList = usePersistedStore((state: Store) => state.enemies)
-    const showCharts = usePersistedStore((state: Store) => state.showCharts)
-    const showEnemyProgress = usePersistedStore((state: Store) => state.showEnemyProgress)
+    const paused = usePersistedStore((s: Store) => s.paused)
+    const showFPS = usePersistedStore((s: Store) => s.showFPS)
+    const isGameInit = usePersistedStore((s: Store) => s.init)
+    const enemiesList = usePersistedStore((s: Store) => s.enemies)
+    const showCharts = usePersistedStore((s: Store) => s.showCharts)
+    const showEnemyProgress = usePersistedStore((s: Store) => s.showEnemyProgress)
     // state
     const [enemiesLength, setEnemiesLength] = useState(0)
 

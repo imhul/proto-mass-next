@@ -1,0 +1,154 @@
+{
+    "frames": {
+        "enemy-base1.png": {
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 255,
+                "h": 104
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 255,
+                "h": 104
+            },
+            "sourceSize": {
+                "w": 257,
+                "h": 104
+            }
+        },
+        "enemy-base2.png": {
+            "frame": {
+                "x": 0,
+                "y": 104,
+                "w": 255,
+                "h": 104
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 255,
+                "h": 104
+            },
+            "sourceSize": {
+                "w": 257,
+                "h": 104
+            }
+        },
+        "enemy-base3.png": {
+            "frame": {
+                "x": 0,
+                "y": 208,
+                "w": 255,
+                "h": 104
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 255,
+                "h": 104
+            },
+            "sourceSize": {
+                "w": 257,
+                "h": 104
+            }
+        },
+        "enemy-base4.png": {
+            "frame": {
+                "x": 0,
+                "y": 312,
+                "w": 255,
+                "h": 104
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 255,
+                "h": 104
+            },
+            "sourceSize": {
+                "w": 257,
+                "h": 104
+            }
+        },
+        "enemy-base5.png": {
+            "frame": {
+                "x": 0,
+                "y": 208,
+                "w": 255,
+                "h": 104
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 255,
+                "h": 104
+            },
+            "sourceSize": {
+                "w": 257,
+                "h": 104
+            }
+        },
+        "enemy-base6.png": {
+            "frame": {
+                "x": 0,
+                "y": 104,
+                "w": 255,
+                "h": 104
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 255,
+                "h": 104
+            },
+            "sourceSize": {
+                "w": 257,
+                "h": 104
+            }
+        },
+        "enemy-base7.png": {
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 255,
+                "h": 104
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 255,
+                "h": 104
+            },
+            "sourceSize": {
+                "w": 257,
+                "h": 104
+            }
+        }
+    },
+    "meta": {
+        "app": "http://www.texturepacker.com",
+        "version": "1.0",
+        "image": "enemy-base.png",
+        "format": "RGBA8888",
+        "size": {
+            "w": 256,
+            "h": 512
+        }
+    }
+}

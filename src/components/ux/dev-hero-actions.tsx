@@ -17,8 +17,8 @@ import { heroActionsMenu } from "@lib/config"
 type Store = all.store.PersistedStore
 
 function DevHeroActions() {
-    const hero = usePersistedStore((state: Store) => state.hero)
-    const setHeroAction = usePersistedStore((state: Store) => state.setHeroAction)
+    const hero = usePersistedStore((s: Store) => s.hero)
+    const setHeroAction = usePersistedStore((s: Store) => s.setHeroAction)
 
     return (
         <DropdownMenu>

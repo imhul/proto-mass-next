@@ -11,8 +11,8 @@ type Store = all.store.PersistedStore
 
 const Bullets = ({ ref }: all.game.BulletsProps) => {
     const [textures, setTextures] = useState<all.pixi.Texture[]>([])
-    const bullets = usePersistedStore((state: Store) => state.bullets)
-    const setGameAction = usePersistedStore((state: Store) => state.setGameAction)
+    const bullets = usePersistedStore((s: Store) => s.bullets)
+    const setGameAction = usePersistedStore((s: Store) => s.setGameAction)
 
     useEffect(() => {
         if (!textures.length) {

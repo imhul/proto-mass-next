@@ -19,17 +19,15 @@ type Store = all.store.PersistedStore
 
 const EnemiesColony = ({ ref, colony }: all.game.ColonyProps) => {
     // store
-    const isDev = usePersistedStore((state: Store) => state.isDev)
-    const paused = usePersistedStore((state: Store) => state.paused)
-    const enemiesList = usePersistedStore((state: Store) => state.enemies)
+    const isDev = usePersistedStore((s: Store) => s.isDev)
+    const paused = usePersistedStore((s: Store) => s.paused)
+    const enemiesList = usePersistedStore((s: Store) => s.enemies)
     const setGameAction = usePersistedStore(
         (state: Store) => state.setGameAction
     )
     // state
     const [enemies, setEnemies] = useState<all.game.EnemyEntity[]>([])
     const [basePos, setBasePos] = useState<all.game.Position>({ x: 0, y: 0 })
-    const [enemyColonyState, setEnemyColonyState] =
-        useState<all.game.EnemyColonyState>("idle")
 
     const getRandomPositionNearBase = (base: all.game.Position) => {
         const x = getRandomInt(
@@ -83,15 +81,17 @@ const EnemiesColony = ({ ref, colony }: all.game.ColonyProps) => {
                         setGameAction("setEnemies", { colonyUid: colony.uid, newEnemy })
                         return
                     }
-                    const enemyBase = dirty ? (enemies[0]?.base ?? base) : base
+                    const enemyBasePosition = dirty ? (enemies[0]?.base ?? base) : base
+                    const newEnemyState = enemies[0] ? enemies[0].state : initialEnemyModel.state
                     const newEnemy: all.game.EnemyEntity = {
                         ...initialEnemyModel,
                         id: `${colony.id}-${enemies.length + 1}`,
                         uid: crypto.randomUUID(),
                         colony,
-                        base: enemyBase,
+                        base: enemyBasePosition,
+                        state: newEnemyState,
                         timestamp: performance.now(),
-                        position: getRandomPositionNearBase(enemyBase),
+                        position: getRandomPositionNearBase(enemyBasePosition),
                     }
                     setGameAction("setEnemies", { colonyUid: colony.uid, newEnemy })
                 }, pauseToNextBirth)
@@ -141,8 +141,6 @@ const EnemiesColony = ({ ref, colony }: all.game.ColonyProps) => {
                                 item={enemy}
                                 ref={ref}
                                 base={basePos}
-                                enemyColonyState={enemyColonyState}
-                                setEnemyColonyState={setEnemyColonyState}
                             />
                         ))}
                 </>

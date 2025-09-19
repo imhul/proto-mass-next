@@ -115,6 +115,8 @@ export type Colonies = Record<all.game.ColonyEntity["uid"], {
     hp: number
     totalHp: number
     dirty: boolean
+    angry: boolean
+    lastAttackTimestamp: number
 }>
 export type GameActionPayload = any
 export type GameKeyboardActionType = "moveup" | "movedown" | "moveleft" | "moveright" | "jump" | "shoot" | "pause"

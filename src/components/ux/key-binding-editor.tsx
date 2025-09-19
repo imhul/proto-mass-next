@@ -35,9 +35,9 @@ type Store = all.store.PersistedStore
 
 const KeyBindingEditor = () => {
     const [newBindings, setNewBindings] = useState<all.store.KeyBindings | {}>({})
-    const preferences = usePersistedStore((state: Store) => state.preferences)
-    const keyBindings = usePersistedStore((state: Store) => state.preferences.keyBindings)
-    const setGameAction = usePersistedStore((state: Store) => state.setGameAction)
+    const preferences = usePersistedStore((s: Store) => s.preferences)
+    const keyBindings = usePersistedStore((s: Store) => s.preferences.keyBindings)
+    const setGameAction = usePersistedStore((s: Store) => s.setGameAction)
 
     const checkIfKeyBindingExists = (keyCode: number) => {
         const allBindings = { ...keyBindings, ...newBindings } as all.store.KeyBindings

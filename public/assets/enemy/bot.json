@@ -1,107 +1,414 @@
-{"frames": {
-
-"bot-idle-1.png":
 {
-	"frame": {"x":0,"y":0,"w":13,"h":18},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":18},
-	"sourceSize": {"w":13,"h":18}
-},
-"bot-idle-2.png":
-{
-	"frame": {"x":13,"y":0,"w":13,"h":18},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":18},
-	"sourceSize": {"w":13,"h":18}
-},
-"bot-idle-3.png":
-{
-	"frame": {"x":26,"y":0,"w":13,"h":16},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":2,"w":13,"h":16},
-	"sourceSize": {"w":13,"h":16}
-},
-"bot-idle-4.png":
-{
-	"frame": {"x":39,"y":0,"w":13,"h":18},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":18},
-	"sourceSize": {"w":13,"h":18}
-},
-"bot-run-1.png":
-{
-	"frame": {"x":0,"y":18,"w":13,"h":18},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":18},
-	"sourceSize": {"w":13,"h":18}
-},
-"bot-run-2.png":
-{
-	"frame": {"x":13,"y":18,"w":13,"h":16},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":2,"w":13,"h":16},
-	"sourceSize": {"w":13,"h":16}
-},
-"bot-run-3.png":
-{
-	"frame": {"x":26,"y":18,"w":13,"h":18},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":18},
-	"sourceSize": {"w":13,"h":18}
-},
-"bot-run-4.png":
-{
-	"frame": {"x":39,"y":18,"w":13,"h":18},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":18},
-	"sourceSize": {"w":13,"h":18}
-},
-"bot-run-5.png":
-{
-	"frame": {"x":0,"y":36,"w":13,"h":18},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":18},
-	"sourceSize": {"w":13,"h":18}
-},
-"bot-run-6.png":
-{
-	"frame": {"x":13,"y":36,"w":13,"h":16},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":2,"w":13,"h":16},
-	"sourceSize": {"w":13,"h":16}
-},
-"bot-run-7.png":
-{
-	"frame": {"x":26,"y":36,"w":13,"h":18},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":18},
-	"sourceSize": {"w":13,"h":18}
-},
-"bot-run-8.png":
-{
-	"frame": {"x":39,"y":36,"w":13,"h":18},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":18},
-	"sourceSize": {"w":13,"h":18}
-}
-}, 
-"meta": {
-	"app": "http://www.texturepacker.com",
-	"version": "1.0",
-	"image": "bot.png",
-	"format": "RGBA8888",
-	"size": {"w":52,"h":54}
-}
+    "frames": {
+        "bot-idle-1.png": {
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 13,
+                "h": 18
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 13,
+                "h": 18
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 18
+            }
+        },
+        "bot-idle-2.png": {
+            "frame": {
+                "x": 13,
+                "y": 0,
+                "w": 13,
+                "h": 18
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 13,
+                "h": 18
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 18
+            }
+        },
+        "bot-idle-3.png": {
+            "frame": {
+                "x": 26,
+                "y": 0,
+                "w": 13,
+                "h": 16
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 2,
+                "w": 13,
+                "h": 16
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 16
+            }
+        },
+        "bot-idle-4.png": {
+            "frame": {
+                "x": 39,
+                "y": 0,
+                "w": 13,
+                "h": 18
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 13,
+                "h": 18
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 18
+            }
+        },
+        "bot-run-1.png": {
+            "frame": {
+                "x": 0,
+                "y": 18,
+                "w": 13,
+                "h": 18
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 13,
+                "h": 18
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 18
+            }
+        },
+        "bot-run-2.png": {
+            "frame": {
+                "x": 13,
+                "y": 18,
+                "w": 13,
+                "h": 16
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 2,
+                "w": 13,
+                "h": 16
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 16
+            }
+        },
+        "bot-run-3.png": {
+            "frame": {
+                "x": 26,
+                "y": 18,
+                "w": 13,
+                "h": 18
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 13,
+                "h": 18
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 18
+            }
+        },
+        "bot-run-4.png": {
+            "frame": {
+                "x": 39,
+                "y": 18,
+                "w": 13,
+                "h": 18
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 13,
+                "h": 18
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 18
+            }
+        },
+        "bot-run-5.png": {
+            "frame": {
+                "x": 0,
+                "y": 36,
+                "w": 13,
+                "h": 18
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 13,
+                "h": 18
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 18
+            }
+        },
+        "bot-run-6.png": {
+            "frame": {
+                "x": 13,
+                "y": 36,
+                "w": 13,
+                "h": 16
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 2,
+                "w": 13,
+                "h": 16
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 16
+            }
+        },
+        "bot-run-7.png": {
+            "frame": {
+                "x": 26,
+                "y": 36,
+                "w": 13,
+                "h": 18
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 13,
+                "h": 18
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 18
+            }
+        },
+        "bot-run-8.png": {
+            "frame": {
+                "x": 39,
+                "y": 36,
+                "w": 13,
+                "h": 18
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 13,
+                "h": 18
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 18
+            }
+        },
+        "bot-angry-1.png": {
+            "frame": {
+                "x": 0,
+                "y": 18,
+                "w": 13,
+                "h": 18
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 13,
+                "h": 18
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 18
+            }
+        },
+        "bot-angry-2.png": {
+            "frame": {
+                "x": 13,
+                "y": 18,
+                "w": 13,
+                "h": 16
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 2,
+                "w": 13,
+                "h": 16
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 16
+            }
+        },
+        "bot-angry-3.png": {
+            "frame": {
+                "x": 26,
+                "y": 18,
+                "w": 13,
+                "h": 18
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 13,
+                "h": 18
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 18
+            }
+        },
+        "bot-angry-4.png": {
+            "frame": {
+                "x": 39,
+                "y": 18,
+                "w": 13,
+                "h": 18
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 13,
+                "h": 18
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 18
+            }
+        },
+        "bot-angry-5.png": {
+            "frame": {
+                "x": 0,
+                "y": 36,
+                "w": 13,
+                "h": 18
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 13,
+                "h": 18
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 18
+            }
+        },
+        "bot-angry-6.png": {
+            "frame": {
+                "x": 13,
+                "y": 36,
+                "w": 13,
+                "h": 16
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 2,
+                "w": 13,
+                "h": 16
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 16
+            }
+        },
+        "bot-angry-7.png": {
+            "frame": {
+                "x": 26,
+                "y": 36,
+                "w": 13,
+                "h": 18
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 13,
+                "h": 18
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 18
+            }
+        },
+        "bot-angry-8.png": {
+            "frame": {
+                "x": 39,
+                "y": 36,
+                "w": 13,
+                "h": 18
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 13,
+                "h": 18
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 18
+            }
+        }
+    },
+    "meta": {
+        "app": "http://www.texturepacker.com",
+        "version": "1.0",
+        "image": "bot.png",
+        "format": "RGBA8888",
+        "size": {
+            "w": 52,
+            "h": 54
+        }
+    }
 }

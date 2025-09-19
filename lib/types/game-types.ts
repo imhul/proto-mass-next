@@ -70,10 +70,8 @@ export interface HeroProps {
 
 export interface EnemyProps {
     base: Position
-    enemyColonyState?: EnemyColonyState
     item: EnemyEntity | null
     ref: all.react.RefObject<all.view.Viewport | null>
-    setEnemyColonyState: (state: EnemyColonyState) => void
 }
 
 export interface EnemiesProps {
@@ -239,7 +237,8 @@ export type Construction =
     | 'power-storage'
 export type Consumer = "hero" | "enemy"
 export type GameAction =
-    "removeBullet"
+    "setColonyState"
+    | "removeBullet"
     | "addBullet"
     | "updateEnemy"
     | "removeEnemy"
@@ -380,9 +379,3 @@ export type GenerateMap = (params: {
     smallClusterPercent: number,
     materials: number[]
 }) => GMap
-
-export type GameEvent =
-    | { type: "bullet-hit-enemy"; bulletUid: string; enemyUid: string }
-    | { type: "bullet-hit-hero"; bulletUid: string }
-    | { type: "enemy-hit-hero"; enemyUid: string }
-    | { type: "hero-hit-enemy"; enemyUid: string }
