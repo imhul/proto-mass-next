@@ -1,5 +1,6 @@
 import { useEffect, useState, } from "react"
-import { Assets } from "pixi.js"
+import { GodrayFilter } from 'pixi-filters'
+import { Assets, DisplacementFilter } from "pixi.js"
 // store
 import { usePersistedStore } from "@/store"
 // utils
@@ -36,6 +37,8 @@ const Ground = ({ size }: { size: all.game.BaseSize }) => {
         materials: [1, 2, 3]
     })
 
+    const godrayFilter = new GodrayFilter({})
+
     useEffect(() => {
         if (!tilemap && gmap) Assets.load('/assets/map/ground.json').then(() => {
             const tiledmap = new CompositeTilemap()
@@ -71,7 +74,7 @@ const Ground = ({ size }: { size: all.game.BaseSize }) => {
     }, [])
 
     return (
-        <CustomTilingSprite tilemap={tilemap} />
+        <CustomTilingSprite tilemap={tilemap} filters={[godrayFilter]} />
     )
 }
 

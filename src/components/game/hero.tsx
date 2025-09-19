@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react"
+import { GlowFilter } from 'pixi-filters'
 // store
 import { usePersistedStore } from "@/store"
 // components
@@ -34,6 +35,18 @@ const Hero = ({ ref }: all.game.HeroProps) => {
     const showHeroHitbox = usePersistedStore((s: Store) => s.showHeroHitbox)
     const setHeroPosition = usePersistedStore((s: Store) => s.setHeroPosition)
     const keyBindings = usePersistedStore((s: Store) => s.preferences.keyBindings)
+
+    const filter1 = new GlowFilter({
+        color: 0xffff00,
+        innerStrength: 0,
+        outerStrength: 3,
+    })
+
+    const filter2 = new GlowFilter({
+        color: 0xff4400,
+        innerStrength: 2,
+        outerStrength: 0,
+    })
 
     const onKeydown = (event: any) => {
         let globalX = 0
@@ -115,6 +128,7 @@ const Hero = ({ ref }: all.game.HeroProps) => {
                 anchor={0.5}
                 eventMode={"static"}
                 scale={heroScale}
+                filters={[filter1, filter2]}
                 animationSpeed={heroState !== "player-idle" ? 0.2 : 0.1}
                 x={heroPosition.x !== 0 ? heroPosition.x : ref.current.screenWidth / 2}
                 y={heroPosition.y !== 0 ? heroPosition.y : ref.current.screenHeight / 2}

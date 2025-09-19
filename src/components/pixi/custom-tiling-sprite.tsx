@@ -3,7 +3,7 @@ import { useExtend } from "@pixi/react"
 import { TilingSprite } from "pixi.js"
 
 const CustomTilingSprite = forwardRef<TilingSprite | null, all.game.CustomTilingSpriteProps>(
-    ({ tilemap }, _) => {
+    ({ tilemap, filters = [] }, _) => {
         useExtend({ TilingSprite })
         const reffer = useRef<all.pixi.Container | null>(null)
 
@@ -13,7 +13,7 @@ const CustomTilingSprite = forwardRef<TilingSprite | null, all.game.CustomTiling
             }
         }, [tilemap, reffer.current])
 
-        return tilemap ? (<pixiContainer ref={reffer} />) : null
+        return tilemap ? (<pixiContainer ref={reffer} filters={filters} />) : null
     },
 )
 

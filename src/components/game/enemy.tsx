@@ -198,10 +198,10 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
             textures={textures[idleState]}
             ref={spriteRef}
             anchor={0.5}
+            scale={1.5}
             eventMode={"static"}
             onPointerOver={() => setIsHover(true)}
             onPointerOut={() => setIsHover(false)}
-            scale={2.5}
             animationSpeed={0.14}
             x={item.position.x}
             y={item.position.y}

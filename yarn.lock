@@ -1288,6 +1288,11 @@
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.8.tgz#958b91c991b1867ced318bedea0e215ee050726e"
   integrity sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==
 
+"@types/gradient-parser@^0.1.2":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@types/gradient-parser/-/gradient-parser-0.1.5.tgz#7b25d5f080f41f0d713207894c3f2f490155462a"
+  integrity sha512-r7K3NkJz3A95WkVVmjs0NcchhHstC2C/VIYNX4JC6tieviUNo774FFeOHjThr3Vw/WCeMP9kAT77MKbIRlO/4w==
+
 "@types/hast@^3.0.0":
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/@types/hast/-/hast-3.0.4.tgz#1d6b39993b82cea6ad783945b0508c25903e15aa"
@@ -3755,6 +3760,13 @@ picomatch@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-4.0.3.tgz#796c76136d1eead715db1e7bad785dedd695a042"
   integrity sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==
+
+pixi-filters@^6.1.4:
+  version "6.1.4"
+  resolved "https://registry.yarnpkg.com/pixi-filters/-/pixi-filters-6.1.4.tgz#2317809e35f266cd19deb86dab848eb7139c5316"
+  integrity sha512-6QdkhR8hZ/jXyV7GZG8R0UKkRy9jPeZsOnHaQiKSFEe4tGJ4PfUG90vaC9eyi7g+YKxhKLpNOXu6tmO1+R2tpQ==
+  dependencies:
+    "@types/gradient-parser" "^0.1.2"
 
 pixi-viewport@^6.0.3:
   version "6.0.3"

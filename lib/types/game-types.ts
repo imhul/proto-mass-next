@@ -18,6 +18,7 @@ export interface CustomTilingSpriteProps {
     tileScale?: { x: number; y: number }
     tilePosition?: { x: number; y: number }
     tilemap: all.map.CompositeTilemap | null
+    filters?: all.pixi.Filter[]
 }
 
 export interface CustomGifSpriteProps {
