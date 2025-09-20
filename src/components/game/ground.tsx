@@ -1,10 +1,12 @@
-import { useEffect, useState, } from "react"
+import { useEffect, useState, useRef } from "react"
+import { CompositeTilemap } from '@pixi/tilemap'
 import { GodrayFilter } from 'pixi-filters'
-import { Assets, DisplacementFilter } from "pixi.js"
+import { Assets } from "pixi.js"
 // store
 import { usePersistedStore } from "@/store"
+// components
+import CustomTilingSprite from "@components/pixi/custom-tiling-sprite"
 // utils
-import { CompositeTilemap } from '@pixi/tilemap'
 import { generateMap } from "@lib/utils"
 import { toast } from "sonner"
 // config
@@ -18,9 +20,9 @@ import {
 
 type Store = all.store.PersistedStore
 
-import CustomTilingSprite from "@components/pixi/custom-tiling-sprite"
-
 const Ground = ({ size }: { size: all.game.BaseSize }) => {
+    const intervalRef = useRef<NodeJS.Timeout | null>(null)
+    // store
     const isDev = usePersistedStore((s: Store) => s.isDev)
     const seed = usePersistedStore((s: Store) => s.seed)
     const setGameAction = usePersistedStore((s: Store) => s.setGameAction)
@@ -38,6 +40,12 @@ const Ground = ({ size }: { size: all.game.BaseSize }) => {
     })
 
     const godrayFilter = new GodrayFilter({})
+    let frame = 0
+
+    function animShader(tiledmap: CompositeTilemap) {
+        tiledmap.tileAnim = [0, frame]
+        frame += 1
+    }
 
     useEffect(() => {
         if (!tilemap && gmap) Assets.load('/assets/map/ground.json').then(() => {
@@ -49,16 +57,30 @@ const Ground = ({ size }: { size: all.game.BaseSize }) => {
 
             gmap.forEach((firstLevel, x) => {
                 firstLevel.forEach((tile, y) => {
-                    if (tile === waterTextureIndex) water.push({ x: x * tileSize, y: y * tileSize })
-                    tiledmap.tile(
-                        `${tile}.png`,
-                        x * tileSize,
-                        y * tileSize,
-                        {
-                            tileWidth: tileSize,
-                            tileHeight: tileSize,
-                        },
-                    )
+                    if (tile === waterTextureIndex) {
+                        water.push({ x: x * tileSize, y: y * tileSize })
+                        tiledmap.tile(
+                            `${tile}.png`,
+                            x * tileSize,
+                            y * tileSize,
+                            {
+                                tileWidth: tileSize,
+                                tileHeight: tileSize,
+                                animY: 1,
+                            },
+                        )
+                        tiledmap.tileAnimY(tileSize, 2)
+                    } else {
+                        tiledmap.tile(
+                            `${tile}.png`,
+                            x * tileSize,
+                            y * tileSize,
+                            {
+                                tileWidth: tileSize,
+                                tileHeight: tileSize,
+                            },
+                        )
+                    }
                 })
             })
             if (isDev()) {
@@ -70,7 +92,12 @@ const Ground = ({ size }: { size: all.game.BaseSize }) => {
             }
             setGameAction("saveWater", water)
             setTilemap(tiledmap)
+            intervalRef.current = setInterval(() => animShader(tiledmap), 400)
         })
+
+        return () => {
+            if (intervalRef.current) clearInterval(intervalRef.current)
+        }
     }, [])
 
     return (
