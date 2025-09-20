@@ -1,7 +1,11 @@
 {
     "name": "proto-mass-next",
-    "version": "0.8.5",
+    "version": "0.8.6",
     "private": true,
+    "author": {
+        "name": "Tkachuk Zakhar",
+        "email": "blashirk@gmail.com"
+    },
     "scripts": {
         "dev": "vite",
         "build": "tsc && vite build",

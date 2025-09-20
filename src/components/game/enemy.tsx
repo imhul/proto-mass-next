@@ -6,6 +6,7 @@ import { useBirthAnimation } from "@hooks/useBirth"
 // pixi
 import { ColorMatrixFilter, Assets, AnimatedSprite, Rectangle } from "pixi.js"
 // components
+import { ProgressBar } from "@pixi/ui"
 import CustomProgressBar from "@components/pixi/custom-progress-bar"
 // utils
 import { getTextures, getRandomInt, dropShadowFilter } from "@lib/utils"
@@ -19,7 +20,6 @@ import {
     initialEnemyModel,
     maxDistanceFromEnemyBase,
 } from "@lib/config"
-import { ProgressBar } from "@pixi/ui"
 
 type Store = all.store.PersistedStore
 

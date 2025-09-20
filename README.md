@@ -1,4 +1,4 @@
-# React + Pixi.js + Zustand Browser Game ![version](https://img.shields.io/badge/version-0.8.5-brightgreen`)
+# React + Pixi.js + Zustand Browser Game ![version](https://img.shields.io/badge/version-0.8.6-brightgreen`)
 
 ## Technologies Used
 
@@ -19,17 +19,21 @@ How far can they go? 🕹 🎲 🌌 🎰 ⭐ ⭐ ⭐
 
 ## TODO:
 
-- [x] Implement ['@pixi/react'](https://www.npmjs.com/package/@pixi/react)
+- [x] Implement [@pixi/react](https://www.npmjs.com/package/@pixi/react)
+- [x] Implement [pixi-viewport](https://www.npmjs.com/package/pixi-viewport)
 - [x] Implement **Zustand** sliced store to control React & Pixi state
-- [x] Add player and camera 8-direction movement
+- [x] Add player and 8-direction movement
+- [x] Implement [@pixi/ui](https://www.npmjs.com/package/@pixi/ui)
 - [x] Add map generation
 - [x] Add enemies spawn and enemies colonies
-- [x] Implement **JSON tilemap** with ['@pixi/tilemap'](https://www.npmjs.com/package/@pixi/tilemap)
+- [x] Implement **JSON tilemap** with [@pixi/tilemap](https://www.npmjs.com/package/@pixi/tilemap)
 - [x] Implement seed based map generation by [rand-seed](https://www.npmjs.com/package/rand-seed)
 - [x] Add game settings and key bindings
 - [x] Implement object collisions
+- [x] Implement [pixi-filters](https://www.npmjs.com/package/pixi-filters)
 - [ ] Add zIndex reordering
-- [ ] Add fight/die mechanics
+- [ ] Add fight/die mechanics, including bullets, explosions, damage and health
+- [ ] Implement [@pixi/sound](https://www.npmjs.com/package/@pixi/sound)
 - [ ] Implement map chunk generation
 - [ ] Implement [Tauri](https://tauri.app)
 - [ ] Implement save/load functionality
