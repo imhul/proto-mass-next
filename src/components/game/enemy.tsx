@@ -8,7 +8,7 @@ import { ColorMatrixFilter, Assets, AnimatedSprite, Rectangle } from "pixi.js"
 // components
 import CustomProgressBar from "@components/pixi/custom-progress-bar"
 // utils
-import { getTextures, getRandomInt } from "@lib/utils"
+import { getTextures, getRandomInt, dropShadowFilter } from "@lib/utils"
 // config
 import {
     runState,
@@ -30,6 +30,7 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
     const animationFrameRef = useRef<number | null>(null)
     const idleTimeoutRef = useRef<number | null>(null)
     // state
+    const [filters, setFilters] = useState<all.pixi.Filter[]>([dropShadowFilter.enemy])
     const [textures, setTextures] = useState<all.game.TexturesCollection>(null)
     const [state, setState] = useState<all.game.EnemyState>(idleState)
     const [isHovered, setIsHover] = useState(false)
@@ -193,6 +194,20 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
         if (paused) stopLoop()
     }, [paused])
 
+    useEffect(() => {
+        if (isHovered || state === angryState) {
+            setFilters((prev) => [
+                ...prev,
+                new ColorMatrixFilter({
+                    resolution: 2,
+                    blendMode: "multiply"
+                })
+            ])
+        } else {
+            setFilters([dropShadowFilter.enemy])
+        }
+    }, [isHovered, state])
+
     return (textures && item && ref.current) ? (
         <pixiAnimatedSprite
             textures={textures[idleState]}
@@ -218,7 +233,7 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
             zIndex={Math.floor(item.position.y + textures[idleState][0].height / 2)}
             autoPlay
             loop
-            filters={(isHovered || state === angryState) ? [new ColorMatrixFilter({ resolution: 2, blendMode: "multiply" })] : []}
+            filters={filters}
         >
             {(spriteRef.current && item.hp < item.totalHp) ? (
                 <CustomProgressBar

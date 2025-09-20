@@ -1,13 +1,12 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, useMemo, memo } from "react"
 import { CompositeTilemap } from '@pixi/tilemap'
-import { GodrayFilter } from 'pixi-filters'
 import { Assets } from "pixi.js"
 // store
 import { usePersistedStore } from "@/store"
 // components
 import CustomTilingSprite from "@components/pixi/custom-tiling-sprite"
 // utils
-import { generateMap } from "@lib/utils"
+import { generateMap, godrayFilter } from "@lib/utils"
 import { toast } from "sonner"
 // config
 import {
@@ -19,6 +18,7 @@ import {
 } from "@lib/config"
 
 type Store = all.store.PersistedStore
+let frame = 0
 
 const Ground = ({ size }: { size: all.game.BaseSize }) => {
     const intervalRef = useRef<NodeJS.Timeout | null>(null)
@@ -38,9 +38,6 @@ const Ground = ({ size }: { size: all.game.BaseSize }) => {
         smallClusterPercent,
         materials: [1, 2, 3]
     })
-
-    const godrayFilter = new GodrayFilter({})
-    let frame = 0
 
     function animShader(tiledmap: CompositeTilemap) {
         tiledmap.tileAnim = [0, frame]
@@ -92,7 +89,9 @@ const Ground = ({ size }: { size: all.game.BaseSize }) => {
             }
             setGameAction("saveWater", water)
             setTilemap(tiledmap)
-            intervalRef.current = setInterval(() => animShader(tiledmap), 400)
+            intervalRef.current = setInterval(() => {
+                animShader(tiledmap)
+            }, 800)
         })
 
         return () => {
@@ -100,9 +99,11 @@ const Ground = ({ size }: { size: all.game.BaseSize }) => {
         }
     }, [])
 
+    const filters = useMemo(() => ([godrayFilter]), [])
+
     return (
-        <CustomTilingSprite tilemap={tilemap} filters={[godrayFilter]} />
+        <CustomTilingSprite tilemap={tilemap} filters={filters} />
     )
 }
 
-export default Ground
+export default memo(Ground)

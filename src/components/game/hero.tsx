@@ -6,7 +6,7 @@ import { usePersistedStore } from "@/store"
 import DevHitbox from "@components/game/dev-hitbox"
 import { Assets, AnimatedSprite, Rectangle } from "pixi.js"
 // utils
-import { getTextures } from "@lib/utils"
+import { getTextures, dropShadowFilter } from "@lib/utils"
 // config
 import { zindex, heroSize, heroScale, bulletSpeed, bulletDamage, maxBulletDistance } from "@lib/config"
 
@@ -128,7 +128,7 @@ const Hero = ({ ref }: all.game.HeroProps) => {
                 anchor={0.5}
                 eventMode={"static"}
                 scale={heroScale}
-                filters={[filter1, filter2]}
+                filters={[filter1, filter2, dropShadowFilter.hero]}
                 animationSpeed={heroState !== "player-idle" ? 0.2 : 0.1}
                 x={heroPosition.x !== 0 ? heroPosition.x : ref.current.screenWidth / 2}
                 y={heroPosition.y !== 0 ? heroPosition.y : ref.current.screenHeight / 2}

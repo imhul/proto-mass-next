@@ -13,6 +13,7 @@ export const heroScale = 2
 export const heroSize = 80
 export const idleState = "idle" as all.game.EnemyState
 export const maggotsCount = 20
+export const maxBirthEnemyDistance = 50
 export const maxBulletDistance = 200
 export const maxColoniesPerChunk = 5
 export const maxDistanceFromEnemyBase = 200

@@ -12,7 +12,7 @@ import {
     defaultChunkSize,
     initialEnemyModel,
     maxEnemiesPerColony,
-    maxDistanceFromEnemyBase,
+    maxBirthEnemyDistance,
 } from "@lib/config"
 
 type Store = all.store.PersistedStore
@@ -31,12 +31,12 @@ const EnemiesColony = ({ ref, colony }: all.game.ColonyProps) => {
 
     const getRandomPositionNearBase = (base: all.game.Position) => {
         const x = getRandomInt(
-            base.x - maxDistanceFromEnemyBase,
-            base.x + maxDistanceFromEnemyBase
+            base.x - maxBirthEnemyDistance,
+            base.x + maxBirthEnemyDistance
         )
         const y = getRandomInt(
-            base.y - maxDistanceFromEnemyBase,
-            base.y + maxDistanceFromEnemyBase
+            base.y - maxBirthEnemyDistance,
+            base.y + maxBirthEnemyDistance
         )
         return { x, y }
     }

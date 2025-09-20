@@ -8,7 +8,7 @@ import { usePersistedStore } from "@/store"
 import DevDot from "@components/game/dev-dot"
 import DevHitbox from "@components/game/dev-hitbox"
 // utils
-import { getRandomInt } from "@lib/utils"
+import { getRandomInt, dropShadowFilter } from "@lib/utils"
 // config
 import {
     tileSize,
@@ -109,6 +109,7 @@ const Objects = ({ size }: all.game.ObjectsProps) => {
                             label={object.name}
                             zIndex={object.zIndex}
                             anchor={0.5}
+                            filters={[dropShadowFilter.object]}
                         />
                     </pixiContainer>
                 )

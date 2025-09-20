@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react"
-// components
-import { DropShadowFilter } from 'pixi-filters'
-import Explosion from "@/components/game/explosion"
 import { Assets } from "pixi.js"
+// components
+import Explosion from "@/components/game/explosion"
 // store
 import { usePersistedStore } from "@/store"
 // hooks
 import { useBirthAnimation } from "@hooks/useBirth"
+// utils
+import { dropShadowFilter } from "@lib/utils"
 
 type Store = all.store.PersistedStore
 
@@ -19,15 +20,6 @@ const EnemyBase = ({ isBirth, isDeath, uid, pos }: all.game.EnemyBaseProps) => {
     const paused = usePersistedStore((s: Store) => s.paused)
     const enemiesList = usePersistedStore((s: Store) => s.enemies)
     const setGameAction = usePersistedStore((s: Store) => s.setGameAction)
-
-    const filter = new DropShadowFilter({
-        alpha: 0.85,
-        color: 0x000000,
-        blur: 3,
-        quality: 3,
-        offset: { x: -20, y: 15 },
-        shadowOnly: false,
-    })
 
     useBirthAnimation(
         baseRef as React.RefObject<all.pixi.Sprite>,
@@ -75,7 +67,7 @@ const EnemyBase = ({ isBirth, isDeath, uid, pos }: all.game.EnemyBaseProps) => {
             x={pos.x + ((size.width / 2) * 0.75)}
             y={pos.y + size.height}
             label="enemy-base"
-            filters={[filter]}
+            filters={[dropShadowFilter.enemyBase]}
             autoPlay
             loop
         />
