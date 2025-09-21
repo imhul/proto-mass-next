@@ -1,17 +1,17 @@
 //----------------------------------------------
 // COMPONENTS PROPS
 //----------------------------------------------
-export type GameProps = { parentRef: all.react.RefObject<HTMLDivElement | null> }
-export type UseGameLoopProps = { ref: all.react.RefObject<all.view.Viewport | null> }
+export type GameProps = { parentRef: CamRef }
+export type UseGameLoopProps = { ref: CamRef }
 
 export interface BulletProps extends BulletEntity {
-    ref: all.react.RefObject<all.view.Viewport | null>
+    ref: CamRef
     textures: all.pixi.AnimatedSpriteFrames
     onComplete: () => void
 }
 
 export interface BulletsProps {
-    ref: all.react.RefObject<all.view.Viewport | null>
+    ref: CamRef
 }
 
 export interface CustomTilingSpriteProps {
@@ -66,21 +66,21 @@ export interface MaggotProps {
 }
 
 export interface HeroProps {
-    ref: all.react.RefObject<all.view.Viewport | null>
+    ref: CamRef
 }
 
 export interface EnemyProps {
     base: Position
     item: EnemyEntity | null
-    ref: all.react.RefObject<all.view.Viewport | null>
+    ref: CamRef
 }
 
 export interface EnemiesProps {
-    ref: all.react.RefObject<all.view.Viewport | null>
+    ref: CamRef
 }
 
 export interface ColonyProps {
-    ref: all.react.RefObject<all.view.Viewport | null>
+    ref: CamRef
     colony: ColonyEntity
 }
 
@@ -221,6 +221,7 @@ export interface Profession {
 export type AtlasJSON = { textures: { [key: number | string]: all.pixi.Texture } }
 export type BaseSize = { width: number; height: number }
 export type BaseState = "idle" | "die" | "damage" | "transform" | "special"
+export type CamRef = all.react.RefObject<all.view.Viewport | null>
 export type ClosestWater = { dx: number; dy: number }
 export type Construction =
     | 'base'
@@ -359,7 +360,7 @@ export type TaskType =
     | 'cancel'
 export type TexturesCollection = TexturesObject | null
 export type TexturesObject = { [key in SummaryState]: all.pixi.Texture[] }
-export type UseMoveProps = { ref: React.RefObject<all.view.Viewport | null> }
+export type UseMoveProps = { ref: CamRef }
 
 export interface Obstacle {
     direction: MovementDirection

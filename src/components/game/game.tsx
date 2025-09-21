@@ -6,6 +6,7 @@ import { usePersistedStore } from "@/store"
 // hooks
 import { useGameLoop } from "@hooks/useGameLoop"
 // components
+// import PixiFire from "@/components/game/pixi-fire"
 import Hero from "@components/game/hero"
 import Enemies from "@/components/game/enemies"
 import Camera from "@components/game/camera"
@@ -23,8 +24,8 @@ const Game = ({ parentRef }: all.game.GameProps) => {
 
     const resize = () => {
         if (!viewportRef.current) return
-        const width = parentRef.current?.clientWidth || window.innerWidth
-        const height = parentRef.current?.clientHeight || window.innerHeight
+        const width = parentRef.current?.screenWidth || window.innerWidth
+        const height = parentRef.current?.screenHeight || window.innerHeight
         viewportRef.current.resize(width, height)
     }
 
@@ -54,6 +55,10 @@ const Game = ({ parentRef }: all.game.GameProps) => {
                         <Bullets ref={viewportRef} />
                         <Hero ref={viewportRef} />
                         <Objects size={gameSize} />
+                        {/* <PixiFire
+                            width={50}
+                            height={500}
+                        /> */}
                     </>) : null}
                 </Camera>) : null
             }

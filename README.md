@@ -10,12 +10,19 @@
 - [Vite](https://vitejs.dev) 7.1.5
 - [ESLint](https://eslint.org) 9.35.0
 
-The decision to abandon [Svelte](https://svelte.dev) and [Next](https://nextjs.org) was made for obvious reasons, because this project is not about **SSR**. The open source repository is on [GitHub](https://github.com/imhul/proto-mass-next).
+The decision to abandon [Svelte](https://svelte.dev) and [Next](https://nextjs.org) was made for obvious reasons,<br />
+because this project is not about **SSR**. The open source repository is on [GitHub](https://github.com/imhul/proto-mass-next).
 
 ## Story
 
-Far away on a distant planet inhabited by primitive life forms a small colony of robots accidentally trapped must build, develop and fight only to exist...
-How far can they go? 🕹 🎲 🌌 🎰 ⭐ ⭐ ⭐
+Somewhere far away, on a small farm, one quiet night... the earth split open, and terrifying creatures from hell began to emerge from the fissure. They were chickens. Chickens from hell, determined to conquer the entire Earth! But the farmer had something in store for such an occasion. Ahead of him lay bloody adventures in the battle against the Dark Chicken Forces.
+Does he stand a chance?
+
+🕹 🕹 🕹 ⚔ 🐓 ⚔ 🐓 ⚔ 🐓 🍗 🍗 🍗
+
+<p align="center">
+  <img src="/assets/chicken-hell-logo.png" />
+</p>
 
 ## TODO:
 
