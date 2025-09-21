@@ -21,7 +21,7 @@ Does he stand a chance?
 🕹 🕹 🕹 ⚔ 🐓 ⚔ 🐓 ⚔ 🐓 🍗 🍗 🍗
 
 <p align="center">
-  <img src="/assets/chicken-hell-logo.png" width="400" />
+  <img src="assets/chicken-hell-logo.png" width="400" />
 </p>
 
 ## TODO:
