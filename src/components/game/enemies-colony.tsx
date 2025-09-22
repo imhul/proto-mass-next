@@ -90,9 +90,10 @@ const EnemiesColony = ({ ref, colony }: all.game.ColonyProps) => {
                         setGameAction("setEnemies", { colonyUid: colony.uid, newEnemy })
                         return
                     }
-                    const enemyBasePosition = dirty ? (currentColony.list[0]?.base ?? base) : base
-                    const newEnemyState = currentColony.list[0] ? currentColony.list[0].state : initialEnemyModel.state
-                    const id = getNewId(colony.id, currentColony.list, 0)
+                    const list = currentColony?.list || []
+                    const enemyBasePosition = dirty ? (list[0]?.base ?? base) : base
+                    const newEnemyState = list[0] ? list[0].state : initialEnemyModel.state
+                    const id = getNewId(colony.id, list, 0)
                     const newEnemy: all.game.EnemyEntity = {
                         ...initialEnemyModel,
                         id,

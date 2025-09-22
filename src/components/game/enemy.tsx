@@ -219,7 +219,7 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
         } else {
             setFilters([dropShadowFilter.enemy])
         }
-    }, [isHovered, state])
+    }, [isHovered])
 
     return (textures && item && ref.current) ? (
         <pixiAnimatedSprite
