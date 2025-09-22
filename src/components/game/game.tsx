@@ -15,11 +15,14 @@ import Objects from "@components/game/objects"
 import Ground from "@components/game/ground"
 import Bullets from "@components/game/bullets"
 
+type Store = all.store.PersistedStore
+
 const Game = ({ parentRef }: all.game.GameProps) => {
     const { app } = useApplication()
     globalThis.__PIXI_APP__ = app
     const viewportRef = useRef<Viewport | null>(null)
-    const gameSize = usePersistedStore((state: all.store.PersistedStore) => state.gameSize)
+    const gameSize = usePersistedStore((state: Store) => state.gameSize)
+    const scene = usePersistedStore((state: Store) => state.scene)
     useGameLoop({ ref: viewportRef })
 
     const resize = () => {
@@ -38,28 +41,37 @@ const Game = ({ parentRef }: all.game.GameProps) => {
         }
     }, [])
 
+    const renderGame = () => {
+        switch (scene) {
+            case 1:
+                return viewportRef ? (<>
+                    <Ground size={gameSize} />
+                    <Maggots width={gameSize.width} height={gameSize.height} />
+                    <Enemies ref={viewportRef} />
+                    <Bullets ref={viewportRef} />
+                    <Hero ref={viewportRef} />
+                    <Objects size={gameSize} />
+                    {/* <PixiFire
+                            width={50}
+                            height={500}
+                        /> */}
+                </>) : null
+            default:
+                return null
+        }
+    }
+
     return (
         <>
             {(parentRef.current &&
-                app.renderer &&
-                gameSize) ? (<Camera
+                app.renderer && gameSize)
+                ? (<Camera
                     ref={viewportRef}
                     events={app.renderer.events}
                     gameSize={gameSize}
                     label="camera"
                 >
-                    {viewportRef ? (<>
-                        <Ground size={gameSize} />
-                        <Maggots width={gameSize.width} height={gameSize.height} />
-                        <Enemies ref={viewportRef} />
-                        <Bullets ref={viewportRef} />
-                        <Hero ref={viewportRef} />
-                        <Objects size={gameSize} />
-                        {/* <PixiFire
-                            width={50}
-                            height={500}
-                        /> */}
-                    </>) : null}
+                    {renderGame()}
                 </Camera>) : null
             }
         </>

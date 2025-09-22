@@ -15,6 +15,7 @@ export const initState = {
         height: defaultChunkSize * 2,
     },
     zoom: 1,
+    scene: 1,
     seed: undefined,
     worldName: '',
     heroName: '',
@@ -111,6 +112,9 @@ export const createGameSlice: all.store.CreateGameSliceType = (set) => ({
                 set((s) => ({
                     bullets: s.bullets.filter(bullet => bullet.id !== payload)
                 }))
+                break
+            case "setScene":
+                set({ scene: payload })
                 break
             case "setColonyState":
                 const { uid, angry } = payload

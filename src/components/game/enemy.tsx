@@ -16,6 +16,7 @@ import {
     heroSize,
     idleState,
     angryState,
+    enemyScale,
     defaultChunkSize,
     initialEnemyModel,
     maxDistanceFromEnemyBase,
@@ -123,6 +124,12 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
                     sprite.x += dx
                     sprite.y += dy
 
+                    if (dx < 0) {
+                        sprite.scale.x = -enemyScale
+                    } else {
+                        sprite.scale.x = enemyScale
+                    }
+
                     checkContainerCollision({ x: sprite.x, y: sprite.y }, sprite)
 
                     const distFromBase = Math.hypot(sprite.x - base.x, sprite.y - base.y)
@@ -147,8 +154,9 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
 
     useEffect(() => {
         if (!textures) {
-            Assets.load("/assets/enemy/bot.json").then((result: all.game.AtlasJSON) => {
+            Assets.load("/assets/enemy/enemy.json").then((result: all.game.AtlasJSON) => {
                 setTextures(getTextures(result, "enemy"))
+                console.log("Enemy textures loaded", result)
             })
         }
     }, [textures])
@@ -213,11 +221,11 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
             textures={textures[idleState]}
             ref={spriteRef}
             anchor={0.5}
-            scale={1.5}
+            scale={enemyScale}
             eventMode={"static"}
             onPointerOver={() => setIsHover(true)}
             onPointerOut={() => setIsHover(false)}
-            animationSpeed={0.14}
+            animationSpeed={state === idleState ? 0.08 : 0.18}
             x={item.position.x}
             y={item.position.y}
             interactive={true}

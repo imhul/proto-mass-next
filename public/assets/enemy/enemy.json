@@ -1,0 +1,234 @@
+{
+    "frames": {
+        "bot-idle-1.png": {
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 84,
+                "h": 94
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 4,
+                "w": 84,
+                "h": 94
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "bot-idle-2.png": {
+            "frame": {
+                "x": 84,
+                "y": 0,
+                "w": 84,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 6,
+                "w": 84,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "bot-idle-3.png": {
+            "frame": {
+                "x": 168,
+                "y": 0,
+                "w": 84,
+                "h": 94
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 4,
+                "w": 84,
+                "h": 94
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "bot-idle-4.png": {
+            "frame": {
+                "x": 0,
+                "y": 94,
+                "w": 84,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 6,
+                "w": 84,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "bot-run-1.png": {
+            "frame": {
+                "x": 0,
+                "y": 188,
+                "w": 84,
+                "h": 96
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 4,
+                "w": 84,
+                "h": 96
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "bot-run-2.png": {
+            "frame": {
+                "x": 84,
+                "y": 188,
+                "w": 84,
+                "h": 96
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 4,
+                "w": 84,
+                "h": 96
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "bot-run-3.png": {
+            "frame": {
+                "x": 168,
+                "y": 188,
+                "w": 84,
+                "h": 96
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 4,
+                "w": 84,
+                "h": 96
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "bot-run-4.png": {
+            "frame": {
+                "x": 0,
+                "y": 284,
+                "w": 84,
+                "h": 96
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 4,
+                "w": 84,
+                "h": 96
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "bot-run-5.png": {
+            "frame": {
+                "x": 84,
+                "y": 284,
+                "w": 84,
+                "h": 96
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 4,
+                "w": 84,
+                "h": 96
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "bot-run-6.png": {
+            "frame": {
+                "x": 168,
+                "y": 284,
+                "w": 84,
+                "h": 94
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 5,
+                "w": 84,
+                "h": 94
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "bot-run-7.png": {
+            "frame": {
+                "x": 0,
+                "y": 188,
+                "w": 84,
+                "h": 96
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 4,
+                "w": 84,
+                "h": 96
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        }
+    },
+    "meta": {
+        "app": "http://www.texturepacker.com",
+        "version": "1.0",
+        "image": "enemy.png",
+        "format": "RGBA8888",
+        "size": {
+            "w": 256,
+            "h": 512
+        }
+    }
+}

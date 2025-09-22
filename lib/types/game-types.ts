@@ -239,7 +239,8 @@ export type Construction =
     | 'power-storage'
 export type Consumer = "hero" | "enemy"
 export type GameAction =
-    "setColonyState"
+    "setScene"
+    | "setColonyState"
     | "removeBullet"
     | "addBullet"
     | "updateEnemy"

@@ -5,6 +5,7 @@ export const bulletDamage = 10
 export const bulletSpeed = 4
 export const defaultChunkSize = 1000
 export const distanceToMapBorder = 200
+export const enemyScale = 0.5
 export const fakeStartPosition: all.game.Position = { x: 200, y: 200 }
 export const heroJumpHeight = 100
 export const heroJumpLength = 100
@@ -224,10 +225,10 @@ export const heroTexturesConfig: Record<all.game.HeroState, { count: number, uid
 }
 
 export const enemyTexturesConfig: Record<all.game.EnemyState, { count: number, uid: number }> = {
-    "angry": { count: 8, uid: 13 },
+    "angry": { count: 7, uid: 13 },
     "idle": { count: 4, uid: 9 },
-    "run": { count: 8, uid: 13 },
-    "lvlup": { count: 8, uid: 13 },
+    "run": { count: 7, uid: 13 },
+    "lvlup": { count: 7, uid: 13 },
 }
 
 export const zindex = {

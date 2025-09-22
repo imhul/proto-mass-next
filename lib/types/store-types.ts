@@ -52,6 +52,7 @@ export type CreateNavSliceType = StateCreator<
 // SLICES
 //----------------------------------------------
 export type GameSlice = {
+    scene: number
     init: boolean
     zoom: number
     seed: string | undefined
