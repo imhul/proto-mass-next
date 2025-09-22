@@ -219,6 +219,146 @@
                 "w": 100,
                 "h": 100
             }
+        },
+        "bot-angry-1.png": {
+            "frame": {
+                "x": 0,
+                "y": 188,
+                "w": 84,
+                "h": 96
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 4,
+                "w": 84,
+                "h": 96
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "bot-angry-2.png": {
+            "frame": {
+                "x": 84,
+                "y": 188,
+                "w": 84,
+                "h": 96
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 4,
+                "w": 84,
+                "h": 96
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "bot-angry-3.png": {
+            "frame": {
+                "x": 168,
+                "y": 188,
+                "w": 84,
+                "h": 96
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 4,
+                "w": 84,
+                "h": 96
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "bot-angry-4.png": {
+            "frame": {
+                "x": 0,
+                "y": 284,
+                "w": 84,
+                "h": 96
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 4,
+                "w": 84,
+                "h": 96
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "bot-angry-5.png": {
+            "frame": {
+                "x": 84,
+                "y": 284,
+                "w": 84,
+                "h": 96
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 4,
+                "w": 84,
+                "h": 96
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "bot-angry-6.png": {
+            "frame": {
+                "x": 168,
+                "y": 284,
+                "w": 84,
+                "h": 94
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 5,
+                "w": 84,
+                "h": 94
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "bot-angry-7.png": {
+            "frame": {
+                "x": 0,
+                "y": 188,
+                "w": 84,
+                "h": 96
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 4,
+                "w": 84,
+                "h": 96
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
         }
     },
     "meta": {

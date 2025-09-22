@@ -41,6 +41,15 @@ const EnemiesColony = ({ ref, colony }: all.game.ColonyProps) => {
         return { x, y }
     }
 
+    const getNewId = (colonyId: number, list: all.game.EnemyEntity[], needToUp: number) => {
+        const newId = `${colonyId}-${list.length + 1 + needToUp}`
+        const isNewIDExist = list.find(e => e.id === newId)
+        if (isNewIDExist) {
+            return getNewId(colonyId, list, needToUp + 1)
+        }
+        return newId
+    }
+
     useEffect(() => {
         if (paused) return
         if (enemies.length < maxEnemiesPerColony) {
@@ -81,15 +90,16 @@ const EnemiesColony = ({ ref, colony }: all.game.ColonyProps) => {
                         setGameAction("setEnemies", { colonyUid: colony.uid, newEnemy })
                         return
                     }
-                    const enemyBasePosition = dirty ? (enemies[0]?.base ?? base) : base
-                    const newEnemyState = enemies[0] ? enemies[0].state : initialEnemyModel.state
+                    const enemyBasePosition = dirty ? (currentColony.list[0]?.base ?? base) : base
+                    const newEnemyState = currentColony.list[0] ? currentColony.list[0].state : initialEnemyModel.state
+                    const id = getNewId(colony.id, currentColony.list, 0)
                     const newEnemy: all.game.EnemyEntity = {
                         ...initialEnemyModel,
-                        id: `${colony.id}-${enemies.length + 1}`,
-                        uid: crypto.randomUUID(),
+                        id,
                         colony,
-                        base: enemyBasePosition,
                         state: newEnemyState,
+                        base: enemyBasePosition,
+                        uid: crypto.randomUUID(),
                         timestamp: performance.now(),
                         position: getRandomPositionNearBase(enemyBasePosition),
                     }

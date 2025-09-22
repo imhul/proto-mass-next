@@ -85,6 +85,12 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
                 sprite.x += Math.cos(angle) * (speed * 0.1)
                 sprite.y += Math.sin(angle) * (speed * 0.1)
 
+                if (sprite.x < 0) {
+                    sprite.scale.x = -enemyScale
+                } else {
+                    sprite.scale.x = enemyScale
+                }
+
                 animationFrameRef.current = requestAnimationFrame(step)
             } else {
                 setState(idleState)
@@ -156,7 +162,6 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
         if (!textures) {
             Assets.load("/assets/enemy/enemy.json").then((result: all.game.AtlasJSON) => {
                 setTextures(getTextures(result, "enemy"))
-                console.log("Enemy textures loaded", result)
             })
         }
     }, [textures])
@@ -203,7 +208,7 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
     }, [paused])
 
     useEffect(() => {
-        if (isHovered || state === angryState) {
+        if (isHovered) {
             setFilters((prev) => [
                 ...prev,
                 new ColorMatrixFilter({

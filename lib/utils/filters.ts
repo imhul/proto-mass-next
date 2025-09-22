@@ -20,7 +20,6 @@ export const dropShadowFilter = {
     }),
     enemy: new DropShadowFilter({
         ...dropShadowFilterSettings,
-        alpha: 0.85,
         offset: { x: -5, y: 10 },
     }),
     object: new DropShadowFilter({

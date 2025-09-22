@@ -288,6 +288,8 @@ export const useGameLoop = ({ ref }: all.game.UseGameLoopProps) => {
             return null
         }
 
+        // TODO: if hero after run-n-shoot releases the "run" key, he must stop and shoot
+
         // run & jump command (dedicated to Current Value)
         if (jump) return "jump"
 
