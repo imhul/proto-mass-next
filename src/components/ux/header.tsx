@@ -12,12 +12,13 @@ const Header = () => {
     const showHeroActionMenu = usePersistedStore((state: all.store.PersistedStore) => state.showHeroActionMenu)
 
     return (
-        <header className="flex items-center justify-between p-4 bg-gray-100 dark:bg-[var(--body-bg)]">
+        <header className="flex items-center justify-between h-[80px] p-3 pl-4 pr-6  bg-gray-100 dark:bg-[var(--secondary)]">
             <Link withChildren to="home">
                 <img
                     src="/assets/chicken-hell-logo.png"
-                    alt="Proto-Mass logo"
+                    alt="Chicken Hell Logo"
                     width={100}
+                    className="logo"
                 />
             </Link>
             <Menu />

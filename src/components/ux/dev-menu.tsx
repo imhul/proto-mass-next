@@ -71,14 +71,21 @@ const DevMenu = () => {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button
-                    className={`${isDev()
-                        ? "dark:text-gray-950 dark:hover:text-gray-600"
-                        : "dark:text-white dark:hover:text-primary"} 
-                        hover:text-gray-950`}
-                    variant={isDev() ? "default" : "secondary"}
+                    // className={`${isDev()
+                    //     ? "dark:text-gray-950 dark:hover:text-gray-600"
+                    //     : "dark:text-white dark:hover:text-primary"} 
+                    //     hover:text-gray-950`}
+                    variant="ghost"
                     size="icon"
+                    className={
+                        "no-border no-bg-on-hover" + " " +
+                        "hover:text-primary" + " " +
+                        "hover:bg-transparent" + " " +
+                        "data-[state='open']:text-primary" + " " +
+                        (isDev() ? "text-primary" : "text-accent")
+                    }
                 >
-                    <Bug />
+                    <Bug className="scale-250 transition-all" />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-100">

@@ -31,9 +31,29 @@ const Menu = () => {
             <NavigationMenuList>
                 {menu.map((item, index) => (
                     <NavigationMenuItem key={index}>
-                        <NavigationMenuLink>
+                        <NavigationMenuLink data-active={item.id === route} className={
+                            "data-[active=true]:focus:bg-transparent" + " " +
+                            "data-[active=true]:hover:bg-transparent" + " " +
+                            "data-[active=true]:bg-transparent" + " " +
+                            "data-[active=true]:text-primary" + " " +
+                            "hover:bg-transparent" + " " +
+                            "hover:text-primary" + " " +
+                            "focus:bg-transparent" + " " +
+                            "focus:text-primary" + " " +
+                            "focus-visible:text-primary"
+                        }>
                             <Link
-                                className="hover:text-primary data-[active=true]:text-primary"
+                                className={
+                                    "hover:bg-accent" + " " +
+                                    "hover:text-primary" + " " +
+                                    "data-[active=true]:text-primary" + " " +
+                                    "data-[active=true]:bg-accent" + " " +
+                                    "data-[active=true]:focus:bg-accent" + " " +
+                                    "data-[active=true]:hover:bg-accent" + " " +
+                                    "focus:bg-accent" + " " +
+                                    "focus:text-primary" + " " +
+                                    "focus-visible:text-primary"
+                                }
                                 text={item.label}
                                 active={item.id === route}
                                 to={item.id}

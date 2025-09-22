@@ -11,7 +11,7 @@ import {
     DropdownMenuContent,
 } from "@components/ui/dropdown-menu"
 // utils
-import { Ellipsis } from "lucide-react"
+import { Cog } from "lucide-react"
 import { cn } from "@lib/utils"
 // config
 import { gameMenu } from "@lib/config"
@@ -27,11 +27,17 @@ function GameMenu() {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button
-                    variant={hero.state !== "player-idle" ? "default" : "secondary"}
+                    variant="ghost"
                     size="icon"
-                    className="hover:text-primary data-[state='open']:text-primary"
+                    className={
+                        "no-border no-bg-on-hover" + " " +
+                        "hover:text-primary" + " " +
+                        "hover:bg-transparent" + " " +
+                        "data-[state='open']:text-primary" + " " +
+                        (hero.state !== "player-idle" ? "text-primary" : "text-accent")
+                    }
                 >
-                    <Ellipsis className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all" />
+                    <Cog className="scale-250 transition-all" />
                     <span className="sr-only">Toggle theme</span>
                 </Button>
             </DropdownMenuTrigger>

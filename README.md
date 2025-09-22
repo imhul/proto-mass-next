@@ -21,7 +21,7 @@ Does he stand a chance?
 🕹 🕹 🕹 ⚔ 🐓 ⚔ 🐓 ⚔ 🐓 🍗 🍗 🍗
 
 <p align="center">
-  <img src="public/assets/chicken-hell-logo.png" width="400" />
+  <img src="public/assets/chicken-hell-pixel-logo.png" width="400" />
 </p>
 
 ## TODO:
@@ -51,7 +51,7 @@ To make a browser game that combines technologies Pixi.js, React 19, and Zustand
 
 ## Contribute
 
-Want to be part of the Proto-Mass project? Great! All are welcome! We will get there quicker together 👌
+Want to be part of the Chicken Hell project? Great! All are welcome! We will get there quicker together 👌
 Whether you find a bug, have a great feature request, or you fancy owning a task from the road map above, feel free to get in touch.
 
 ## Donate

@@ -21,7 +21,7 @@ const Link = ({
         <Button
             asChild={asChild}
             onClick={() => goto(to)}
-            variant={active ? "outline" : "secondary"}
+            variant={active ? "default" : "secondary"}
             {...props}
         >
             {text ?? to}
