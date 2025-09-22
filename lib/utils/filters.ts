@@ -6,7 +6,7 @@ import {
 } from 'pixi-filters'
 
 const dropShadowFilterSettings = {
-    alpha: 0.85,
+    alpha: 0.5,
     color: 0x000000,
     blur: 3,
     quality: 3,
@@ -16,21 +16,20 @@ const dropShadowFilterSettings = {
 export const dropShadowFilter = {
     hero: new DropShadowFilter({
         ...dropShadowFilterSettings,
-        alpha: 0.5,
         offset: { x: -15, y: 20 },
     }),
     enemy: new DropShadowFilter({
         ...dropShadowFilterSettings,
+        alpha: 0.85,
         offset: { x: -5, y: 10 },
     }),
     object: new DropShadowFilter({
         ...dropShadowFilterSettings,
-        alpha: 0.5,
         offset: { x: -5, y: 5 },
     }),
     enemyBase: new DropShadowFilter({
         ...dropShadowFilterSettings,
-        offset: { x: -20, y: 15 },
+        offset: { x: -10, y: 10 },
     })
 }
 

@@ -14,7 +14,7 @@ type Store = all.store.PersistedStore
 const EnemyBase = ({ isBirth, isDeath, uid, pos }: all.game.EnemyBaseProps) => {
     const baseRef = useRef<all.pixi.AnimatedSprite | null>(null)
     const [angry, setAngry] = useState<boolean>(false)
-    const [size, setSize] = useState<all.game.BaseSize>({ width: 0, height: 0 })
+    const [size, setSize] = useState<all.game.BaseSize>({ width: 100, height: 100 })
     const [textures, setTextures] = useState<all.pixi.AnimatedSpriteFrames | null>(null)
     // store
     const paused = usePersistedStore((s: Store) => s.paused)
@@ -31,7 +31,7 @@ const EnemyBase = ({ isBirth, isDeath, uid, pos }: all.game.EnemyBaseProps) => {
         if (!textures) Assets.load("/assets/enemy/enemy-base.json")
             .then((tex) => {
                 const values = Object.values(tex.textures) as all.pixi.Texture[]
-                setSize({ width: values[0]?.width || 100, height: values[0]?.height || 100 })
+                if (values[0]) setSize({ width: values[0].width, height: values[0].height })
                 const animation = Object.values(tex.textures).map((texture) => texture)
                 setTextures(animation as all.pixi.AnimatedSpriteFrames)
             })

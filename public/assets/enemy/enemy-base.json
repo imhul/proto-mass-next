@@ -1,143 +1,203 @@
 {
     "frames": {
-        "enemy-base1.png": {
+        "enemy-base-1.png": {
             "frame": {
                 "x": 0,
                 "y": 0,
-                "w": 255,
-                "h": 104
+                "w": 116,
+                "h": 109
             },
             "rotated": false,
             "trimmed": true,
             "spriteSourceSize": {
                 "x": 0,
-                "y": 0,
-                "w": 255,
-                "h": 104
+                "y": 6,
+                "w": 116,
+                "h": 109
             },
             "sourceSize": {
-                "w": 257,
-                "h": 104
+                "w": 116,
+                "h": 115
             }
         },
-        "enemy-base2.png": {
+        "enemy-base-2.png": {
             "frame": {
-                "x": 0,
-                "y": 104,
-                "w": 255,
-                "h": 104
+                "x": 116,
+                "y": 0,
+                "w": 116,
+                "h": 109
             },
             "rotated": false,
             "trimmed": true,
             "spriteSourceSize": {
                 "x": 0,
-                "y": 0,
-                "w": 255,
-                "h": 104
+                "y": 6,
+                "w": 116,
+                "h": 109
             },
             "sourceSize": {
-                "w": 257,
-                "h": 104
+                "w": 116,
+                "h": 115
             }
         },
-        "enemy-base3.png": {
+        "enemy-base-3.png": {
             "frame": {
                 "x": 0,
-                "y": 208,
-                "w": 255,
-                "h": 104
+                "y": 109,
+                "w": 116,
+                "h": 109
             },
             "rotated": false,
             "trimmed": true,
             "spriteSourceSize": {
                 "x": 0,
-                "y": 0,
-                "w": 255,
-                "h": 104
+                "y": 6,
+                "w": 116,
+                "h": 109
             },
             "sourceSize": {
-                "w": 257,
-                "h": 104
+                "w": 116,
+                "h": 115
             }
         },
-        "enemy-base4.png": {
+        "enemy-base-4.png": {
             "frame": {
-                "x": 0,
-                "y": 312,
-                "w": 255,
-                "h": 104
+                "x": 116,
+                "y": 109,
+                "w": 116,
+                "h": 109
             },
             "rotated": false,
             "trimmed": true,
             "spriteSourceSize": {
                 "x": 0,
-                "y": 0,
-                "w": 255,
-                "h": 104
+                "y": 6,
+                "w": 116,
+                "h": 109
             },
             "sourceSize": {
-                "w": 257,
-                "h": 104
+                "w": 116,
+                "h": 115
             }
         },
-        "enemy-base5.png": {
+        "enemy-base-5.png": {
             "frame": {
-                "x": 0,
-                "y": 208,
-                "w": 255,
-                "h": 104
+                "x": 116,
+                "y": 0,
+                "w": 116,
+                "h": 109
             },
             "rotated": false,
             "trimmed": true,
             "spriteSourceSize": {
                 "x": 0,
-                "y": 0,
-                "w": 255,
-                "h": 104
+                "y": 6,
+                "w": 116,
+                "h": 109
             },
             "sourceSize": {
-                "w": 257,
-                "h": 104
+                "w": 116,
+                "h": 115
             }
         },
-        "enemy-base6.png": {
+        "enemy-base-6.png": {
             "frame": {
-                "x": 0,
-                "y": 104,
-                "w": 255,
-                "h": 104
+                "x": 116,
+                "y": 109,
+                "w": 116,
+                "h": 109
             },
             "rotated": false,
             "trimmed": true,
             "spriteSourceSize": {
                 "x": 0,
-                "y": 0,
-                "w": 255,
-                "h": 104
+                "y": 6,
+                "w": 116,
+                "h": 109
             },
             "sourceSize": {
-                "w": 257,
-                "h": 104
+                "w": 116,
+                "h": 115
             }
         },
-        "enemy-base7.png": {
+        "enemy-base-7.png": {
             "frame": {
                 "x": 0,
-                "y": 0,
-                "w": 255,
-                "h": 104
+                "y": 109,
+                "w": 116,
+                "h": 109
             },
             "rotated": false,
             "trimmed": true,
             "spriteSourceSize": {
                 "x": 0,
-                "y": 0,
-                "w": 255,
-                "h": 104
+                "y": 6,
+                "w": 116,
+                "h": 109
             },
             "sourceSize": {
-                "w": 257,
-                "h": 104
+                "w": 116,
+                "h": 115
+            }
+        },
+        "enemy-base-8.png": {
+            "frame": {
+                "x": 116,
+                "y": 0,
+                "w": 116,
+                "h": 109
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 6,
+                "w": 116,
+                "h": 109
+            },
+            "sourceSize": {
+                "w": 116,
+                "h": 115
+            }
+        },
+        "enemy-base-9.png": {
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 116,
+                "h": 109
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 6,
+                "w": 116,
+                "h": 109
+            },
+            "sourceSize": {
+                "w": 116,
+                "h": 115
+            }
+        },
+        "enemy-base-10.png": {
+            "frame": {
+                "x": 116,
+                "y": 0,
+                "w": 116,
+                "h": 109
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 6,
+                "w": 116,
+                "h": 109
+            },
+            "sourceSize": {
+                "w": 116,
+                "h": 115
             }
         }
     },
@@ -148,7 +208,7 @@
         "format": "RGBA8888",
         "size": {
             "w": 256,
-            "h": 512
+            "h": 256
         }
     }
 }
