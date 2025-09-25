@@ -6,7 +6,7 @@ import { ProgressBar } from "@pixi/ui"
 import { colors } from "@lib/config"
 
 const CustomProgressBar = forwardRef<ProgressBar | null, all.game.ProgressBarProps>(
-    ({ position, min, max, current }, ref) => {
+    ({ position, min, max, current, zIndex }, ref) => {
         useExtend({ ProgressBar })
         const barRef = useRef<ProgressBar | null>(null)
 
@@ -24,9 +24,10 @@ const CustomProgressBar = forwardRef<ProgressBar | null, all.game.ProgressBarPro
             bar.label = "progress-bar"
             bar.width = 12
             bar.height = 2
-            bar.zIndex = 2000
+            bar.zIndex = zIndex
             bar.alpha = 0.85
             bar.progress = 0
+            bar.scale.set(0.25)
 
             barRef.current = bar
             if (typeof ref === "function") {
@@ -50,7 +51,7 @@ const CustomProgressBar = forwardRef<ProgressBar | null, all.game.ProgressBarPro
             }
             bar.progress = current
             if (position) {
-                bar.x = position.x + bar.width / 2
+                bar.x = position.x
                 bar.y = position.y
             }
         }, [current, min, max, position])

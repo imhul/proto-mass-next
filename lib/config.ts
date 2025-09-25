@@ -231,6 +231,12 @@ export const enemyTexturesConfig: Record<all.game.EnemyState, { count: number, u
     "lvlup": { count: 7, uid: 13 },
 }
 
+export const enemyEggTexturesConfig: Record<all.game.EnemyEggState, { count: number, uid: number }> = {
+    "jump": { count: 20, uid: 308 },
+    "birth": { count: 6, uid: 296 },
+    "death": { count: 6, uid: 302 },
+}
+
 export const zindex = {
     "ground": 1,
     "object": 2,
@@ -271,8 +277,8 @@ export const initialEnemyModel = {
     state: "idle",
     timestamp: performance.now(),
     speed: 2.1,
-    attackSpeed: 15,
-    attackPower: 6,
+    attackSpeed: 0,
+    attackPower: 0.5,
     hp: 111,
     totalHp: 111,
     damage: 0,

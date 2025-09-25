@@ -49,6 +49,7 @@ export interface ProgressBarProps {
     max: number
     current: number
     position?: Position
+    zIndex: number
 }
 
 export interface CameraProps {
@@ -90,6 +91,12 @@ export type DevComponentProps = {
     width: number
     height: number
     [key: string]: unknown
+}
+
+export interface EnemyEggProps {
+    uid: string
+    position: Position
+    state: "jump" | "birth" | "death"
 }
 
 //----------------------------------------------
@@ -237,7 +244,7 @@ export type Construction =
     | 'mega-power-plant'
     | 'power-plant'
     | 'power-storage'
-export type Consumer = "hero" | "enemy"
+export type Consumer = "hero" | "enemy" | "enemy-egg"
 export type GameAction =
     "setScene"
     | "setColonyState"
@@ -263,6 +270,7 @@ export type GameDifficulty = { id: GameDifficultyType, label: string }
 export type GameObjectState = BaseState & ("grow" | "repair")
 export type GetTexturesType = (atlasJson: AtlasJSON | null, consumer: Consumer) => TexturesCollection
 export type GMap = number[][]
+export type EnemyEggState = "jump" | "birth" | "death"
 export type EnemyState = "idle" | "lvlup" | "angry" | "run"
 export type Hero = { hero: HeroEntity }
 export type PixiElementInstance = all.pixi.Container<all.pixi.ContainerChild> | null
@@ -332,7 +340,7 @@ export type ProfessionType =
     | 'any'
 export type EnemyColonyState = "idle" | "angry"
 export type SkillType = "shooting" | "defense" | "speed" | "health" | "critical-chance" | "critical-damage" | "crafting" | "mining" | "harvesting" | "building" | "research" | "healing"
-export type SummaryState = HeroState | EnemyState
+export type SummaryState = HeroState | EnemyState | EnemyEggState
 export type TaskStatus =
     | 'accepted'
     | 'paused'

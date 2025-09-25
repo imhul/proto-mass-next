@@ -62,7 +62,7 @@ const EnemyBase = ({ isBirth, isDeath, uid, pos }: all.game.EnemyBaseProps) => {
             interactive={true}
             width={size.width}
             height={size.height}
-            animationSpeed={angry ? 0.2 : 0.1}
+            animationSpeed={angry ? 0.1 : 0.05}
             scale={0.75}
             x={pos.x + ((size.width / 2) * 0.75)}
             y={pos.y + size.height}

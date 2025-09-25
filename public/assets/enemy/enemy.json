@@ -1,6 +1,6 @@
 {
     "frames": {
-        "bot-idle-1.png": {
+        "enemy-idle-1.png": {
             "frame": {
                 "x": 0,
                 "y": 0,
@@ -20,7 +20,7 @@
                 "h": 100
             }
         },
-        "bot-idle-2.png": {
+        "enemy-idle-2.png": {
             "frame": {
                 "x": 84,
                 "y": 0,
@@ -40,7 +40,7 @@
                 "h": 100
             }
         },
-        "bot-idle-3.png": {
+        "enemy-idle-3.png": {
             "frame": {
                 "x": 168,
                 "y": 0,
@@ -60,7 +60,7 @@
                 "h": 100
             }
         },
-        "bot-idle-4.png": {
+        "enemy-idle-4.png": {
             "frame": {
                 "x": 0,
                 "y": 94,
@@ -80,7 +80,7 @@
                 "h": 100
             }
         },
-        "bot-run-1.png": {
+        "enemy-run-1.png": {
             "frame": {
                 "x": 0,
                 "y": 188,
@@ -100,7 +100,7 @@
                 "h": 100
             }
         },
-        "bot-run-2.png": {
+        "enemy-run-2.png": {
             "frame": {
                 "x": 84,
                 "y": 188,
@@ -120,7 +120,7 @@
                 "h": 100
             }
         },
-        "bot-run-3.png": {
+        "enemy-run-3.png": {
             "frame": {
                 "x": 168,
                 "y": 188,
@@ -140,7 +140,7 @@
                 "h": 100
             }
         },
-        "bot-run-4.png": {
+        "enemy-run-4.png": {
             "frame": {
                 "x": 0,
                 "y": 284,
@@ -160,7 +160,7 @@
                 "h": 100
             }
         },
-        "bot-run-5.png": {
+        "enemy-run-5.png": {
             "frame": {
                 "x": 84,
                 "y": 284,
@@ -180,147 +180,7 @@
                 "h": 100
             }
         },
-        "bot-run-6.png": {
-            "frame": {
-                "x": 168,
-                "y": 284,
-                "w": 84,
-                "h": 94
-            },
-            "rotated": false,
-            "trimmed": true,
-            "spriteSourceSize": {
-                "x": 4,
-                "y": 5,
-                "w": 84,
-                "h": 94
-            },
-            "sourceSize": {
-                "w": 100,
-                "h": 100
-            }
-        },
-        "bot-run-7.png": {
-            "frame": {
-                "x": 0,
-                "y": 188,
-                "w": 84,
-                "h": 96
-            },
-            "rotated": false,
-            "trimmed": true,
-            "spriteSourceSize": {
-                "x": 4,
-                "y": 4,
-                "w": 84,
-                "h": 96
-            },
-            "sourceSize": {
-                "w": 100,
-                "h": 100
-            }
-        },
-        "bot-angry-1.png": {
-            "frame": {
-                "x": 0,
-                "y": 188,
-                "w": 84,
-                "h": 96
-            },
-            "rotated": false,
-            "trimmed": true,
-            "spriteSourceSize": {
-                "x": 4,
-                "y": 4,
-                "w": 84,
-                "h": 96
-            },
-            "sourceSize": {
-                "w": 100,
-                "h": 100
-            }
-        },
-        "bot-angry-2.png": {
-            "frame": {
-                "x": 84,
-                "y": 188,
-                "w": 84,
-                "h": 96
-            },
-            "rotated": false,
-            "trimmed": true,
-            "spriteSourceSize": {
-                "x": 4,
-                "y": 4,
-                "w": 84,
-                "h": 96
-            },
-            "sourceSize": {
-                "w": 100,
-                "h": 100
-            }
-        },
-        "bot-angry-3.png": {
-            "frame": {
-                "x": 168,
-                "y": 188,
-                "w": 84,
-                "h": 96
-            },
-            "rotated": false,
-            "trimmed": true,
-            "spriteSourceSize": {
-                "x": 4,
-                "y": 4,
-                "w": 84,
-                "h": 96
-            },
-            "sourceSize": {
-                "w": 100,
-                "h": 100
-            }
-        },
-        "bot-angry-4.png": {
-            "frame": {
-                "x": 0,
-                "y": 284,
-                "w": 84,
-                "h": 96
-            },
-            "rotated": false,
-            "trimmed": true,
-            "spriteSourceSize": {
-                "x": 4,
-                "y": 4,
-                "w": 84,
-                "h": 96
-            },
-            "sourceSize": {
-                "w": 100,
-                "h": 100
-            }
-        },
-        "bot-angry-5.png": {
-            "frame": {
-                "x": 84,
-                "y": 284,
-                "w": 84,
-                "h": 96
-            },
-            "rotated": false,
-            "trimmed": true,
-            "spriteSourceSize": {
-                "x": 4,
-                "y": 4,
-                "w": 84,
-                "h": 96
-            },
-            "sourceSize": {
-                "w": 100,
-                "h": 100
-            }
-        },
-        "bot-angry-6.png": {
+        "enemy-run-6.png": {
             "frame": {
                 "x": 168,
                 "y": 284,
@@ -340,7 +200,147 @@
                 "h": 100
             }
         },
-        "bot-angry-7.png": {
+        "enemy-run-7.png": {
+            "frame": {
+                "x": 0,
+                "y": 188,
+                "w": 84,
+                "h": 96
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 4,
+                "w": 84,
+                "h": 96
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "enemy-angry-1.png": {
+            "frame": {
+                "x": 0,
+                "y": 188,
+                "w": 84,
+                "h": 96
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 4,
+                "w": 84,
+                "h": 96
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "enemy-angry-2.png": {
+            "frame": {
+                "x": 84,
+                "y": 188,
+                "w": 84,
+                "h": 96
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 4,
+                "w": 84,
+                "h": 96
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "enemy-angry-3.png": {
+            "frame": {
+                "x": 168,
+                "y": 188,
+                "w": 84,
+                "h": 96
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 4,
+                "w": 84,
+                "h": 96
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "enemy-angry-4.png": {
+            "frame": {
+                "x": 0,
+                "y": 284,
+                "w": 84,
+                "h": 96
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 4,
+                "w": 84,
+                "h": 96
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "enemy-angry-5.png": {
+            "frame": {
+                "x": 84,
+                "y": 284,
+                "w": 84,
+                "h": 96
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 4,
+                "w": 84,
+                "h": 96
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "enemy-angry-6.png": {
+            "frame": {
+                "x": 168,
+                "y": 284,
+                "w": 84,
+                "h": 94
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 5,
+                "w": 84,
+                "h": 94
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 100
+            }
+        },
+        "enemy-angry-7.png": {
             "frame": {
                 "x": 0,
                 "y": 188,

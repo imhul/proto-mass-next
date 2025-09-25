@@ -6,6 +6,7 @@ import { useBirthAnimation } from "@hooks/useBirth"
 // pixi
 import { ColorMatrixFilter, Assets, AnimatedSprite, Rectangle } from "pixi.js"
 // components
+import EnemyEgg from "@components/game/enemy-egg"
 import { ProgressBar } from "@pixi/ui"
 import CustomProgressBar from "@components/pixi/custom-progress-bar"
 // utils
@@ -17,8 +18,11 @@ import {
     idleState,
     angryState,
     enemyScale,
+    bulletSpeed,
+    bulletDamage,
     defaultChunkSize,
     initialEnemyModel,
+    maxBulletDistance,
     maxDistanceFromEnemyBase,
 } from "@lib/config"
 
@@ -27,10 +31,11 @@ type Store = all.store.PersistedStore
 const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
     // refs
     const progressBarRef = useRef<ProgressBar | null>(null)
-    const spriteRef = useRef<AnimatedSprite | null>(null)
+    const enemyRef = useRef<AnimatedSprite | null>(null)
     const animationFrameRef = useRef<number | null>(null)
     const idleTimeoutRef = useRef<number | null>(null)
     // state
+    const [isBulletActive, setIsBulletActive] = useState(false)
     const [filters, setFilters] = useState<all.pixi.Filter[]>([dropShadowFilter.enemy])
     const [textures, setTextures] = useState<all.game.TexturesCollection>(null)
     const [state, setState] = useState<all.game.EnemyState>(idleState)
@@ -42,7 +47,7 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
     const hero = usePersistedStore((s: Store) => s.hero)
 
     useBirthAnimation(
-        spriteRef as React.RefObject<AnimatedSprite>,
+        enemyRef as React.RefObject<AnimatedSprite>,
         !!textures,
         "enemy"
     )
@@ -58,6 +63,36 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
         }
     }
 
+    const attack = () => {
+        console.info("Enemy attack! 👌")
+        if (!ref.current || !enemyRef.current || isBulletActive || hero.hp < 0.1) return
+        const heroRef = ref.current.getChildByLabel("hero")
+        if (!heroRef) return
+        const enemySize = enemyRef.current.width * enemyScale
+        setGameAction("addBullet", {
+            id: crypto.randomUUID(),
+            x: enemyRef.current.position.x < heroRef.position.x
+                ? enemyRef.current.position.x + (enemySize / 2)
+                : enemyRef.current.position.x - (enemySize / 2),
+            y: enemyRef.current.position.y - 7,
+            direction: { x: heroRef.position.x, y: heroRef.position.y },
+            owner: "enemy",
+            damage: bulletDamage + (item?.attackPower ?? 0),
+            speed: bulletSpeed + (item?.attackSpeed ?? 0),
+            distance: maxBulletDistance,
+        })
+        setIsBulletActive(true)
+
+        setTimeout(() => {
+            if (hero.hp > 0.1) {
+                setIsBulletActive(false)
+                attack()
+            } else {
+                setState(idleState)
+            }
+        }, Math.floor(1000))
+    }
+
     const checkContainerCollision = (pos: all.game.Position, sprite: AnimatedSprite) => {
         if (!sprite) return
         if (pos.x < 10 || pos.y < 10 ||
@@ -70,15 +105,16 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
     }
 
     const attackAlgorithm = () => {
-        const sprite = spriteRef.current
-        if (!sprite || !textures) return
-
+        const sprite = enemyRef.current
+        if (!sprite || !textures || !ref.current) return
+        const heroRef = ref.current.getChildByLabel("hero")
+        if (!heroRef) return
         const step = () => {
             if (paused || state !== angryState) return
-            const heroPos = { x: hero.position.x, y: hero.position.y + heroSize / 2 }
+            const heroPos = { x: heroRef.position.x, y: heroRef.position.y + heroSize / 2 }
             const distanceToHero = Math.hypot(heroPos.x - sprite.x, heroPos.y - sprite.y)
 
-            if (distanceToHero < 1000) {
+            if (distanceToHero < 1000 && distanceToHero > 100) {
                 const speed = initialEnemyModel.speed * 1.5
                 const angle = Math.atan2(heroPos.y - sprite.y, heroPos.x - sprite.x)
                 if (!sprite || !sprite.x || !sprite.y) return
@@ -92,6 +128,8 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
                 }
 
                 animationFrameRef.current = requestAnimationFrame(step)
+            } else if (distanceToHero <= 100) {
+                attack()
             } else {
                 setState(idleState)
             }
@@ -101,8 +139,8 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
     }
 
     const idleAlgorithm = () => {
-        if (paused || !spriteRef.current || !textures) return
-        const sprite = spriteRef.current
+        if (paused || !enemyRef.current || !textures) return
+        const sprite = enemyRef.current
         const speed = initialEnemyModel.speed
         const pausePhase = getRandomInt(1000, 4000)
         const walkingPhase = getRandomInt(3000, 9000)
@@ -168,12 +206,12 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
 
     useEffect(() => {
         stopLoop()
-        if (spriteRef.current && textures) {
-            spriteRef.current.textures = textures[state]
+        if (enemyRef.current && textures) {
+            enemyRef.current.textures = textures[state]
             if (paused) {
-                spriteRef.current.stop()
+                enemyRef.current.stop()
             } else {
-                spriteRef.current.play()
+                enemyRef.current.play()
                 if (state === angryState) {
                     attackAlgorithm()
                 } else {
@@ -224,7 +262,7 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
     return (textures && item && ref.current) ? (
         <pixiAnimatedSprite
             textures={textures[idleState]}
-            ref={spriteRef}
+            ref={enemyRef}
             anchor={0.5}
             scale={enemyScale}
             eventMode={"static"}
@@ -243,18 +281,24 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
                 )
             }
             label={`enemy-${item.uid}`}
-            zIndex={Math.floor(item.position.y + textures[idleState][0].height / 2)}
             autoPlay
             loop
             filters={filters}
         >
-            {(spriteRef.current && item.hp < item.totalHp) ? (
+            {enemyRef.current ? (
+                <EnemyEgg uid={item.uid} state={"jump"} position={{
+                    x: enemyRef.current.position.x,
+                    y: enemyRef.current.position.y
+                }} />
+            ) : null}
+            {(enemyRef.current && item.hp < item.totalHp) ? (
                 <CustomProgressBar
                     ref={progressBarRef}
-                    position={{ x: -spriteRef.current.width / 3, y: -15 }}
+                    position={{ x: -enemyRef.current.width / 1.3, y: -35 }}
                     min={0}
                     max={item.totalHp}
                     current={item.hp}
+                    zIndex={enemyRef.current.zIndex + 1}
                 />
             ) : null}
         </pixiAnimatedSprite>

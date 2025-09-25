@@ -27,7 +27,7 @@ const initHeroState: all.game.HeroEntity = {
             levelName: "trainee",
             skillType: "shooting",
             pointsToNextLevel: 100,
-            bonus: { id: "damage", name: "Damage", value: 0.5 }
+            bonus: { id: "damage", name: "Damage", value: 2.5 }
         },
     },
     speed: 2,

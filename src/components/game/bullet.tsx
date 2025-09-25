@@ -100,20 +100,35 @@ const Bullet = ({
             if (!bullet) return
             bullet.x += velocity.x
             bullet.y += velocity.y
+            const bulletBounds = bullet.getBounds()
             distanceTraveled += speed
 
-            for (const enemy of enemiesRef.current) {
-                if (!enemy) continue
-                const bulletBounds = bullet.getBounds()
-                const enemyBounds = enemy.getBounds()
+            if (owner === "hero") {
+                for (const enemy of enemiesRef.current) {
+                    if (!enemy) continue
 
-                if (
-                    bulletBounds.containsPoint(enemyBounds.x, enemyBounds.y) ||
-                    enemyBounds.containsPoint(bulletBounds.x, bulletBounds.y)
-                ) {
-                    const enemyUid = enemy.label.replace("enemy-", "") || ""
-                    collision(enemyUid)
-                    break // ?
+                    const enemyBounds = enemy.getBounds()
+
+                    if (
+                        bulletBounds.containsPoint(enemyBounds.x, enemyBounds.y) ||
+                        enemyBounds.containsPoint(bulletBounds.x, bulletBounds.y)
+                    ) {
+                        const enemyUid = enemy.label.replace("enemy-", "") || ""
+                        collision(enemyUid)
+                        break // ?
+                    }
+                }
+            } else if (owner === "enemy") {
+                const heroRef = ref?.current?.getChildByLabel("hero")
+                if (heroRef) {
+                    const heroBounds = heroRef.getBounds()
+
+                    if (
+                        bulletBounds.containsPoint(heroBounds.x, heroBounds.y) ||
+                        heroBounds.containsPoint(bulletBounds.x, bulletBounds.y)
+                    ) {
+                        collision("...")
+                    }
                 }
             }
 

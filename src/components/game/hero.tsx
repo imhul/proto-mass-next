@@ -8,7 +8,14 @@ import { Assets, AnimatedSprite, Rectangle } from "pixi.js"
 // utils
 import { getTextures, dropShadowFilter } from "@lib/utils"
 // config
-import { zindex, heroSize, heroScale, bulletSpeed, bulletDamage, maxBulletDistance } from "@lib/config"
+import {
+    zindex,
+    heroSize,
+    heroScale,
+    bulletSpeed,
+    bulletDamage,
+    maxBulletDistance
+} from "@lib/config"
 
 type Store = all.store.PersistedStore
 

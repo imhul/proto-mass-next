@@ -1,0 +1,654 @@
+{
+    "frames": {
+        "egg-birth-1.png": {
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-birth-2.png": {
+            "frame": {
+                "x": 70,
+                "y": 0,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-birth-3.png": {
+            "frame": {
+                "x": 140,
+                "y": 0,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-birth-4.png": {
+            "frame": {
+                "x": 0,
+                "y": 92,
+                "w": 74,
+                "h": 94
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 2,
+                "y": 6,
+                "w": 74,
+                "h": 94
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-birth-5.png": {
+            "frame": {
+                "x": 74,
+                "y": 92,
+                "w": 74,
+                "h": 94
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 2,
+                "y": 6,
+                "w": 74,
+                "h": 94
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-birth-6.png": {
+            "frame": {
+                "x": 148,
+                "y": 92,
+                "w": 80,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 8,
+                "w": 80,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-death-1.png": {
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-death-2.png": {
+            "frame": {
+                "x": 70,
+                "y": 0,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-death-3.png": {
+            "frame": {
+                "x": 140,
+                "y": 0,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-death-4.png": {
+            "frame": {
+                "x": 0,
+                "y": 92,
+                "w": 74,
+                "h": 94
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 2,
+                "y": 6,
+                "w": 74,
+                "h": 94
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-death-5.png": {
+            "frame": {
+                "x": 74,
+                "y": 92,
+                "w": 74,
+                "h": 94
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 2,
+                "y": 6,
+                "w": 74,
+                "h": 94
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-death-6.png": {
+            "frame": {
+                "x": 148,
+                "y": 92,
+                "w": 80,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 8,
+                "w": 80,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-jump-1.png": {
+            "frame": {
+                "x": 0,
+                "y": 186,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-jump-2.png": {
+            "frame": {
+                "x": 0,
+                "y": 186,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-jump-3.png": {
+            "frame": {
+                "x": 0,
+                "y": 186,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-jump-4.png": {
+            "frame": {
+                "x": 0,
+                "y": 186,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-jump-5.png": {
+            "frame": {
+                "x": 0,
+                "y": 186,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-jump-6.png": {
+            "frame": {
+                "x": 0,
+                "y": 186,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-jump-7.png": {
+            "frame": {
+                "x": 0,
+                "y": 186,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-jump-8.png": {
+            "frame": {
+                "x": 0,
+                "y": 186,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-jump-9.png": {
+            "frame": {
+                "x": 0,
+                "y": 186,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-jump-10.png": {
+            "frame": {
+                "x": 0,
+                "y": 186,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-jump-11.png": {
+            "frame": {
+                "x": 70,
+                "y": 186,
+                "w": 70,
+                "h": 96
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 0,
+                "w": 70,
+                "h": 96
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-jump-12.png": {
+            "frame": {
+                "x": 140,
+                "y": 186,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 0,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-jump-13.png": {
+            "frame": {
+                "x": 0,
+                "y": 282,
+                "w": 74,
+                "h": 86
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 3,
+                "y": 0,
+                "w": 74,
+                "h": 86
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-jump-14.png": {
+            "frame": {
+                "x": 74,
+                "y": 282,
+                "w": 70,
+                "h": 96
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 0,
+                "w": 70,
+                "h": 96
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-jump-15.png": {
+            "frame": {
+                "x": 144,
+                "y": 282,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-jump-16.png": {
+            "frame": {
+                "x": 0,
+                "y": 378,
+                "w": 74,
+                "h": 90
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 3,
+                "y": 10,
+                "w": 74,
+                "h": 90
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-jump-17.png": {
+            "frame": {
+                "x": 74,
+                "y": 378,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-jump-18.png": {
+            "frame": {
+                "x": 0,
+                "y": 186,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-jump-19.png": {
+            "frame": {
+                "x": 0,
+                "y": 186,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        },
+        "egg-jump-20.png": {
+            "frame": {
+                "x": 0,
+                "y": 186,
+                "w": 70,
+                "h": 92
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 8,
+                "w": 70,
+                "h": 92
+            },
+            "sourceSize": {
+                "w": 80,
+                "h": 100
+            }
+        }
+    },
+    "meta": {
+        "app": "http://www.texturepacker.com",
+        "version": "1.0",
+        "image": "enemy-egg.png",
+        "format": "RGBA8888",
+        "size": {
+            "w": 256,
+            "h": 512
+        }
+    }
+}
