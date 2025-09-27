@@ -21,6 +21,22 @@ const Menu = () => {
     const paused = usePersistedStore((s: Store) => s.paused)
     const isGameInit = usePersistedStore((s: Store) => s.init)
     const setGameAction = usePersistedStore((s: Store) => s.setGameAction)
+    const className = "data-[active=true]:text-primary" + " " +
+        "hover:text-primary" + " " +
+        "focus:text-primary" + " " +
+        "focus-visible:text-primary"
+    const navLinkClass = className + " " +
+        "hover:bg-transparent" + " " +
+        "data-[active=true]:focus:bg-transparent" + " " +
+        "data-[active=true]:hover:bg-transparent" + " " +
+        "data-[active=true]:bg-transparent" + " " +
+        "focus:bg-transparent"
+    const linkClass = className + " " +
+        "hover:bg-accent" + " " +
+        "data-[active=true]:focus:bg-accent" + " " +
+        "data-[active=true]:hover:bg-accent" + " " +
+        "data-[active=true]:bg-accent" + " " +
+        "focus:bg-accent"
 
     useEffect(() => {
         if (route !== "game" && isGameInit && !paused) setGameAction("pause")
@@ -31,29 +47,12 @@ const Menu = () => {
             <NavigationMenuList>
                 {menu.map((item, index) => (
                     <NavigationMenuItem key={index}>
-                        <NavigationMenuLink data-active={item.id === route} className={
-                            "data-[active=true]:focus:bg-transparent" + " " +
-                            "data-[active=true]:hover:bg-transparent" + " " +
-                            "data-[active=true]:bg-transparent" + " " +
-                            "data-[active=true]:text-primary" + " " +
-                            "hover:bg-transparent" + " " +
-                            "hover:text-primary" + " " +
-                            "focus:bg-transparent" + " " +
-                            "focus:text-primary" + " " +
-                            "focus-visible:text-primary"
-                        }>
+                        <NavigationMenuLink
+                            data-active={item.id === route}
+                            className={navLinkClass}
+                        >
                             <Link
-                                className={
-                                    "hover:bg-accent" + " " +
-                                    "hover:text-primary" + " " +
-                                    "data-[active=true]:text-primary" + " " +
-                                    "data-[active=true]:bg-accent" + " " +
-                                    "data-[active=true]:focus:bg-accent" + " " +
-                                    "data-[active=true]:hover:bg-accent" + " " +
-                                    "focus:bg-accent" + " " +
-                                    "focus:text-primary" + " " +
-                                    "focus-visible:text-primary"
-                                }
+                                className={linkClass}
                                 text={item.label}
                                 active={item.id === route}
                                 to={item.id}

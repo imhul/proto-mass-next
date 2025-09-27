@@ -30,6 +30,7 @@ export const Output = () => {
     const isGameInit = usePersistedStore((s: Store) => s.init)
     const enemiesList = usePersistedStore((s: Store) => s.enemies)
     const showCharts = usePersistedStore((s: Store) => s.showCharts)
+    const preferences = usePersistedStore((s: Store) => s.preferences)
     const showEnemyProgress = usePersistedStore((s: Store) => s.showEnemyProgress)
     // state
     const [enemiesLength, setEnemiesLength] = useState(0)
@@ -55,8 +56,8 @@ export const Output = () => {
                 {showEnemyProgress && (<ProgressBar min={0} max={maxEnemyProgress} current={enemiesLength} />)}
                 {showFPS && (<DevFPS />)}
                 {showCharts && (<DevChart currentValue={enemiesLength} />)}
-                <Application resizeTo={parentRef}>
-                    <Game parentRef={parentRef} />
+                <Application resizeTo={parentRef} antialias={preferences.antialias} autoDensity={true} >
+                    <Game />
                 </Application>
                 <PauseModal open={paused} />
             </>) : (<InitialScene />)}

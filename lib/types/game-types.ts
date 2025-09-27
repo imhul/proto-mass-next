@@ -1,7 +1,6 @@
 //----------------------------------------------
 // COMPONENTS PROPS
 //----------------------------------------------
-export type GameProps = { parentRef: CamRef }
 export type UseGameLoopProps = { ref: CamRef }
 
 export interface BulletProps extends BulletEntity {
@@ -49,7 +48,7 @@ export interface ProgressBarProps {
     max: number
     current: number
     position?: Position
-    zIndex: number
+    zIndex?: number
 }
 
 export interface CameraProps {

@@ -22,6 +22,7 @@ export const initState = {
     enemies: {},
     bullets: [] as all.game.BulletEntity[],
     preferences: {
+        antialias: true,
         difficulty: "normal" as all.game.GameDifficultyType,
         theme: "system" as all.ui.ThemeName,
         soundLevel: 50,

@@ -17,7 +17,7 @@ import Bullets from "@components/game/bullets"
 
 type Store = all.store.PersistedStore
 
-const Game = ({ parentRef }: all.game.GameProps) => {
+const Game = () => {
     const { app } = useApplication()
     globalThis.__PIXI_APP__ = app
     const viewportRef = useRef<Viewport | null>(null)
@@ -27,8 +27,8 @@ const Game = ({ parentRef }: all.game.GameProps) => {
 
     const resize = () => {
         if (!viewportRef.current) return
-        const width = parentRef.current?.screenWidth || window.innerWidth
-        const height = parentRef.current?.screenHeight || window.innerHeight
+        const width = window.innerWidth
+        const height = window.innerHeight
         viewportRef.current.resize(width, height)
     }
 
@@ -63,8 +63,7 @@ const Game = ({ parentRef }: all.game.GameProps) => {
 
     return (
         <>
-            {(parentRef.current &&
-                app.renderer && gameSize)
+            {(app.renderer && gameSize)
                 ? (<Camera
                     ref={viewportRef}
                     events={app.renderer.events}

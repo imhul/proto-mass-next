@@ -16,7 +16,7 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    --radius: 0.625rem;
+    --radius: 0;
     --background: oklch(1 0 0);
     --foreground: oklch(0.13 0.028 261.692);
     --card: oklch(1 0 0);
@@ -26,7 +26,7 @@
     --primary: oklch(0.21 0.034 264.665);
     --primary-foreground: oklch(80.877% 0.17029 75.348);
     --secondary: oklch(0.967 0.003 264.542);
-    --secondary-foreground: #1f0707;
+    --secondary-foreground: rgb(31, 7, 7);
     --muted: oklch(0.967 0.003 264.542);
     --muted-foreground: oklch(0.551 0.027 264.364);
     --accent: oklch(0.967 0.003 264.542);
@@ -48,7 +48,7 @@
     --sidebar-accent-foreground: oklch(0.21 0.034 264.665);
     --sidebar-border: oklch(0.928 0.006 264.531);
     --sidebar-ring: oklch(0.707 0.022 261.325);
-    --bg-half-transparent: rgba(13, 17, 23, 0.5);
+    --bg-half-transparent: rgba(31, 7, 7, 0.5);
 }
 
 @theme inline {
@@ -260,7 +260,7 @@ button:focus-visible {
 }
 
 .game-container {
-    height: calc(100vh - 80px);
+    height: calc(100vh - 84px);
 }
 
 .settings button,
@@ -272,6 +272,10 @@ button:focus-visible {
 
 .settings {
     text-shadow: -1px 1px 0 #ff4400;
+}
+
+.initial-scene {
+    background: url('/assets/bg/settings-bg.png') no-repeat top center / cover;
 }
 
 .fps>div {

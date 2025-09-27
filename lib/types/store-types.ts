@@ -143,4 +143,5 @@ export interface Preferences {
     theme: all.ui.ThemeName
     soundLevel: number
     fullscreen: boolean
+    antialias: boolean
 }

@@ -27,7 +27,7 @@ import {
 // icons
 import { Cog, Copy, Check, Apple, CopyCheck, WandSparkles } from "lucide-react"
 // store
-import { usePersistedStore } from "@/store"
+import { useStore, usePersistedStore } from "@/store"
 // utils
 import { generateNames, generateSeed } from "@lib/utils"
 // config
@@ -42,10 +42,11 @@ const Settings = () => {
     const [copied, setCopied] = useState(false)
     // store
     const seed = usePersistedStore((s: Store) => s.seed)
-    const worldName = usePersistedStore((s: Store) => s.worldName)
-    const heroName = usePersistedStore((s: Store) => s.heroName)
     const paused = usePersistedStore((s: Store) => s.paused)
     const isGameInit = usePersistedStore((s: Store) => s.init)
+    const heroName = usePersistedStore((s: Store) => s.heroName)
+    const worldName = usePersistedStore((s: Store) => s.worldName)
+    const goto = useStore((state: all.store.GlobalStore) => state.to)
     const preferences = usePersistedStore((s: Store) => s.preferences)
     const setGameAction = usePersistedStore((s: Store) => s.setGameAction)
 
@@ -74,7 +75,7 @@ const Settings = () => {
     return (
         <div className="settings flex flex-col gap-[50px] items-center sm:items-start">
             <div className="flex flex-row items-start justify-center gap-8 w-full">
-                <Card className="p-8 basis-1/2 w-[50%] border-primary">
+                <Card className="p-8 basis-1/2 w-[50%] border-(--bg-half-transparent) border-[4px] bg-(--bg-half-transparent)">
                     <CardHeader>
                         <CardTitle className="text-2xl text-primary">Game Seed</CardTitle>
                         <CardDescription className="text-lg">
@@ -149,7 +150,7 @@ const Settings = () => {
                         </ol>
                     </CardContent>
                 </Card>
-                <Card className="p-8 basis-1/2 w-[50%] border-primary">
+                <Card className="p-8 basis-1/2 w-[50%] border-(--bg-half-transparent) border-[4px] bg-(--bg-half-transparent)">
                     <CardHeader>
                         <CardTitle className="text-2xl text-primary">Preferences</CardTitle>
                         <CardDescription className="text-lg">
@@ -204,6 +205,22 @@ const Settings = () => {
                             </li>
                             <li className="mb-8">
                                 <div className="flex items-center justify-between gap-4">
+                                    <Label className="text-2xl">FXAA filter</Label>
+                                    <Checkbox
+                                        style={{ borderWidth: 2, color: preferences.antialias ? `var(--color-gray-950)` : "transparent" }}
+                                        className="flex items-center justify-center h-[20px] w-[20px]"
+                                        checked={preferences.antialias}
+                                        onCheckedChange={(e: boolean) => setGameAction(
+                                            "setPref",
+                                            { ...preferences, antialias: e }
+                                        )}
+                                    >
+                                        {preferences.antialias && <Check />}
+                                    </Checkbox>
+                                </div>
+                            </li>
+                            <li className="mb-8">
+                                <div className="flex items-center justify-between gap-4">
                                     <Label className="text-2xl">Fullscreen</Label>
                                     <Checkbox
                                         style={{ borderWidth: 2, color: preferences.fullscreen ? `var(--color-gray-950)` : "transparent" }}
@@ -239,6 +256,14 @@ const Settings = () => {
                 </Card>
             </div>
             <div className="flex items-center justify-center w-full gap-32">
+                <Button
+                    size="lg"
+                    onClick={() => goto("home")}
+                >
+                    <span className="text-2xl text-gray-950">
+                        Back
+                    </span>
+                </Button>
                 {paused && isGameInit ? (<>
                     <Button
                         size="lg"
