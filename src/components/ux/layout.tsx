@@ -25,7 +25,7 @@ const Layout = () => {
         <ThemeProvider storageKey="vite-ui-theme" defaultTheme="system">
             <Toaster closeButton richColors duration={4000} position="top-right" />
             <Header />
-            <main style={{ height: `calc($100vh - 84px)` }}>{render()}</main>
+            <main>{render()}</main>
         </ThemeProvider>
     )
 }

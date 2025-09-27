@@ -37,6 +37,7 @@ const Bullet = ({
     const godMode = usePersistedStore((s: Store) => s.isGodMode)
     const paused = usePersistedStore((s: Store) => s.paused)
     const colonies = usePersistedStore((s: Store) => s.enemies)
+    const setHeroAction = usePersistedStore((s: Store) => s.setHeroAction)
     const setGameAction = usePersistedStore((s: Store) => s.setGameAction)
     // state
     const [started, setStarted] = useState(false)

@@ -10,6 +10,7 @@
     color-scheme: light dark;
     color: rgba(255, 255, 255, 0.87);
     background-color: #242424;
+    scroll-behavior: smooth;
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -195,6 +196,13 @@ body {
     min-height: 100vh;
 }
 
+main {
+    height: calc(100vh - 84px);
+    margin-top: 84px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
 h1 {
     font-size: 3.2em;
     line-height: 1.1;
@@ -283,12 +291,19 @@ button:focus-visible {
     left: 0 !important;
 }
 
-.home {
-    background: url('/assets/bg/bg.png') no-repeat top center / contain;
+.home-bg {
+    background: url('/assets/bg/bg.png') no-repeat top center / cover;
 }
 
 .markdown-body {
+    margin-top: calc(100vh - 84px);
     background-color: var(--bg-half-transparent);
+}
+
+.to-bottom {
+    top: 80vh;
+    color: var(--accent);
+    cursor: pointer;
 }
 
 .no-border {

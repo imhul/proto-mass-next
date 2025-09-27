@@ -1,4 +1,8 @@
-# React + Pixi.js + Zustand Browser Game ![version](https://img.shields.io/badge/version-0.8.7-brightgreen`)
+# React + Pixi.js + Zustand Browser Game ![version](https://img.shields.io/badge/version-0.8.8-brightgreen`)
+
+<p align="center">
+  <img src="public/assets/chicken-hell-pixel-logo.png" width="400" />
+</p>
 
 ## Technologies Used
 
@@ -19,10 +23,6 @@ Somewhere far away, on a small farm, one quiet night... the earth split open, an
 Does he stand a chance?
 
 🕹 🕹 🕹 ⚔ 🐓 ⚔ 🐓 ⚔ 🐓 🍗 🍗 🍗
-
-<p align="center">
-  <img src="public/assets/chicken-hell-pixel-logo.png" width="400" />
-</p>
 
 ## TODO:
 
