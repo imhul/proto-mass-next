@@ -1,4 +1,4 @@
-# React + Pixi.js + Zustand Browser Game ![version](https://img.shields.io/badge/version-0.8.8-brightgreen`)
+# React + Pixi.js + Zustand Browser Game ![version](https://img.shields.io/badge/version-0.8.9-brightgreen`)
 
 <p align="center">
   <img src="public/assets/chicken-hell-logo.png" width="400" />
@@ -6,13 +6,13 @@
 
 ## Technologies Used
 
-- [React](https://reactjs.org) 19.1.1
+- [React](https://reactjs.org) 19.2.0
 - [Zustand](https://zustand.docs.pmnd.rs/) 5.0.8
-- [PixiJS](https://pixijs.com) 8.13.2
-- [Tailwind CSS](https://tailwindcss.com) 4.1.12 + [shadcn/ui](https://ui.shadcn.com)
-- [TypeScript](https://www.typescriptlang.org) 5.9.2
-- [Vite](https://vitejs.dev) 7.1.5
-- [ESLint](https://eslint.org) 9.35.0
+- [PixiJS](https://pixijs.com) 8.14.0
+- [Tailwind CSS](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com)
+- [TypeScript](https://www.typescriptlang.org)
+- [Vite](https://vitejs.dev)
+- [ESLint](https://eslint.org)
 
 The decision to abandon [Svelte](https://svelte.dev) and [Next](https://nextjs.org) was made for obvious reasons,<br />
 because this project is not about **SSR**. The open source repository is on [GitHub](https://github.com/imhul/proto-mass-next).
@@ -40,7 +40,7 @@ Does he stand a chance?
 - [x] Implement [pixi-filters](https://www.npmjs.com/package/pixi-filters)
 - [ ] Add zIndex reordering
 - [ ] Add fight/die mechanics, including bullets, explosions, damage and health
-- [ ] Implement [@pixi/sound](https://www.npmjs.com/package/@pixi/sound)
+- [ ] Implement [howler.js](https://www.npmjs.com/package/howler)
 - [ ] Implement map chunk generation
 - [ ] Implement [Tauri](https://tauri.app)
 - [ ] Implement save/load functionality

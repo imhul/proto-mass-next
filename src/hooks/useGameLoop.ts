@@ -25,7 +25,7 @@ export const useGameLoop = ({ ref }: all.game.UseGameLoopProps) => {
     const animationFrameRef = useRef<number | null>(null)
     const blockedDirections = useRef<Set<all.game.MovementDirection>>(new Set())
     // store
-    const enemyColonies: all.store.Colonies = usePersistedStore((s: Store) => s.enemies)
+    // const enemyColonies: all.store.Colonies = usePersistedStore((s: Store) => s.enemies)
     const heroSnapshot = usePersistedStore((s: Store) => s.hero)
     const keyBindings = usePersistedStore((s: Store) => s.preferences.keyBindings)
     const water = usePersistedStore((s: Store) => s.water)
@@ -62,8 +62,8 @@ export const useGameLoop = ({ ref }: all.game.UseGameLoopProps) => {
         return heroRef.current
     }
 
-    const getEnemies = (): all.game.PixiElementInstance[] => enemiesRef.current
-    const getBullets = (): all.game.PixiElementInstance[] => bulletsRef.current
+    // const getEnemies = (): all.game.PixiElementInstance[] => enemiesRef.current
+    // const getBullets = (): all.game.PixiElementInstance[] => bulletsRef.current
 
     const checkContainerCollision = (position: all.game.Position) => {
         if (position.x < distanceToMapBorder) generateMapChunk(position, "left")

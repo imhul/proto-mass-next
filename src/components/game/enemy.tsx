@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react"
 import { usePersistedStore } from "@/store"
 // hooks
 import { useBirthAnimation } from "@hooks/useBirth"
+import { useSFX } from "@hooks/useSFX"
 // pixi
 import { ColorMatrixFilter, Assets, AnimatedSprite, Rectangle } from "pixi.js"
 // components
@@ -45,6 +46,11 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
     const setGameAction = usePersistedStore((s: Store) => s.setGameAction)
     const enemiesList = usePersistedStore((s: Store) => s.enemies)
     const hero = usePersistedStore((s: Store) => s.hero)
+    // hooks
+    const idleSFX = useSFX("idle")
+    // TODO:
+    // 1. Додати шанс програвання
+    // 2. Зменшувати цей шанс в залежності від кількості ворогів. Більше ворогів - менший шанс.
 
     useBirthAnimation(
         enemyRef as React.RefObject<AnimatedSprite>,
@@ -157,6 +163,7 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
 
             let nextTurnIndex = 0
             const start = performance.now()
+            idleSFX()
 
             const step = (t: number) => {
                 if (paused || state !== runState) return
