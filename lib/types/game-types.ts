@@ -257,6 +257,7 @@ export type GameAction =
     | "setEnemies"
     | "setPref"
     | "setSeed"
+    | "setZoom"
     | "resize"
     | "pause"
     | "resume"

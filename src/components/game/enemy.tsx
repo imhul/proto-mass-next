@@ -24,6 +24,8 @@ import {
     defaultChunkSize,
     initialEnemyModel,
     maxBulletDistance,
+    maxChanceOfEnemyClucking,
+    minChanceOfEnemyClucking,
     maxDistanceFromEnemyBase,
 } from "@lib/config"
 
@@ -36,21 +38,21 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
     const animationFrameRef = useRef<number | null>(null)
     const idleTimeoutRef = useRef<number | null>(null)
     // state
-    const [isBulletActive, setIsBulletActive] = useState(false)
     const [filters, setFilters] = useState<all.pixi.Filter[]>([dropShadowFilter.enemy])
     const [textures, setTextures] = useState<all.game.TexturesCollection>(null)
     const [state, setState] = useState<all.game.EnemyState>(idleState)
+    const [isBulletActive, setIsBulletActive] = useState(false)
     const [isHovered, setIsHover] = useState(false)
     // store
-    const paused = usePersistedStore((s: Store) => s.paused)
+    const soundLevel = usePersistedStore((s: Store) => s.preferences.soundLevel)
     const setGameAction = usePersistedStore((s: Store) => s.setGameAction)
     const enemiesList = usePersistedStore((s: Store) => s.enemies)
+    const paused = usePersistedStore((s: Store) => s.paused)
     const hero = usePersistedStore((s: Store) => s.hero)
+    const zoom = usePersistedStore((s: Store) => s.zoom)
     // hooks
     const idleSFX = useSFX("idle")
-    // TODO:
-    // 1. Додати шанс програвання
-    // 2. Зменшувати цей шанс в залежності від кількості ворогів. Більше ворогів - менший шанс.
+    const attackSFX = useSFX("attack")
 
     useBirthAnimation(
         enemyRef as React.RefObject<AnimatedSprite>,
@@ -67,6 +69,12 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
             clearTimeout(idleTimeoutRef.current)
             idleTimeoutRef.current = null
         }
+    }
+
+    const getChanceOfClucking = () => {
+        const enemies = Object.values(enemiesList).reduce((acc, colony) => acc + colony.list.length, 0)
+        const chanceCalc = maxChanceOfEnemyClucking + (enemies - 1) * (minChanceOfEnemyClucking - maxChanceOfEnemyClucking) / (50 - 1)
+        return Number(chanceCalc.toFixed(5))
     }
 
     const attack = () => {
@@ -89,12 +97,16 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
         })
         setIsBulletActive(true)
 
+        const chanceOfClucking = getChanceOfClucking()
+        if (Math.random() < chanceOfClucking) attackSFX.play()
+
         setTimeout(() => {
             if (hero.hp > 0.1) {
                 setIsBulletActive(false)
                 attack()
             } else {
                 setState(idleState)
+                attackSFX.stop()
             }
         }, Math.floor(1000))
     }
@@ -152,7 +164,10 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
         const walkingPhase = getRandomInt(3000, 9000)
 
         idleTimeoutRef.current = window.setTimeout(() => {
-            if (paused) return
+            if (paused) {
+                idleSFX.stop()
+                return
+            }
             setState(runState)
 
             let angle = getRandomInt(0, 360) * (Math.PI / 180)
@@ -163,10 +178,15 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
 
             let nextTurnIndex = 0
             const start = performance.now()
-            idleSFX()
+
+            const chanceOfClucking = getChanceOfClucking()
+            if (Math.random() < chanceOfClucking) idleSFX.play()
 
             const step = (t: number) => {
-                if (paused || state !== runState) return
+                if (paused || state !== runState) {
+                    idleSFX.stop()
+                    return
+                }
                 const elapsed = t - start
 
                 if (elapsed < walkingPhase) {
@@ -265,6 +285,11 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
             setFilters([dropShadowFilter.enemy])
         }
     }, [isHovered])
+
+    useEffect(() => {
+        idleSFX.volume((soundLevel ?? 50) / 100 * zoom)
+        attackSFX.volume((soundLevel ?? 50) / 100 * zoom)
+    }, [soundLevel, zoom])
 
     return (textures && item && ref.current) ? (
         <pixiAnimatedSprite

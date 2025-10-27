@@ -1,11 +1,17 @@
 import { useEffect, forwardRef, useImperativeHandle, useRef } from "react"
 import { useExtend } from "@pixi/react"
 import { Viewport } from "pixi-viewport"
+// store
+import { usePersistedStore } from "@/store"
+
+type Store = all.store.PersistedStore
 
 const Camera = forwardRef<Viewport | null, all.game.CameraProps>(
     ({ gameSize, children, ...props }, ref) => {
         useExtend({ Viewport })
         const camRef = useRef<Viewport | null>(null)
+        // store
+        const setGameAction = usePersistedStore((s: Store) => s.setGameAction)
 
         // throw ref in Game
         useImperativeHandle(ref, () => camRef.current as Viewport, [])
@@ -29,6 +35,7 @@ const Camera = forwardRef<Viewport | null, all.game.CameraProps>(
                 if (event.deltaY === 0) return
                 const zoom = Math.max(0.5, Math.min(2, prev + (event.deltaY > 0 ? -0.1 : 0.1)))
                 camRef.current.setZoom(zoom, true)
+                setGameAction("setZoom", zoom)
             }
 
             camRef.current.on("wheel", onWheel)

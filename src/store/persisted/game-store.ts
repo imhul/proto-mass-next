@@ -95,6 +95,9 @@ export const createGameSlice: all.store.CreateGameSliceType = (set) => ({
             case "setSeed":
                 set({ seed: payload })
                 break
+            case "setZoom":
+                set({ zoom: payload })
+                break
             case "setWorldName":
                 set({ worldName: payload })
                 break
