@@ -11,6 +11,7 @@ import EnemyEgg from "@components/game/enemy-egg"
 import { ProgressBar } from "@pixi/ui"
 import CustomProgressBar from "@components/pixi/custom-progress-bar"
 // utils
+import { Howler } from "howler"
 import { getTextures, getRandomInt, dropShadowFilter } from "@lib/utils"
 // config
 import {
@@ -24,6 +25,7 @@ import {
     defaultChunkSize,
     initialEnemyModel,
     maxBulletDistance,
+    maxEnemySoundsAtOnce,
     maxChanceOfEnemyClucking,
     minChanceOfEnemyClucking,
     maxDistanceFromEnemyBase,
@@ -31,7 +33,7 @@ import {
 
 type Store = all.store.PersistedStore
 
-const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
+const Enemy = ({ ref, base, item, seed }: all.game.EnemyProps) => {
     // refs
     const progressBarRef = useRef<ProgressBar | null>(null)
     const enemyRef = useRef<AnimatedSprite | null>(null)
@@ -44,7 +46,9 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
     const [isBulletActive, setIsBulletActive] = useState(false)
     const [isHovered, setIsHover] = useState(false)
     // store
+    const idleSFXCount = usePersistedStore((s: Store) => s.idleSFXCount)
     const soundLevel = usePersistedStore((s: Store) => s.preferences.soundLevel)
+    const setAudioAction = usePersistedStore((s: Store) => s.setAudioAction)
     const setGameAction = usePersistedStore((s: Store) => s.setGameAction)
     const enemiesList = usePersistedStore((s: Store) => s.enemies)
     const paused = usePersistedStore((s: Store) => s.paused)
@@ -61,6 +65,8 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
     )
 
     const stopLoop = () => {
+        Howler.stop()
+        setAudioAction("stopIdleSFX")
         if (animationFrameRef.current) {
             cancelAnimationFrame(animationFrameRef.current)
             animationFrameRef.current = null
@@ -98,7 +104,15 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
         setIsBulletActive(true)
 
         const chanceOfClucking = getChanceOfClucking()
-        if (Math.random() < chanceOfClucking) attackSFX.play()
+        if ((idleSFXCount < (maxEnemySoundsAtOnce + 1))
+            && (Math.random() < chanceOfClucking)
+            && (idleSFXCount >= 0)) {
+            attackSFX.play()
+            setAudioAction("playAttackSFX")
+        } else {
+            Howler.stop()
+            setAudioAction("stopAttackSFX")
+        }
 
         setTimeout(() => {
             if (hero.hp > 0.1) {
@@ -160,31 +174,39 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
         if (paused || !enemyRef.current || !textures) return
         const sprite = enemyRef.current
         const speed = initialEnemyModel.speed
-        const pausePhase = getRandomInt(1000, 4000)
-        const walkingPhase = getRandomInt(3000, 9000)
+        const pausePhase = getRandomInt(1000, 4000, seed)
+        const walkingPhase = getRandomInt(3000, 9000, seed)
 
         idleTimeoutRef.current = window.setTimeout(() => {
             if (paused) {
-                idleSFX.stop()
+                Howler.stop()
                 return
             }
             setState(runState)
 
-            let angle = getRandomInt(0, 360) * (Math.PI / 180)
-            const turnsCount = getRandomInt(0, 4)
+            const chanceOfClucking = getChanceOfClucking()
+            if ((idleSFXCount < (maxEnemySoundsAtOnce + 1))
+                && (Math.random() < chanceOfClucking)
+                && (idleSFXCount >= 0)) {
+                idleSFX.play()
+                setAudioAction("playIdleSFX")
+            } else {
+                Howler.stop()
+                setAudioAction("stopIdleSFX")
+            }
+
+            let angle = getRandomInt(0, 360, seed) * (Math.PI / 180)
+            const turnsCount = getRandomInt(0, 4, seed)
             const turnSchedule = Array.from({ length: turnsCount }, () =>
-                getRandomInt(0, walkingPhase)
+                getRandomInt(0, walkingPhase, seed)
             ).sort((a, b) => a - b)
 
             let nextTurnIndex = 0
             const start = performance.now()
 
-            const chanceOfClucking = getChanceOfClucking()
-            if (Math.random() < chanceOfClucking) idleSFX.play()
-
             const step = (t: number) => {
                 if (paused || state !== runState) {
-                    idleSFX.stop()
+                    Howler.stop()
                     return
                 }
                 const elapsed = t - start
@@ -209,7 +231,7 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
                     }
 
                     if (nextTurnIndex < turnSchedule.length && elapsed >= turnSchedule[nextTurnIndex]) {
-                        angle = getRandomInt(0, 360) * (Math.PI / 180)
+                        angle = getRandomInt(0, 360, seed) * (Math.PI / 180)
                         nextTurnIndex++
                     }
 
@@ -285,6 +307,10 @@ const Enemy = ({ ref, base, item }: all.game.EnemyProps) => {
             setFilters([dropShadowFilter.enemy])
         }
     }, [isHovered])
+
+    // useEffect(() => {
+
+    // }, [idleSFXCount])
 
     useEffect(() => {
         idleSFX.volume((soundLevel ?? 50) / 100 * zoom)

@@ -3,7 +3,7 @@ import { StateCreator } from "zustand"
 //----------------------------------------------
 // PERSISTED STORE
 //----------------------------------------------
-export type PersistedStore = GameSlice & UISlice & HeroSlice
+export type PersistedStore = GameSlice & UISlice & HeroSlice & AudioSlice
 
 //----------------------------------------------
 // GLOBAL STORE
@@ -48,6 +48,13 @@ export type CreateNavSliceType = StateCreator<
     NavSlice
 >
 
+export type CreateAudioSliceType = StateCreator<
+    PersistedStore,
+    [["zustand/devtools", never]],
+    [],
+    AudioSlice
+>
+
 //----------------------------------------------
 // SLICES
 //----------------------------------------------
@@ -71,6 +78,13 @@ export type GameSlice = {
         action: all.game.GameAction,
         payload?: GameActionPayload
     ) => void
+}
+
+export type AudioAction = "playIdleSFX" | "stopIdleSFX" | "playAttackSFX" | "stopAttackSFX"
+export type AudioSlice = {
+    idleSFXCount: number
+    attackSFXCount: number
+    setAudioAction: (action: AudioAction, payload?: AudioActionPayload) => void
 }
 
 export type HeroSlice = all.game.Hero & HeroActions
@@ -119,6 +133,7 @@ export type Colonies = Record<all.game.ColonyEntity["uid"], {
     angry: boolean
     lastAttackTimestamp: number
 }>
+export type AudioActionPayload = any
 export type GameActionPayload = any
 export type GameKeyboardActionType = "moveup" | "movedown" | "moveleft" | "moveright" | "jump" | "shoot" | "pause"
 export type KeyBindings = Record<GameKeyboardActionType, KeyBinding>

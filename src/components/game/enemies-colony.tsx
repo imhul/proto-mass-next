@@ -6,6 +6,7 @@ import Enemy from "@components/game/enemy"
 import EnemyBase from "@/components/game/enemy-base"
 // utils
 import { getRandomInt } from "@lib/utils"
+import Rand from "rand-seed"
 // config
 import {
     minute,
@@ -152,6 +153,7 @@ const EnemiesColony = ({ ref, colony }: all.game.ColonyProps) => {
                                 item={enemy}
                                 ref={ref}
                                 base={basePos}
+                                seed={new Rand(enemy.uid)}
                             />
                         ))}
                 </>

@@ -57,6 +57,7 @@ export const useGameLoop = ({ ref }: all.game.UseGameLoopProps) => {
         if (!viewRef.current) throw new Error("Viewport is not ready yet")
         return viewRef.current
     }
+
     const getHero = (): all.game.PixiElementInstance => {
         if (!heroRef.current) throw new Error("Hero not found")
         return heroRef.current

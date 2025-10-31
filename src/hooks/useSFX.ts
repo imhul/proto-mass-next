@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react"
 // store
 import { usePersistedStore } from "@/store"
 // utils
@@ -28,27 +27,33 @@ const soundMap: Record<string, string[]> = {
 
 /* docs: https://github.com/goldfire/howler.js#documentation */
 
-export const useSFX = (name: string) => {
+export const useSFX = (name: string, loop: boolean = false) => {
     // store
     const soundLevel = usePersistedStore((s: Store) => s.preferences.soundLevel)
-    const colonies = usePersistedStore((s: Store) => s.enemies)
-    const paused = usePersistedStore((s: Store) => s.paused)
+    const setAudioAction = usePersistedStore((s: Store) => s.setAudioAction)
+    // const colonies = usePersistedStore((s: Store) => s.enemies)
+    // const paused = usePersistedStore((s: Store) => s.paused)
     const zoom = usePersistedStore((s: Store) => s.zoom) // from 0.5 to 2
     // state
-    const enemiesCount = Object.values(colonies).reduce((acc, colony) => acc + colony.list.length, 0)
+    // const enemiesCount = Object.values(colonies).reduce((acc, colony) => acc + colony.list.length, 0)
     const randomIndex = Math.floor(Math.random() * soundMap[name].length)
 
     const audio = new Howl({
+        loop,
+        html5: false,
         volume: (soundLevel ?? 50) / 100 * zoom,
         src: [soundMap[name][randomIndex]],
         format: ['ogg'],
         onend: () => {
+            setAudioAction("stopIdleSFX")
             console.info('Finished!')
         },
         onplayerror: () => {
             console.error('Error playing SFX: ', name)
         },
     })
+
+    // console.info('audio: ', audio)
 
     return audio
 }

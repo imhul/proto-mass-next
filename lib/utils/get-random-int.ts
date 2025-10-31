@@ -1,5 +1,5 @@
 import type Rand from 'rand-seed'
-// TODO: implement: https://www.npmjs.com/package/rand-seed
+// https://www.npmjs.com/package/rand-seed
 
 export const getRandomInt = (min: number, max: number, rand?: Rand | null, floor: boolean = true) => {
     min = Math.ceil(min)

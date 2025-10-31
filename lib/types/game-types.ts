@@ -1,3 +1,4 @@
+import Rand from "rand-seed"
 //----------------------------------------------
 // COMPONENTS PROPS
 //----------------------------------------------
@@ -73,6 +74,7 @@ export interface EnemyProps {
     base: Position
     item: EnemyEntity | null
     ref: CamRef
+    seed: Rand
 }
 
 export interface EnemiesProps {
