@@ -1,8 +1,6 @@
 # React + Pixi.js + Zustand Browser Game ![version](https://img.shields.io/badge/version-0.8.9-brightgreen`)
 
-<p align="center">
-  <img src="public/assets/chicken-hell-logo.png" width="400" />
-</p>
+This project is deprecated. It has been moved to another repository, located [here](https://github.com/imhul/chicken-hell).
 
 ## Technologies Used
 
